@@ -1,0 +1,5 @@
+assets/styles/_reset.scss
+assets/styles/_app-colors.scss
+static
+dist
+public
