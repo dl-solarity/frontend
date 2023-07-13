@@ -140,3 +140,7 @@ a {
   max-width: toRem(1800);
   margin: 0 auto;
 }
+
+.fs-secondary { 
+  font-family: var(--app-font-family-secondary);
+}

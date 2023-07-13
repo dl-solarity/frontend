@@ -4,7 +4,7 @@
       <img :src="props.audit.imgSrc" class="audits-card__img" />
     </div>
     <div class="audits-card__content">
-      <div class="audits-card__title-wrapper">
+      <div class="audits-card__title-wrapper fs-secondary">
         <p class="audits-card__title">
           {{ props.audit.title }}
         </p>

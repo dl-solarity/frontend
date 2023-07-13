@@ -1,7 +1,7 @@
 <template>
   <div class="stats-preview">
     <div class="stats-preview__header">
-      <h1 class="stats-preview__header-main-title">
+      <h1 class="stats-preview__header-main-title fs-secondary">
         {{ t('stats-preview.main-title') }}
       </h1>
       <h2 class="stats-preview__header-secondary-title">

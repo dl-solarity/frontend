@@ -1,6 +1,6 @@
 <template>
   <div class="projects-info-card">
-    <p class="projects-info-card__title">
+    <p class="projects-info-card__title fs-secondary">
       {{ props.title }}
     </p>
     <p class="projects-info-card__message">

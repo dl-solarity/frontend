@@ -1,7 +1,7 @@
 <template>
   <div class="audits">
     <div class="audits__title">
-      <h1 class="audits__title-main">
+      <h1 class="audits__title-main fs-secondary">
         {{ $t('audits.main-title') }}
       </h1>
       <h2 class="audits__title-secondary">
@@ -70,6 +70,7 @@ const auditsList = [
 }
 
 .audits__title-secondary {
+  font-size: toRem(18);
   line-height: 175%;
   font-weight: 400;
   color: var(--text-secondary-main);

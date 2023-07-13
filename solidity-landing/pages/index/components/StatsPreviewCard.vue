@@ -1,6 +1,6 @@
 <template>
   <div class="stats-preview-card">
-    <p class="stats-preview-card__title">
+    <p class="stats-preview-card__title fs-secondary">
       {{ props.title }}
     </p>
     <p class="stats-preview-card__message">

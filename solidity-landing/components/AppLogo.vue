@@ -9,7 +9,7 @@ import { config } from '@/config'
       src="/branding/logo.png"
       :alt="config.APP_NAME"
     />
-    <span class="app-logo__text">{{ $t('app-logo.title') }}</span>
+    <span class="app-logo__text fs-secondary">{{ $t('app-logo.title') }}</span>
   </NuxtLink>
 </template>
 
