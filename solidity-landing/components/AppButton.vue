@@ -2,7 +2,6 @@
 import { Icon } from '#components'
 
 import { computed, useAttrs } from 'vue'
-import { LocationAsRelativeRaw } from 'vue-router'
 import { ICON_NAMES } from '@/enums'
 
 type SCHEMES = 'filled' | 'flat' | 'default'
@@ -27,15 +26,15 @@ const props = withDefaults(
     modification?: MODIFICATIONS
     color?: COLORS
     size?: SIZES
-    route?: LocationAsRelativeRaw
+    route?: string
     href?: string
     iconLeft?: ICON_NAMES
     iconRight?: ICON_NAMES
   }>(),
   {
     text: '',
-    scheme: 'filled',
-    modification: 'border-rounded',
+    scheme: 'flat',
+    modification: 'border-circle',
     color: 'primary',
     size: 'medium',
     route: undefined,
@@ -202,8 +201,8 @@ const buttonClasses = computed(() =>
     --app-button-text-hover: var(--app-button-flat-text-hover);
 
     --app-button-border: var(--app-button-flat-border);
-    --app-button-border-hover: var(--app-button-flat-border-hover);
-    --app-button-border-active: var(--app-button-flat-border-active);
+    --app-button-border-hover: #{toRem(2)} solid var(--text-primary-dark);
+    --app-button-border-active: #{toRem(2)} solid var(--text-primary-dark);
   }
 
   &--success {

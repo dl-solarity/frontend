@@ -3,28 +3,31 @@ import { config } from '@/config'
 </script>
 
 <template>
-  <div class="app-logo">
+  <NuxtLink class="app-logo" :to="$routes.app">
     <img
       class="app-logo__img"
-      src="/branding/logo.svg"
+      src="/branding/logo.png"
       :alt="config.APP_NAME"
     />
-    <router-link class="app-logo__link" :to="{ name: $routes.uiKit }" />
-  </div>
+    <span class="app-logo__text">{{ $t('app-logo.title') }}</span>
+  </NuxtLink>
 </template>
 
 <style lang="scss" scoped>
 .app-logo {
   display: flex;
-  flex-direction: column;
-  position: relative;
+  align-items: center;
+  height: 100%;
 }
 
-.app-logo__link {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
+.app-logo__img {
+  max-width: toRem(32);
+  max-height: toRem(32);
+}
+
+.app-logo__text {
+  font-size: toRem(20);
+  font-weight: 500;
+  line-height: 120%;
 }
 </style>

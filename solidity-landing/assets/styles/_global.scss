@@ -17,6 +17,9 @@ body, #__nuxt {
   display: flex;
   flex-direction: column;
   flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100vw;
   background-color: var(--app-bg);
   color: var(--text-primary-main);
 }
@@ -98,7 +101,7 @@ h5 {
 }
 
 h1 {
-  font-size: toRem(24);
+  font-size: toRem(56);
 }
 
 h2 {
@@ -128,6 +131,12 @@ a {
   &:hover,
   &:focus,
   &:active {
+    color: inherit;
     text-decoration: none;
   }
+}
+
+.layout-wrapper {
+  max-width: toRem(1800);
+  margin: 0 auto;
 }
