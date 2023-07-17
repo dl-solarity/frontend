@@ -1,6 +1,6 @@
 <template>
   <div v-if="isAppInitialized" class="app__container">
-    <app-navbar class="app__navbar" />
+    <app-sidebar />
     <router-view v-slot="{ Component, route }">
       <transition :name="route.meta.transition || 'fade'" mode="out-in">
         <component class="app__main" :is="Component" />
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppNavbar } from '@/common'
+import { AppSidebar } from '@/common'
 
 import { ref } from 'vue'
 import { useNotifications } from '@/composables'
@@ -53,18 +53,19 @@ init()
 
 <style lang="scss" scoped>
 .app__container {
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: toRem(85) 1fr max-content;
-  flex: 1;
-
-  @include respond-to(small) {
-    grid-template-rows: max-content 1fr max-content;
-  }
+  padding: 0;
+  display: flex;
+  min-width: 100vh;
+  min-height: 100vh;
+  position: relative;
 }
 
 .app__main {
-  padding: 0 var(--app-padding-right) 0 var(--app-padding-left);
+  padding: var(--app-padding);
+  max-width: 100vw;
+  width: 100%;
+  overflow-y: scroll;
+  background: var(--background-primary-main);
 }
 
 .fade-enter-active {

@@ -9,7 +9,11 @@
   color: #202124;
   padding: 0 10px;
   text-align: center;
-  font: 1rem 'Roboto', 'Arial', sans-serif;
+  font: 1rem 'Inter', 'Arial', sans-serif;
+}
+
+body { 
+  background: #151314;
 }
 
 .noscript__title {

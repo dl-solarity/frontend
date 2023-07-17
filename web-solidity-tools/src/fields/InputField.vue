@@ -8,6 +8,9 @@
       >
         <slot name="nodeLeft" />
       </div>
+      <label v-if="label" class="input-field__label">
+        {{ label }}
+      </label>
       <input
         ref="inputEl"
         class="input-field__input"
@@ -22,13 +25,6 @@
         :max="max"
         :disabled="isDisabled || isReadonly"
       />
-      <label
-        v-if="label"
-        :for="`input-field--${uid}`"
-        class="input-field__label"
-      >
-        {{ label }}
-      </label>
       <div
         v-if="$slots.nodeRight || isPasswordType || props.errorMessage"
         ref="nodeRightWrp"
@@ -235,34 +231,7 @@ $z-index-side-nodes: 1;
 }
 
 .input-field__label {
-  pointer-events: none;
-  position: absolute;
-  padding: toRem(4);
-  top: 0;
-  left: var(--field-padding-left);
-  font-size: toRem(12);
-  line-height: 1.3;
-  font-weight: 700;
-  background: var(--field-bg-primary);
-  transform: translateY(-50%);
-
   @include field-label;
-
-  .input-field__input:not(:placeholder-shown) ~ & {
-    top: 0;
-    color: var(--field-text);
-    border-color: var(--field-border-hover);
-  }
-
-  .input-field__input:not(:focus):placeholder-shown ~ & {
-    top: 50%;
-
-    @include field-label;
-
-    .input-field--node-left & {
-      left: calc(var(--field-padding-left) * 3);
-    }
-  }
 
   .input-field--error .input-field__input:not(:focus):placeholder-shown ~ & {
     color: var(--field-error);
@@ -275,7 +244,6 @@ $z-index-side-nodes: 1;
   }
 
   .input-field__input:not(:focus):placeholder-shown:-webkit-autofill ~ & {
-    top: 50%;
     color: var(--field-label);
     font-size: toRem(16);
     font-weight: 400;
@@ -372,7 +340,7 @@ $z-index-side-nodes: 1;
 .input-field__node-left-wrp {
   overflow: hidden;
   position: absolute;
-  top: 50%;
+  top: 65%;
   left: var(--field-padding-left);
   transform: translateY(-50%);
   color: inherit;
@@ -382,7 +350,7 @@ $z-index-side-nodes: 1;
 
 .input-field__node-right-wrp {
   position: absolute;
-  top: 50%;
+  top: 65%;
   right: var(--field-padding-right);
   transform: translateY(-50%);
   color: inherit;

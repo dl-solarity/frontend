@@ -38,7 +38,7 @@ $media-breakpoints: (
   font-size: var(--field-text-font-size);
   line-height: var(--field-text-line-height);
   -webkit-text-fill-color: var(--field-text-font-size);
-  color: var(--field-text-font-size);
+  color: var(--field-text);
   transition: color var(--field-transition-duration) ease;
   font-weight: 400;
 }
@@ -48,7 +48,7 @@ $media-breakpoints: (
   line-height: var(--field-label-line-height);
   color: var(--field-label);
   transition: var(--field-transition-duration) ease;
-  margin-bottom: toRem(8);
+  margin-bottom: toRem(4);
 }
 
 @mixin field-border {

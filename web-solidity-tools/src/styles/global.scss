@@ -18,14 +18,14 @@ body, #app {
   flex-direction: column;
   flex: 1;
   background: var(--background-primary-main);
-  color: var(--text-primary-main);
+  color: var(--text-primary-light);
 }
 
 input,
 select,
 textarea {
   background: var(--background-primary-main);
-  color: var(--text-primary-main);
+  color: var(--text-primary-light);
   font-family: var(--app-font-family);
   font-size: toRem(16);
   font-weight: 400;
@@ -77,7 +77,7 @@ p,
 li,
 ul {
   list-style-type: none;
-  color: var(--text-primary-main);
+  color: var(--text-primary-light);
 }
 
 p {
@@ -91,7 +91,7 @@ h2,
 h3,
 h4,
 h5 {
-  color: var(--text-primary-main);
+  color: var(--text-primary-light);
   font-family: var(--app-font-family);
   line-height: 1;
 }
@@ -147,4 +147,21 @@ a {
   100% {
     opacity: 1;
   }
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  min-height: toRem(400);
+  width: 100%;
+  border-radius: toRem(8);
+  border: toRem(1) solid var(--border-primary-main);
+  background: var(--background-primary-light);
+}
+
+.content {
+  display: flex;
+  padding: toRem(40);
+  height: 100%;
+  flex-direction: column;
 }

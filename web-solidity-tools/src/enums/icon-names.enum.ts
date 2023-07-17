@@ -26,6 +26,7 @@ export enum ICON_NAMES {
   ban = 'ban',
   beaker = 'beaker',
   bell = 'bell',
+  burger = 'burger',
   bookOpen = 'book-open',
   bookmarkAlt = 'bookmark-alt',
   bookmark = 'bookmark',

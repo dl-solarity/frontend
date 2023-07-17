@@ -1,5 +1,8 @@
 export enum ROUTE_NAMES {
   app = 'app',
-  uiKit = 'ui-kit',
-  complexForm = 'complex-form',
+  abi = 'abi',
+  unixEpoch = 'unix-epoch',
+  converter = 'converter',
+  hashFunctions = 'hash-functions',
+  addressPredicator = 'address-predicator',
 }
