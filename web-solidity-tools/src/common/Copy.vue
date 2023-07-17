@@ -1,11 +1,13 @@
 <template>
-  <button class="copy" @click="handleCopy">
+  <div class="copy">
     <slot />
-    <icon
-      class="copy__icon"
-      :name="isCopied ? $icons.clipboardCheck : $icons.duplicate"
-    />
-  </button>
+    <button v-if="String(props.value)" type="button" @click="handleCopy">
+      <icon
+        class="copy__icon"
+        :name="isCopied ? $icons.clipboardCheck : $icons.duplicate"
+      />
+    </button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -19,7 +21,6 @@ const props = defineProps<{ value: string | number }>()
 const isCopied = ref(false)
 
 const handleCopy = async () => {
-  // TODO: fix reload window
   await copyToClipboard(String(props.value))
   isCopied.value = true
   await sleep(1000)

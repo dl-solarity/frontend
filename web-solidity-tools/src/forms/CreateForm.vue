@@ -32,7 +32,7 @@
           </p>
           <copy :value="contractAddress">
             <p class="create-form__result-content-item-value">
-              {{ contractAddress }}
+              {{ contractAddress || '–' }}
             </p>
           </copy>
         </div>
@@ -42,21 +42,41 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive, ref, watch } from 'vue'
+import { ethers } from 'ethers'
 import { InputField } from '@/fields'
 import { Copy } from '@/common'
-import { reactive, ref } from 'vue'
-import { required } from '@/helpers'
+import { required, address, integer, minValue, ErrorHandler } from '@/helpers'
 import { useForm, useFormValidation } from '@/composables'
 
-const contractAddress = ref('0xEAefffbca23a47d7020F8De96adDDA47bE7241dc')
+const contractAddress = ref('')
 const form = reactive({
   address: '',
   nonce: '',
 })
 const { isFormDisabled } = useForm()
-const { getFieldErrorMessage, touchField } = useFormValidation(form, {
-  address: { required },
-  nonce: { required },
+const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
+  form,
+  {
+    address: { required, address },
+    nonce: { required, integer, minValue: minValue(0) },
+  },
+)
+watch(form, () => {
+  if (!isFormValid()) {
+    contractAddress.value = ''
+    return
+  }
+
+  try {
+    contractAddress.value = ethers.getCreateAddress({
+      from: form.address,
+      nonce: form.nonce,
+    })
+  } catch (error) {
+    contractAddress.value = ''
+    ErrorHandler.processWithoutFeedback(error)
+  }
 })
 </script>
 

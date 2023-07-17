@@ -39,7 +39,7 @@
           </p>
           <copy :value="contractAddress">
             <p class="create-2-form__result-content-item-value">
-              {{ contractAddress }}
+              {{ contractAddress || '–' }}
             </p>
           </copy>
         </div>
@@ -49,13 +49,14 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive, ref, watch } from 'vue'
+import { ethers } from 'ethers'
+import { required, address, hash, ErrorHandler } from '@/helpers'
 import { InputField } from '@/fields'
 import { Copy } from '@/common'
-import { reactive, ref } from 'vue'
-import { required } from '@/helpers'
 import { useForm, useFormValidation } from '@/composables'
 
-const contractAddress = ref('0xEAefffbca23a47d7020F8De96adDDA47bE7241dc')
+const contractAddress = ref('')
 const form = reactive({
   address: '',
   contractCode: '',
@@ -63,10 +64,30 @@ const form = reactive({
 })
 
 const { isFormDisabled } = useForm()
-const { getFieldErrorMessage, touchField } = useFormValidation(form, {
-  address: { required },
-  contractCode: { required },
-  salt: { required },
+const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
+  form,
+  {
+    address: { required, address },
+    contractCode: { required, hash },
+    salt: { required, hash },
+  },
+)
+
+watch(form, () => {
+  if (!isFormValid()) {
+    contractAddress.value = ''
+    return
+  }
+  try {
+    contractAddress.value = ethers.getCreate2Address(
+      form.address,
+      form.salt,
+      form.contractCode,
+    )
+  } catch (error) {
+    contractAddress.value = ''
+    ErrorHandler.processWithoutFeedback(error)
+  }
 })
 </script>
 
