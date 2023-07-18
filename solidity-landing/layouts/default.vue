@@ -1,9 +1,8 @@
-<script lang="ts" setup></script>
-
 <template>
   <div class="default">
     <app-navbar />
     <slot />
+    <app-footer class="default__footer" />
   </div>
 </template>
 
@@ -13,5 +12,9 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.default__footer {
+  margin-top: auto;
 }
 </style>

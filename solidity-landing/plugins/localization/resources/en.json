@@ -24,15 +24,50 @@
     "login-success-msg": "Access granted",
     "submit-btn": "Submit"
   },
-  "ui-kit-page": {
-    "button": "Button",
-    "some-placeholder": "placeholder",
-    "some-label": "label",
-    "some-error-message": "error-message",
-    "modal-btn": "Open modal",
-    "collapse-btn": "Toggle Collapse",
-    "collapse-text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "loading-error-msg": "Oops, something went wrong",
-    "no-data-msg": "Empty data, please add new"
+  "app-logo": {
+    "title": "DLSL"
+  },
+  "app-footer": {
+    "link-text": "Link"
+  },
+  "app-navbar": {
+    "link-text": "Link"
+  },
+  "stats-preview": {
+    "main-title": "Ut gravida lacinia urna pellentesque vestibulum ipsum",
+    "secondary-title": "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiuxs",
+    "stats-card-1-title": "100+",
+    "stats-card-1-message": "Amet sed odio",
+    "stats-card-2-title": "35",
+    "stats-card-2-message": "imperdiet quis",
+    "stats-card-3-title": "8",
+    "stats-card-3-message": "In sagittis porta"
+  },
+  "projects-info": {
+    "documentation-title": "Documentation",
+    "documentation-message":  "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiu",
+    "audits-title": "Audits",
+    "audits-message":  "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiu",
+    "github-title": "GitHub",
+    "github-message":  "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiu",
+    "solidity-tools-title": "Solidity tools",
+    "solidity-tools-message": "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiu",
+    "visit-btn": "Visit"
+  },
+  "audits-card": {
+    "download-btn": "Download"
+  },
+  "audits-page": {
+    "main-title": "Audits",
+    "audits-card-1-title": "TornadoCash",
+    "audits-card-1-file-size": "14.6 MB",
+    "audits-card-1-description": "Eros nibh leo viverra sed felis egestas integer diam pharetra. Sagittis congue bibendum nullam facilisi et.",
+    "audits-card-2-title": "NFTxCards",
+    "audits-card-2-file-size": "11.5 MB",
+    "audits-card-2-description": "Cursus aliquet quam netus urna leo sollicitudin massa morbi. A augue amet urna at.",
+    "audits-card-3-title": "PollenDAO",
+    "audits-card-3-file-size": "10.3 MB",
+    "audits-card-3-description": "Eros nibh leo viverra sed felis egestas integer diam pharetra. Sagittis congue bibendum nullam facilisi et.",
+    "secondary-title": "Morbi auctor pellentesque orci ut lectus erat nullam malesuada consequat. Tellus porttitor eleifend morbi vitae blandit proin augue nisl id."
   }
 }

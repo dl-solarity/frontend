@@ -3,7 +3,7 @@ $white-rgb: hexToRGB($white);
 $black: #000000;
 $black-rgb: hexToRGB($black);
 
-$app-bg: #ffffff;
+$app-bg: #1b191a;
 
 /* status colors */
 
@@ -19,32 +19,32 @@ $warning-light: #f16709;
 $warning-main: #ff6d00;
 $warning-dark: #c43c00;
 
-$info-light: #82f7ff;
-$info-main: #40c4ff;
-$info-dark: #0094cc;
+$info-light: #C8ABFF;
+$info-main: #C8ABFF;
+$info-dark: #C8ABFF;
 
 /* brand colors */
 
-$primary-light: #768fff;
-$primary-main: #2962ff;
-$primary-dark: #0039cb;
+$primary-light: #FCFCFC;
+$primary-main: #FCFCFC;
+$primary-dark: #FCFCFC;
 
-$secondary-light: #8e8e8e;
-$secondary-main: #616161;
-$secondary-dark: #373737;
+$secondary-light: #6A6A6A;
+$secondary-main: #6A6A6A;
+$secondary-dark: #6A6A6A;
 
-$tertiary-light: #ffff6b;
-$tertiary-main: #fdd835;
-$tertiary-dark: #c6a700;
+$tertiary-light: #252627;
+$tertiary-main: #252627;
+$tertiary-dark: #2E2E2E;
 
 /* typography colors */
 
 $text-primary-light: #484848;
-$text-primary-main: #212121;
-$text-primary-dark: #000000;
+$text-primary-main: #FCFCFC;
+$text-primary-dark: #C8ABFF;
 
 $text-secondary-light: #4f5b62;
-$text-secondary-main: #263238;
+$text-secondary-main: #A5A5A5;
 $text-secondary-dark: #000a12;
 
 $text-primary-invert-light: #ffffff;
