@@ -1,14 +1,14 @@
 <template>
-  <div class="audits">
-    <div class="audits__title">
-      <h1 class="audits__title-main fs-secondary">
-        {{ $t('audits.main-title') }}
+  <div class="audits-page">
+    <div class="audits-page__title">
+      <h1 class="audits-page__title-main fs-secondary">
+        {{ $t('audits-page.main-title') }}
       </h1>
-      <h2 class="audits__title-secondary">
-        {{ $t('audits.secondary-title') }}
+      <h2 class="audits-page__title-secondary">
+        {{ $t('audits-page.secondary-title') }}
       </h2>
     </div>
-    <div class="audits__list">
+    <div class="audits-page__list">
       <audits-card
         v-for="(card, indx) in auditsList"
         :key="indx"
@@ -28,55 +28,55 @@ const auditsList = [
   {
     imgSrc: '/assets/img/audits/tornado-proposal.png',
     fileLink: 'https://github.com/dl-solidity-library/docs',
-    fileSize: t('audits.audits-card-1-file-size'),
-    title: t('audits.audits-card-1-title'),
-    description: t('audits.audits-card-1-description'),
+    fileSize: t('audits-page.audits-card-1-file-size'),
+    title: t('audits-page.audits-card-1-title'),
+    description: t('audits-page.audits-card-1-description'),
   },
   {
     imgSrc: '/assets/img/audits/nft-reaudit.png',
     fileLink: 'https://github.com/dl-solidity-library/docs',
-    fileSize: t('audits.audits-card-2-file-size'),
-    title: t('audits.audits-card-2-title'),
-    description: t('audits.audits-card-2-description'),
+    fileSize: t('audits-page.audits-card-2-file-size'),
+    title: t('audits-page.audits-card-2-title'),
+    description: t('audits-page.audits-card-2-description'),
   },
   {
     imgSrc: '/assets/img/audits/pollendao-reaudit.png',
     fileLink: 'https://github.com/dl-solidity-library/docs',
-    fileSize: t('audits.audits-card-3-file-size'),
-    title: t('audits.audits-card-3-title'),
-    description: t('audits.audits-card-3-description'),
+    fileSize: t('audits-page.audits-card-3-file-size'),
+    title: t('audits-page.audits-card-3-title'),
+    description: t('audits-page.audits-card-3-description'),
   },
 ]
 </script>
 
 <style lang="scss" scoped>
-.audits {
+.audits-page {
   padding: var(--app-padding);
   padding-top: toRem(130);
   max-width: toRem(1800);
   margin: 0 auto;
 }
 
-.audits__title {
+.audits-page__title {
   display: grid;
   gap: toRem(16);
 }
 
-.audits__title-main {
+.audits-page__title-main {
   font-size: toRem(40);
   font-weight: 600;
   line-height: 120%;
   color: var(--text-primary-main);
 }
 
-.audits__title-secondary {
+.audits-page__title-secondary {
   font-size: toRem(18);
   line-height: 175%;
   font-weight: 400;
   color: var(--text-secondary-main);
 }
 
-.audits__list {
+.audits-page__list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: toRem(24);

@@ -23,13 +23,14 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n({ useScope: 'global' })
 const isDarkenBg = ref(false)
 
+// TODO: Rename text and change links
 const links = [
   {
-    text: t('app-footer.link-text'),
+    text: t('app-navbar.link-text'),
     href: 'https://github.com/dl-solidity-library/',
   },
   {
-    text: t('app-footer.link-text'),
+    text: t('app-navbar.link-text'),
     href: 'https://github.com/dl-solidity-library/',
   },
 ]

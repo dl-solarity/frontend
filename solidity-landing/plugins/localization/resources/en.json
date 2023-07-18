@@ -30,6 +30,9 @@
   "app-footer": {
     "link-text": "Link"
   },
+  "app-navbar": {
+    "link-text": "Link"
+  },
   "stats-preview": {
     "main-title": "Ut gravida lacinia urna pellentesque vestibulum ipsum",
     "secondary-title": "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiuxs",
@@ -54,7 +57,7 @@
   "audits-card": {
     "download-btn": "Download"
   },
-  "audits": {
+  "audits-page": {
     "main-title": "Audits",
     "audits-card-1-title": "TornadoCash",
     "audits-card-1-file-size": "14.6 MB",

@@ -8,7 +8,7 @@
         <p class="audits-card__title">
           {{ props.audit.title }}
         </p>
-        <div class="circle"></div>
+        <div class="audits-card__circle"></div>
         <p class="audits-card__title">
           {{ props.audit.fileSize }}
         </p>
@@ -83,7 +83,7 @@ const props = defineProps<{
   align-self: end;
 }
 
-.circle {
+.audits-card__circle {
   width: toRem(5);
   height: toRem(5);
   background-color: var(--text-primary-main);

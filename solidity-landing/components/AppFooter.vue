@@ -18,6 +18,8 @@ import { AppButton } from '#components'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n({ useScope: 'global' })
+
+// TODO: Rename text and change links
 const links = [
   {
     text: t('app-footer.link-text'),

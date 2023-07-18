@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="home-page">
     <stats-preview />
     <projects-info />
   </div>
