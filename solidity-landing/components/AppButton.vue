@@ -4,9 +4,9 @@ import { Icon } from '#components'
 import { computed, useAttrs } from 'vue'
 import { ICON_NAMES } from '@/enums'
 
-type SCHEMES = 'filled' | 'flat' | 'default'
+type SCHEMES = 'filled' | 'flat' | 'none'
 
-type MODIFICATIONS = 'border-circle' | 'border-rounded' | 'default'
+type MODIFICATIONS = 'border-circle' | 'border-rounded' | 'none'
 
 type COLORS =
   | 'primary'
@@ -15,9 +15,9 @@ type COLORS =
   | 'error'
   | 'warning'
   | 'info'
-  | 'default'
+  | 'none'
 
-type SIZES = 'large' | 'medium' | 'small' | 'x-small' | 'default'
+type SIZES = 'large' | 'medium' | 'small' | 'x-small' | 'none'
 
 const props = withDefaults(
   defineProps<{

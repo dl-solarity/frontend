@@ -5,9 +5,9 @@
       :key="index"
       :text="link.text"
       :href="link.href"
-      scheme="default"
-      modification="default"
-      size="default"
+      scheme="none"
+      modification="none"
+      size="none"
       class="app-footer__btn"
     />
   </div>

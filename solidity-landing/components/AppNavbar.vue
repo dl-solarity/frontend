@@ -7,8 +7,8 @@
         :key="index"
         :text="link.text"
         :href="link.href"
-        scheme="default"
-        size="default"
+        scheme="none"
+        size="none"
         class="app-navbar__links-btn"
       />
     </nav>
