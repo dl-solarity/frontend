@@ -7,6 +7,7 @@ import {
   sameAs as _sameAs,
   integer as _integer,
   minValue as _minValue,
+  maxValue as _maxValue,
 } from '@vuelidate/validators'
 import { ValidationRule } from '@vuelidate/core'
 import { Ref } from 'vue'
@@ -41,6 +42,9 @@ export const integer = <ValidationRule>withI18nMessage(_integer)
 
 export const minValue = (value: number): ValidationRule =>
   <ValidationRule>withI18nMessage(_minValue(value))
+
+export const maxValue = (value: number): ValidationRule =>
+  <ValidationRule>withI18nMessage(_maxValue(value))
 
 export const minLength = (length: number): ValidationRule =>
   <ValidationRule>withI18nMessage(_minLength(length))

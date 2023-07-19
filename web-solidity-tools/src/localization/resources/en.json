@@ -6,7 +6,9 @@
     "field-error_hash": "Field must be a valid 32 bytes hash",
     "field-error_bytes": "Field must be a valid bytes hash",
     "field-error_integer": "Field must be a integer",
-    "field-error_email": "Field must be a valid email"
+    "field-error_email": "Field must be a valid email",
+    "field-error_maxValue": "Field must be less than {max}",
+    "field-error_maxLength": "Field must be less than {max} symbols"
   },
   "errors": {
     "default": "Something went wrong"
@@ -37,6 +39,31 @@
     "main-title": "Address predictor",
     "create-form-tab": "Create",
     "create-2-form-tab": "Create2"
+  },
+  "unix-epoch-page": {
+    "main-title": "UNIX epoch",
+    "date-form-tab": "Human date UTC",
+    "timestamp-form-tab": "Timestamp"
+  },
+  "date-form": {
+    "create-title": "Enter Date and Time",
+    "year-title": "Year",
+    "month-title": "Month",
+    "date-title": "Day",
+    "hour-title": "Hour",
+    "minute-title": "Minute",
+    "second-title": "Second",
+    "result-title": "Result",
+    "timestamp-seconds-title": "Seconds"
+  },
+  "timestamp-form": {
+    "create-title": "Enter Timestamp",
+    "timestamp-title": "Timestamp in seconds",
+    "format-title": "Format",
+    "gmt-title": "GMT",
+    "time-zone-title": "Your time zone",
+    "relative-time-title": "Relative",
+    "output-title": "Output"
   },
   "create-form": {
     "create-title": "Create",

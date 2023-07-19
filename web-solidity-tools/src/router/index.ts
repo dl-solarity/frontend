@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/unix-epoch',
     name: ROUTE_NAMES.unixEpoch,
-    component: () => import('@/pages/AddressPredictorPage.vue'),
+    component: () => import('@/pages/UnixEpochPage.vue'),
   },
 ]
 const router = createRouter({
