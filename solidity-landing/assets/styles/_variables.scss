@@ -64,14 +64,22 @@
   --app-bg: #{$app-bg};
   --app-txt: #{$text-primary-main};
   --app-font-family: 'Roboto', 'Arial', sans-serif;
-  --app-padding-right: #{toRem(120)};
-  --app-padding-left: #{toRem(120)};
+  --app-font-family-secondary: 'Rubik', sans-serif;
+  --app-padding-top: #{toRem(16)};
+  --app-padding-bottom: #{toRem(16)};
+  --app-padding-right: #{toRem(96)};
+  --app-padding-left: #{toRem(96)};
 
   @include respond-to(small) {
     --app-padding-right: #{toRem(24)};
     --app-padding-left: #{toRem(24)};
   }
 
+  --app-padding: 
+    var(--app-padding-top)
+    var(--app-padding-right)
+    var(--app-padding-bottom)
+    var(--app-padding-left);
   /* --------------------------------------- */
 
   /* Field variables */

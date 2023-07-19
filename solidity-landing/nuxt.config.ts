@@ -28,7 +28,7 @@ export default defineNuxtConfig({
         { hid: 'description', name: 'description', content: 'DLSL' },
         { property: 'og:title', content: 'DLSL' },
         { property: 'og:description', content: 'DLSL' },
-        { property: 'og:image', content: '/branding/logo.svg' },
+        { property: 'og:image', content: '/branding/logo.png' },
         { property: 'og:locale', content: 'en_GB' },
         { property: 'og:type', content: 'website' },
         { name: 'twitter:card', content: 'summary_large_image' },
