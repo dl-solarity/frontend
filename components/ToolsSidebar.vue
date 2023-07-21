@@ -1,11 +1,11 @@
 <template>
-  <transition name="app-sidebar__transition">
-    <div v-if="isSidebarShown" class="app-sidebar">
-      <aside ref="asideElement" class="app-sidebar__aside">
-        <div class="app-sidebar__header">
-          <app-logo class="app-sidebar__logo" />
+  <transition name="tools-sidebar__transition">
+    <div v-if="isSidebarShown" class="tools-sidebar">
+      <aside ref="asideElement" class="tools-sidebar__aside">
+        <div class="tools-sidebar__header">
+          <app-logo class="tools-sidebar__logo" />
           <app-button
-            class="app-sidebar__close-button"
+            class="tools-sidebar__close-button"
             scheme="none"
             size="none"
             :icon-left="$icons.xCircle"
@@ -13,20 +13,20 @@
           />
         </div>
 
-        <div class="app-sidebar__actions">
-          <ul class="app-sidebar__links-list">
+        <div class="tools-sidebar__actions">
+          <ul class="tools-sidebar__links-list">
             <li
               v-for="(link, index) in NAV_LINKS"
-              class="app-sidebar__action-item"
+              class="tools-sidebar__action-item"
               :key="index"
             >
               <nuxt-link
-                class="app-sidebar__action"
+                class="tools-sidebar__action"
                 :to="link.name"
                 @click="closeSidebar"
               >
-                <icon :name="link.icon" class="app-sidebar__action-icon" />
-                <span class="app-sidebar__action-text">
+                <icon :name="link.icon" class="tools-sidebar__action-icon" />
+                <span class="tools-sidebar__action-text">
                   {{ link.title }}
                 </span>
               </nuxt-link>
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { AppLogo, Icon, AppButton } from '#components'
 import { bus, BUS_EVENTS } from '@/helpers'
 import { useWindowSize, onClickOutside } from '@vueuse/core'
@@ -49,33 +49,33 @@ import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
 
-const NAV_LINKS = [
+const NAV_LINKS = computed(() => [
   {
-    title: t('app-sidebar.abi-title'),
+    title: t('tools-sidebar.abi-title'),
     icon: ICON_NAMES.code,
     name: ROUTE_PATH.abi,
   },
   {
-    title: t('app-sidebar.hash-functions-title'),
+    title: t('tools-sidebar.hash-functions-title'),
     icon: ICON_NAMES.hashtag,
     name: ROUTE_PATH.hashFunctions,
   },
   {
-    title: t('app-sidebar.converter-title'),
+    title: t('tools-sidebar.converter-title'),
     icon: ICON_NAMES.refresh,
     name: ROUTE_PATH.converter,
   },
   {
-    title: t('app-sidebar.unix-epoch-title'),
+    title: t('tools-sidebar.unix-epoch-title'),
     icon: ICON_NAMES.clock,
     name: ROUTE_PATH.unixEpoch,
   },
   {
-    title: t('app-sidebar.address-predictor-title'),
+    title: t('tools-sidebar.address-predictor-title'),
     icon: ICON_NAMES.locationMarker,
     name: ROUTE_PATH.addressPredicator,
   },
-]
+])
 
 const { width: windowWidth } = useWindowSize()
 const asideElement = ref<HTMLElement | null>(null)
@@ -97,20 +97,24 @@ const closeSidebar = () => {
   isVisible.value = false
 }
 
-bus.on(BUS_EVENTS.toggleSidebar, toggleSidebar)
-
 watch(asideElement, () => {
   if (!asideElement.value || !isLessThanMediumScreen.value || !isVisible.value)
     return
 
   onClickOutside(asideElement, closeSidebar)
 })
+
+bus.on(BUS_EVENTS.toggleSidebar, toggleSidebar)
+
+onBeforeUnmount(() => {
+  bus.off(BUS_EVENTS.toggleSidebar, toggleSidebar)
+})
 </script>
 
 <style scoped lang="scss">
 $custom-z-index: 5;
 
-.app-sidebar {
+.tools-sidebar {
   width: 100%;
   max-width: toRem(280);
   height: 100vh;
@@ -126,7 +130,7 @@ $custom-z-index: 5;
   }
 }
 
-.app-sidebar__aside {
+.tools-sidebar__aside {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -152,20 +156,20 @@ $custom-z-index: 5;
   }
 }
 
-.app-sidebar__actions {
+.tools-sidebar__actions {
   display: flex;
   flex-direction: column;
   gap: toRem(60);
   flex: 1;
 }
 
-.app-sidebar__links-list {
+.tools-sidebar__links-list {
   display: flex;
   flex-direction: column;
   row-gap: toRem(8);
 }
 
-.app-sidebar__action {
+.tools-sidebar__action {
   display: flex;
   align-items: center;
   gap: toRem(12);
@@ -186,22 +190,22 @@ $custom-z-index: 5;
   }
 }
 
-.app-sidebar__action-icon {
+.tools-sidebar__action-icon {
   width: toRem(20);
   height: toRem(20);
 }
 
-.app-sidebar__action-text {
+.tools-sidebar__action-text {
   font-weight: 400;
 }
 
-.app-sidebar__header {
+.tools-sidebar__header {
   display: flex;
   justify-content: space-between;
   margin-bottom: toRem(64);
 }
 
-.app-sidebar__close-button {
+.tools-sidebar__close-button {
   display: none;
   color: var(--text-primary-main);
 
@@ -212,11 +216,11 @@ $custom-z-index: 5;
   }
 }
 
-.app-sidebar__transition-enter-active {
+.tools-sidebar__transition-enter-active {
   animation: fade-unroll-right 0.5s ease-in-out;
 }
 
-.app-sidebar__transition-leave-active {
+.tools-sidebar__transition-leave-active {
   animation: fade-unroll-right 0.5s ease-in-out reverse;
 }
 

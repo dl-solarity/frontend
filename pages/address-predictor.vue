@@ -4,8 +4,8 @@
     <div class="block">
       <tabs v-model="currentTab" :tabs="TABS" />
       <div class="content">
-        <create-form v-show="currentTab === TABS[0].id" />
-        <create2-form v-show="currentTab === TABS[1].id" />
+        <create-address-form v-show="currentTab === TABS[0].id" />
+        <create2-address-form v-show="currentTab === TABS[1].id" />
       </div>
     </div>
   </div>
@@ -13,8 +13,8 @@
 
 <script lang="ts" setup>
 import { Tabs, PageTitle } from '#components'
-import { CreateForm, Create2Form } from '@/forms'
-import { ref } from 'vue'
+import { CreateAddressForm, Create2AddressForm } from '@/forms'
+import { ref, computed } from 'vue'
 import { definePageMeta } from '#imports'
 import { i18n } from '~/plugins/localization'
 
@@ -23,17 +23,17 @@ definePageMeta({
 })
 
 const { t } = i18n.global
-const TABS = [
+const TABS = computed(() => [
   {
-    title: t('address-predictor-page.create-form-tab'),
-    id: 'create',
+    title: t('address-predictor-page.create-address-form-tab'),
+    id: 'create-address-form',
   },
   {
-    title: t('address-predictor-page.create-2-form-tab'),
-    id: 'create-2',
+    title: t('address-predictor-page.create2-address-form-tab'),
+    id: 'create2-address-form',
   },
-]
-const currentTab = ref(TABS[0].id)
+])
+const currentTab = ref(TABS.value[0].id)
 </script>
 
 <style lang="scss" scoped>

@@ -6,14 +6,14 @@
           {{ $t('date-form.create-title') }}
         </h2>
         <datepicker
-          v-model="date"
+          v-model="calendarDate"
           dark
           enable-seconds
           utc
-          :min-date="new Date(0).toUTCString()"
+          :min-date="new Date(0)"
           position="right"
           class="date-form__calendar"
-          @update:model-value="setDate(date)"
+          @update:model-value="setDate(calendarDate)"
         >
           <template #dp-input>
             <app-button
@@ -27,8 +27,8 @@
       </div>
       <div class="date-form__create-fields">
         <input-field
-          v-for="(_, name, index) in form"
-          :key="index"
+          v-for="(_, name) in form"
+          :key="name"
           v-model="form[name]"
           :label="$t(`date-form.${name}-title`)"
           :error-message="getFieldErrorMessage(name)"
@@ -68,10 +68,12 @@ import { InputField } from '@/fields'
 import { Copy, AppButton } from '#components'
 import { useForm, useFormValidation } from '@/composables'
 import { Time } from '@distributedlab/tools'
+import { i18n } from '~/plugins/localization'
 import Datepicker from '@vuepic/vue-datepicker'
 
-const date = ref('')
-const curtime = ref<Date | null>(null)
+const { t } = i18n.global
+const calendarDate = ref('')
+const currentDate = ref<Date | null>(null)
 
 const form = reactive({
   year: '',
@@ -91,7 +93,13 @@ const { isFormValid, getFieldErrorMessage, touchField, isFieldsValid } =
       minValue: minValue(1970),
       maxValue: maxValue(10000),
     },
-    month: { required, integer },
+    month: {
+      required,
+      integer,
+      minValue: minValue(1),
+      maxValue: maxValue(12),
+    },
+    // TODO: add a check for the maximum number of days in a month
     date: { required, integer, minValue: minValue(1), maxValue: maxValue(31) },
     hour: { required, integer, minValue: minValue(0), maxValue: maxValue(23) },
     minute: {
@@ -108,28 +116,48 @@ const { isFormValid, getFieldErrorMessage, touchField, isFieldsValid } =
     },
   })
 
-onMounted(() => {
-  const time = new Time()
-  curtime.value = time.toDate()
-  setDate(time.toDate())
-})
-
 const timeList = computed(() => [
   {
-    title: 'Seconds',
+    title: t('date-form.seconds-title'),
     format:
-      isFieldsValid.value && curtime.value
-        ? new Time(curtime.value).timestamp.toString()
+      isFieldsValid.value && currentDate.value
+        ? new Time(currentDate.value).timestamp.toString()
         : '',
   },
   {
-    title: 'Milliseconds',
+    title: t('date-form.milliseconds-title'),
     format:
-      isFieldsValid.value && curtime.value
-        ? new Time(curtime.value).ms.toString()
+      isFieldsValid.value && currentDate.value
+        ? new Time(currentDate.value).ms.toString()
         : '',
   },
 ])
+
+watch(form, () => {
+  if (!isFormValid()) {
+    currentDate.value = null
+    calendarDate.value = ''
+    return
+  }
+
+  try {
+    currentDate.value = new Date(
+      Date.UTC(
+        +form.year,
+        +form.month - 1,
+        +form.date,
+        +form.hour,
+        +form.minute,
+        +form.second,
+      ),
+    )
+    calendarDate.value = currentDate.value.toUTCString()
+  } catch (error) {
+    currentDate.value = null
+    calendarDate.value = ''
+    ErrorHandler.processWithoutFeedback(error)
+  }
+})
 
 const setDate = (date: Date | string) => {
   const time = new Time(date)
@@ -141,30 +169,10 @@ const setDate = (date: Date | string) => {
   form.second = time.dayjs.second().toString()
 }
 
-watch(form, () => {
-  if (!isFormValid()) {
-    curtime.value = null
-    date.value = ''
-    return
-  }
-
-  try {
-    curtime.value = new Date(
-      Date.UTC(
-        +form.year,
-        +form.month - 1,
-        +form.date,
-        +form.hour,
-        +form.minute,
-        +form.second,
-      ),
-    )
-    date.value = curtime.value.toUTCString()
-  } catch (error) {
-    curtime.value = null
-    date.value = ''
-    ErrorHandler.processWithoutFeedback(error)
-  }
+onMounted(() => {
+  const time = new Time()
+  currentDate.value = time.toDate()
+  setDate(currentDate.value)
 })
 </script>
 

@@ -1,37 +1,37 @@
 <template>
-  <form class="create-form">
-    <div class="create-form__create">
-      <h2 class="create-form__create-title">
-        {{ $t('create-form.create-title') }}
+  <form class="create-address-form">
+    <div class="create-address-form__create">
+      <h2 class="create-address-form__create-title">
+        {{ $t('create-address-form.create-title') }}
       </h2>
-      <div class="create-form__create-fields">
+      <div class="create-address-form__create-fields">
         <input-field
           v-model="form.address"
-          :label="$t('create-form.account-address-title')"
+          :label="$t('create-address-form.account-address-title')"
           :error-message="getFieldErrorMessage('address')"
           @blur="touchField('address')"
           :disabled="isFormDisabled"
         />
         <input-field
           v-model="form.nonce"
-          :label="$t('create-form.account-nonce-title')"
+          :label="$t('create-address-form.account-nonce-title')"
           :error-message="getFieldErrorMessage('nonce')"
           @blur="touchField('nonce')"
           :disabled="isFormDisabled"
         />
       </div>
     </div>
-    <div class="create-form__result">
-      <h2 class="create-form__result-title">
-        {{ $t('create-form.result-title') }}
+    <div class="create-address-form__result">
+      <h2 class="create-address-form__result-title">
+        {{ $t('create-address-form.result-title') }}
       </h2>
-      <div class="create-form__result-content">
-        <div class="create-form__result-content-item">
-          <p class="create-form__result-content-item-title">
-            {{ $t('create-form.contract-address-title') }}
+      <div class="create-address-form__result-content">
+        <div class="create-address-form__result-content-item">
+          <p class="create-address-form__result-content-item-title">
+            {{ $t('create-address-form.contract-address-title') }}
           </p>
           <copy :value="contractAddress">
-            <p class="create-form__result-content-item-value">
+            <p class="create-address-form__result-content-item-value">
               {{ contractAddress || '–' }}
             </p>
           </copy>
@@ -45,7 +45,6 @@
 import { reactive, ref, watch } from 'vue'
 import { ethers } from 'ethers'
 import { InputField } from '@/fields'
-// import { Copy } from 'components'
 import { required, address, integer, minValue, ErrorHandler } from '@/helpers'
 import { useForm, useFormValidation } from '@/composables'
 
@@ -81,23 +80,23 @@ watch(form, () => {
 </script>
 
 <style lang="scss" scoped>
-.create-form {
+.create-address-form {
   display: grid;
   gap: toRem(40);
 }
 
-.create-form__result,
-.create-form__create {
+.create-address-form__result,
+.create-address-form__create {
   display: grid;
   gap: toRem(20);
 }
 
-.create-form__create {
+.create-address-form__create {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--text-secondary-main);
 }
 
-.create-form__create-fields {
+.create-address-form__create-fields {
   display: flex;
   gap: toRem(16);
 
@@ -106,22 +105,22 @@ watch(form, () => {
   }
 }
 
-.create-form__result-content {
+.create-address-form__result-content {
   display: grid;
   gap: toRem(32);
 }
 
-.create-form__result-content-item {
+.create-address-form__result-content-item {
   display: grid;
   gap: toRem(4);
 }
 
-.create-form__result-content-item-title {
+.create-address-form__result-content-item-title {
   color: var(--text-primary-main);
   line-height: 1.4;
 }
 
-.create-form__result-content-item-value {
+.create-address-form__result-content-item-value {
   font-size: toRem(18);
   line-height: 1.4;
 

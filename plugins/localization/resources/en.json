@@ -22,7 +22,7 @@
     "default-message-info": "Something is happening. Just want you to know that",
     "default-message-default": "Just a message"
   },
-  "app-sidebar": {
+  "tools-sidebar": {
     "abi-title": "ABI",
     "hash-functions-title": "Hash functions",
     "converter-title": "Converter",
@@ -31,8 +31,8 @@
   },
   "address-predictor-page": {
     "main-title": "Address predictor",
-    "create-form-tab": "Create",
-    "create-2-form-tab": "Create2"
+    "create-address-form-tab": "Create",
+    "create2-address-form-tab": "Create2"
   },
   "unix-epoch-page": {
     "main-title": "UNIX epoch",
@@ -48,6 +48,8 @@
     "minute-title": "Minute",
     "second-title": "Second",
     "output-title": "Output",
+    "seconds-title": "Seconds",
+    "milliseconds-title": "Milliseconds",
     "timestamp-seconds-title": "Seconds"
   },
   "timestamp-form": {
@@ -55,18 +57,19 @@
     "timestamp-title": "Timestamp in seconds",
     "format-title": "Format",
     "gmt-title": "GMT",
+    "seconds-title": "Seconds",
     "time-zone-title": "Your time zone",
     "relative-time-title": "Relative",
     "output-title": "Output"
   },
-  "create-form": {
+  "create-address-form": {
     "create-title": "Create",
     "account-address-title": "Deployer account address",
     "account-nonce-title": "Deployer account nonce",
     "contract-address-title": "Contract address",
     "result-title": "Result"
   },
-  "create-2-form": {
+  "create2-address-form": {
     "create-title": "Create2",
     "account-address-title": "Deployer account address",
     "contract-code-title": "Contract init code",

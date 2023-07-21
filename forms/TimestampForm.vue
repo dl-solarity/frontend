@@ -46,11 +46,13 @@ import { required, integer, minValue, maxLength } from '@/helpers'
 import { InputField } from '@/fields'
 import { Copy } from '#components'
 import { useForm, useFormValidation } from '@/composables'
+import { i18n } from '~/plugins/localization'
+
+const { t } = i18n.global
 
 const form = reactive({
   timestamp: new Time().timestamp,
 })
-
 const { isFormDisabled } = useForm()
 const { isFieldsValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
@@ -65,23 +67,22 @@ const { isFieldsValid, getFieldErrorMessage, touchField } = useFormValidation(
 )
 
 const time = computed(() => new Time(Number(form.timestamp)))
-
 const isValidTime = computed(() => time.value.isValid && isFieldsValid.value)
 const timeList = computed(() => [
   {
-    title: 'Format',
-    format: 'Seconds',
+    title: t('timestamp-form.format-title'),
+    format: t('timestamp-form.seconds-title'),
   },
   {
-    title: 'GMT',
+    title: t('timestamp-form.gmt-title'),
     format: isValidTime.value ? time.value.toDate().toUTCString() : '',
   },
   {
-    title: 'Your time zone',
+    title: t('timestamp-form.time-zone-title'),
     format: isValidTime.value ? time.value.toDate().toString() : '',
   },
   {
-    title: 'Relative',
+    title: t('timestamp-form.relative-time-title'),
     format: isValidTime.value ? time.value.toNow : '',
   },
 ])
