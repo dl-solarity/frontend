@@ -2,10 +2,10 @@
   <div class="unix-epoch-page">
     <page-title :title="$t('unix-epoch-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="TABS" />
+      <tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
-        <date-form v-show="currentTab === TABS[0].id" />
-        <timestamp-form v-show="currentTab === TABS[1].id" />
+        <date-form v-show="currentTab === tabsList[0].id" />
+        <timestamp-form v-show="currentTab === tabsList[1].id" />
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@ definePageMeta({
 })
 const { t } = i18n.global
 
-const TABS = computed(() => [
+const tabsList = computed(() => [
   {
     title: t('unix-epoch-page.date-form-tab'),
     id: 'date',
@@ -33,7 +33,7 @@ const TABS = computed(() => [
     id: 'timestamp',
   },
 ])
-const currentTab = ref(TABS.value[0].id)
+const currentTab = ref(tabsList.value[0].id)
 </script>
 
 <style lang="scss" scoped>

@@ -2,10 +2,10 @@
   <div class="address-predictor-page">
     <page-title :title="$t('address-predictor-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="TABS" />
+      <tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
-        <create-address-form v-show="currentTab === TABS[0].id" />
-        <create2-address-form v-show="currentTab === TABS[1].id" />
+        <create-address-form v-show="currentTab === tabsList[0].id" />
+        <create2-address-form v-show="currentTab === tabsList[1].id" />
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@ definePageMeta({
 })
 
 const { t } = i18n.global
-const TABS = computed(() => [
+const tabsList = computed(() => [
   {
     title: t('address-predictor-page.create-address-form-tab'),
     id: 'create-address-form',
@@ -33,7 +33,7 @@ const TABS = computed(() => [
     id: 'create2-address-form',
   },
 ])
-const currentTab = ref(TABS.value[0].id)
+const currentTab = ref(tabsList.value[0].id)
 </script>
 
 <style lang="scss" scoped>

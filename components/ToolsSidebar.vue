@@ -16,7 +16,7 @@
         <div class="tools-sidebar__actions">
           <ul class="tools-sidebar__links-list">
             <li
-              v-for="(link, index) in NAV_LINKS"
+              v-for="(link, index) in navLinks"
               class="tools-sidebar__action-item"
               :key="index"
             >
@@ -49,7 +49,7 @@ import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
 
-const NAV_LINKS = computed(() => [
+const navLinks = computed(() => [
   {
     title: t('tools-sidebar.abi-title'),
     icon: ICON_NAMES.code,
