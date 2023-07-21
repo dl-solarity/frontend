@@ -217,11 +217,11 @@ $custom-z-index: 5;
 }
 
 .tools-sidebar__transition-enter-active {
-  animation: fade-unroll-right 0.5s ease-in-out;
+  animation: fade-unroll-right 0.2s ease-in-out;
 }
 
 .tools-sidebar__transition-leave-active {
-  animation: fade-unroll-right 0.5s ease-in-out reverse;
+  animation: fade-unroll-right 0.2s ease-in-out reverse;
 }
 
 @keyframes fade-unroll-right {

@@ -20,3 +20,5 @@ export interface Audit {
   description: string
   btnText?: string
 }
+
+export type DecodeType = 'text' | 'hex'

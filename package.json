@@ -26,6 +26,7 @@
     "@types/lodash-es": "^4.17.6",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
+    "@types/uuid": "^9.0.2",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",
     "@vuepic/vue-datepicker": "^5.4.0",

@@ -7,10 +7,6 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-// import { ToolsSidebar } from '#components'
-</script>
-
 <style lang="scss" scoped>
 .solidity-tools {
   padding: 0;
@@ -26,9 +22,5 @@
   width: 100%;
   overflow-y: scroll;
   background: var(--background-primary-main);
-}
-
-.default__footer {
-  margin-top: auto;
 }
 </style>
