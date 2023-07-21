@@ -1,7 +1,7 @@
 /* stylelint-disable declaration-no-important */
 /* stylelint-disable unit-disallowed-list */
 html {
-  font-family: var(--app-font-family);
+  font-family: var(--app-font-family-main);
   overflow: auto !important;
   -webkit-overflow-scrolling: touch !important;
   -moz-osx-font-smoothing: grayscale;
@@ -20,16 +20,16 @@ body, #__nuxt {
   overflow-x: hidden;
   overflow-y: auto;
   width: 100vw;
-  background-color: var(--app-bg);
-  color: var(--text-primary-main);
+  background: var(--background-primary-main);
+  color: var(--text-primary-light);
 }
 
 input,
 select,
 textarea {
-  background: var(--app-bg);
-  color: var(--text-primary-main);
-  font-family: var(--app-font-family);
+  background: var(--background-primary-main);
+  color: var(--text-primary-light);
+  font-family: var(--app-font-family-main);
   font-size: toRem(16);
   font-weight: 400;
 
@@ -52,7 +52,7 @@ button {
   cursor: pointer;
   user-select: none;
   background: transparent;
-  font-family: var(--app-font-family);
+  font-family: var(--app-font-family-main);
   font-size: toRem(16);
   color: var(--text-primary-main);
   line-height: 1.5;
@@ -80,7 +80,7 @@ p,
 li,
 ul {
   list-style-type: none;
-  color: var(--text-primary-main);
+  color: var(--text-primary-light);
 }
 
 p {
@@ -94,8 +94,8 @@ h2,
 h3,
 h4,
 h5 {
-  color: var(--text-primary-main);
-  font-family: var(--app-font-family);
+  color: var(--text-primary-light);
+  font-family: var(--app-font-family-main);
   font-weight: 600;
   line-height: 1;
 }
@@ -136,13 +136,36 @@ a {
   }
 }
 
+.fade-enter-active {
+  animation: fade-in 0.25s;
+}
+
+.fade-leave-active {
+  animation: fade-in 0.25s reverse;
+}
+
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .layout-wrapper {
   max-width: toRem(1800);
   margin: 0 auto;
 }
 
-.fs-secondary { 
+.ff-secondary { 
   font-family: var(--app-font-family-secondary);
+}
+
+.ff-tertiary { 
+  font-family: var(--app-font-family-tertiary);
 }
 
 .block {

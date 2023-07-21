@@ -9,7 +9,7 @@ import { config } from '@/config'
       src="/branding/logo.png"
       :alt="config.APP_NAME"
     />
-    <span class="app-logo__text fs-secondary">{{ $t('app-logo.title') }}</span>
+    <span class="app-logo__text ff-tertiary">{{ $t('app-logo.title') }}</span>
   </NuxtLink>
 </template>
 
@@ -29,5 +29,6 @@ import { config } from '@/config'
   font-size: toRem(20);
   font-weight: 500;
   line-height: 120%;
+  color: var(--text-primary-light);
 }
 </style>

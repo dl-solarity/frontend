@@ -79,7 +79,7 @@ const NAV_LINKS = [
 
 const { width: windowWidth } = useWindowSize()
 const asideElement = ref<HTMLElement | null>(null)
-const isVisible = ref(true)
+const isVisible = ref(false)
 
 const isLessThanMediumScreen = computed(
   () => windowWidth.value <= WINDOW_BREAKPOINTS.medium,
@@ -193,23 +193,6 @@ $custom-z-index: 5;
 
 .app-sidebar__action-text {
   font-weight: 400;
-}
-
-.app-sidebar__footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: toRem(24);
-  width: 100%;
-}
-
-.app-sidebar__footer-btn {
-  font-size: toRem(14);
-  font-weight: 400;
-  line-height: 1.5;
-  --app-button-text-hover: var(--text-primary-light);
-  --app-button-text-active: var(--text-primary-dark);
-  --app-button-text-focused: var(--text-primary-light);
 }
 
 .app-sidebar__header {

@@ -15,13 +15,14 @@
 import { Tabs, PageTitle } from '#components'
 import { CreateForm, Create2Form } from '@/forms'
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { definePageMeta } from '#imports'
+import { i18n } from '~/plugins/localization'
+
 definePageMeta({
   layout: 'solidity-tools',
 })
 
-const { t } = useI18n({ useScope: 'global' })
+const { t } = i18n.global
 const TABS = [
   {
     title: t('address-predictor-page.create-form-tab'),

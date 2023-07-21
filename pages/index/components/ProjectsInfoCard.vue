@@ -1,13 +1,14 @@
 <template>
   <div class="projects-info-card">
-    <p class="projects-info-card__title fs-secondary">
+    <p class="projects-info-card__title ff-tertiary">
       {{ props.title }}
     </p>
-    <p class="projects-info-card__message">
+    <p class="projects-info-card__message ff-secondary">
       {{ props.message }}
     </p>
     <app-button
       scheme="flat"
+      modification="border-circle"
       :text="btnText"
       :icon-right="$icons.arrowRight"
       :route="props.route"
@@ -17,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+import { AppButton } from '#components'
+
 const props = withDefaults(
   defineProps<{
     title: string
@@ -38,7 +41,7 @@ const props = withDefaults(
   flex-direction: column;
   padding: toRem(32);
   border-radius: toRem(8);
-  background: var(--tertiary-main);
+  background: var(--text-secondary-dark);
 }
 
 .projects-info-card__title {
@@ -53,6 +56,6 @@ const props = withDefaults(
   margin-bottom: toRem(24);
   font-weight: 400;
   line-height: 175%;
-  color: var(--text-secondary-main);
+  color: var(--text-primary-main);
 }
 </style>

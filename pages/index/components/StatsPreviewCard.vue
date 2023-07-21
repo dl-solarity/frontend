@@ -1,9 +1,9 @@
 <template>
   <div class="stats-preview-card">
-    <p class="stats-preview-card__title fs-secondary">
+    <p class="stats-preview-card__title ff-tertiary">
       {{ props.title }}
     </p>
-    <p class="stats-preview-card__message">
+    <p class="stats-preview-card__message ff-secondary">
       {{ props.message }}
     </p>
   </div>

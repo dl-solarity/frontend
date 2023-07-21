@@ -15,9 +15,9 @@
 
 <script lang="ts" setup>
 import { AppButton } from '#components'
-import { useI18n } from 'vue-i18n'
+import { i18n } from '~/plugins/localization'
 
-const { t } = useI18n({ useScope: 'global' })
+const { t } = i18n.global
 
 // TODO: Rename text and change links
 const links = [
@@ -38,10 +38,10 @@ const links = [
   gap: toRem(24);
   padding: toRem(24);
   justify-content: center;
-  border-top: toRem(1) solid var(--tertiary-dark);
+  border-top: toRem(1) solid var(--text-secondary-dark);
 }
 
 .app-footer__btn {
-  --app-button-text: var(--text-secondary-main);
+  --app-button-text-hover: var(--text-primary-main);
 }
 </style>

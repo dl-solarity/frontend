@@ -1,67 +1,3 @@
-<script lang="ts" setup>
-import { Icon } from '#components'
-
-import { computed, useAttrs } from 'vue'
-import { ICON_NAMES } from '@/enums'
-
-type SCHEMES = 'filled' | 'flat' | 'none'
-
-type MODIFICATIONS = 'border-circle' | 'border-rounded' | 'none'
-
-type COLORS =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'error'
-  | 'warning'
-  | 'info'
-  | 'none'
-
-type SIZES = 'large' | 'medium' | 'small' | 'x-small' | 'none'
-
-const props = withDefaults(
-  defineProps<{
-    text?: string
-    scheme?: SCHEMES
-    modification?: MODIFICATIONS
-    color?: COLORS
-    size?: SIZES
-    route?: string
-    href?: string
-    iconLeft?: ICON_NAMES
-    iconRight?: ICON_NAMES
-  }>(),
-  {
-    text: '',
-    scheme: 'flat',
-    modification: 'border-circle',
-    color: 'primary',
-    size: 'medium',
-    route: undefined,
-    href: '',
-    iconLeft: undefined,
-    iconRight: undefined,
-  },
-)
-
-const attrs = useAttrs()
-
-const isDisabled = computed((): boolean =>
-  ['', 'disabled', true].includes(attrs.disabled as string | boolean),
-)
-
-const buttonClasses = computed(() =>
-  [
-    'app-button',
-    `app-button--${props.scheme}`,
-    `app-button--${props.modification}`,
-    `app-button--${props.color}`,
-    `app-button--${props.size}`,
-    ...(isDisabled.value ? ['app-button--disabled'] : []),
-  ].join(' '),
-)
-</script>
-
 <template>
   <template v-if="route">
     <router-link
@@ -102,7 +38,7 @@ const buttonClasses = computed(() =>
       :class="buttonClasses"
       v-bind="$attrs"
       :disabled="isDisabled"
-      :type="$attrs.type || 'button'"
+      :type="buttonType"
     >
       <icon v-if="iconLeft" class="app-button__icon-left" :name="iconLeft" />
       <template v-if="$slots.default">
@@ -118,6 +54,63 @@ const buttonClasses = computed(() =>
   </template>
 </template>
 
+<script lang="ts" setup>
+import { Icon } from '#components'
+import { computed, useAttrs, useSlots } from 'vue'
+import { ICON_NAMES } from '@/enums'
+
+type ButtonType = 'button' | 'submit' | 'reset'
+
+const props = withDefaults(
+  defineProps<{
+    text?: string
+    scheme?: 'filled' | 'flat' | 'none'
+    modification?: 'border-circle' | 'border-rounded' | 'none'
+    color?: 'primary' | 'success' | 'error' | 'warning' | 'info' | 'none'
+    size?: 'large' | 'medium' | 'small' | 'x-small' | 'none'
+    route?: string
+    href?: string
+    iconLeft?: ICON_NAMES
+    iconRight?: ICON_NAMES
+  }>(),
+  {
+    text: '',
+    scheme: 'filled',
+    modification: 'border-rounded',
+    color: 'primary',
+    size: 'medium',
+    route: undefined,
+    href: '',
+    iconLeft: undefined,
+    iconRight: undefined,
+  },
+)
+
+const attrs = useAttrs()
+const slots = useSlots()
+
+const isDisabled = computed((): boolean =>
+  ['', 'disabled', true].includes(attrs.disabled as string | boolean),
+)
+
+const buttonClasses = computed(() =>
+  [
+    'app-button',
+    `app-button--scheme-${props.scheme}`,
+    `app-button--${props.modification}`,
+    `app-button--${props.color}`,
+    `app-button--${props.size}`,
+    ...(isDisabled.value ? ['app-button--disabled'] : []),
+    ...((props.iconLeft || props.iconRight) && !props.text && !slots.default
+      ? ['app-button--icon-only']
+      : []),
+  ].join(' '),
+)
+
+const buttonType = computed<ButtonType>(
+  () => (attrs.type as ButtonType) || 'button',
+)
+</script>
 <style lang="scss" scoped>
 .app-button {
   --button-transition-duration: 0.2s;
@@ -133,8 +126,7 @@ const buttonClasses = computed(() =>
   grid: auto / auto-flow max-content;
   align-items: center;
   justify-content: center;
-  transition: var(--button-transition-duration) ease-in;
-  transition-property: background-color, color;
+  transition: all var(--button-transition-duration) ease-in;
   text-decoration: none;
   border: var(--app-button-border);
   background-color: var(--app-button-bg);
@@ -148,109 +140,222 @@ const buttonClasses = computed(() =>
     opacity: 0.5;
   }
 
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
+  &:not([disabled]):hover {
     text-decoration: none;
     transition-timing-function: ease-out;
     color: var(--app-button-text-hover);
     background-color: var(--app-button-bg-hover);
-    border-color: var(--app-button-border-hover);
     border: var(--app-button-border-hover);
+  }
+
+  &:not([disabled]):focus {
+    text-decoration: none;
+    color: var(--app-button-text-focused);
+    transition-timing-function: ease-out;
+    background-color: var(--app-button-bg-focused);
+    border: var(--app-button-border-focused);
   }
 
   &:not([disabled]):active {
     text-decoration: none;
     transition-timing-function: ease-out;
+    color: var(--app-button-text-active);
     background-color: var(--app-button-bg-active);
     border: var(--app-button-border-active);
   }
 
-  &--filled {
+  &--scheme-filled {
     --app-button-filled-bg: var(--primary-main);
-    --app-button-filled-bg-hover: var(--primary-dark);
+    --app-button-filled-bg-hover: var(--primary-main);
+    --app-button-filled-bg-focused: var(--primary-main);
     --app-button-filled-bg-active: var(--primary-dark);
 
     --app-button-filled-text: var(--text-primary-invert-main);
     --app-button-filled-text-hover: var(--text-primary-invert-main);
+    --app-button-filled-text-focused: var(--text-primary-invert-main);
+    --app-button-filled-text-active: var(--text-primary-invert-main);
+
+    --app-button-filled-border: 0;
+    --app-button-filled-border-hover: 0;
+    --app-button-filled-border-active: 0;
+    --app-button-filled-border-focused: 0;
 
     --app-button-bg: var(--app-button-filled-bg);
     --app-button-bg-hover: var(--app-button-filled-bg-hover);
+    --app-button-bg-focused: var(--app-button-filled-bg-focused);
     --app-button-bg-active: var(--app-button-filled-bg-active);
 
     --app-button-text: var(--app-button-filled-text);
     --app-button-text-hover: var(--app-button-filled-text-hover);
+    --app-button-text-focused: var(--app-button-filled-text-focused);
+    --app-button-text-active: var(--app-button-filled-text-active);
 
-    --app-button-border: 0;
-    --app-button-border-hover: 0;
-    --app-button-border-active: 0;
+    --app-button-border: var(--app-button-filled-border);
+    --app-button-border-hover: var(--app-button-filled-border-hover);
+    --app-button-border-active: var(--app-button-filled-border-active);
+    --app-button-border-focused: var(--app-button-filled-border-focused);
   }
 
-  &--flat {
-    --app-button-flat-text: var(--text-primary-main);
-    --app-button-flat-text-hover: var(--text-primary-dark);
+  &--scheme-flat {
+    --app-button-flat-bg: none;
+    --app-button-flat-bg-hover: none;
+    --app-button-flat-bg-focused: none;
+    --app-button-flat-bg-active: none;
 
-    --app-button-flat-border: #{toRem(2)} solid var(--text-primary-light);
-    --app-button-flat-border-hover: var(--app-button-flat-border);
-    --app-button-flat-border-active: var(--app-button-flat-border);
+    --app-button-flat-text: var(--text-primary-light);
+    --app-button-flat-text-hover: var(--primary-main);
+    --app-button-flat-text-focused: var(--primary-main);
+    --app-button-flat-text-active: var(--primary-main);
 
-    --app-button-bg: transparent;
-    --app-button-bg-hover: transparent;
-    --app-button-bg-active: transparent;
+    --app-button-flat-border: #{toRem(1)} solid var(--text-primary-light);
+    --app-button-flat-border-hover: #{toRem(1)} solid var(--primary-main);
+    --app-button-flat-border-focused: var(--app-button-flat-border-hover);
+    --app-button-flat-border-active: var(--app-button-flat-border-hover);
+
+    --app-button-bg: var(--app-button-flat-bg);
+    --app-button-bg-hover: var(--app-button-flat-bg-hover);
+    --app-button-bg-focused: var(--app-button-flat-bg-focused);
+    --app-button-bg-active: var(--app-button-flat-bg-active);
 
     --app-button-text: var(--app-button-flat-text);
     --app-button-text-hover: var(--app-button-flat-text-hover);
+    --app-button-text-focused: var(--app-button-flat-text-focused);
+    --app-button-text-active: var(--app-button-flat-text-active);
 
     --app-button-border: var(--app-button-flat-border);
-    --app-button-border-hover: #{toRem(2)} solid var(--text-primary-dark);
-    --app-button-border-active: #{toRem(2)} solid var(--text-primary-dark);
+    --app-button-border-hover: var(--app-button-flat-border-hover);
+    --app-button-border-focused: var(--app-button-flat-border-focused);
+    --app-button-border-active: var(--app-button-flat-border-active);
+  }
+
+  &--scheme-none {
+    --app-button-none-bg: transparent;
+    --app-button-none-bg-hover: transparent;
+    --app-button-none-bg-focused: transparent;
+    --app-button-none-bg-active: transparent;
+
+    --app-button-none-text: var(--text-primary-light);
+    --app-button-none-text-hover: var(--text-primary-main);
+    --app-button-none-text-focused: var(--text-primary-main);
+    --app-button-none-text-active: var(--text-primary-main);
+
+    --app-button-bg: var(--app-button-none-bg);
+    --app-button-bg-hover: var(--app-button-none-bg-hover);
+    --app-button-bg-focused: var(--app-button-none-bg-focused);
+    --app-button-bg-active: var(--app-button-none-bg-active);
+
+    --app-button-text: var(--app-button-none-text);
+    --app-button-text-hover: var(--app-button-none-text-hover);
+    --app-button-text-focused: var(--app-button-none-text-focused);
+    --app-button-text-active: var(--app-button-none-text-active);
   }
 
   &--success {
-    --app-button-flat-text: var(--success-main);
-    --app-button-flat-text-hover: var(--success-dark);
-    --app-button-flat-border: #{toRem(2)} solid var(--success-main);
-    --app-button-flat-border-hover: #{toRem(2)} solid var(--success-dark);
-    --app-button-flat-border-active: #{toRem(2)} solid var(--success-dark);
-
     --app-button-filled-bg: var(--success-main);
-    --app-button-filled-bg-hover: var(--success-dark);
+    --app-button-filled-bg-hover: var(--success-main);
+    --app-button-filled-bg-focused: var(--success-main);
     --app-button-filled-bg-active: var(--success-dark);
+
+    --app-button-filled-text: var(--text-primary-light);
+    --app-button-filled-text-hover: var(--text-primary-light);
+    --app-button-filled-text-focused: var(--text-primary-light);
+    --app-button-filled-text-active: var(--text-primary-light);
+
+    --app-button-flat-text: var(--success-main);
+    --app-button-flat-text-hover: var(--success-main);
+    --app-button-flat-text-focused: var(--success-main);
+    --app-button-flat-text-active: var(--success-dark);
+
+    --app-button-flat-border: #{toRem(1)} solid var(--success-main);
+    --app-button-flat-border-hover: var(--app-button-flat-border);
+    --app-button-flat-border-focused: var(--app-button-flat-border);
+    --app-button-flat-border-active: #{toRem(1)} solid var(--success-dark);
+
+    --app-button-none-text: var(--success-main);
+    --app-button-none-text-hover: var(--success-main);
+    --app-button-none-text-focused: var(--success-main);
+    --app-button-none-text-active: var(--success-dark);
   }
 
   &--error {
-    --app-button-flat-text: var(--error-main);
-    --app-button-flat-text-hover: var(--error-dark);
-    --app-button-flat-border: #{toRem(2)} solid var(--error-main);
-    --app-button-flat-border-hover: #{toRem(2)} solid var(--error-dark);
-    --app-button-flat-border-active: #{toRem(2)} solid var(--error-dark);
-
     --app-button-filled-bg: var(--error-main);
-    --app-button-filled-bg-hover: var(--error-dark);
+    --app-button-filled-bg-hover: var(--error-main);
+    --app-button-filled-bg-focused: var(--error-main);
     --app-button-filled-bg-active: var(--error-dark);
+
+    --app-button-filled-text: var(--text-primary-light);
+    --app-button-filled-text-hover: var(--text-primary-light);
+    --app-button-filled-text-focused: var(--text-primary-light);
+    --app-button-filled-text-active: var(--text-primary-light);
+
+    --app-button-flat-text: var(--error-main);
+    --app-button-flat-text-hover: var(--error-main);
+    --app-button-flat-text-focused: var(--error-main);
+    --app-button-flat-text-active: var(--error-dark);
+
+    --app-button-flat-border: #{toRem(1)} solid var(--error-main);
+    --app-button-flat-border-hover: var(--app-button-flat-border);
+    --app-button-flat-border-focused: var(--app-button-flat-border);
+    --app-button-flat-border-active: #{toRem(1)} solid var(--error-dark);
+
+    --app-button-none-text: var(--error-main);
+    --app-button-none-text-hover: var(--error-main);
+    --app-button-none-text-focused: var(--error-main);
+    --app-button-none-text-active: var(--error-dark);
   }
 
   &--warning {
-    --app-button-flat-text: var(--warning-main);
-    --app-button-flat-text-hover: var(--warning-dark);
-    --app-button-flat-border: #{toRem(2)} solid var(--warning-dark);
-    --app-button-flat-border-hover: #{toRem(2)} solid var(--warning-dark);
-    --app-button-flat-border-active: #{toRem(2)} solid var(--warning-dark);
-
     --app-button-filled-bg: var(--warning-main);
-    --app-button-filled-bg-hover: var(--warning-dark);
+    --app-button-filled-bg-hover: var(--warning-main);
+    --app-button-filled-bg-focused: var(--warning-main);
     --app-button-filled-bg-active: var(--warning-dark);
+
+    --app-button-filled-text: var(--text-primary-light);
+    --app-button-filled-text-hover: var(--text-primary-light);
+    --app-button-filled-text-focused: var(--text-primary-light);
+    --app-button-filled-text-active: var(--text-primary-light);
+
+    --app-button-flat-text: var(--warning-main);
+    --app-button-flat-text-hover: var(--warning-main);
+    --app-button-flat-text-focused: var(--warning-main);
+    --app-button-flat-text-active: var(--warning-dark);
+
+    --app-button-flat-border: #{toRem(1)} solid var(--warning-main);
+    --app-button-flat-border-hover: var(--app-button-flat-border);
+    --app-button-flat-border-focused: var(--app-button-flat-border);
+    --app-button-flat-border-active: #{toRem(1)} solid var(--warning-dark);
+
+    --app-button-none-text: var(--warning-main);
+    --app-button-none-text-hover: var(--warning-main);
+    --app-button-none-text-focused: var(--warning-main);
+    --app-button-none-text-active: var(--warning-dark);
   }
 
   &--info {
-    --app-button-flat-text: var(--info-main);
-    --app-button-flat-text-hover: var(--info-dark);
-    --app-button-flat-border: #{toRem(2)} solid var(--info-main);
-    --app-button-flat-border-hover: #{toRem(2)} solid var(--info-dark);
-    --app-button-flat-border-active: #{toRem(2)} solid var(--info-dark);
-
     --app-button-filled-bg: var(--info-main);
-    --app-button-filled-bg-hover: var(--info-dark);
+    --app-button-filled-bg-hover: var(--info-main);
+    --app-button-filled-bg-focused: var(--info-main);
     --app-button-filled-bg-active: var(--info-dark);
+
+    --app-button-filled-text: var(--text-primary-light);
+    --app-button-filled-text-hover: var(--text-primary-light);
+    --app-button-filled-text-focused: var(--text-primary-light);
+    --app-button-filled-text-active: var(--text-primary-light);
+
+    --app-button-flat-text: var(--info-main);
+    --app-button-flat-text-hover: var(--info-main);
+    --app-button-flat-text-focused: var(--info-main);
+    --app-button-flat-text-active: var(--info-dark);
+
+    --app-button-flat-border: #{toRem(1)} solid var(--info-main);
+    --app-button-flat-border-hover: var(--app-button-flat-border);
+    --app-button-flat-border-focused: var(--app-button-flat-border);
+    --app-button-flat-border-active: #{toRem(1)} solid var(--info-dark);
+
+    --app-button-none-text: var(--info-main);
+    --app-button-none-text-hover: var(--info-main);
+    --app-button-none-text-focused: var(--info-main);
+    --app-button-none-text-active: var(--info-dark);
   }
 
   &--border-circle {

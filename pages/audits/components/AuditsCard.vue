@@ -4,7 +4,7 @@
       <img :src="props.audit.imgSrc" class="audits-card__img" />
     </div>
     <div class="audits-card__content">
-      <div class="audits-card__title-wrapper fs-secondary">
+      <div class="audits-card__title-wrapper ff-tertiary">
         <p class="audits-card__title">
           {{ props.audit.title }}
         </p>
@@ -18,7 +18,9 @@
       </p>
       <app-button
         class="audits-card__btn"
-        :text="props?.btnText || $t('audits-card.download-btn')"
+        scheme="flat"
+        modification="border-circle"
+        :text="props.audit.btnText || $t('audits-card.download-btn')"
         :icon-right="$icons.download"
         :href="props.audit.fileLink"
       />
@@ -27,7 +29,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Audit } from '#types'
+import { Audit } from '@/types'
+
 const props = defineProps<{
   audit: Audit
 }>()
@@ -35,7 +38,7 @@ const props = defineProps<{
 
 <style lang="scss" scoped>
 .audits-card {
-  border: toRem(1) solid var(--tertiary-dark);
+  border: toRem(1) solid var(--text-secondary-dark);
   padding: toRem(24);
   display: flex;
   flex-direction: column;
@@ -76,7 +79,7 @@ const props = defineProps<{
 
 .audits-card__description {
   line-height: 175%;
-  color: var(--text-secondary-main);
+  color: var(--text-primary-main);
 }
 
 .audits-card__btn {
@@ -86,7 +89,7 @@ const props = defineProps<{
 .audits-card__circle {
   width: toRem(5);
   height: toRem(5);
-  background-color: var(--text-primary-main);
+  background-color: var(--text-primary-light);
   border-radius: 50%;
 }
 </style>

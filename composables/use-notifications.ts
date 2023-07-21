@@ -1,9 +1,9 @@
-import { useI18n } from 'vue-i18n'
 import { ICON_NAMES } from '@/enums'
 import isObject from 'lodash/isObject'
 import { TYPE, useToast } from 'vue-toastification'
 
 import { DefaultToast } from '#components'
+import { i18n } from '~/plugins/localization'
 import { CommonNotificationTypes, NotificationObjectPayload } from '@/types'
 
 const MINUTE = 60 * 1000
@@ -11,7 +11,7 @@ const MINUTE = 60 * 1000
 export const useNotifications = () => {
   const toast = useToast()
 
-  const { t } = useI18n({ useScope: 'global' })
+  const { t } = i18n.global
 
   const defaultTitles = {
     [TYPE.SUCCESS]: t('notification.default-title-success'),
@@ -41,14 +41,14 @@ export const useNotifications = () => {
   ) => {
     let title = ''
     let message = ''
-    let iconName: ICON_NAMES | undefined
+    let iconName: string | undefined
 
     if (isObject(payload)) {
       const msgPayload = payload as NotificationObjectPayload
 
       title = msgPayload.title || ''
       message = msgPayload.message
-      iconName = msgPayload.iconName
+      iconName = msgPayload.iconName ? (msgPayload.iconName as string) : ''
     } else if (payload) {
       message = payload as string
     } else {

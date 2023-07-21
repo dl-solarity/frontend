@@ -1,10 +1,10 @@
 <template>
   <div class="stats-preview">
     <div class="stats-preview__header">
-      <h1 class="stats-preview__header-main-title fs-secondary">
+      <h1 class="stats-preview__header-main-title ff-tertiary">
         {{ t('stats-preview.main-title') }}
       </h1>
-      <h2 class="stats-preview__header-secondary-title">
+      <h2 class="stats-preview__header-secondary-title ff-secondary">
         {{ t('stats-preview.secondary-title') }}
       </h2>
     </div>
@@ -22,9 +22,9 @@
 
 <script lang="ts" setup>
 import StatsPreviewCard from './StatsPreviewCard.vue'
-import { useI18n } from 'vue-i18n'
+import { i18n } from '~/plugins/localization'
 
-const { t } = useI18n({ useScope: 'global' })
+const { t } = i18n.global
 
 const cards = [
   {
@@ -79,7 +79,7 @@ const cards = [
   font-weight: 400;
   line-height: 175%;
   max-width: toRem(540);
-  color: var(--text-secondary-main);
+  color: var(--text-primary-main);
 }
 
 .stats-preview__cards {

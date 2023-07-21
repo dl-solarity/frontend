@@ -1,10 +1,10 @@
 <template>
   <div class="audits-page">
     <div class="audits-page__title">
-      <h1 class="audits-page__title-main fs-secondary">
+      <h1 class="audits-page__title-main ff-tertiary">
         {{ $t('audits-page.main-title') }}
       </h1>
-      <h2 class="audits-page__title-secondary">
+      <h2 class="audits-page__title-secondary ff-secondary">
         {{ $t('audits-page.secondary-title') }}
       </h2>
     </div>
@@ -20,31 +20,31 @@
 
 <script lang="ts" setup>
 import AuditsCard from './components/AuditsCard.vue'
-import { useI18n } from 'vue-i18n'
+import { i18n } from '~/plugins/localization'
 
-const { t } = useI18n({ useScope: 'global' })
+const { t } = i18n.global
 
 const auditsList = [
   {
-    imgSrc: '/assets/img/audits/tornado-proposal.png',
+    imgSrc: 'img/audits/tornado-proposal.png',
     fileLink: 'https://github.com/dl-solidity-library/docs',
     fileSize: t('audits-page.audits-card-1-file-size'),
     title: t('audits-page.audits-card-1-title'),
     description: t('audits-page.audits-card-1-description'),
   },
   {
-    imgSrc: '/assets/img/audits/nft-reaudit.png',
-    fileLink: 'https://github.com/dl-solidity-library/docs',
-    fileSize: t('audits-page.audits-card-2-file-size'),
-    title: t('audits-page.audits-card-2-title'),
-    description: t('audits-page.audits-card-2-description'),
-  },
-  {
-    imgSrc: '/assets/img/audits/pollendao-reaudit.png',
+    imgSrc: 'img/audits/pollendao-reaudit.png',
     fileLink: 'https://github.com/dl-solidity-library/docs',
     fileSize: t('audits-page.audits-card-3-file-size'),
     title: t('audits-page.audits-card-3-title'),
     description: t('audits-page.audits-card-3-description'),
+  },
+  {
+    imgSrc: 'img/audits/nft-reaudit.png',
+    fileLink: 'https://github.com/dl-solidity-library/docs',
+    fileSize: t('audits-page.audits-card-2-file-size'),
+    title: t('audits-page.audits-card-2-title'),
+    description: t('audits-page.audits-card-2-description'),
   },
 ]
 </script>
@@ -66,14 +66,14 @@ const auditsList = [
   font-size: toRem(40);
   font-weight: 600;
   line-height: 120%;
-  color: var(--text-primary-main);
+  color: var(--text-primary-light);
 }
 
 .audits-page__title-secondary {
   font-size: toRem(18);
   line-height: 175%;
   font-weight: 400;
-  color: var(--text-secondary-main);
+  color: var(--text-primary-main);
 }
 
 .audits-page__list {

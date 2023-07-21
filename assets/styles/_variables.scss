@@ -75,7 +75,9 @@
 
   /* App variables */
   --app-txt: #{$text-primary-main};
-  --app-font-family: 'Inter', 'Arial', sans-serif;
+  --app-font-family-main: 'Inter', 'Arial', sans-serif;
+  --app-font-family-secondary: 'Roboto', 'Arial', sans-serif;
+  --app-font-family-tertiary: 'Rubik', sans-serif;
   --app-padding-right: #{toRem(32)};
   --app-padding-left: #{toRem(32)};
   --app-padding-top: #{toRem(48)};

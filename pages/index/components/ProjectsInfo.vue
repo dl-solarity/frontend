@@ -14,10 +14,10 @@
 
 <script lang="ts" setup>
 import ProjectsInfoCard from './ProjectsInfoCard.vue'
-import { useI18n } from 'vue-i18n'
 import { ROUTE_PATH } from '@/constants'
+import { i18n } from '~/plugins/localization'
 
-const { t } = useI18n({ useScope: 'global' })
+const { t } = i18n.global
 const infoCards = [
   {
     title: t('projects-info.documentation-title'),
@@ -40,7 +40,7 @@ const infoCards = [
   {
     title: t('projects-info.solidity-tools-title'),
     message: t('projects-info.solidity-tools-message'),
-    href: 'https://github.com/dl-solidity-library/frontend/tree/master/web-solidity-tools',
+    route: ROUTE_PATH.addressPredicator,
     btnText: t('projects-info.visit-btn'),
   },
 ]

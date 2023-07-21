@@ -18,9 +18,9 @@
 <script lang="ts" setup>
 import { AppLogo, AppButton } from '#components'
 import { onUnmounted, ref, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { i18n } from '~/plugins/localization'
 
-const { t } = useI18n({ useScope: 'global' })
+const { t } = i18n.global
 const isDarkenBg = ref(false)
 
 // TODO: Rename text and change links
@@ -84,6 +84,6 @@ onUnmounted(() => {
 }
 
 .app-navbar__links-btn {
-  --app-button-text-hover: var(--text-secondary-main);
+  --app-button-text-hover: var(--text-primary-main);
 }
 </style>

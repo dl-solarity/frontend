@@ -47,7 +47,7 @@
     "hour-title": "Hour",
     "minute-title": "Minute",
     "second-title": "Second",
-    "result-title": "Result",
+    "output-title": "Output",
     "timestamp-seconds-title": "Seconds"
   },
   "timestamp-form": {

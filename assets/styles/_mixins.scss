@@ -38,21 +38,22 @@ $media-breakpoints: (
   font-size: var(--field-text-font-size);
   line-height: var(--field-text-line-height);
   -webkit-text-fill-color: var(--field-text-font-size);
-  color: var(--field-text-font-size);
+  color: var(--field-text);
   transition: color var(--field-transition-duration) ease;
+  font-weight: 400;
 }
 
 @mixin field-label {
   font-size: var(--field-label-font-size);
   line-height: var(--field-label-line-height);
   color: var(--field-label);
-  transition: color var(--field-transition-duration) ease;
-  margin-bottom: toRem(8);
+  transition: var(--field-transition-duration) ease;
+  margin-bottom: toRem(4);
 }
 
 @mixin field-border {
   border: toRem(1) solid var(--field-border);
-  border-radius: toRem(10);
+  border-radius: toRem(14);
 }
 
 @mixin field-placeholder {
@@ -68,9 +69,34 @@ $media-breakpoints: (
 @mixin field-error {
   overflow: hidden;
   color: var(--field-error);
-  font-size: toRem(10);
-  line-height: 1.4;
+  font-size: toRem(12);
+  letter-spacing: toRem(0.4);
+  line-height: 1.3;
   transition: var(--field-transition-duration) ease;
   transition-property: opacity, color, font-size, transform;
   margin-top: toRem(4);
+  padding-left: var(--field-padding-left);
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: toRem(12);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--secondary-main);
+    border: toRem(4) solid rgba(var(--black-rgb), 0);
+    background-clip: padding-box;
+    border-radius: toRem(100);
+  }
+}
+
+@mixin page-msg {
+  max-width: toRem(420);
+  width: 100%;
+  margin: auto;
 }

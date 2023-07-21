@@ -37,11 +37,11 @@
         />
       </div>
     </div>
-    <div class="date-form__result">
-      <h2 class="date-form__result-title">
-        {{ $t('date-form.result-title') }}
+    <div class="date-form__output">
+      <h2 class="date-form__output-title">
+        {{ $t('date-form.output-title') }}
       </h2>
-      <div class="date-form__result-content">
+      <div class="date-form__output-content">
         <div
           v-for="(item, index) in timeList"
           :key="index"
@@ -174,7 +174,7 @@ watch(form, () => {
   gap: toRem(40);
 }
 
-.date-form__result,
+.date-form__output,
 .date-form__create {
   display: grid;
   gap: toRem(20);
@@ -202,22 +202,22 @@ watch(form, () => {
   }
 }
 
-.date-form__result-content {
+.date-form__output-content {
   display: grid;
   gap: toRem(32);
 }
 
-.date-form__result-content-item {
+.date-form__output-content-item {
   display: grid;
   gap: toRem(4);
 }
 
-.date-form__result-content-item-title {
+.date-form__output-content-item-title {
   color: var(--text-primary-main);
   line-height: 1.4;
 }
 
-.date-form__result-content-item-value {
+.date-form__output-content-item-value {
   font-size: toRem(18);
   line-height: 1.4;
 
