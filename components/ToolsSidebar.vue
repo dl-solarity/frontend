@@ -124,8 +124,10 @@ $custom-z-index: 5;
     padding: toRem(0);
     z-index: $custom-z-index;
     position: absolute;
-    max-width: 100vw;
+    min-width: 100vw;
     width: 100%;
+    height: 100%;
+    min-height: 100vh;
     background: rgba(var(--black-rgb), 0.5);
   }
 }
@@ -139,6 +141,7 @@ $custom-z-index: 5;
   box-sizing: border-box;
   max-width: toRem(280);
   padding: toRem(24);
+  background: var(--background-primary-light);
 
   @include respond-to(medium) {
     padding: toRem(24);
@@ -146,7 +149,6 @@ $custom-z-index: 5;
   }
 
   @include respond-to(tablet) {
-    position: unset;
     border-radius: 0 toRem(6) toRem(6) 0;
   }
 

@@ -10,6 +10,9 @@
     "field-error_email": "Field must be a valid email",
     "field-error_maxValue": "Field must be less than {max}",
     "field-error_maxLength": "Field must be less than {max} symbols",
+    "field-error_binary": "Field must be a binary number",
+    "field-error_hexadecimal": "Field must be a hexadecimal number",
+    "field-error_octal": "Field must be a octal number",
     "field-error_minLength": "Field must be greater than {min} symbols"
   },
   "notification": {
@@ -36,7 +39,12 @@
     "create-address-form-tab": "Create",
     "create2-address-form-tab": "Create2"
   },
-  "hash-functions": {
+  "converter-page": {
+    "main-title": "Converter",
+    "unit-converter-form-tab": "Unit converter",
+    "number-converter-form-tab": "Number converter"
+  },
+  "hash-functions-page": {
     "main-title": "Hash functions",
     "keccak256-tab": "Keccak256",
     "sha256-tab": "Sha256",
@@ -59,6 +67,25 @@
     "seconds-title": "Seconds",
     "milliseconds-title": "Milliseconds",
     "timestamp-seconds-title": "Seconds"
+  },
+  "unit-converter-form": {
+    "wei-title": "Wei",
+    "kwei-title": "KWei",
+    "mwei-title": "MWei",
+    "gwei-title": "GWei",
+    "finney-title": "Finney",
+    "szabo-title": "Szabo",
+    "ether-title": "Ether",
+    "kether-title": "KEther",
+    "mether-title": "MEther",
+    "gether-title": "GEther",
+    "tether-title": "TEther"
+  },
+  "number-converter-form": {
+    "binary-title": "Binary",
+    "octal-title": "Octal",
+    "decimal-title": "Decimal",
+    "hexadecimal-title": "Hexadecimal"
   },
   "timestamp-form": {
     "create-title": "Enter Timestamp",

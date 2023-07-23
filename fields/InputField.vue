@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts" setup>
-import { BN, DECIMALS } from '@distributedlab/tools'
 import { computed, onMounted, ref, useAttrs, useSlots } from 'vue'
 
 import { Icon } from '#components'
@@ -130,7 +129,7 @@ const listeners = computed(() => ({
     const eventTarget = event.target as HTMLInputElement
 
     if (isNumberType.value) {
-      eventTarget.value = normalizeRange(normalizeNumber(eventTarget.value))
+      eventTarget.value = normalizeNumber(eventTarget.value)
     }
     if (props.modelValue === eventTarget.value) return
 
@@ -165,7 +164,7 @@ onMounted(() => {
     inputEl.value?.style.setProperty(
       'padding-left',
       `calc(${
-        nodeLeftWrp.value?.offsetWidth || 0
+        nodeLeftWrp.value?.offsetWidth || 19
       }px + var(--field-padding-left) * 2)`,
     )
   }
@@ -181,29 +180,7 @@ onMounted(() => {
 })
 
 const normalizeNumber = (value: string) => {
-  return isNaN(Number(value)) ? props.modelValue : value
-}
-
-const normalizeRange = (value: string | number): string => {
-  let result = value
-
-  if (
-    String(min.value) &&
-    BN.fromRaw(value, DECIMALS.WEI).isLessThan(
-      BN.fromRaw(min.value, DECIMALS.WEI),
-    )
-  ) {
-    result = min.value
-  } else if (
-    String(max.value) &&
-    BN.fromRaw(value, DECIMALS.WEI).isGreaterThan(
-      BN.fromRaw(max.value, DECIMALS.WEI),
-    )
-  ) {
-    result = max.value
-  }
-
-  return result as string
+  return isNaN(Number(value)) ? String(props.modelValue) : value
 }
 
 const setHeightCSSVar = (element: Element) => {
