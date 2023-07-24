@@ -4,12 +4,12 @@
       <div class="number-converter-form__create-fields">
         <input-field
           v-for="(_, name) in form"
-          v-model="form[name]"
+          :model-value="form[name]"
           :key="name"
           :label="$t(`number-converter-form.${name}-title`)"
           :error-message="getFieldErrorMessage(name)"
           @blur="touchField(name)"
-          @update:model-value="formatInputs(form[name], name)"
+          @update:model-value="formatInputs($event, name)"
         >
           <template #nodeLeft>
             <copy :value="form[name] || 0" />
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, onMounted } from 'vue'
+import { reactive } from 'vue'
 import { hexadecimal, integer, octal, binary } from '@/helpers'
 import { InputField } from '@/fields'
 import { Copy } from '#components'
@@ -32,16 +32,16 @@ import { BigNumber } from 'bignumber.js'
 const form = reactive({
   binary: '',
   octal: '',
-  decimal: '',
+  decimal: '10',
   hexadecimal: '',
 })
 
-const bases = reactive({
+const NUMBER_SYSTEMS = {
   binary: { base: 2, prefix: '0b' },
   octal: { base: 8, prefix: '0o' },
   decimal: { base: 10, prefix: '' },
   hexadecimal: { base: 16, prefix: '0x' },
-})
+}
 
 const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   form,
@@ -53,32 +53,33 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   },
 )
 
-const formatInputs = (value: string, name: keyof typeof form) => {
-  const unitsKeys = Object.keys(form) as (keyof typeof form)[]
-  const formatValues = unitsKeys.filter(item => item !== name)
-  const formattedValue = value.trim()
+const formatInputs = (value: string | number, name: keyof typeof form) => {
+  form[name] = String(value)
+
+  const formKeys = Object.keys(form) as (keyof typeof form)[]
+  const filteredKeys = formKeys.filter(item => item !== name)
+  const formattedValue = String(value).trim()
 
   if (isEmpty(formattedValue) || !isFormValid()) {
-    formatValues.forEach(item => {
+    filteredKeys.forEach(item => {
       form[item] = ''
     })
     return
   }
 
-  const currentUnitDecimal = bases[name]
   const rawValue = BigNumber(
-    currentUnitDecimal.prefix.concat(value.toLowerCase()),
-    bases[name].base,
+    NUMBER_SYSTEMS[name].prefix.concat(formattedValue.toLowerCase()),
+    NUMBER_SYSTEMS[name].base,
   )
-  formatValues.forEach(item => {
-    form[item] = rawValue.isFinite() ? rawValue.toString(bases[item].base) : ''
+
+  filteredKeys.forEach(item => {
+    form[item] = rawValue.isFinite()
+      ? rawValue.toString(NUMBER_SYSTEMS[item].base)
+      : ''
   })
 }
 
-onMounted(() => {
-  form.decimal = '10'
-  formatInputs(form.decimal, 'decimal')
-})
+formatInputs(form.decimal, 'decimal')
 </script>
 
 <style lang="scss" scoped>

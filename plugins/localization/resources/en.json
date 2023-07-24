@@ -45,10 +45,7 @@
     "number-converter-form-tab": "Number converter"
   },
   "hash-functions-page": {
-    "main-title": "Hash functions",
-    "keccak256-tab": "Keccak256",
-    "sha256-tab": "Sha256",
-    "ripemd160-tab": "Ripemd160"
+    "main-title": "Hash functions"
   },
   "unix-epoch-page": {
     "main-title": "UNIX epoch",
@@ -67,19 +64,6 @@
     "seconds-title": "Seconds",
     "milliseconds-title": "Milliseconds",
     "timestamp-seconds-title": "Seconds"
-  },
-  "unit-converter-form": {
-    "wei-title": "Wei",
-    "kwei-title": "KWei",
-    "mwei-title": "MWei",
-    "gwei-title": "GWei",
-    "finney-title": "Finney",
-    "szabo-title": "Szabo",
-    "ether-title": "Ether",
-    "kether-title": "KEther",
-    "mether-title": "MEther",
-    "gether-title": "GEther",
-    "tether-title": "TEther"
   },
   "number-converter-form": {
     "binary-title": "Binary",

@@ -19,7 +19,7 @@
         v-on="listeners"
         :value="modelValue"
         :placeholder="!label ? placeholder : ' '"
-        :tabindex="isDisabled || isReadonly ? -1 : ($attrs.tabindex as number)"
+        :tabindex="tabIndex"
         :type="inputType"
         :min="min"
         :max="max"
@@ -124,6 +124,10 @@ const isReadonly = computed(() =>
   ['', 'readonly', true].includes(attrs.readonly as string | boolean),
 )
 
+const tabIndex = computed(() =>
+  isDisabled.value || isReadonly.value ? -1 : Number(attrs.tabindex),
+)
+
 const listeners = computed(() => ({
   input: (event: Event) => {
     const eventTarget = event.target as HTMLInputElement
@@ -157,6 +161,7 @@ const inputType = computed(() => {
   return 'text'
 })
 
+const OFFSET_WIDTH = 19
 onMounted(() => {
   if (!inputEl.value) return
 
@@ -164,7 +169,7 @@ onMounted(() => {
     inputEl.value?.style.setProperty(
       'padding-left',
       `calc(${
-        nodeLeftWrp.value?.offsetWidth || 19
+        nodeLeftWrp.value?.offsetWidth || OFFSET_WIDTH
       }px + var(--field-padding-left) * 2)`,
     )
   }

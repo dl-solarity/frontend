@@ -8,8 +8,7 @@
         <select-field
           v-model="form.type"
           :label="$t('hash-function-form.type-title')"
-          :value-options="DECODE_TYPES"
-          :title-options="decodeTitles"
+          :value-options="decodeTitles"
           :disabled="isFormDisabled"
           :error-message="getFieldErrorMessage('type')"
           @blur="touchField('type')"
@@ -58,15 +57,14 @@ const props = defineProps<{
 
 const { t } = i18n.global
 
-const DECODE_TYPES: DecodeType[] = ['text', 'hex']
 const decodeTitles = computed(() => [
-  t('hash-function-form.select-option-text'),
-  t('hash-function-form.select-option-hex'),
+  { title: t('hash-function-form.select-option-text'), value: 'text' },
+  { title: t('hash-function-form.select-option-hex'), value: 'hex' },
 ])
 
 const decodedHash = ref('')
 const form = reactive({
-  type: DECODE_TYPES[0],
+  type: decodeTitles.value[0].value as DecodeType,
   text: '',
 })
 

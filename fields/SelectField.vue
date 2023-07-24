@@ -28,7 +28,7 @@
           </template>
           <template v-else>
             <template v-if="modelValue">
-              {{ titleOptions[fieldIndex] || modelValue }}
+              {{ valueOptions[fieldIndex].title }}
             </template>
             <template v-else-if="!label && placeholder">
               <span class="select-field__placeholder">
@@ -66,15 +66,15 @@
                 'select-field__select-dropdown-item',
                 {
                   'select-field__select-dropdown-item--active':
-                    modelValue === option,
+                    modelValue === option.value,
                 },
               ]"
               type="button"
               v-for="(option, idx) in valueOptions"
               :key="`[${idx}] ${option}`"
-              @click="select(option)"
+              @click="select(option.value)"
             >
-              {{ titleOptions[idx] || option }}
+              {{ option.title }}
             </button>
           </template>
         </div>
@@ -102,12 +102,16 @@ import { computed, onMounted, ref, useAttrs, watch } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
 
+interface SelectFieldOption {
+  value: string | number
+  title: string
+}
+
 const props = withDefaults(
   defineProps<{
     scheme?: 'primary'
     modelValue: string | number
-    valueOptions?: string[] | number[]
-    titleOptions?: string[] | number[]
+    valueOptions?: SelectFieldOption[]
     label?: string
     placeholder?: string
     errorMessage?: string
@@ -116,7 +120,6 @@ const props = withDefaults(
   {
     scheme: 'primary',
     valueOptions: () => [],
-    titleOptions: () => [],
     type: 'text',
     label: '',
     placeholder: ' ',
@@ -135,7 +138,7 @@ const selectElement = ref<HTMLDivElement>()
 
 const isDropdownOpen = ref(false)
 const fieldIndex = computed(() =>
-  props.valueOptions.findIndex(item => item === props.modelValue),
+  props.valueOptions.findIndex(item => item.value === props.modelValue),
 )
 const uid = uuidv4()
 

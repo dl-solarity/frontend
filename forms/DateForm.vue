@@ -138,7 +138,7 @@ const timeList = computed(() => [
 ])
 
 watch(form, () => {
-  checkMaxDay()
+  setMaxDays()
 
   if (!isFormValid()) {
     currentDate.value = null
@@ -173,7 +173,7 @@ const setDate = (date: Date | string) => {
   form.second = time.dayjs.second().toString()
 }
 
-const checkMaxDay = () => {
+const setMaxDays = () => {
   if (getFieldErrorMessage('year') || getFieldErrorMessage('month')) return
   maxDayInMonth.value = new Time(
     new Date(+form.year, +form.month - 1),
