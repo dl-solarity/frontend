@@ -6,7 +6,7 @@ export const useFormValidation = (
   state: UnwrapNestedRefs<ChildStateLeafs>,
   rules: ValidationArgs,
 ) => {
-  const validationRules = computed(() => rules)
+  const validationRules = ref(rules)
 
   const validationController = useVuelidate(validationRules, state)
 

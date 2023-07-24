@@ -40,7 +40,7 @@ const infoCards = [
   {
     title: t('projects-info.solidity-tools-title'),
     message: t('projects-info.solidity-tools-message'),
-    route: ROUTE_PATH.addressPredicator,
+    route: ROUTE_PATH.hashFunctions,
     btnText: t('projects-info.visit-btn'),
   },
 ]

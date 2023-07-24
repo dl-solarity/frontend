@@ -1,6 +1,6 @@
 <template>
   <transition name="tools-sidebar__transition">
-    <div v-if="isSidebarShown" class="tools-sidebar">
+    <div v-show="isSidebarShown" class="tools-sidebar">
       <aside ref="asideElement" class="tools-sidebar__aside">
         <div class="tools-sidebar__header">
           <app-logo class="tools-sidebar__logo" />
@@ -50,11 +50,12 @@ import { i18n } from '~/plugins/localization'
 const { t } = i18n.global
 
 const navLinks = computed(() => [
-  {
-    title: t('tools-sidebar.abi-title'),
-    icon: ICON_NAMES.code,
-    name: ROUTE_PATH.abi,
-  },
+  // TODO: uncomment when the path is created
+  // {
+  //   title: t('tools-sidebar.abi-title'),
+  //   icon: ICON_NAMES.code,
+  //   name: ROUTE_PATH.abi,
+  // },
   {
     title: t('tools-sidebar.hash-functions-title'),
     icon: ICON_NAMES.hashtag,
@@ -124,8 +125,10 @@ $custom-z-index: 5;
     padding: toRem(0);
     z-index: $custom-z-index;
     position: absolute;
-    max-width: 100vw;
+    min-width: 100vw;
     width: 100%;
+    height: 100%;
+    min-height: 100vh;
     background: rgba(var(--black-rgb), 0.5);
   }
 }
@@ -139,6 +142,7 @@ $custom-z-index: 5;
   box-sizing: border-box;
   max-width: toRem(280);
   padding: toRem(24);
+  background: var(--background-primary-light);
 
   @include respond-to(medium) {
     padding: toRem(24);
@@ -146,7 +150,6 @@ $custom-z-index: 5;
   }
 
   @include respond-to(tablet) {
-    position: unset;
     border-radius: 0 toRem(6) toRem(6) 0;
   }
 
@@ -217,11 +220,11 @@ $custom-z-index: 5;
 }
 
 .tools-sidebar__transition-enter-active {
-  animation: fade-unroll-right 0.5s ease-in-out;
+  animation: fade-unroll-right 0.2s ease-in-out;
 }
 
 .tools-sidebar__transition-leave-active {
-  animation: fade-unroll-right 0.5s ease-in-out reverse;
+  animation: fade-unroll-right 0.2s ease-in-out reverse;
 }
 
 @keyframes fade-unroll-right {

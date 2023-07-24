@@ -19,7 +19,7 @@
         v-on="listeners"
         :value="modelValue"
         :placeholder="!label ? placeholder : ' '"
-        :tabindex="isDisabled || isReadonly ? -1 : ($attrs.tabindex as number)"
+        :tabindex="tabIndex"
         :type="inputType"
         :min="min"
         :max="max"
@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts" setup>
-import { BN, DECIMALS } from '@distributedlab/tools'
 import { computed, onMounted, ref, useAttrs, useSlots } from 'vue'
 
 import { Icon } from '#components'
@@ -125,12 +124,16 @@ const isReadonly = computed(() =>
   ['', 'readonly', true].includes(attrs.readonly as string | boolean),
 )
 
+const tabIndex = computed(() =>
+  isDisabled.value || isReadonly.value ? -1 : Number(attrs.tabindex),
+)
+
 const listeners = computed(() => ({
   input: (event: Event) => {
     const eventTarget = event.target as HTMLInputElement
 
     if (isNumberType.value) {
-      eventTarget.value = normalizeRange(normalizeNumber(eventTarget.value))
+      eventTarget.value = normalizeNumber(eventTarget.value)
     }
     if (props.modelValue === eventTarget.value) return
 
@@ -158,6 +161,7 @@ const inputType = computed(() => {
   return 'text'
 })
 
+const OFFSET_WIDTH = 19
 onMounted(() => {
   if (!inputEl.value) return
 
@@ -165,7 +169,7 @@ onMounted(() => {
     inputEl.value?.style.setProperty(
       'padding-left',
       `calc(${
-        nodeLeftWrp.value?.offsetWidth || 0
+        nodeLeftWrp.value?.offsetWidth || OFFSET_WIDTH
       }px + var(--field-padding-left) * 2)`,
     )
   }
@@ -181,29 +185,7 @@ onMounted(() => {
 })
 
 const normalizeNumber = (value: string) => {
-  return isNaN(Number(value)) ? props.modelValue : value
-}
-
-const normalizeRange = (value: string | number): string => {
-  let result = value
-
-  if (
-    String(min.value) &&
-    BN.fromRaw(value, DECIMALS.WEI).isLessThan(
-      BN.fromRaw(min.value, DECIMALS.WEI),
-    )
-  ) {
-    result = min.value
-  } else if (
-    String(max.value) &&
-    BN.fromRaw(value, DECIMALS.WEI).isGreaterThan(
-      BN.fromRaw(max.value, DECIMALS.WEI),
-    )
-  ) {
-    result = max.value
-  }
-
-  return result as string
+  return isNaN(Number(value)) ? String(props.modelValue) : value
 }
 
 const setHeightCSSVar = (element: Element) => {

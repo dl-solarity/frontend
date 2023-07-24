@@ -9,7 +9,6 @@
           v-model="calendarDate"
           dark
           enable-seconds
-          utc
           :min-date="new Date(0)"
           position="right"
           class="date-form__calendar"
@@ -33,7 +32,6 @@
           :label="$t(`date-form.${name}-title`)"
           :error-message="getFieldErrorMessage(name)"
           @blur="touchField(name)"
-          :disabled="isFormDisabled"
         />
       </div>
     </div>
@@ -66,13 +64,14 @@ import { reactive, ref, onMounted, watch, computed } from 'vue'
 import { required, integer, minValue, maxValue, ErrorHandler } from '@/helpers'
 import { InputField } from '@/fields'
 import { Copy, AppButton } from '#components'
-import { useForm, useFormValidation } from '@/composables'
+import { useFormValidation } from '@/composables'
 import { Time } from '@distributedlab/tools'
 import { i18n } from '~/plugins/localization'
 import Datepicker from '@vuepic/vue-datepicker'
 
 const { t } = i18n.global
 const calendarDate = ref('')
+const maxDayInMonth = ref(31)
 const currentDate = ref<Date | null>(null)
 
 const form = reactive({
@@ -84,37 +83,42 @@ const form = reactive({
   second: '',
 })
 
-const { isFormDisabled } = useForm()
+const rules = computed(() => ({
+  year: {
+    required,
+    integer,
+    minValue: minValue(1970),
+    maxValue: maxValue(10000),
+  },
+  month: {
+    required,
+    integer,
+    minValue: minValue(1),
+    maxValue: maxValue(12),
+  },
+  date: {
+    required,
+    integer,
+    minValue: minValue(1),
+    maxValue: maxValue(maxDayInMonth.value),
+  },
+  hour: { required, integer, minValue: minValue(0), maxValue: maxValue(23) },
+  minute: {
+    required,
+    integer,
+    minValue: minValue(0),
+    maxValue: maxValue(59),
+  },
+  second: {
+    required,
+    integer,
+    minValue: minValue(0),
+    maxValue: maxValue(59),
+  },
+}))
+
 const { isFormValid, getFieldErrorMessage, touchField, isFieldsValid } =
-  useFormValidation(form, {
-    year: {
-      required,
-      integer,
-      minValue: minValue(1970),
-      maxValue: maxValue(10000),
-    },
-    month: {
-      required,
-      integer,
-      minValue: minValue(1),
-      maxValue: maxValue(12),
-    },
-    // TODO: add a check for the maximum number of days in a month
-    date: { required, integer, minValue: minValue(1), maxValue: maxValue(31) },
-    hour: { required, integer, minValue: minValue(0), maxValue: maxValue(23) },
-    minute: {
-      required,
-      integer,
-      minValue: minValue(0),
-      maxValue: maxValue(59),
-    },
-    second: {
-      required,
-      integer,
-      minValue: minValue(0),
-      maxValue: maxValue(59),
-    },
-  })
+  useFormValidation(form, rules)
 
 const timeList = computed(() => [
   {
@@ -134,6 +138,8 @@ const timeList = computed(() => [
 ])
 
 watch(form, () => {
+  setMaxDays()
+
   if (!isFormValid()) {
     currentDate.value = null
     calendarDate.value = ''
@@ -142,16 +148,14 @@ watch(form, () => {
 
   try {
     currentDate.value = new Date(
-      Date.UTC(
-        +form.year,
-        +form.month - 1,
-        +form.date,
-        +form.hour,
-        +form.minute,
-        +form.second,
-      ),
+      +form.year,
+      +form.month - 1,
+      +form.date,
+      +form.hour,
+      +form.minute,
+      +form.second,
     )
-    calendarDate.value = currentDate.value.toUTCString()
+    calendarDate.value = currentDate.value.toString()
   } catch (error) {
     currentDate.value = null
     calendarDate.value = ''
@@ -167,6 +171,13 @@ const setDate = (date: Date | string) => {
   form.hour = time.dayjs.hour().toString()
   form.minute = time.dayjs.minute().toString()
   form.second = time.dayjs.second().toString()
+}
+
+const setMaxDays = () => {
+  if (getFieldErrorMessage('year') || getFieldErrorMessage('month')) return
+  maxDayInMonth.value = new Time(
+    new Date(+form.year, +form.month - 1),
+  ).dayjs.daysInMonth()
 }
 
 onMounted(() => {

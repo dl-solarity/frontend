@@ -63,8 +63,6 @@ const updateTab = (id: string) => {
   gap: toRem(8);
 
   &:hover {
-    background: var(--background-primary-dark);
-
     .tabs__btn-icon,
     .tabs__btn-text {
       color: var(--text-primary-main);

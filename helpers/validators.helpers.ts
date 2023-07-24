@@ -18,6 +18,10 @@ import { i18n } from '@/plugins/localization'
 import { isAddress, isBytesLike } from 'ethers'
 
 const HASH_REGEX = /^0x[a-fA-F0-9]{64}$/
+const HEX_REGEX = /^0x[a-fA-F0-9]*$/
+const HEXADECIMAL_REGEX = /(^[a-fA-F0-9]*$)|(^-[a-fA-F0-9]+$)/
+const BINARY_REGEX = /(^[0-1]*$)|(^-[0-1]+$)/
+const OCTAL_REGEX = /(^[0-7]*$)|(^-[0-7]+$)/
 
 const { t } = i18n.global
 
@@ -35,6 +39,17 @@ export const address = <ValidationRule>(
 )
 
 export const hash = <ValidationRule>withI18nMessage(helpers.regex(HASH_REGEX))
+export const hex = <ValidationRule>withI18nMessage(helpers.regex(HEX_REGEX))
+
+export const hexadecimal = <ValidationRule>(
+  withI18nMessage(helpers.regex(HEXADECIMAL_REGEX))
+)
+
+export const binary = <ValidationRule>(
+  withI18nMessage(helpers.regex(BINARY_REGEX))
+)
+
+export const octal = <ValidationRule>withI18nMessage(helpers.regex(OCTAL_REGEX))
 
 export const bytes = <ValidationRule>(
   withI18nMessage(value => isBytesLike(value))
