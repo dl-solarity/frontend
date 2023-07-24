@@ -10,6 +10,8 @@ declare module '@nuxt/schema' {
   }
 }
 
+const lifecycle = process.env.npm_lifecycle_event
+
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   app: {
@@ -18,7 +20,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { httpEquiv: 'X-UA-Compatible', content: 'IE=edge' },
-        { name: 'theme-color', content: '#ffffff' },
+        { name: 'theme-color', content: '#151314' },
 
         {
           name: 'viewport',
@@ -71,6 +73,17 @@ export default defineNuxtConfig({
 
   modules: ['@intlify/nuxt3', '@pinia/nuxt', '@vueuse/nuxt'],
 
+  build: {
+    transpile: [
+      'vue-toastification',
+      lifecycle !== 'dev' ? '@distributedlab/tools' : '',
+    ],
+  },
+
+  devServer: {
+    port: 8000,
+  },
+
   vite: {
     plugins: [
       createSvgIconsPlugin({
@@ -93,5 +106,9 @@ export default defineNuxtConfig({
   // vueuse
   vueuse: {
     ssrHandlers: true,
+  },
+
+  nitro: {
+    preset: 'node-server',
   },
 })

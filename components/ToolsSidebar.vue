@@ -1,6 +1,6 @@
 <template>
   <transition name="tools-sidebar__transition">
-    <div v-if="isSidebarShown" class="tools-sidebar">
+    <div v-show="isSidebarShown" class="tools-sidebar">
       <aside ref="asideElement" class="tools-sidebar__aside">
         <div class="tools-sidebar__header">
           <app-logo class="tools-sidebar__logo" />
@@ -50,11 +50,12 @@ import { i18n } from '~/plugins/localization'
 const { t } = i18n.global
 
 const navLinks = computed(() => [
-  {
-    title: t('tools-sidebar.abi-title'),
-    icon: ICON_NAMES.code,
-    name: ROUTE_PATH.abi,
-  },
+  // TODO: uncomment when the path is created
+  // {
+  //   title: t('tools-sidebar.abi-title'),
+  //   icon: ICON_NAMES.code,
+  //   name: ROUTE_PATH.abi,
+  // },
   {
     title: t('tools-sidebar.hash-functions-title'),
     icon: ICON_NAMES.hashtag,

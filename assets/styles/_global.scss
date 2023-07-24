@@ -199,3 +199,25 @@ a {
   left: 95%;
 }
 
+
+.dp__theme_dark {
+  font-family: var(--app-font-family-main);
+  --dp-background-color: var(--background-primary-dark);
+  --dp-text-color: var(--text-primary-main);
+  --dp-hover-color: var(--text-primary-dark);
+  --dp-hover-text-color: var(--text-primary-light);
+  --dp-hover-icon-color:  var(--text-primary-light);
+  --dp-primary-color: var(--primary-main);
+  --dp-primary-text-color: var(--text-primary-invert-main);
+  --dp-secondary-color: var(--text-secondary-main);
+  --dp-border-color: var(--border-primary-main);
+  --dp-menu-border-color:  var(--border-primary-main);
+  --dp-border-color-hover: var(--border-primary-light);
+  --dp-disabled-color: var(--text-secondary-dark);;
+  --dp-scroll-bar-background: var(--border-secondary-dark);
+  --dp-scroll-bar-color: var(--border-secondary-main);
+  --dp-success-color: var(--success-main);
+  --dp-success-color-disabled: var(--success-dark);
+  --dp-icon-color: var(--text-primary-main);
+  --dp-danger-color: var(--error-main);
+}
