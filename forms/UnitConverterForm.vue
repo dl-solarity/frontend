@@ -24,6 +24,7 @@ import { toUnits, fromUnits } from '@/helpers'
 import { InputField } from '@/fields'
 import { Copy } from '#components'
 import { isEmpty, isNaN } from 'lodash-es'
+import { UNITS } from '@/constants'
 
 const form = reactive({
   wei: '',
@@ -38,20 +39,6 @@ const form = reactive({
   gether: '',
   tether: '',
 })
-
-const UNITS = {
-  wei: { title: 'Wei', decimals: 18 },
-  kwei: { title: 'KWei', decimals: 15 },
-  mwei: { title: 'MWei', decimals: 12 },
-  gwei: { title: 'GWei', decimals: 9 },
-  finney: { title: 'Finney', decimals: 6 },
-  szabo: { title: 'Szabo', decimals: 3 },
-  ether: { title: 'Ether', decimals: 0 },
-  kether: { title: 'KEther', decimals: -3 },
-  mether: { title: 'MEther', decimals: -6 },
-  gether: { title: 'GEther', decimals: -9 },
-  tether: { title: 'TEther', decimals: -12 },
-}
 
 const formatInputs = (value: string | number, name: keyof typeof form) => {
   form[name] = String(value)

@@ -28,6 +28,7 @@ import { Copy } from '#components'
 import { isEmpty } from 'lodash-es'
 import { useFormValidation } from '@/composables'
 import { BigNumber } from 'bignumber.js'
+import { NUMBER_SYSTEMS } from '@/constants'
 
 const form = reactive({
   binary: '',
@@ -35,13 +36,6 @@ const form = reactive({
   decimal: '10',
   hexadecimal: '',
 })
-
-const NUMBER_SYSTEMS = {
-  binary: { base: 2, prefix: '0b' },
-  octal: { base: 8, prefix: '0o' },
-  decimal: { base: 10, prefix: '' },
-  hexadecimal: { base: 16, prefix: '0x' },
-}
 
 const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   form,
