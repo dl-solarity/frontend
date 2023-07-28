@@ -26,7 +26,7 @@
         :disabled="isDisabled || isReadonly"
       />
       <div
-        v-if="$slots.nodeRight || isPasswordType || props.errorMessage"
+        v-if="hasRightNode"
         ref="nodeRightWrp"
         class="input-field__node-right-wrp"
       >
@@ -37,13 +37,21 @@
           @click="isPasswordShown = !isPasswordShown"
         >
           <icon
-            class="input-field__password-icon"
+            class="input-field__icon"
             :name="isPasswordShown ? ICON_NAMES.eye : ICON_NAMES.eyeOff"
           />
         </button>
+        <button
+          v-else-if="isRemovable"
+          class="input-field__remove-btn"
+          type="button"
+          @click="emit('remove')"
+        >
+          <icon class="input-field__icon" :name="$icons.x" />
+        </button>
         <icon
           v-else-if="props.errorMessage"
-          class="input-field__error-icon"
+          class="input-field__icon input-field__icon--error"
           :name="ICON_NAMES.exclamationCircle"
         />
       </div>
@@ -79,6 +87,7 @@ const props = withDefaults(
     type?: 'text' | 'number' | 'password'
     errorMessage?: string
     note?: string
+    isRemovable?: boolean
   }>(),
   {
     scheme: 'primary',
@@ -87,11 +96,13 @@ const props = withDefaults(
     placeholder: ' ',
     errorMessage: '',
     note: '',
+    isRemovable: false,
   },
 )
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number | string): void
+  (e: 'remove'): void
 }>()
 
 const attrs = useAttrs()
@@ -108,6 +119,15 @@ const isPasswordShown = ref(false)
 
 const isNumberType = computed(() => props.type === 'number')
 const isPasswordType = computed(() => props.type === 'password')
+
+const hasRightNode = computed<boolean>(() =>
+  Boolean(
+    slots.nodeRight ||
+      isPasswordType.value ||
+      props.isRemovable ||
+      props.errorMessage,
+  ),
+)
 
 const min = computed((): string =>
   !isNaN(Number(attrs?.min)) && attrs?.min !== '' ? (attrs.min as string) : '',
@@ -339,20 +359,17 @@ $z-index-side-nodes: 1;
   z-index: $z-index-side-nodes;
 }
 
-.input-field__password-icon {
-  max-width: toRem(24);
-  max-height: toRem(24);
-}
-
-.input-field__error-icon {
-  max-width: toRem(24);
-  max-height: toRem(24);
-  color: var(--field-error);
+.input-field__remove-btn {
+  display: block;
 }
 
 .input-field__icon {
-  width: toRem(18);
-  height: toRem(18);
+  max-width: toRem(24);
+  max-height: toRem(24);
+
+  &--error {
+    color: var(--field-error);
+  }
 }
 
 .input-field__err-msg,

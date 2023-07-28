@@ -22,3 +22,5 @@ export interface Audit {
 }
 
 export type DecodeType = 'text' | 'hex'
+
+export type ArrayElement<T extends ReadonlyArray<unknown>> = T[number]

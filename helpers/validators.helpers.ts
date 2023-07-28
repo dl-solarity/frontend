@@ -30,6 +30,8 @@ const messagePath = ({ $validator }: MessageProps) =>
 
 const withI18nMessage = createI18nMessage({ t, messagePath })
 
+export const forEach = helpers.forEach
+
 export const required = <ValidationRule>withI18nMessage(_required)
 
 export const email = <ValidationRule>withI18nMessage(_email)

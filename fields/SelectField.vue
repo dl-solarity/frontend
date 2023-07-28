@@ -12,6 +12,7 @@
         <button
           type="button"
           class="select-field__select-head"
+          @blur="emit('blur')"
           @click="toggleDropdown"
         >
           <template v-if="$slots.head && !!modelValue">
@@ -130,6 +131,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number | string): void
+  (e: 'blur'): void
 }>()
 
 const attrs = useAttrs()
