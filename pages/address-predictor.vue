@@ -14,6 +14,7 @@
 <script lang="ts" setup>
 import { Tabs, PageTitle } from '#components'
 import { CreateAddressForm, Create2AddressForm } from '@/forms'
+import { type Tab } from '@/types'
 import { ref, computed } from 'vue'
 import { definePageMeta } from '#imports'
 import { i18n } from '~/plugins/localization'
@@ -23,7 +24,7 @@ definePageMeta({
 })
 
 const { t } = i18n.global
-const tabsList = computed(() => [
+const tabsList = computed<Tab[]>(() => [
   {
     title: t('address-predictor-page.create-address-form-tab'),
     id: 'create-address-form',

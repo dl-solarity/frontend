@@ -22,3 +22,10 @@ export interface Audit {
 }
 
 export type DecodeType = 'text' | 'hex'
+
+export type HashFunction = (str: string, type: 'text' | 'hex') => string
+
+export type Tab = {
+  title: string
+  id: string
+}

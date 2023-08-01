@@ -8,7 +8,7 @@
           <hash-function-form
             v-show="currentTab === tab.id"
             :title="tab.title"
-            :decode="tab.func"
+            :decode="hashFunctionsMap[tab.id as TAB_IDS]"
           />
         </template>
       </div>
@@ -20,6 +20,7 @@
 import { Tabs, PageTitle } from '#components'
 import { HashFunctionForm } from '@/forms'
 import { sha256, ripemd160, keccak256 } from '@/helpers'
+import { type Tab, type HashFunction } from '@/types'
 import { ref } from 'vue'
 import { definePageMeta } from '#imports'
 
@@ -27,24 +28,33 @@ definePageMeta({
   layout: 'solidity-tools',
 })
 
-const TABS_LIST = [
+enum TAB_IDS {
+  keccak256 = 'keccak256',
+  sha256 = 'sha256',
+  ripemd160 = 'ripemd160',
+}
+
+const TABS_LIST: Tab[] = [
   {
     title: 'Keccak256',
-    id: 'keccak256',
-    func: keccak256,
+    id: TAB_IDS.keccak256,
   },
   {
     title: 'Sha256',
-    id: 'sha256',
-    func: sha256,
+    id: TAB_IDS.sha256,
   },
   {
     title: 'Ripemd160',
-    id: 'ripemd160',
-    func: ripemd160,
+    id: TAB_IDS.ripemd160,
   },
 ]
 const currentTab = ref(TABS_LIST[0].id)
+
+const hashFunctionsMap: Record<TAB_IDS, HashFunction> = {
+  [TAB_IDS.keccak256]: keccak256,
+  [TAB_IDS.sha256]: sha256,
+  [TAB_IDS.ripemd160]: ripemd160,
+}
 </script>
 
 <style lang="scss" scoped>

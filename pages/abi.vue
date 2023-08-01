@@ -19,6 +19,7 @@
 import { Tabs, PageTitle } from '#components'
 import { definePageMeta } from '#imports'
 import { AbiEncodeForm } from '@/forms'
+import { type Tab } from '@/types'
 import { ref } from 'vue'
 import { i18n } from '~/plugins/localization'
 
@@ -32,7 +33,7 @@ enum TAB_IDS {
 }
 
 const { t } = i18n.global
-const TABS_LIST = [
+const TABS_LIST: Tab[] = [
   {
     title: t('abi-page.encoder-tab'),
     id: TAB_IDS.encoder,
