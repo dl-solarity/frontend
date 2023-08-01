@@ -3,7 +3,7 @@ import { AddressLike, BytesLike } from '@/types'
 import { isAddress, isBytesLike } from 'ethers'
 import { BigNumber } from 'bignumber.js'
 
-export function checkIsAddress(value: unknown): value is AddressLike {
+export function checkIsAddress(value: unknown): boolean {
   return isAddress(value)
 }
 
