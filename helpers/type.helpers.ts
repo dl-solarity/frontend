@@ -1,5 +1,5 @@
 import { ETHEREUM_TYPES } from '@/enums'
-import { AddressLike, BytesLike } from '@/types'
+import { BytesLike } from '@/types'
 import { isAddress, isBytesLike } from 'ethers'
 import { BigNumber } from 'bignumber.js'
 

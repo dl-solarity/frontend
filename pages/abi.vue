@@ -2,9 +2,9 @@
   <div class="abi-page">
     <page-title :title="$t('abi-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="TABS_LIST" />
+      <tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
-        <template v-for="tab in TABS_LIST" :key="tab.id">
+        <template v-for="tab in tabsList" :key="tab.id">
           <abi-encode-form
             v-show="currentTab === TAB_IDS.encoder"
             :title="tab.title"
@@ -20,7 +20,7 @@ import { Tabs, PageTitle } from '#components'
 import { definePageMeta } from '#imports'
 import { AbiEncodeForm } from '@/forms'
 import { type Tab } from '@/types'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 definePageMeta({
@@ -33,7 +33,7 @@ enum TAB_IDS {
 }
 
 const { t } = i18n.global
-const TABS_LIST: Tab[] = [
+const tabsList = computed<Tab[]>(() => [
   {
     title: t('abi-page.encoder-tab'),
     id: TAB_IDS.encoder,
@@ -43,8 +43,8 @@ const TABS_LIST: Tab[] = [
   //   title: t('abi-page.decoder-tab'),
   //   id: TAB_IDS.decoder,
   // },
-]
-const currentTab = ref(TABS_LIST[0].id)
+])
+const currentTab = ref(tabsList.value[0].id)
 </script>
 
 <style lang="scss" scoped>
