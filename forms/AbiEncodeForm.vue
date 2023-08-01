@@ -143,7 +143,7 @@ const getFuncArgErrorMsg = (
     }
   }
 
-  return funcArgErrorMsgInfo?.message ?? ''
+  return funcArgErrorMsgInfo?.message || ''
 }
 
 const submit = () => {
