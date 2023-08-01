@@ -2,10 +2,10 @@
   <div class="converter-page">
     <page-title :title="$t('converter-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="tabsList" />
+      <tabs v-model="currentTabId" :tabs="tabsList" />
       <div class="content">
-        <unit-converter-form v-show="currentTab === tabsList[0].id" />
-        <number-converter-form v-show="currentTab === tabsList[1].id" />
+        <unit-converter-form v-show="currentTabId === tabsList[0].id" />
+        <number-converter-form v-show="currentTabId === tabsList[1].id" />
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ const tabsList = computed<Tab[]>(() => [
     id: 'number-converter-form',
   },
 ])
-const currentTab = ref(tabsList.value[0].id)
+const currentTabId = ref(tabsList.value[0].id)
 </script>
 
 <style lang="scss" scoped>

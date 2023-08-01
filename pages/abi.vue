@@ -2,11 +2,11 @@
   <div class="abi-page">
     <page-title :title="$t('abi-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="tabsList" />
+      <tabs v-model="currentTabId" :tabs="tabsList" />
       <div class="content">
         <template v-for="tab in tabsList" :key="tab.id">
           <abi-encode-form
-            v-show="currentTab === TAB_IDS.encoder"
+            v-show="currentTabId === TAB_IDS.encoder"
             :title="tab.title"
           />
         </template>
@@ -44,7 +44,7 @@ const tabsList = computed<Tab[]>(() => [
   //   id: TAB_IDS.decoder,
   // },
 ])
-const currentTab = ref(tabsList.value[0].id)
+const currentTabId = ref(tabsList.value[0].id)
 </script>
 
 <style lang="scss" scoped>
