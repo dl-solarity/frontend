@@ -1,4 +1,5 @@
-export { default as InputField } from '@/fields/InputField.vue'
-export { default as CheckboxField } from '@/fields/CheckboxField.vue'
-export { default as TextareaField } from './TextareaField.vue'
+export { default as CheckboxField } from './CheckboxField.vue'
+export { default as InputField } from './InputField.vue'
+export { default as RadioButtonField } from './RadioButtonField.vue'
 export { default as SelectField } from './SelectField.vue'
+export { default as TextareaField } from './TextareaField.vue'

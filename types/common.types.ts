@@ -23,6 +23,11 @@ export interface Audit {
 
 export type DecodeType = 'text' | 'hex'
 
+export type FieldOption = {
+  id: string
+  title: string
+}
+
 export type HashFunction = (str: string, type: 'text' | 'hex') => string
 
 export type Tab = {
