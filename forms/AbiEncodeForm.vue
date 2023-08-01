@@ -150,18 +150,16 @@ const submit = () => {
   const types = form.args.map(arg => arg.type)
   const values = form.args.map(parseFuncArgToValueOfEncode)
 
-  if (form.funcName) {
-    funcSignature.value = `${form.funcName}(${types.join(', ')})`
-
-    const iface = new Interface([`function ${funcSignature.value}`])
-    abiEncoding.value = iface.encodeFunctionData(form.funcName, values)
-  } else {
-    // TODO: to discuss constructor function signature
+  if (!form.funcName) {
     funcSignature.value = `constructor(${types.join(', ')})`
-
     const iface = new Interface([funcSignature.value])
     abiEncoding.value = iface.encodeDeploy(values)
+    return
   }
+
+  funcSignature.value = `${form.funcName}(${types.join(', ')})`
+  const iface = new Interface([`function ${funcSignature.value}`])
+  abiEncoding.value = iface.encodeFunctionData(form.funcName, values)
 }
 
 const onFormChange = () => {
