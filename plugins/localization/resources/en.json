@@ -193,6 +193,13 @@
     "date-form-tab": "Human date UTC",
     "timestamp-form-tab": "Timestamp"
   },
+  "abi-decode-form": {
+    "abi-encoding-label": "Abi encoding",
+    "abi-encoding-placeholder": "Abi encoding",
+    "has-func-selector-label": "Assume first four bytes are function selector",
+    "params-option-title--auto": "Automatically determine the best parameter types",
+    "params-option-title--manually": "Manually specify parameter types"
+  },
   "abi-encode-form": {
     "func-name-label": "Function",
     "func-name-placeholder": "Enter function name",
