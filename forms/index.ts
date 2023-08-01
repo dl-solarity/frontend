@@ -1,3 +1,4 @@
+export { default as AbiDecodeForm } from './AbiDecodeForm.vue'
 export { default as AbiEncodeForm } from './AbiEncodeForm.vue'
 export { default as CreateAddressForm } from './CreateAddressForm.vue'
 export { default as Create2AddressForm } from './Create2AddressForm.vue'

@@ -2,14 +2,16 @@
   <div class="abi-page">
     <page-title :title="$t('abi-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTabId" :tabs="tabsList" />
+      <tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
-        <template v-for="tab in tabsList" :key="tab.id">
-          <abi-encode-form
-            v-show="currentTabId === TABS_IDS.encoder"
-            :title="tab.title"
-          />
-        </template>
+        <abi-encode-form
+          v-show="currentTab.id === TABS_IDS.encoder"
+          :title="currentTab.title"
+        />
+        <abi-decode-form
+          v-show="currentTab.id === TABS_IDS.decoder"
+          :title="currentTab.title"
+        />
       </div>
     </div>
   </div>
@@ -18,7 +20,7 @@
 <script lang="ts" setup>
 import { Tabs, PageTitle } from '#components'
 import { definePageMeta } from '#imports'
-import { AbiEncodeForm } from '@/forms'
+import { AbiEncodeForm, AbiDecodeForm } from '@/forms'
 import { type Tab } from '@/types'
 import { computed, ref } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -38,13 +40,12 @@ const tabsList = computed<Tab[]>(() => [
     title: t('abi-page.encoder-tab'),
     id: TABS_IDS.encoder,
   },
-  // TODO: decoder
-  // {
-  //   title: t('abi-page.decoder-tab'),
-  //   id: TABS_IDS.decoder,
-  // },
+  {
+    title: t('abi-page.decoder-tab'),
+    id: TABS_IDS.decoder,
+  },
 ])
-const currentTabId = ref(tabsList.value[0].id)
+const currentTab = ref<Tab>(tabsList.value[0])
 </script>
 
 <style lang="scss" scoped>
