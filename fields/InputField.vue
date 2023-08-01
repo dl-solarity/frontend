@@ -42,10 +42,10 @@
           />
         </button>
         <button
-          v-else-if="isRemovable"
+          v-else-if="isClearable"
           class="input-field__remove-btn"
           type="button"
-          @click="emit('remove')"
+          @click="clear"
         >
           <icon class="input-field__icon" :name="$icons.x" />
         </button>
@@ -87,7 +87,7 @@ const props = withDefaults(
     type?: 'text' | 'number' | 'password'
     errorMessage?: string
     note?: string
-    isRemovable?: boolean
+    isClearable?: boolean
   }>(),
   {
     scheme: 'primary',
@@ -96,13 +96,13 @@ const props = withDefaults(
     placeholder: ' ',
     errorMessage: '',
     note: '',
-    isRemovable: false,
+    isClearable: false,
   },
 )
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number | string): void
-  (e: 'remove'): void
+  (e: 'clear'): void
 }>()
 
 const attrs = useAttrs()
@@ -124,7 +124,7 @@ const hasRightNode = computed<boolean>(() =>
   Boolean(
     slots.nodeRight ||
       isPasswordType.value ||
-      props.isRemovable ||
+      props.isClearable ||
       props.errorMessage,
   ),
 )
@@ -180,6 +180,11 @@ const inputType = computed(() => {
   }
   return 'text'
 })
+
+const clear = () => {
+  emit('update:modelValue', '')
+  emit('clear')
+}
 
 const OFFSET_WIDTH = 19
 onMounted(() => {

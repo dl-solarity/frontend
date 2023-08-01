@@ -25,12 +25,12 @@
           />
           <input-field
             v-model="arg.value"
-            is-removable
+            is-clearable
             :label="$t('abi-encode-form.arg-value-label')"
             :placeholder="$t('abi-encode-form.arg-value-placeholder')"
             :error-message="getFuncArgErrorMsg(arg.id, 'value')"
             @blur="touchField('args')"
-            @remove="() => removeArg(arg.id)"
+            @clear="removeArg(arg.id)"
           />
         </div>
       </div>
