@@ -2,13 +2,13 @@
   <div class="address-predictor-page">
     <page-title :title="$t('address-predictor-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTabId" :tabs="tabsList" />
+      <tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
         <create-address-form
-          v-show="currentTabId === TABS_IDS.createAddressForm"
+          v-show="currentTab.id === TABS_IDS.createAddressForm"
         />
         <create2-address-form
-          v-show="currentTabId === TABS_IDS.create2AddressForm"
+          v-show="currentTab.id === TABS_IDS.create2AddressForm"
         />
       </div>
     </div>
@@ -43,7 +43,7 @@ const tabsList = computed<Tab[]>(() => [
     id: TABS_IDS.create2AddressForm,
   },
 ])
-const currentTabId = ref(tabsList.value[0].id)
+const currentTab = ref<Tab>(tabsList.value[0])
 </script>
 
 <style lang="scss" scoped>
