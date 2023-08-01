@@ -4,8 +4,12 @@
     <div class="block">
       <tabs v-model="currentTabId" :tabs="tabsList" />
       <div class="content">
-        <create-address-form v-show="currentTabId === tabsList[0].id" />
-        <create2-address-form v-show="currentTabId === tabsList[1].id" />
+        <create-address-form
+          v-show="currentTabId === TABS_IDS.createAddressForm"
+        />
+        <create2-address-form
+          v-show="currentTabId === TABS_IDS.create2AddressForm"
+        />
       </div>
     </div>
   </div>
@@ -23,15 +27,20 @@ definePageMeta({
   layout: 'solidity-tools',
 })
 
+enum TABS_IDS {
+  createAddressForm = 'create-address-form',
+  create2AddressForm = 'create2-address-form',
+}
+
 const { t } = i18n.global
 const tabsList = computed<Tab[]>(() => [
   {
     title: t('address-predictor-page.create-address-form-tab'),
-    id: 'create-address-form',
+    id: TABS_IDS.createAddressForm,
   },
   {
     title: t('address-predictor-page.create2-address-form-tab'),
-    id: 'create2-address-form',
+    id: TABS_IDS.create2AddressForm,
   },
 ])
 const currentTabId = ref(tabsList.value[0].id)

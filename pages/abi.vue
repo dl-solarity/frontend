@@ -6,7 +6,7 @@
       <div class="content">
         <template v-for="tab in tabsList" :key="tab.id">
           <abi-encode-form
-            v-show="currentTabId === TAB_IDS.encoder"
+            v-show="currentTabId === TABS_IDS.encoder"
             :title="tab.title"
           />
         </template>
@@ -27,7 +27,7 @@ definePageMeta({
   layout: 'solidity-tools',
 })
 
-enum TAB_IDS {
+enum TABS_IDS {
   encoder = 'encoder',
   decoder = 'decoder',
 }
@@ -36,12 +36,12 @@ const { t } = i18n.global
 const tabsList = computed<Tab[]>(() => [
   {
     title: t('abi-page.encoder-tab'),
-    id: TAB_IDS.encoder,
+    id: TABS_IDS.encoder,
   },
   // TODO: decoder
   // {
   //   title: t('abi-page.decoder-tab'),
-  //   id: TAB_IDS.decoder,
+  //   id: TABS_IDS.decoder,
   // },
 ])
 const currentTabId = ref(tabsList.value[0].id)

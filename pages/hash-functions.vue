@@ -8,7 +8,7 @@
           <hash-function-form
             v-show="currentTabId === tab.id"
             :title="tab.title"
-            :decode="hashFunctionsMap[tab.id as TAB_IDS]"
+            :decode="hashFunctionsMap[tab.id as TABS_IDS]"
           />
         </template>
       </div>
@@ -28,7 +28,7 @@ definePageMeta({
   layout: 'solidity-tools',
 })
 
-enum TAB_IDS {
+enum TABS_IDS {
   keccak256 = 'keccak256',
   sha256 = 'sha256',
   ripemd160 = 'ripemd160',
@@ -37,23 +37,23 @@ enum TAB_IDS {
 const TABS_LIST: Tab[] = [
   {
     title: 'Keccak256',
-    id: TAB_IDS.keccak256,
+    id: TABS_IDS.keccak256,
   },
   {
     title: 'Sha256',
-    id: TAB_IDS.sha256,
+    id: TABS_IDS.sha256,
   },
   {
     title: 'Ripemd160',
-    id: TAB_IDS.ripemd160,
+    id: TABS_IDS.ripemd160,
   },
 ]
 const currentTabId = ref(TABS_LIST[0].id)
 
-const hashFunctionsMap: Record<TAB_IDS, HashFunction> = {
-  [TAB_IDS.keccak256]: keccak256,
-  [TAB_IDS.sha256]: sha256,
-  [TAB_IDS.ripemd160]: ripemd160,
+const hashFunctionsMap: Record<TABS_IDS, HashFunction> = {
+  [TABS_IDS.keccak256]: keccak256,
+  [TABS_IDS.sha256]: sha256,
+  [TABS_IDS.ripemd160]: ripemd160,
 }
 </script>
 

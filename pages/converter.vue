@@ -4,8 +4,12 @@
     <div class="block">
       <tabs v-model="currentTabId" :tabs="tabsList" />
       <div class="content">
-        <unit-converter-form v-show="currentTabId === tabsList[0].id" />
-        <number-converter-form v-show="currentTabId === tabsList[1].id" />
+        <unit-converter-form
+          v-show="currentTabId === TABS_IDS.unitConverterForm"
+        />
+        <number-converter-form
+          v-show="currentTabId === TABS_IDS.numberConverterForm"
+        />
       </div>
     </div>
   </div>
@@ -23,15 +27,20 @@ definePageMeta({
   layout: 'solidity-tools',
 })
 
+enum TABS_IDS {
+  unitConverterForm = 'unit-converter-form',
+  numberConverterForm = 'number-converter-form',
+}
+
 const { t } = i18n.global
 const tabsList = computed<Tab[]>(() => [
   {
     title: t('converter-page.unit-converter-form-tab'),
-    id: 'unit-converter-form',
+    id: TABS_IDS.unitConverterForm,
   },
   {
     title: t('converter-page.number-converter-form-tab'),
-    id: 'number-converter-form',
+    id: TABS_IDS.numberConverterForm,
   },
 ])
 const currentTabId = ref(tabsList.value[0].id)

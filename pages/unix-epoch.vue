@@ -4,8 +4,8 @@
     <div class="block">
       <tabs v-model="currentTabId" :tabs="tabsList" />
       <div class="content">
-        <date-form v-show="currentTabId === tabsList[0].id" />
-        <timestamp-form v-show="currentTabId === tabsList[1].id" />
+        <date-form v-show="currentTabId === TABS_IDS.date" />
+        <timestamp-form v-show="currentTabId === TABS_IDS.timestamp" />
       </div>
     </div>
   </div>
@@ -22,16 +22,21 @@ import { i18n } from '~/plugins/localization'
 definePageMeta({
   layout: 'solidity-tools',
 })
-const { t } = i18n.global
 
+enum TABS_IDS {
+  date = 'date',
+  timestamp = 'timestamp',
+}
+
+const { t } = i18n.global
 const tabsList = computed<Tab[]>(() => [
   {
     title: t('unix-epoch-page.date-form-tab'),
-    id: 'date',
+    id: TABS_IDS.date,
   },
   {
     title: t('unix-epoch-page.timestamp-form-tab'),
-    id: 'timestamp',
+    id: TABS_IDS.timestamp,
   },
 ])
 const currentTabId = ref(tabsList.value[0].id)
