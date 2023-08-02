@@ -13,10 +13,7 @@
         v-model="form.hasFuncSelector"
         :label="$t('abi-decode-form.has-func-selector-label')"
       />
-      <radio-button-field
-        v-model="form.paramsOption"
-        :options="paramsOptions"
-      />
+      <radio-button-field v-model="form.decodeMode" :options="decodeOptions" />
     </div>
   </form>
 </template>
@@ -29,20 +26,20 @@ import { type FieldOption } from '@/types'
 import { computed, reactive } from 'vue'
 import { i18n } from '~/plugins/localization'
 
-enum PARAMS_OPTIONS_IDS {
+enum DECODE_MODES {
   auto = 'auto',
-  manually = 'manually',
+  manual = 'manual',
 }
 
 const { t } = i18n.global
 
-const paramsOptions = computed<FieldOption[]>(() => [
+const decodeOptions = computed<FieldOption[]>(() => [
   {
-    id: PARAMS_OPTIONS_IDS.auto,
+    value: DECODE_MODES.auto,
     title: t('abi-decode-form.params-option-title--auto'),
   },
   {
-    id: PARAMS_OPTIONS_IDS.manually,
+    value: DECODE_MODES.manual,
     title: t('abi-decode-form.params-option-title--manually'),
   },
 ])
@@ -50,11 +47,11 @@ const paramsOptions = computed<FieldOption[]>(() => [
 const form = reactive({
   abiEncoding: '',
   hasFuncSelector: false,
-  paramsOption: paramsOptions.value[0],
+  decodeMode: decodeOptions.value[0].value,
 })
 const rules = computed(() => ({
   abiEncoding: { required, hex },
-  paramsOption: { required },
+  decodeMode: { required },
 }))
 
 const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(

@@ -5,18 +5,18 @@
   >
     <label
       v-for="option of options"
-      :key="option.id"
-      :for="`${uuid}-${option.id}`"
+      :key="option.value"
+      :for="`${uuid}-${option.value}`"
       class="radio-button-field__label"
     >
       <input
         class="radio-button-field__input"
         type="radio"
-        :checked="modelValue?.id === option.id"
-        :id="`${uuid}-${option.id}`"
+        :checked="modelValue === option.value"
+        :id="`${uuid}-${option.value}`"
         :value="option.title"
         :disabled="disabled"
-        @change="emit('update:model-value', option)"
+        @change="emit('update:model-value', option.value)"
       />
       <span class="radio-button-field__checkmark" />
       <span class="radio-button-field__label-text">{{ option.title }}</span>
@@ -32,7 +32,7 @@ const uuid = uuidv4()
 
 withDefaults(
   defineProps<{
-    modelValue: FieldOption | null
+    modelValue: FieldOption['value']
     options: FieldOption[]
     disabled?: boolean
   }>(),
@@ -42,7 +42,7 @@ withDefaults(
 )
 
 const emit = defineEmits<{
-  (event: 'update:model-value', value: FieldOption): void
+  (event: 'update:model-value', value: FieldOption['value']): void
 }>()
 </script>
 
