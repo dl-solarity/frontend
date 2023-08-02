@@ -13,6 +13,7 @@
     "field-error_binary": "Field must be a binary number",
     "field-error_hexadecimal": "Field must be a hexadecimal number",
     "field-error_octal": "Field must be a octal number",
+    "field-error_contractFuncName": "Invalid function name",
     "field-error_minLength": "Field must be greater than {min} symbols",
     "field-error_abiEncodeForm_funcArgType": "Please select type",
     "field-error_abiEncodeForm_funcArgValue--address": "Invalid input: invalid address",

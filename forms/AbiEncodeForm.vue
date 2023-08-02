@@ -6,6 +6,8 @@
         v-model="form.funcName"
         :label="$t('abi-encode-form.func-name-label')"
         :placeholder="$t('abi-encode-form.func-name-placeholder')"
+        :error-message="getFieldErrorMessage('funcName')"
+        @blur="touchField('funcName')"
       />
       <div v-if="form.args.length" class="abi-encode-form__args_wrp">
         <div
@@ -71,6 +73,7 @@ import { ETHEREUM_TYPES } from '@/enums'
 import { InputField, SelectField, TextareaField } from '@/fields'
 import {
   ErrorHandler,
+  contractFuncName,
   copyToClipboard,
   createFuncArgTypeRule,
   createFuncArgValueRule,
@@ -99,6 +102,7 @@ const form = reactive({
   args: [] as AbiEncodeForm.FuncArg[],
 })
 const rules = computed(() => ({
+  funcName: { contractFuncName },
   args: {
     $each: forEach({
       type: { funcArgTypeRule: createFuncArgTypeRule() },

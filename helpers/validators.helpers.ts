@@ -58,6 +58,12 @@ export const bytes = <ValidationRule>(
 )
 export const integer = <ValidationRule>withI18nMessage(_integer)
 
+export const contractFuncName = <ValidationRule>(
+  withI18nMessage(value =>
+    value ? /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(value) : true,
+  )
+)
+
 export const minValue = (value: number): ValidationRule =>
   <ValidationRule>withI18nMessage(_minValue(value))
 
