@@ -58,7 +58,7 @@
       />
       <app-button
         :text="$t('abi-encode-form.abi-encoding-copy-btn')"
-        @click="() => copyToClipboard(abiEncoding)"
+        @click="copyToClipboard(abiEncoding)"
       />
     </div>
   </form>
@@ -146,7 +146,7 @@ const getFuncArgErrorMsg = (
   return funcArgErrorMsgInfo?.message || ''
 }
 
-const submit = () => {
+const encode = () => {
   const types = form.args.map(arg => arg.type)
   const values = form.args.map(parseFuncArgToValueOfEncode)
 
@@ -169,7 +169,7 @@ const onFormChange = () => {
   }
 
   try {
-    submit()
+    encode()
   } catch (error) {
     resetOutput()
     ErrorHandler.process(error)
