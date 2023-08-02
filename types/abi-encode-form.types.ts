@@ -1,7 +1,7 @@
 export type FuncArg = {
   id: string
-  type: string | number
-  value: string | number
+  type: string
+  value: string
 }
 
 export type FuncArgErrorMsgInfo = {
