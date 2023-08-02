@@ -40,10 +40,11 @@ export function createFuncArgValueRule(): ValidationRule {
     $validator: (_, arg: AbiEncodeForm.FuncArg) => {
       _arg = arg
 
+      const baseType = arg.type.replace(/\d+/, '')
       const matchArray = arg.type.match(/\d+/)
       const sizeOfType = matchArray?.length ? Number(matchArray[0]) : 0
 
-      switch (arg.type) {
+      switch (baseType) {
         case ETHEREUM_TYPES.address:
           return checkIsAddress(arg.value)
         case ETHEREUM_TYPES.bool:
@@ -51,23 +52,15 @@ export function createFuncArgValueRule(): ValidationRule {
         case ETHEREUM_TYPES.boolArray:
           return checkIsBooleanArrayJsonString(arg.value)
         case ETHEREUM_TYPES.bytes:
-          return sizeOfType
-            ? checkIsBytesLike(arg.value)
-            : checkIsBytesLike(arg.value, sizeOfType)
+          return checkIsBytesLike(arg.value, sizeOfType)
         case ETHEREUM_TYPES.bytesArray:
-          return sizeOfType
-            ? checkIsBytesLikeArrayJsonString(arg.value)
-            : checkIsBytesLikeArrayJsonString(arg.value, sizeOfType)
+          return checkIsBytesLikeArrayJsonString(arg.value, sizeOfType)
         case ETHEREUM_TYPES.string:
           return checkIsString(arg.value)
         case ETHEREUM_TYPES.uint:
-          return sizeOfType
-            ? checkIsUintLike(arg.value)
-            : checkIsUintLike(arg.value, sizeOfType)
+          return checkIsUintLike(arg.value, sizeOfType)
         case ETHEREUM_TYPES.uintArray:
-          return sizeOfType
-            ? checkIsUnitLikeArrayJsonString(arg.value)
-            : checkIsUnitLikeArrayJsonString(arg.value, sizeOfType)
+          return checkIsUnitLikeArrayJsonString(arg.value, sizeOfType)
         default:
           return false
       }
