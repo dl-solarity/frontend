@@ -6,6 +6,8 @@
         v-model="form.funcName"
         :label="$t('abi-encode-form.func-name-label')"
         :placeholder="$t('abi-encode-form.func-name-placeholder')"
+        :error-message="getFieldErrorMessage('funcName')"
+        @blur="touchField('funcName')"
       />
       <div v-if="form.args.length" class="abi-encode-form__args_wrp">
         <div
@@ -58,7 +60,7 @@
       />
       <app-button
         :text="$t('abi-encode-form.abi-encoding-copy-btn')"
-        @click="() => copyToClipboard(abiEncoding)"
+        @click="copyToClipboard(abiEncoding)"
       />
     </div>
   </form>
@@ -71,6 +73,7 @@ import { ETHEREUM_TYPES } from '@/enums'
 import { InputField, SelectField, TextareaField } from '@/fields'
 import {
   ErrorHandler,
+  contractFuncName,
   copyToClipboard,
   createFuncArgTypeRule,
   createFuncArgValueRule,
@@ -99,6 +102,7 @@ const form = reactive({
   args: [] as AbiEncodeForm.FuncArg[],
 })
 const rules = computed(() => ({
+  funcName: { contractFuncName },
   args: {
     $each: forEach({
       type: { funcArgTypeRule: createFuncArgTypeRule() },
@@ -146,7 +150,7 @@ const getFuncArgErrorMsg = (
   return funcArgErrorMsgInfo?.message || ''
 }
 
-const submit = () => {
+const encode = () => {
   const types = form.args.map(arg => arg.type)
   const values = form.args.map(parseFuncArgToValueOfEncode)
 
@@ -169,7 +173,7 @@ const onFormChange = () => {
   }
 
   try {
-    submit()
+    encode()
   } catch (error) {
     resetOutput()
     ErrorHandler.process(error)
