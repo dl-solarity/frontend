@@ -22,6 +22,7 @@ const HEX_REGEX = /^0x[a-fA-F0-9]*$/
 const HEXADECIMAL_REGEX = /(^[a-fA-F0-9]*$)|(^-[a-fA-F0-9]+$)/
 const BINARY_REGEX = /(^[0-1]*$)|(^-[0-1]+$)/
 const OCTAL_REGEX = /(^[0-7]*$)|(^-[0-7]+$)/
+const CONTRACT_FUNC_NAME_REGEXP = /^[a-zA-Z_][a-zA-Z0-9_]*$/
 
 const { t } = i18n.global
 
@@ -53,16 +54,14 @@ export const binary = <ValidationRule>(
 
 export const octal = <ValidationRule>withI18nMessage(helpers.regex(OCTAL_REGEX))
 
+export const contractFuncName = <ValidationRule>(
+  withI18nMessage(helpers.regex(CONTRACT_FUNC_NAME_REGEXP))
+)
+
 export const bytes = <ValidationRule>(
   withI18nMessage(value => isBytesLike(value))
 )
 export const integer = <ValidationRule>withI18nMessage(_integer)
-
-export const contractFuncName = <ValidationRule>(
-  withI18nMessage(value =>
-    value ? /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(value) : true,
-  )
-)
 
 export const minValue = (value: number): ValidationRule =>
   <ValidationRule>withI18nMessage(_minValue(value))
