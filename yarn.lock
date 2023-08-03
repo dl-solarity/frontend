@@ -918,6 +918,13 @@
     vite-plugin-checker "^0.6.1"
     vue-bundle-renderer "^1.0.3"
 
+"@openchainxyz/abi-guesser@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@openchainxyz/abi-guesser/-/abi-guesser-1.0.2.tgz#83ed50eaa227a2d21b354c797d8fb65dde1b3025"
+  integrity sha512-Qs5vdCbVa519SEz45mxm/CTmJAzqgBQuWI09iWtO0sXmcnKyeqS2nMXlRsQOD/XGtDW7+UssVTiv9ovE8tDfqQ==
+  dependencies:
+    ethers "^6.0.2"
+
 "@pinia/nuxt@^0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@pinia/nuxt/-/nuxt-0.4.11.tgz#1b3f728ae112d45deff5971376e05b8a8d64f720"
@@ -3025,6 +3032,19 @@ etag@^1.8.1, etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
+
+ethers@^6.0.2:
+  version "6.6.7"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.6.7.tgz#9cf773bcbc0ca56d783d4774e9b73b4d1aff9962"
+  integrity sha512-1SdT3W5/IPAcx9l5/+9qKRYR/iqVIdNQIct18yeh+XvN+I4RK44mvOsAerMwJYCAwdQfsOgf3OkfozeuMInbtQ==
+  dependencies:
+    "@adraffy/ens-normalize" "1.9.2"
+    "@noble/hashes" "1.1.2"
+    "@noble/secp256k1" "1.7.1"
+    "@types/node" "18.15.13"
+    aes-js "4.0.0-beta.5"
+    tslib "2.4.0"
+    ws "8.5.0"
 
 ethers@^6.6.4:
   version "6.6.4"
