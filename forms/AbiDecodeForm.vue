@@ -18,11 +18,21 @@
         :options="decodeModeOptions"
       />
     </div>
-    <div v-if="args.length || errorMessage" class="abi-decode-form__output">
-      <template v-if="args.length">
+    <div
+      v-if="form.args.length || errorMessage"
+      class="abi-decode-form__output"
+    >
+      <p v-if="errorMessage" class="abi-decode-form__error-msg">
+        {{ $t('abi-decode-form.error-msg', { msg: errorMessage }) }}
+      </p>
+      <template v-if="form.args.length">
         <h2>{{ $t('abi-decode-form.output-title') }}</h2>
         <div class="abi-decode-form__args_wrp">
-          <div v-for="arg in args" :key="arg.id" class="abi-decode-form__arg">
+          <div
+            v-for="arg in form.args"
+            :key="arg.id"
+            class="abi-decode-form__arg"
+          >
             <select-field
               v-model="arg.type"
               :readonly="form.decodeMode === DECODE_MODES.auto"
@@ -31,26 +41,34 @@
               :value-options="
                 Object.values(ETHEREUM_TYPES).map(v => ({ value: v, title: v }))
               "
+              :error-message="getFuncArgErrorMsg(arg.id, 'type')"
+              @blur="touchField('args')"
             />
             <input-field
               v-model="arg.value"
               readonly
+              :is-clearable="form.decodeMode === DECODE_MODES.manual"
               :label="$t('abi-decode-form.arg-value-label')"
               :placeholder="$t('abi-decode-form.arg-value-placeholder')"
+              @clear="removeArg(arg.id)"
             />
           </div>
         </div>
       </template>
-      <template v-else>
-        <p class="abi-decode-form__error-msg">
-          {{ $t('abi-decode-form.error-msg', { msg: errorMessage }) }}
-        </p>
-      </template>
     </div>
+    <app-button
+      v-if="form.decodeMode === DECODE_MODES.manual"
+      class="abi-decode-form__add-arg-btn"
+      scheme="none"
+      :text="$t('abi-decode-form.add-arg-btn')"
+      :icon-left="$icons.plus"
+      @click="addArg"
+    />
   </form>
 </template>
 
 <script lang="ts" setup>
+import { AppButton } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import {
@@ -60,8 +78,14 @@ import {
   SelectField,
   TextareaField,
 } from '@/fields'
-import { ErrorHandler, required, hex } from '@/helpers'
-import { type FieldOption } from '@/types'
+import {
+  ErrorHandler,
+  createFuncArgTypeRule,
+  forEach,
+  hex,
+  required,
+} from '@/helpers'
+import { type AbiEncodeForm, type FieldOption } from '@/types'
 import { guessAbiEncodedData } from '@openchainxyz/abi-guesser'
 import { AbiCoder } from 'ethers'
 import { v4 as uuidv4 } from 'uuid'
@@ -85,8 +109,12 @@ defineProps<{
 
 const { t } = i18n.global
 
-const args = ref<FuncArg[]>([])
 const errorMessage = ref('')
+
+const addArg = () => form.args.push({ id: uuidv4(), type: '', value: '' })
+const removeArg = (id: FuncArg['id']) => {
+  form.args = form.args.filter(arg => arg.id !== id)
+}
 
 const decodeModeOptions = computed<FieldOption[]>(() => [
   {
@@ -103,10 +131,16 @@ const form = reactive({
   abiEncoding: '',
   hasFuncSelector: false,
   decodeMode: decodeModeOptions.value[0].value,
+  args: [] as FuncArg[],
 })
 const rules = computed(() => ({
   abiEncoding: { required, hex },
   decodeMode: { required },
+  args: {
+    $each: forEach({
+      type: { funcArgTypeRule: createFuncArgTypeRule() },
+    }),
+  },
 }))
 
 const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(
@@ -114,28 +148,63 @@ const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(
   rules,
 )
 
-const decode = () => {
-  let types: string[] = []
+const funcArgErrorMsgLists = computed<string[][]>(
+  () => getFieldErrorMessage('args') as unknown as string[][],
+)
 
+const getFuncArgErrorMsg = (
+  id: AbiEncodeForm.FuncArgErrorMsgInfo['id'],
+  field: AbiEncodeForm.FuncArgErrorMsgInfo['field'],
+): AbiEncodeForm.FuncArgErrorMsgInfo['message'] => {
+  let funcArgErrorMsgInfo: AbiEncodeForm.FuncArgErrorMsgInfo | null = null
+
+  for (const list of funcArgErrorMsgLists.value) {
+    const msg = list.find(msg => {
+      try {
+        const msgInfo = JSON.parse(msg) as AbiEncodeForm.FuncArgErrorMsgInfo
+        return msgInfo.id === id && msgInfo.field === field
+      } catch {
+        return false
+      }
+    })
+
+    if (msg) {
+      funcArgErrorMsgInfo = JSON.parse(msg)
+      break
+    }
+  }
+
+  return funcArgErrorMsgInfo?.message || ''
+}
+
+const decode = () => {
   if (form.decodeMode === DECODE_MODES.auto) {
     const paramTypes = guessAbiEncodedData(form.abiEncoding)
     if (!paramTypes) throw new Error('failed guess params types')
 
-    types = paramTypes.map(type => type.format())
+    const types = paramTypes.map(type => type.format())
+    const values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+
+    form.args = types.map((type, idx) => ({
+      id: uuidv4(),
+      type: type,
+      value: String(values[idx]),
+    }))
   }
 
-  const values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+  if (form.decodeMode === DECODE_MODES.manual) {
+    const types = form.args.map(arg => arg.type)
+    const values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
 
-  args.value = types.map((type, idx) => ({
-    id: uuidv4(),
-    type: type,
-    value: String(values[idx]),
-  }))
+    values.forEach((value, idx) => {
+      form.args[idx].value = String(value)
+    })
+  }
 }
 
 const onFormChange = () => {
   if (!isFieldsValid.value) {
-    args.value.length = 0
+    if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
     errorMessage.value = ''
     return
   }
@@ -144,9 +213,11 @@ const onFormChange = () => {
     decode()
     errorMessage.value = ''
   } catch (error) {
-    args.value.length = 0
+    if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
     errorMessage.value =
-      error instanceof Error ? error.message : t('abi-decode-form.error-msg--unknown')
+      error instanceof Error
+        ? error.message
+        : t('abi-decode-form.error-msg--unknown')
     ErrorHandler.process(error)
   }
 }
@@ -192,5 +263,10 @@ watch(form, onFormChange)
 
 .abi-decode-form__error-msg {
   color: var(--error-main);
+  word-break: break-all;
+}
+
+.abi-decode-form__add-arg-btn {
+  padding: toRem(12) toRem(16);
 }
 </style>

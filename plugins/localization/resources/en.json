@@ -77,6 +77,7 @@
     "arg-value-placeholder": "Enter value",
     "arg-type-label": "Type",
     "arg-type-placeholder": "Select argument",
+    "add-arg-btn": "Add argument",
     "error-msg": "Error: {msg}",
     "error-msg--unknown": "unknown error"
   },
