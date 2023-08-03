@@ -23,23 +23,13 @@ export function checkIsBooleanArrayJsonString(value: unknown): boolean {
   }
 }
 
-export function checkIsBytesLike(
-  value: unknown,
-  size?: number,
-): value is BytesLike {
-  return size
-    ? isBytesLike(value) && value.length === 2 * size + 2 // 0x
-    : isBytesLike(value)
+export function checkIsBytesLike(value: unknown): value is BytesLike {
+  return isBytesLike(value)
 }
 
-export function checkIsBytesLikeArrayJsonString(
-  value: unknown,
-  bytesSize?: number,
-): boolean {
+export function checkIsBytesLikeArrayJsonString(value: unknown): boolean {
   try {
-    return JSON.parse(value as string).every((v: unknown) =>
-      checkIsBytesLike(v, bytesSize),
-    )
+    return JSON.parse(value as string).every(checkIsBytesLike)
   } catch {
     return false
   }
@@ -53,26 +43,28 @@ export function checkIsString(value: unknown): value is string {
   return typeof value === 'string'
 }
 
-export function checkIsUintLike(value: unknown, size?: number): boolean {
+export function checkIsUintLike(value: unknown): boolean {
   const bigNumber = BigNumber(value as BigNumber.Value)
-  const isUintLike = bigNumber.isPositive() && bigNumber.isFinite()
-
-  if (isUintLike && size) {
-    return bigNumber.isLessThanOrEqualTo(BigNumber(2).pow(size).minus(1))
-  }
-
-  return isUintLike
+  return bigNumber.isPositive() && bigNumber.isFinite()
 }
 
-export function checkIsUnitLikeArrayJsonString(
-  value: unknown,
-  uintSize?: number,
-): boolean {
+export function checkIsUnitLikeArrayJsonString(value: unknown): boolean {
   try {
-    return JSON.parse(value as string).every((v: unknown) =>
-      checkIsUintLike(v, uintSize),
-    )
+    return JSON.parse(value as string).every(checkIsUintLike)
   } catch {
     return false
   }
+}
+
+export function checkBytesAmount(bytes: BytesLike, amount: number): boolean {
+  return bytes.length === 2 * amount + 2 // 0x
+}
+
+export function checkUintIsWithinRange(
+  uint: BigNumber.Value,
+  bitsAmount: number,
+): boolean {
+  return BigNumber(uint).isLessThanOrEqualTo(
+    BigNumber(2).pow(bitsAmount).minus(1),
+  )
 }

@@ -75,10 +75,11 @@ import {
   ErrorHandler,
   contractFuncName,
   copyToClipboard,
-  createFuncArgTypeRule,
-  createFuncArgValueRule,
+  ethereumType,
+  ethereumBaseTypeValue,
   forEach,
   parseFuncArgToValueOfEncode,
+  withinSizeOfEthereumType,
 } from '@/helpers'
 import { type AbiEncodeForm } from '@/types'
 import { Interface } from 'ethers'
@@ -105,8 +106,11 @@ const rules = computed(() => ({
   funcName: { contractFuncName },
   args: {
     $each: forEach({
-      type: { funcArgTypeRule: createFuncArgTypeRule() },
-      value: { funcArgValueRule: createFuncArgValueRule() },
+      type: { ethereumType: ethereumType() },
+      value: {
+        ethereumBaseTypeValue: ethereumBaseTypeValue(),
+        withinSizeOfEthereumType: withinSizeOfEthereumType(),
+      },
     }),
   },
 }))
