@@ -17,15 +17,11 @@
 
 <script setup lang="ts">
 import { Icon } from '#components'
-
-type TabsType = {
-  title: string
-  id: string
-}
+import { Tab } from '@/types'
 
 defineProps<{
   modelValue: string
-  tabs: TabsType[]
+  tabs: Tab[]
 }>()
 
 const emit = defineEmits<{

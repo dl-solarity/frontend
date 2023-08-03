@@ -43,16 +43,16 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, watch } from 'vue'
 import { required, hex, minLength, ErrorHandler } from '@/helpers'
 import { TextareaField, SelectField } from '@/fields'
 import { useForm, useFormValidation } from '@/composables'
+import { type DecodeType, type HashFunction } from '@/types'
+import { reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
-import { DecodeType } from '@/types'
 
 const props = defineProps<{
   title: string
-  decode: (str: string, type: DecodeType) => string
+  decode: HashFunction
 }>()
 
 const { t } = i18n.global

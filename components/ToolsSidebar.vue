@@ -50,12 +50,11 @@ import { i18n } from '~/plugins/localization'
 const { t } = i18n.global
 
 const navLinks = computed(() => [
-  // TODO: uncomment when the path is created
-  // {
-  //   title: t('tools-sidebar.abi-title'),
-  //   icon: ICON_NAMES.code,
-  //   name: ROUTE_PATH.abi,
-  // },
+  {
+    title: t('tools-sidebar.abi-title'),
+    icon: ICON_NAMES.code,
+    name: ROUTE_PATH.abi,
+  },
   {
     title: t('tools-sidebar.hash-functions-title'),
     icon: ICON_NAMES.hashtag,

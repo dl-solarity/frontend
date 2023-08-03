@@ -2,10 +2,14 @@
   <div class="converter-page">
     <page-title :title="$t('converter-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="tabsList" />
+      <tabs v-model="currentTabId" :tabs="tabsList" />
       <div class="content">
-        <unit-converter-form v-show="currentTab === tabsList[0].id" />
-        <number-converter-form v-show="currentTab === tabsList[1].id" />
+        <unit-converter-form
+          v-show="currentTabId === TABS_IDS.unitConverterForm"
+        />
+        <number-converter-form
+          v-show="currentTabId === TABS_IDS.numberConverterForm"
+        />
       </div>
     </div>
   </div>
@@ -14,6 +18,7 @@
 <script lang="ts" setup>
 import { Tabs, PageTitle } from '#components'
 import { UnitConverterForm, NumberConverterForm } from '@/forms'
+import { type Tab } from '@/types'
 import { ref, computed } from 'vue'
 import { definePageMeta } from '#imports'
 import { i18n } from '~/plugins/localization'
@@ -22,18 +27,23 @@ definePageMeta({
   layout: 'solidity-tools',
 })
 
+enum TABS_IDS {
+  unitConverterForm = 'unit-converter-form',
+  numberConverterForm = 'number-converter-form',
+}
+
 const { t } = i18n.global
-const tabsList = computed(() => [
+const tabsList = computed<Tab[]>(() => [
   {
     title: t('converter-page.unit-converter-form-tab'),
-    id: 'unit-converter-form',
+    id: TABS_IDS.unitConverterForm,
   },
   {
     title: t('converter-page.number-converter-form-tab'),
-    id: 'number-converter-form',
+    id: TABS_IDS.numberConverterForm,
   },
 ])
-const currentTab = ref(tabsList.value[0].id)
+const currentTabId = ref(tabsList.value[0].id)
 </script>
 
 <style lang="scss" scoped>

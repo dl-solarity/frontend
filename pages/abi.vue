@@ -1,11 +1,15 @@
 <template>
-  <div class="unix-epoch-page">
-    <page-title :title="$t('unix-epoch-page.main-title')" />
+  <div class="abi-page">
+    <page-title :title="$t('abi-page.main-title')" />
     <div class="block">
       <tabs v-model="currentTabId" :tabs="tabsList" />
       <div class="content">
-        <date-form v-show="currentTabId === TABS_IDS.date" />
-        <timestamp-form v-show="currentTabId === TABS_IDS.timestamp" />
+        <template v-for="tab in tabsList" :key="tab.id">
+          <abi-encode-form
+            v-show="currentTabId === TABS_IDS.encoder"
+            :title="tab.title"
+          />
+        </template>
       </div>
     </div>
   </div>
@@ -13,10 +17,10 @@
 
 <script lang="ts" setup>
 import { Tabs, PageTitle } from '#components'
-import { DateForm, TimestampForm } from '@/forms'
-import { type Tab } from '@/types'
-import { ref, computed } from 'vue'
 import { definePageMeta } from '#imports'
+import { AbiEncodeForm } from '@/forms'
+import { type Tab } from '@/types'
+import { computed, ref } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 definePageMeta({
@@ -24,26 +28,27 @@ definePageMeta({
 })
 
 enum TABS_IDS {
-  date = 'date',
-  timestamp = 'timestamp',
+  encoder = 'encoder',
+  decoder = 'decoder',
 }
 
 const { t } = i18n.global
 const tabsList = computed<Tab[]>(() => [
   {
-    title: t('unix-epoch-page.date-form-tab'),
-    id: TABS_IDS.date,
+    title: t('abi-page.encoder-tab'),
+    id: TABS_IDS.encoder,
   },
-  {
-    title: t('unix-epoch-page.timestamp-form-tab'),
-    id: TABS_IDS.timestamp,
-  },
+  // TODO: decoder
+  // {
+  //   title: t('abi-page.decoder-tab'),
+  //   id: TABS_IDS.decoder,
+  // },
 ])
 const currentTabId = ref(tabsList.value[0].id)
 </script>
 
 <style lang="scss" scoped>
-.unix-epoch-page {
+.abi-page {
   display: flex;
   flex-direction: column;
   gap: toRem(32);
