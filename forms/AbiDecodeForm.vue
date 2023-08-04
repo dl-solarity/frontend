@@ -29,7 +29,7 @@
         <h2>{{ $t('abi-decode-form.output-title') }}</h2>
         <div class="abi-decode-form__args_wrp">
           <div
-            v-for="arg in form.args"
+            v-for="(arg, idx) in form.args"
             :key="arg.id"
             class="abi-decode-form__arg"
           >
@@ -41,7 +41,7 @@
               :value-options="
                 Object.values(ETHEREUM_TYPES).map(v => ({ value: v, title: v }))
               "
-              :error-message="getFuncArgErrorMsg(arg.id, 'type')"
+              :error-message="getFieldErrorMessage(`args[${idx}].type`)"
               @blur="touchField('args')"
             />
             <input-field
@@ -78,14 +78,8 @@ import {
   SelectField,
   TextareaField,
 } from '@/fields'
-import {
-  ErrorHandler,
-  createFuncArgTypeRule,
-  forEach,
-  hex,
-  required,
-} from '@/helpers'
-import { type AbiEncodeForm, type FieldOption } from '@/types'
+import { ErrorHandler, hex, required } from '@/helpers'
+import { type FieldOption } from '@/types'
 import { guessAbiEncodedData } from '@openchainxyz/abi-guesser'
 import { AbiCoder } from 'ethers'
 import { v4 as uuidv4 } from 'uuid'
@@ -137,9 +131,13 @@ const rules = computed(() => ({
   abiEncoding: { required, hex },
   decodeMode: { required },
   args: {
-    $each: forEach({
-      type: { funcArgTypeRule: createFuncArgTypeRule() },
-    }),
+    ...form.args.reduce(
+      (acc, _, idx) => ({
+        ...acc,
+        [idx]: { type: { required } },
+      }),
+      {},
+    ),
   },
 }))
 
@@ -147,35 +145,6 @@ const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(
   form,
   rules,
 )
-
-const funcArgErrorMsgLists = computed<string[][]>(
-  () => getFieldErrorMessage('args') as unknown as string[][],
-)
-
-const getFuncArgErrorMsg = (
-  id: AbiEncodeForm.FuncArgErrorMsgInfo['id'],
-  field: AbiEncodeForm.FuncArgErrorMsgInfo['field'],
-): AbiEncodeForm.FuncArgErrorMsgInfo['message'] => {
-  let funcArgErrorMsgInfo: AbiEncodeForm.FuncArgErrorMsgInfo | null = null
-
-  for (const list of funcArgErrorMsgLists.value) {
-    const msg = list.find(msg => {
-      try {
-        const msgInfo = JSON.parse(msg) as AbiEncodeForm.FuncArgErrorMsgInfo
-        return msgInfo.id === id && msgInfo.field === field
-      } catch {
-        return false
-      }
-    })
-
-    if (msg) {
-      funcArgErrorMsgInfo = JSON.parse(msg)
-      break
-    }
-  }
-
-  return funcArgErrorMsgInfo?.message || ''
-}
 
 const decode = () => {
   if (form.decodeMode === DECODE_MODES.auto) {
@@ -186,7 +155,7 @@ const decode = () => {
     const values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
 
     form.args = types.map((type, idx) => ({
-      id: uuidv4(),
+      id: form.args[idx]?.id || uuidv4(),
       type: type,
       value: String(values[idx]),
     }))
@@ -202,7 +171,11 @@ const decode = () => {
   }
 }
 
+let _formStateJsonString = ''
 const onFormChange = () => {
+  // to avoid re-decoding,because form can change on decode
+  if (JSON.stringify(form) === _formStateJsonString) return
+
   if (!isFieldsValid.value) {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
     errorMessage.value = ''
@@ -214,15 +187,18 @@ const onFormChange = () => {
     errorMessage.value = ''
   } catch (error) {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
+    form.args = form.args.map(arg => ({ ...arg, value: '' }))
     errorMessage.value =
       error instanceof Error
         ? error.message
         : t('abi-decode-form.error-msg--unknown')
     ErrorHandler.process(error)
   }
+
+  _formStateJsonString = JSON.stringify(form)
 }
 
-watch(form, onFormChange)
+watch([form, isFieldsValid], onFormChange)
 </script>
 
 <style lang="scss" scoped>
