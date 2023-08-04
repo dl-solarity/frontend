@@ -1,7 +1,10 @@
 import { ETHEREUM_TYPES } from '@/enums'
 import { type AbiEncodeForm } from '@/types'
 import { ValidationRule } from '@vuelidate/core'
+import { type BytesLike } from '@/types'
+import { type BigNumber } from 'bignumber.js'
 import {
+  checkBytesAmount,
   checkIsAddress,
   checkIsBooleanArrayJsonString,
   checkIsBooleanString,
@@ -11,12 +14,13 @@ import {
   checkIsString,
   checkIsUintLike,
   checkIsUnitLikeArrayJsonString,
+  checkUintIsWithinRange,
 } from '~/helpers/type.helpers'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
 
-export function createFuncArgTypeRule(): ValidationRule {
+export function ethereumType(): ValidationRule {
   let _arg: AbiEncodeForm.FuncArg
 
   return {
@@ -24,27 +28,26 @@ export function createFuncArgTypeRule(): ValidationRule {
       _arg = arg
       return checkIsEthereumType(arg.type)
     },
+
     $message: () =>
       JSON.stringify({
         id: _arg.id,
         field: 'type',
-        message: t('validations.field-error_abiEncodeForm_funcArgType'),
+        message: t('validations.field-error_abiEncodeForm_ethereumType'),
       } as AbiEncodeForm.FuncArgErrorMsgInfo),
   }
 }
 
-export function createFuncArgValueRule(): ValidationRule {
+export function ethereumBaseTypeValue(): ValidationRule {
   let _arg: AbiEncodeForm.FuncArg
+  let _baseType: string
 
   return {
     $validator: (_, arg: AbiEncodeForm.FuncArg) => {
       _arg = arg
+      _baseType = arg.type.replace(/\d+/, '')
 
-      const baseType = arg.type.replace(/\d+/, '')
-      const matchArray = arg.type.match(/\d+/)
-      const sizeOfType = matchArray?.length ? Number(matchArray[0]) : 0
-
-      switch (baseType) {
+      switch (_baseType) {
         case ETHEREUM_TYPES.address:
           return checkIsAddress(arg.value)
         case ETHEREUM_TYPES.bool:
@@ -52,22 +55,21 @@ export function createFuncArgValueRule(): ValidationRule {
         case ETHEREUM_TYPES.boolArray:
           return checkIsBooleanArrayJsonString(arg.value)
         case ETHEREUM_TYPES.bytes:
-          return checkIsBytesLike(arg.value, sizeOfType)
+          return checkIsBytesLike(arg.value)
         case ETHEREUM_TYPES.bytesArray:
-          return checkIsBytesLikeArrayJsonString(arg.value, sizeOfType)
+          return checkIsBytesLikeArrayJsonString(arg.value)
         case ETHEREUM_TYPES.string:
           return checkIsString(arg.value)
         case ETHEREUM_TYPES.uint:
-          return checkIsUintLike(arg.value, sizeOfType)
+          return checkIsUintLike(arg.value)
         case ETHEREUM_TYPES.uintArray:
-          return checkIsUnitLikeArrayJsonString(arg.value, sizeOfType)
+          return checkIsUnitLikeArrayJsonString(arg.value)
         default:
           return false
       }
     },
-    $message: () => {
-      const baseType = _arg.type.replace(/\d+/, '')
 
+    $message: () => {
       let message
       switch (true) {
         // if you need custom message then set case of ethereum type here
@@ -75,22 +77,22 @@ export function createFuncArgValueRule(): ValidationRule {
         case _arg.type === ETHEREUM_TYPES.bool:
         case _arg.type === ETHEREUM_TYPES.boolArray:
           message = t(
-            `validations.field-error_abiEncodeForm_funcArgValue--${_arg.type.replace(
+            `validations.field-error_abiEncodeForm_ethereumBaseTypeValue--${_arg.type.replace(
               '[]',
               'Array',
             )}`,
           )
           break
-        case baseType === ETHEREUM_TYPES.bytes:
-        case baseType === ETHEREUM_TYPES.bytesArray:
-        case baseType === ETHEREUM_TYPES.uint:
-        case baseType === ETHEREUM_TYPES.uintArray:
+        case _baseType === ETHEREUM_TYPES.bytes:
+        case _baseType === ETHEREUM_TYPES.bytesArray:
+        case _baseType === ETHEREUM_TYPES.uint:
+        case _baseType === ETHEREUM_TYPES.uintArray:
           message = t(
-            `validations.field-error_abiEncodeForm_funcArgValue--${baseType.replace(
+            `validations.field-error_abiEncodeForm_ethereumBaseTypeValue--${_baseType.replace(
               '[]',
               'Array',
             )}`,
-            { type: _arg.type.replace('[]', '') },
+            { type: _baseType.replace('[]', '') },
           )
           break
         default:
@@ -103,6 +105,62 @@ export function createFuncArgValueRule(): ValidationRule {
         message,
       } as AbiEncodeForm.FuncArgErrorMsgInfo)
     },
+  }
+}
+
+export function withinSizeOfEthereumType(): ValidationRule {
+  let _arg: AbiEncodeForm.FuncArg
+  let _baseType: string
+
+  return {
+    $validator: (_, arg: AbiEncodeForm.FuncArg) => {
+      _arg = arg
+      _baseType = arg.type.replace(/\d+/, '')
+
+      if (_baseType === arg.type) return true
+
+      const isArray = arg.type.includes('[]')
+      const matchArray = arg.type.match(/\d+/)
+      const sizeOfType = matchArray?.length ? Number(matchArray[0]) : 0
+
+      if (isArray) {
+        try {
+          return JSON.parse(arg.value).every((v: unknown) => {
+            switch (_baseType) {
+              case ETHEREUM_TYPES.bytesArray:
+                return checkBytesAmount(v as BytesLike, sizeOfType)
+              case ETHEREUM_TYPES.uintArray:
+                return checkUintIsWithinRange(v as BigNumber.Value, sizeOfType)
+              default:
+                return true
+            }
+          })
+        } catch {
+          return false
+        }
+      }
+
+      switch (_baseType) {
+        case ETHEREUM_TYPES.bytes:
+          return checkBytesAmount(arg.value, sizeOfType)
+        case ETHEREUM_TYPES.uint:
+          return checkUintIsWithinRange(arg.value, sizeOfType)
+        default:
+          return true
+      }
+    },
+
+    $message: () =>
+      JSON.stringify({
+        id: _arg.id,
+        field: 'value',
+        message: t(
+          `validations.field-error_abiEncodeForm_withinSizeOfEthereumType--${_baseType.replace(
+            '[]',
+            'Array',
+          )}`,
+        ),
+      } as AbiEncodeForm.FuncArgErrorMsgInfo),
   }
 }
 
