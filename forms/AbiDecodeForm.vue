@@ -86,6 +86,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 
+type DecodedData = {
+  types: string[]
+  values: string[]
+}
+
 type FuncArg = {
   id: string
   type: string
@@ -156,7 +161,10 @@ const fetchFuncSignature = async (selector: string): Promise<string> => {
   return response.result.function[selector]?.[0]?.name || ''
 }
 
-const decode = async () => {
+const decode = async (): Promise<DecodedData> => {
+  let types: DecodedData['types'] = []
+  let values: DecodedData['values'] = []
+
   switch (true) {
     case form.decodeMode === DECODE_MODES.auto && form.hasFuncSelector: {
       const funcSelector = form.abiEncoding.substring(0, 10)
@@ -167,61 +175,42 @@ const decode = async () => {
       const funcFragment = funcSignature
         ? FunctionFragment.from(funcSignature)
         : guessFragment(form.abiEncoding)
-
       if (!funcFragment) throw new Error('failed guess fragment')
 
-      const types = funcFragment.inputs.map(paramType => paramType.format())
-      const values = AbiCoder.defaultAbiCoder().decode(types, funcData)
+      types = funcFragment.inputs.map(paramType => paramType.format())
+      values = AbiCoder.defaultAbiCoder().decode(types, funcData)
 
-      form.args = types.map((type, idx) => ({
-        id: form.args[idx]?.id || uuidv4(),
-        type: type,
-        value: String(values[idx]),
-      }))
-
-      return
+      break
     }
 
     case form.decodeMode === DECODE_MODES.auto: {
       const paramTypes = guessAbiEncodedData(form.abiEncoding)
       if (!paramTypes) throw new Error('failed guess params types')
 
-      const types = paramTypes.map(type => type.format())
-      const values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+      types = paramTypes.map(type => type.format())
+      values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
 
-      form.args = types.map((type, idx) => ({
-        id: form.args[idx]?.id || uuidv4(),
-        type: type,
-        value: String(values[idx]),
-      }))
-
-      return
+      break
     }
 
     case form.decodeMode === DECODE_MODES.manual && form.hasFuncSelector: {
       const funcData = '0x' + form.abiEncoding.substring(10)
 
-      const types = form.args.map(arg => arg.type)
-      const values = AbiCoder.defaultAbiCoder().decode(types, funcData)
+      types = form.args.map(arg => arg.type)
+      values = AbiCoder.defaultAbiCoder().decode(types, funcData)
 
-      values.forEach((value, idx) => {
-        form.args[idx].value = String(value)
-      })
-
-      return
+      break
     }
 
     case form.decodeMode === DECODE_MODES.manual: {
-      const types = form.args.map(arg => arg.type)
-      const values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+      types = form.args.map(arg => arg.type)
+      values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
 
-      values.forEach((value, idx) => {
-        form.args[idx].value = String(value)
-      })
-
-      return
+      break
     }
   }
+
+  return { types, values }
 }
 
 let _formStateJsonString = ''
@@ -236,15 +225,32 @@ const onFormChange = async () => {
   }
 
   try {
-    await decode()
+    const { types, values } = await decode()
+
+    switch (form.decodeMode) {
+      case DECODE_MODES.auto:
+        form.args = types.map((type, idx) => ({
+          id: form.args[idx]?.id || uuidv4(),
+          type: type,
+          value: String(values[idx]),
+        }))
+        break
+      case DECODE_MODES.manual:
+        values.forEach((value, idx) => {
+          form.args[idx].value = String(value)
+        })
+    }
+
     errorMessage.value = ''
   } catch (error) {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
-    form.args = form.args.map(arg => ({ ...arg, value: '' }))
+    else form.args = form.args.map(arg => ({ ...arg, value: '' }))
+
     errorMessage.value =
       error instanceof Error
         ? error.message
         : t('abi-decode-form.error-msg--unknown')
+
     ErrorHandler.process(error)
   }
 
