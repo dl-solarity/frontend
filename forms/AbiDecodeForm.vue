@@ -19,41 +19,47 @@
       />
     </div>
     <div
-      v-if="form.args.length || errorMessage"
+      v-if="isDecoding || errorMessage || form.args.length"
       class="abi-decode-form__output"
     >
-      <p v-if="errorMessage" class="abi-decode-form__error-msg">
-        {{ $t('abi-decode-form.error-msg', { msg: errorMessage }) }}
-      </p>
-      <template v-if="form.args.length">
-        <h2>{{ $t('abi-decode-form.output-title') }}</h2>
-        <div class="abi-decode-form__args_wrp">
-          <div
-            v-for="(arg, idx) in form.args"
-            :key="arg.id"
-            class="abi-decode-form__arg"
-          >
-            <select-field
-              v-model="arg.type"
-              :readonly="form.decodeMode === DECODE_MODES.auto"
-              :label="$t('abi-decode-form.arg-type-label')"
-              :placeholder="$t('abi-decode-form.arg-type-placeholder')"
-              :value-options="
-                Object.values(ETHEREUM_TYPES).map(v => ({ value: v, title: v }))
-              "
-              :error-message="getFieldErrorMessage(`args[${idx}].type`)"
-              @blur="touchField('args')"
-            />
-            <input-field
-              v-model="arg.value"
-              readonly
-              :is-clearable="form.decodeMode === DECODE_MODES.manual"
-              :label="$t('abi-decode-form.arg-value-label')"
-              :placeholder="$t('abi-decode-form.arg-value-placeholder')"
-              @clear="removeArg(arg.id)"
-            />
+      <loader v-if="isDecoding" />
+      <template v-else>
+        <p v-if="errorMessage" class="abi-decode-form__error-msg">
+          {{ $t('abi-decode-form.error-msg', { msg: errorMessage }) }}
+        </p>
+        <template v-if="form.args.length">
+          <h2>{{ $t('abi-decode-form.output-title') }}</h2>
+          <div class="abi-decode-form__args_wrp">
+            <div
+              v-for="(arg, idx) in form.args"
+              :key="arg.id"
+              class="abi-decode-form__arg"
+            >
+              <select-field
+                v-model="arg.type"
+                :readonly="form.decodeMode === DECODE_MODES.auto"
+                :label="$t('abi-decode-form.arg-type-label')"
+                :placeholder="$t('abi-decode-form.arg-type-placeholder')"
+                :value-options="
+                  Object.values(ETHEREUM_TYPES).map(v => ({
+                    value: v,
+                    title: v,
+                  }))
+                "
+                :error-message="getFieldErrorMessage(`args[${idx}].type`)"
+                @blur="touchField('args')"
+              />
+              <input-field
+                v-model="arg.value"
+                readonly
+                :is-clearable="form.decodeMode === DECODE_MODES.manual"
+                :label="$t('abi-decode-form.arg-value-label')"
+                :placeholder="$t('abi-decode-form.arg-value-placeholder')"
+                @clear="removeArg(arg.id)"
+              />
+            </div>
           </div>
-        </div>
+        </template>
       </template>
     </div>
     <app-button
@@ -68,7 +74,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppButton } from '#components'
+import { AppButton, Loader } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import {
@@ -82,6 +88,7 @@ import { ErrorHandler, hex, required } from '@/helpers'
 import { type FieldOption } from '@/types'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
 import { AbiCoder, FunctionFragment } from 'ethers'
+import { debounce } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -109,6 +116,7 @@ defineProps<{
 const { t } = i18n.global
 
 const errorMessage = ref('')
+const isDecoding = ref(false)
 
 const addArg = () => form.args.push({ id: uuidv4(), type: '', value: '' })
 const removeArg = (id: FuncArg['id']) => {
@@ -146,10 +154,8 @@ const rules = computed(() => ({
   },
 }))
 
-const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(
-  form,
-  rules,
-)
+const { getFieldErrorMessage, isFieldsValid, isFormValid, touchField } =
+  useFormValidation(form, rules)
 
 const fetchFuncSignature = async (selector: string): Promise<string> => {
   const url = 'https://api.openchain.xyz/signature-database/v1/lookup'
@@ -162,55 +168,59 @@ const fetchFuncSignature = async (selector: string): Promise<string> => {
 }
 
 const decode = async (): Promise<DecodedData> => {
+  isDecoding.value = true
+
   let types: DecodedData['types'] = []
   let values: DecodedData['values'] = []
 
-  switch (true) {
-    case form.decodeMode === DECODE_MODES.auto && form.hasFuncSelector: {
-      const funcSelector = form.abiEncoding.substring(0, 10)
-      const funcData = '0x' + form.abiEncoding.substring(10)
+  try {
+    switch (true) {
+      case form.decodeMode === DECODE_MODES.auto && form.hasFuncSelector: {
+        const funcSelector = form.abiEncoding.substring(0, 10)
+        const funcData = '0x' + form.abiEncoding.substring(10)
 
-      const funcSignature = await fetchFuncSignature(funcSelector)
+        const funcSignature = await fetchFuncSignature(funcSelector)
 
-      const funcFragment = funcSignature
-        ? FunctionFragment.from(funcSignature)
-        : guessFragment(form.abiEncoding)
-      if (!funcFragment) throw new Error('failed guess fragment')
+        const funcFragment = funcSignature
+          ? FunctionFragment.from(funcSignature)
+          : guessFragment(form.abiEncoding)
+        if (!funcFragment) throw new Error('failed guess fragment')
 
-      types = funcFragment.inputs.map(paramType => paramType.format())
-      values = AbiCoder.defaultAbiCoder().decode(types, funcData)
+        types = funcFragment.inputs.map(paramType => paramType.format())
+        values = AbiCoder.defaultAbiCoder().decode(types, funcData)
 
-      break
+        break
+      }
+
+      case form.decodeMode === DECODE_MODES.auto: {
+        const paramTypes = guessAbiEncodedData(form.abiEncoding)
+        if (!paramTypes) throw new Error('failed guess params types')
+
+        types = paramTypes.map(type => type.format())
+        values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+
+        break
+      }
+
+      case form.decodeMode === DECODE_MODES.manual && form.hasFuncSelector: {
+        const funcData = '0x' + form.abiEncoding.substring(10)
+
+        types = form.args.map(arg => arg.type)
+        values = AbiCoder.defaultAbiCoder().decode(types, funcData)
+
+        break
+      }
+
+      case form.decodeMode === DECODE_MODES.manual: {
+        types = form.args.map(arg => arg.type)
+        values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+      }
     }
 
-    case form.decodeMode === DECODE_MODES.auto: {
-      const paramTypes = guessAbiEncodedData(form.abiEncoding)
-      if (!paramTypes) throw new Error('failed guess params types')
-
-      types = paramTypes.map(type => type.format())
-      values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
-
-      break
-    }
-
-    case form.decodeMode === DECODE_MODES.manual && form.hasFuncSelector: {
-      const funcData = '0x' + form.abiEncoding.substring(10)
-
-      types = form.args.map(arg => arg.type)
-      values = AbiCoder.defaultAbiCoder().decode(types, funcData)
-
-      break
-    }
-
-    case form.decodeMode === DECODE_MODES.manual: {
-      types = form.args.map(arg => arg.type)
-      values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
-
-      break
-    }
+    return { types, values }
+  } finally {
+    isDecoding.value = false
   }
-
-  return { types, values }
 }
 
 let _formStateJsonString = ''
@@ -218,7 +228,7 @@ const onFormChange = async () => {
   // to avoid re-decoding,because form can change on decode
   if (JSON.stringify(form) === _formStateJsonString) return
 
-  if (!isFieldsValid.value) {
+  if (!isFormValid()) {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
     errorMessage.value = ''
     return
@@ -227,19 +237,11 @@ const onFormChange = async () => {
   try {
     const { types, values } = await decode()
 
-    switch (form.decodeMode) {
-      case DECODE_MODES.auto:
-        form.args = types.map((type, idx) => ({
-          id: form.args[idx]?.id || uuidv4(),
-          type: type,
-          value: String(values[idx]),
-        }))
-        break
-      case DECODE_MODES.manual:
-        values.forEach((value, idx) => {
-          form.args[idx].value = String(value)
-        })
-    }
+    form.args = types.map((type, idx) => ({
+      id: form.args[idx]?.id || uuidv4(),
+      type: type,
+      value: String(values[idx]),
+    }))
 
     errorMessage.value = ''
   } catch (error) {
@@ -257,7 +259,7 @@ const onFormChange = async () => {
   _formStateJsonString = JSON.stringify(form)
 }
 
-watch([form, isFieldsValid], onFormChange)
+watch([form, isFieldsValid], debounce(onFormChange, 500))
 </script>
 
 <style lang="scss" scoped>

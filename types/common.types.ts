@@ -24,7 +24,7 @@ export interface Audit {
 export type DecodeType = 'text' | 'hex'
 
 export type FieldOption = {
-  value: string
+  value: string | number
   title: string
 }
 
