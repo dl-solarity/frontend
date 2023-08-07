@@ -20,24 +20,6 @@ import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
 
-export function ethereumType(): ValidationRule {
-  let _arg: AbiEncodeForm.FuncArg
-
-  return {
-    $validator: (_, arg: AbiEncodeForm.FuncArg) => {
-      _arg = arg
-      return checkIsEthereumType(arg.type)
-    },
-
-    $message: () =>
-      JSON.stringify({
-        id: _arg.id,
-        field: 'type',
-        message: t('validations.field-error_abiEncodeForm_ethereumType'),
-      } as AbiEncodeForm.FuncArgErrorMsgInfo),
-  }
-}
-
 export function ethereumBaseTypeValue(): ValidationRule {
   let _arg: AbiEncodeForm.FuncArg
   let _baseType: string
@@ -70,51 +52,40 @@ export function ethereumBaseTypeValue(): ValidationRule {
     },
 
     $message: () => {
-      let message
       switch (true) {
         // if you need custom message then set case of ethereum type here
         case _arg.type === ETHEREUM_TYPES.address:
         case _arg.type === ETHEREUM_TYPES.bool:
         case _arg.type === ETHEREUM_TYPES.boolArray:
-          message = t(
-            `validations.field-error_abiEncodeForm_ethereumBaseTypeValue--${_arg.type.replace(
+          return t(
+            `validations.field-error_ethereumBaseTypeValue--${_arg.type.replace(
               '[]',
               'Array',
             )}`,
           )
-          break
         case _baseType === ETHEREUM_TYPES.bytes:
         case _baseType === ETHEREUM_TYPES.bytesArray:
         case _baseType === ETHEREUM_TYPES.uint:
         case _baseType === ETHEREUM_TYPES.uintArray:
-          message = t(
-            `validations.field-error_abiEncodeForm_ethereumBaseTypeValue--${_baseType.replace(
+          return t(
+            `validations.field-error_ethereumBaseTypeValue--${_baseType.replace(
               '[]',
               'Array',
             )}`,
             { type: _baseType.replace('[]', '') },
           )
-          break
         default:
-          message = ''
+          return ''
       }
-
-      return JSON.stringify({
-        id: _arg.id,
-        field: 'value',
-        message,
-      } as AbiEncodeForm.FuncArgErrorMsgInfo)
     },
   }
 }
 
 export function withinSizeOfEthereumType(): ValidationRule {
-  let _arg: AbiEncodeForm.FuncArg
   let _baseType: string
 
   return {
     $validator: (_, arg: AbiEncodeForm.FuncArg) => {
-      _arg = arg
       _baseType = arg.type.replace(/\d+/, '')
 
       if (_baseType === arg.type) return true
@@ -151,16 +122,12 @@ export function withinSizeOfEthereumType(): ValidationRule {
     },
 
     $message: () =>
-      JSON.stringify({
-        id: _arg.id,
-        field: 'value',
-        message: t(
-          `validations.field-error_abiEncodeForm_withinSizeOfEthereumType--${_baseType.replace(
-            '[]',
-            'Array',
-          )}`,
-        ),
-      } as AbiEncodeForm.FuncArgErrorMsgInfo),
+      t(
+        `validations.field-error_withinSizeOfEthereumType--${_baseType.replace(
+          '[]',
+          'Array',
+        )}`,
+      ),
   }
 }
 

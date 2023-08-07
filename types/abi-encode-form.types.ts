@@ -3,9 +3,3 @@ export type FuncArg = {
   type: string
   value: string
 }
-
-export type FuncArgErrorMsgInfo = {
-  id: FuncArg['id']
-  field: 'type' | 'value'
-  message: string
-}
