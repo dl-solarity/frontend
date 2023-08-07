@@ -12,6 +12,8 @@ export type NotificationObjectPayload = {
   iconName?: typeof ICON_NAMES | unknown
 }
 
+export type ArrayElement<T extends readonly unknown[]> = T[number]
+
 export interface Audit {
   title: string
   imgSrc: string

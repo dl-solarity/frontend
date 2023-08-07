@@ -84,8 +84,8 @@ import {
   SelectField,
   TextareaField,
 } from '@/fields'
-import { ErrorHandler, hex, required } from '@/helpers'
-import { type FieldOption } from '@/types'
+import { ErrorHandler, checkIsBigInt, hex, required } from '@/helpers'
+import { type ArrayElement, type FieldOption } from '@/types'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
 import { AbiCoder, FunctionFragment } from 'ethers'
 import { debounce } from 'lodash-es'
@@ -95,7 +95,7 @@ import { i18n } from '~/plugins/localization'
 
 type DecodedData = {
   types: string[]
-  values: string[]
+  values: unknown[]
 }
 
 type FuncArg = {
@@ -223,6 +223,15 @@ const decode = async (): Promise<DecodedData> => {
   }
 }
 
+const formatValue = (value: ArrayElement<DecodedData['values']>): string => {
+  if (value instanceof Array) {
+    const values = value.map(v => (checkIsBigInt(v) ? v.toString() : v))
+    return JSON.stringify(values)
+  }
+
+  return String(value)
+}
+
 let _formStateJsonString = ''
 const onFormChange = async () => {
   // to avoid re-decoding,because form can change on decode
@@ -240,7 +249,7 @@ const onFormChange = async () => {
     form.args = types.map((type, idx) => ({
       id: form.args[idx]?.id || uuidv4(),
       type: type,
-      value: String(values[idx]),
+      value: formatValue(values[idx]),
     }))
 
     errorMessage.value = ''

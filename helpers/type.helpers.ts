@@ -7,6 +7,10 @@ export function checkIsAddress(value: unknown): boolean {
   return isAddress(value)
 }
 
+export function checkIsBigInt(value: unknown): value is bigint {
+  return typeof value === 'bigint'
+}
+
 export function checkIsBoolean(value: unknown): value is boolean {
   return value === true || value === false
 }
