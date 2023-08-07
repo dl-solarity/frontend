@@ -1,6 +1,7 @@
 import {
   helpers,
   required as _required,
+  requiredIf as _requiredIf,
   email as _email,
   minLength as _minLength,
   maxLength as _maxLength,
@@ -10,12 +11,18 @@ import {
   maxValue as _maxValue,
 } from '@vuelidate/validators'
 import { ValidationRule } from '@vuelidate/core'
-import { Ref } from 'vue'
 import { createI18nMessage, MessageProps } from '@vuelidate/validators'
 import { get } from 'lodash-es'
-import { i18n } from '@/plugins/localization'
+import { Ref } from 'vue'
+import { i18n } from '~/plugins/localization'
 
 import { isAddress, isBytesLike } from 'ethers'
+
+type RequiredIfArg =
+  | string
+  | boolean
+  | Ref<boolean>
+  | (() => boolean | Promise<boolean>)
 
 const HASH_REGEX = /^0x[a-fA-F0-9]{64}$/
 const HEX_REGEX = /^0x[a-fA-F0-9]*$/
@@ -31,9 +38,10 @@ const messagePath = ({ $validator }: MessageProps) =>
 
 const withI18nMessage = createI18nMessage({ t, messagePath })
 
-export const forEach = helpers.forEach
-
 export const required = <ValidationRule>withI18nMessage(_required)
+
+export const requiredIf = (prop: RequiredIfArg): ValidationRule =>
+  <ValidationRule>withI18nMessage(_requiredIf(prop))
 
 export const email = <ValidationRule>withI18nMessage(_email)
 

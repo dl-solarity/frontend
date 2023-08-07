@@ -11,7 +11,7 @@
       />
       <div v-if="form.args.length" class="abi-encode-form__args_wrp">
         <div
-          v-for="arg in form.args"
+          v-for="(arg, idx) in form.args"
           :key="arg.id"
           class="abi-encode-form__arg"
         >
@@ -22,16 +22,16 @@
             :value-options="
               Object.values(ETHEREUM_TYPES).map(v => ({ value: v, title: v }))
             "
-            :error-message="getFuncArgErrorMsg(arg.id, 'type')"
-            @blur="touchField('args')"
+            :error-message="getFieldErrorMessage(`args[${idx}].type`)"
+            @blur="touchField(`args[${idx}].type`)"
           />
           <input-field
             v-model="arg.value"
             is-clearable
             :label="$t('abi-encode-form.arg-value-label')"
             :placeholder="$t('abi-encode-form.arg-value-placeholder')"
-            :error-message="getFuncArgErrorMsg(arg.id, 'value')"
-            @blur="touchField('args')"
+            :error-message="getFieldErrorMessage(`args[${idx}].value`)"
+            @blur="touchField(`args[${idx}].value`)"
             @clear="removeArg(arg.id)"
           />
         </div>
@@ -75,10 +75,10 @@ import {
   ErrorHandler,
   contractFuncName,
   copyToClipboard,
-  ethereumType,
   ethereumBaseTypeValue,
-  forEach,
   parseFuncArgToValueOfEncode,
+  required,
+  requiredIf,
   withinSizeOfEthereumType,
 } from '@/helpers'
 import { type AbiEncodeForm } from '@/types'
@@ -105,13 +105,20 @@ const form = reactive({
 const rules = computed(() => ({
   funcName: { contractFuncName },
   args: {
-    $each: forEach({
-      type: { ethereumType: ethereumType() },
-      value: {
-        ethereumBaseTypeValue: ethereumBaseTypeValue(),
-        withinSizeOfEthereumType: withinSizeOfEthereumType(),
-      },
-    }),
+    ...form.args.reduce(
+      (acc, arg, idx) => ({
+        ...acc,
+        [idx]: {
+          type: { required },
+          value: {
+            required: requiredIf(arg.type !== ETHEREUM_TYPES.string),
+            ethereumBaseTypeValue: ethereumBaseTypeValue(),
+            withinSizeOfEthereumType: withinSizeOfEthereumType(),
+          },
+        },
+      }),
+      {},
+    ),
   },
 }))
 
@@ -123,35 +130,6 @@ const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(
 const addArg = () => form.args.push({ id: uuidv4(), type: '', value: '' })
 const removeArg = (id: AbiEncodeForm.FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
-}
-
-const funcArgErrorMsgLists = computed<string[][]>(
-  () => getFieldErrorMessage('args') as unknown as string[][],
-)
-
-const getFuncArgErrorMsg = (
-  id: AbiEncodeForm.FuncArgErrorMsgInfo['id'],
-  field: AbiEncodeForm.FuncArgErrorMsgInfo['field'],
-): AbiEncodeForm.FuncArgErrorMsgInfo['message'] => {
-  let funcArgErrorMsgInfo: AbiEncodeForm.FuncArgErrorMsgInfo | null = null
-
-  for (const list of funcArgErrorMsgLists.value) {
-    const msg = list.find(msg => {
-      try {
-        const msgInfo = JSON.parse(msg) as AbiEncodeForm.FuncArgErrorMsgInfo
-        return msgInfo.id === id && msgInfo.field === field
-      } catch {
-        return false
-      }
-    })
-
-    if (msg) {
-      funcArgErrorMsgInfo = JSON.parse(msg)
-      break
-    }
-  }
-
-  return funcArgErrorMsgInfo?.message || ''
 }
 
 const encode = () => {
