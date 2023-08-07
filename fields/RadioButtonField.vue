@@ -1,7 +1,7 @@
 <template>
   <div
     class="radio-button-field"
-    :class="{ 'radio-button-field--disabled': disabled }"
+    :class="{ 'radio-button-field--disabled': isDisabled }"
   >
     <label
       v-for="option of options"
@@ -12,10 +12,11 @@
       <input
         class="radio-button-field__input"
         type="radio"
+        v-bind="$attrs"
         :checked="modelValue === option.value"
         :id="`${uuid}-${option.value}`"
         :value="option.title"
-        :disabled="disabled"
+        :disabled="isDisabled"
         @change="emit('update:model-value', option.value)"
       />
       <span class="radio-button-field__checkmark" />
@@ -27,23 +28,23 @@
 <script setup lang="ts">
 import { type FieldOption } from '@/types'
 import { v4 as uuidv4 } from 'uuid'
+import { computed, useAttrs } from 'vue'
 
+const attrs = useAttrs()
 const uuid = uuidv4()
 
-withDefaults(
-  defineProps<{
-    modelValue: FieldOption['value']
-    options: FieldOption[]
-    disabled?: boolean
-  }>(),
-  {
-    disabled: false,
-  },
-)
+defineProps<{
+  modelValue: FieldOption['value']
+  options: FieldOption[]
+}>()
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: FieldOption['value']): void
 }>()
+
+const isDisabled = computed(() =>
+  ['', 'disabled', true].includes(attrs.disabled as string | boolean),
+)
 </script>
 
 <style scoped lang="scss">
