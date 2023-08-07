@@ -184,7 +184,8 @@ const decode = async (): Promise<DecodedData> => {
         const funcFragment = funcSignature
           ? FunctionFragment.from(funcSignature)
           : guessFragment(form.abiEncoding)
-        if (!funcFragment) throw new Error('failed guess function')
+        if (!funcFragment)
+          throw new Error('failed to assume function signature')
 
         types = funcFragment.inputs.map(paramType => paramType.format())
         values = AbiCoder.defaultAbiCoder().decode(types, funcData)
