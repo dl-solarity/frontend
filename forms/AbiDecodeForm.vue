@@ -184,7 +184,7 @@ const decode = async (): Promise<DecodedData> => {
         const funcFragment = funcSignature
           ? FunctionFragment.from(funcSignature)
           : guessFragment(form.abiEncoding)
-        if (!funcFragment) throw new Error('failed guess fragment')
+        if (!funcFragment) throw new Error('failed guess function')
 
         types = funcFragment.inputs.map(paramType => paramType.format())
         values = AbiCoder.defaultAbiCoder().decode(types, funcData)
@@ -214,7 +214,12 @@ const decode = async (): Promise<DecodedData> => {
       case form.decodeMode === DECODE_MODES.manual: {
         types = form.args.map(arg => arg.type)
         values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+
+        break
       }
+
+      default:
+        throw new Error('case for decode not found')
     }
 
     return { types, values }
