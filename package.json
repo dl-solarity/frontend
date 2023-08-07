@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@distributedlab/tools": "^1.0.0-rc.2",
+    "@openchainxyz/abi-guesser": "^1.0.2",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.3",
     "@vueuse/core": "^10.2.1",

@@ -2,11 +2,11 @@
   <div class="hash-functions-page">
     <page-title :title="$t('hash-functions-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTabId" :tabs="TABS_LIST" />
+      <tabs v-model="currentTab" :tabs="TABS_LIST" />
       <div class="content">
         <template v-for="tab in TABS_LIST" :key="tab.id">
           <hash-function-form
-            v-show="currentTabId === tab.id"
+            v-show="currentTab.id === tab.id"
             :title="tab.title"
             :decode="hashFunctionsMap[tab.id as TABS_IDS]"
           />
@@ -48,7 +48,7 @@ const TABS_LIST: Tab[] = [
     id: TABS_IDS.ripemd160,
   },
 ]
-const currentTabId = ref(TABS_LIST[0].id)
+const currentTab = ref<Tab>(TABS_LIST[0])
 
 const hashFunctionsMap: Record<TABS_IDS, HashFunction> = {
   [TABS_IDS.keccak256]: keccak256,

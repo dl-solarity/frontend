@@ -88,7 +88,7 @@ export default defineComponent({
   position: absolute;
   width: toRem(1);
   height: toRem(1);
-  margin: calc(#{toRem(1)} * -1);
+  margin: toRem(1);
   border: 0;
   padding: 0;
   white-space: nowrap;

@@ -12,6 +12,8 @@ export type NotificationObjectPayload = {
   iconName?: typeof ICON_NAMES | unknown
 }
 
+export type ArrayElement<T extends readonly unknown[]> = T[number]
+
 export interface Audit {
   title: string
   imgSrc: string
@@ -22,6 +24,11 @@ export interface Audit {
 }
 
 export type DecodeType = 'text' | 'hex'
+
+export type FieldOption = {
+  value: string | number
+  title: string
+}
 
 export type HashFunction = (str: string, type: 'text' | 'hex') => string
 

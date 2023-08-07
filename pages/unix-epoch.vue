@@ -2,10 +2,10 @@
   <div class="unix-epoch-page">
     <page-title :title="$t('unix-epoch-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTabId" :tabs="tabsList" />
+      <tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
-        <date-form v-show="currentTabId === TABS_IDS.date" />
-        <timestamp-form v-show="currentTabId === TABS_IDS.timestamp" />
+        <date-form v-show="currentTab.id === TABS_IDS.date" />
+        <timestamp-form v-show="currentTab.id === TABS_IDS.timestamp" />
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@ const tabsList = computed<Tab[]>(() => [
     id: TABS_IDS.timestamp,
   },
 ])
-const currentTabId = ref(tabsList.value[0].id)
+const currentTab = ref<Tab>(tabsList.value[0])
 </script>
 
 <style lang="scss" scoped>

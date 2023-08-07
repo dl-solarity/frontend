@@ -1,15 +1,15 @@
 <template>
   <div class="tabs">
     <button
-      v-for="item in tabs"
+      v-for="tab in tabs"
       class="tabs__btn"
-      :key="item.id"
-      :class="{ 'tabs__btn--active': modelValue === item.id }"
-      @click="updateTab(item.id)"
+      :key="tab.id"
+      :class="{ 'tabs__btn--active': modelValue.id === tab.id }"
+      @click="updateTab(tab)"
     >
       <icon class="tabs__btn-icon" :name="$icons.cube" />
       <p class="tabs__btn-text">
-        {{ item.title }}
+        {{ tab.title }}
       </p>
     </button>
   </div>
@@ -20,16 +20,16 @@ import { Icon } from '#components'
 import { Tab } from '@/types'
 
 defineProps<{
-  modelValue: string
+  modelValue: Tab
   tabs: Tab[]
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', value: string): void
+  (event: 'update:modelValue', value: Tab): void
 }>()
 
-const updateTab = (id: string) => {
-  emit('update:modelValue', id)
+const updateTab = (tab: Tab) => {
+  emit('update:modelValue', tab)
 }
 </script>
 
