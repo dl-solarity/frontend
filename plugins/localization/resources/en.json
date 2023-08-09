@@ -83,6 +83,8 @@
     "arg-value-placeholder": "Enter value",
     "arg-type-label": "Type",
     "arg-type-placeholder": "Select argument",
+    "arg-subtype-label": "Value",
+    "arg-subtype-placeholder--tuple": "Enter type, e.g. tuple(address, tuple(uint256))",
     "add-arg-btn": "Add argument",
     "error-msg": "Error: {msg}",
     "error-msg--unknown": "unknown error"
