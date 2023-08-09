@@ -153,7 +153,7 @@ const rules = computed(() => ({
   },
 }))
 
-const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(
+const { getFieldErrorMessage, isFormValid, touchField } = useFormValidation(
   form,
   rules,
 )
@@ -182,8 +182,19 @@ const encode = () => {
   abiEncoding.value = iface.encodeFunctionData(form.funcName, values)
 }
 
+let _formStateJsonString = ''
 const onFormChange = () => {
-  if (!isFieldsValid.value) {
+  // to avoid endless loop,because form can change on invoke
+  if (JSON.stringify(form) === _formStateJsonString) return
+
+  form.args = form.args.map(arg => ({
+    ...arg,
+    subtype: arg.subtype.startsWith('(') ? `tuple${arg.subtype}` : arg.subtype,
+  }))
+
+  _formStateJsonString = JSON.stringify(form)
+
+  if (!isFormValid()) {
     resetOutput()
     return
   }
@@ -197,7 +208,7 @@ const onFormChange = () => {
 }
 
 watch(form, onFormChange)
-onFormChange()
+encode()
 </script>
 
 <style lang="scss" scoped>

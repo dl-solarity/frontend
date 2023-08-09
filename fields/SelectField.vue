@@ -31,7 +31,7 @@
             <template v-if="modelValue">
               {{ valueOptions[fieldIndex].title }}
             </template>
-            <template v-else-if="!label && placeholder">
+            <template v-else-if="placeholder">
               <span class="select-field__placeholder">
                 {{ props.placeholder }}
               </span>
@@ -304,9 +304,6 @@ $z-local-index: 2;
 }
 
 .select-field__placeholder {
-  font: inherit;
-  opacity: 0.25;
-
   @include field-placeholder;
 }
 
