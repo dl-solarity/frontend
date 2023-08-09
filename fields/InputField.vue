@@ -18,7 +18,7 @@
         v-bind="$attrs"
         v-on="listeners"
         :value="modelValue"
-        :placeholder="!label ? placeholder : ' '"
+        :placeholder="placeholder"
         :tabindex="tabIndex"
         :type="inputType"
         :min="min"

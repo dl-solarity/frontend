@@ -25,7 +25,30 @@
             :error-message="getFieldErrorMessage(`args[${idx}].type`)"
             @blur="touchField(`args[${idx}].type`)"
           />
+          <div
+            v-if="arg.type === ETHEREUM_TYPES.tuple"
+            class="abi-encode-form__tuple"
+          >
+            <input-field
+              v-model="arg.subtype"
+              is-clearable
+              :label="$t('abi-encode-form.arg-subtype-label')"
+              :placeholder="
+                $t('abi-encode-form.arg-subtype-placeholder--tuple')
+              "
+              :error-message="getFieldErrorMessage(`args[${idx}].subtype`)"
+              @blur="touchField(`args[${idx}].subtype`)"
+              @clear="removeArg(arg.id)"
+            />
+            <input-field
+              v-model="arg.value"
+              :placeholder="$t('abi-encode-form.arg-value-placeholder')"
+              :error-message="getFieldErrorMessage(`args[${idx}].value`)"
+              @blur="touchField(`args[${idx}].value`)"
+            />
+          </div>
           <input-field
+            v-else
             v-model="arg.value"
             is-clearable
             :label="$t('abi-encode-form.arg-value-label')"
@@ -75,10 +98,11 @@ import {
   ErrorHandler,
   contractFuncName,
   copyToClipboard,
+  ethereumBaseType,
   ethereumBaseTypeValue,
+  json,
   parseFuncArgToValueOfEncode,
   required,
-  requiredIf,
   withinSizeOfEthereumType,
 } from '@/helpers'
 import { type AbiEncodeForm } from '@/types'
@@ -110,8 +134,15 @@ const rules = computed(() => ({
         ...acc,
         [idx]: {
           type: { required },
+          subtype: {
+            ...(arg.type === ETHEREUM_TYPES.tuple && {
+              required,
+              ethereumBaseType: ethereumBaseType('tuple'),
+            }),
+          },
           value: {
-            required: requiredIf(arg.type !== ETHEREUM_TYPES.string),
+            ...(arg.type !== ETHEREUM_TYPES.string && { required }),
+            ...(arg.type === ETHEREUM_TYPES.tuple && { json }),
             ethereumBaseTypeValue: ethereumBaseTypeValue(),
             withinSizeOfEthereumType: withinSizeOfEthereumType(),
           },
@@ -127,13 +158,16 @@ const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(
   rules,
 )
 
-const addArg = () => form.args.push({ id: uuidv4(), type: '', value: '' })
+const addArg = () =>
+  form.args.push({ id: uuidv4(), type: '', subtype: '', value: '' })
 const removeArg = (id: AbiEncodeForm.FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
 
 const encode = () => {
-  const types = form.args.map(arg => arg.type)
+  const types = form.args.map(arg =>
+    arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
+  )
   const values = form.args.map(parseFuncArgToValueOfEncode)
 
   if (!form.funcName) {
@@ -204,5 +238,10 @@ onFormChange()
 
 .abi-encode-form__add-arg-btn {
   padding: toRem(12) toRem(16);
+}
+
+.abi-encode-form__tuple {
+  display: grid;
+  grid-gap: toRem(16);
 }
 </style>

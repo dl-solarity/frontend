@@ -49,7 +49,30 @@
                 :error-message="getFieldErrorMessage(`args[${idx}].type`)"
                 @blur="touchField('args')"
               />
+              <div
+                v-if="arg.type === ETHEREUM_TYPES.tuple"
+                class="abi-decode-form__tuple"
+              >
+                <input-field
+                  v-model="arg.subtype"
+                  :readonly="form.decodeMode === DECODE_MODES.auto"
+                  :is-clearable="form.decodeMode === DECODE_MODES.manual"
+                  :label="$t('abi-decode-form.arg-subtype-label')"
+                  :placeholder="
+                    $t('abi-decode-form.arg-subtype-placeholder--tuple')
+                  "
+                  :error-message="getFieldErrorMessage(`args[${idx}].subtype`)"
+                  @blur="touchField(`args[${idx}].subtype`)"
+                  @clear="removeArg(arg.id)"
+                />
+                <input-field
+                  v-model="arg.value"
+                  readonly
+                  :placeholder="$t('abi-decode-form.arg-value-placeholder')"
+                />
+              </div>
               <input-field
+                v-else
                 v-model="arg.value"
                 readonly
                 :is-clearable="form.decodeMode === DECODE_MODES.manual"
@@ -84,7 +107,13 @@ import {
   SelectField,
   TextareaField,
 } from '@/fields'
-import { ErrorHandler, checkIsBigInt, hex, required } from '@/helpers'
+import {
+  ErrorHandler,
+  checkIsBigInt,
+  hex,
+  required,
+  ethereumBaseType,
+} from '@/helpers'
 import { type ArrayElement, type FieldOption } from '@/types'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
 import { AbiCoder, FunctionFragment } from 'ethers'
@@ -101,6 +130,7 @@ type DecodedData = {
 type FuncArg = {
   id: string
   type: string
+  subtype: string
   value: string
 }
 
@@ -118,7 +148,8 @@ const { t } = i18n.global
 const errorMessage = ref('')
 const isDecoding = ref(false)
 
-const addArg = () => form.args.push({ id: uuidv4(), type: '', value: '' })
+const addArg = () =>
+  form.args.push({ id: uuidv4(), type: '', subtype: '', value: '' })
 const removeArg = (id: FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
@@ -145,9 +176,17 @@ const rules = computed(() => ({
   decodeMode: { required },
   args: {
     ...form.args.reduce(
-      (acc, _, idx) => ({
+      (acc, arg, idx) => ({
         ...acc,
-        [idx]: { type: { required } },
+        [idx]: {
+          type: { required },
+          subtype: {
+            ...(arg.type === ETHEREUM_TYPES.tuple && {
+              required,
+              ethereumBaseType: ethereumBaseType('tuple'),
+            }),
+          },
+        },
       }),
       {},
     ),
@@ -206,14 +245,18 @@ const decode = async (): Promise<DecodedData> => {
       case form.decodeMode === DECODE_MODES.manual && form.hasFuncSelector: {
         const funcData = '0x' + form.abiEncoding.substring(10)
 
-        types = form.args.map(arg => arg.type)
+        types = form.args.map(arg =>
+          ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
+        )
         values = AbiCoder.defaultAbiCoder().decode(types, funcData)
 
         break
       }
 
       case form.decodeMode === DECODE_MODES.manual: {
-        types = form.args.map(arg => arg.type)
+        types = form.args.map(arg =>
+          arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
+        )
         values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
 
         break
@@ -245,6 +288,7 @@ const onFormChange = async () => {
 
   if (!isFormValid()) {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
+    else form.args = form.args.map(arg => ({ ...arg, value: '' }))
     errorMessage.value = ''
     return
   }
@@ -254,7 +298,12 @@ const onFormChange = async () => {
 
     form.args = types.map((type, idx) => ({
       id: form.args[idx]?.id || uuidv4(),
-      type: type,
+      ...(type.includes('tuple') || type.startsWith('(')
+        ? {
+            type: ETHEREUM_TYPES.tuple,
+            subtype: type.startsWith('(') ? `tuple${type}` : type,
+          }
+        : { type, subtype: '' }),
       value: formatValue(values[idx]),
     }))
 
@@ -320,5 +369,10 @@ watch([form, isFieldsValid], debounce(onFormChange, 500))
 
 .abi-decode-form__add-arg-btn {
   padding: toRem(12) toRem(16);
+}
+
+.abi-decode-form__tuple {
+  display: grid;
+  grid-gap: toRem(16);
 }
 </style>

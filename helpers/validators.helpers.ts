@@ -1,7 +1,6 @@
 import {
   helpers,
   required as _required,
-  requiredIf as _requiredIf,
   email as _email,
   minLength as _minLength,
   maxLength as _maxLength,
@@ -18,12 +17,6 @@ import { i18n } from '~/plugins/localization'
 
 import { isAddress, isBytesLike } from 'ethers'
 
-type RequiredIfArg =
-  | string
-  | boolean
-  | Ref<boolean>
-  | (() => boolean | Promise<boolean>)
-
 const HASH_REGEX = /^0x[a-fA-F0-9]{64}$/
 const HEX_REGEX = /^0x[a-fA-F0-9]*$/
 const HEXADECIMAL_REGEX = /(^[a-fA-F0-9]*$)|(^-[a-fA-F0-9]+$)/
@@ -39,9 +32,6 @@ const messagePath = ({ $validator }: MessageProps) =>
 const withI18nMessage = createI18nMessage({ t, messagePath })
 
 export const required = <ValidationRule>withI18nMessage(_required)
-
-export const requiredIf = (prop: RequiredIfArg): ValidationRule =>
-  <ValidationRule>withI18nMessage(_requiredIf(prop))
 
 export const email = <ValidationRule>withI18nMessage(_email)
 
@@ -70,6 +60,14 @@ export const bytes = <ValidationRule>(
   withI18nMessage(value => isBytesLike(value))
 )
 export const integer = <ValidationRule>withI18nMessage(_integer)
+
+export const json = <ValidationRule>withI18nMessage(value => {
+  try {
+    return Boolean(JSON.parse(value))
+  } catch {
+    return false
+  }
+})
 
 export const minValue = (value: number): ValidationRule =>
   <ValidationRule>withI18nMessage(_minValue(value))
