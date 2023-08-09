@@ -1,8 +1,8 @@
 import { ETHEREUM_TYPES } from '@/enums'
-import { type AbiEncodeForm } from '@/types'
+import { type AbiEncodeForm, type BytesLike } from '@/types'
 import { ValidationRule } from '@vuelidate/core'
-import { type BytesLike } from '@/types'
 import { type BigNumber } from 'bignumber.js'
+import { AbiCoder, ParamType } from 'ethers'
 import {
   checkBytesAmount,
   checkIsAddress,
@@ -18,7 +18,22 @@ import {
 } from '~/helpers/type.helpers'
 import { i18n } from '~/plugins/localization'
 
+const abiCoder = AbiCoder.defaultAbiCoder()
 const { t } = i18n.global
+
+export const ethereumBaseType = (baseType: string): ValidationRule => {
+  return {
+    $validator: value => {
+      try {
+        const paramType = ParamType.from(value)
+        return paramType.baseType === baseType
+      } catch {
+        return false
+      }
+    },
+    $message: () => t('validations.field-error_ethereumBaseType', { baseType }),
+  }
+}
 
 export function ethereumBaseTypeValue(): ValidationRule {
   let _arg: AbiEncodeForm.FuncArg
@@ -42,6 +57,17 @@ export function ethereumBaseTypeValue(): ValidationRule {
           return checkIsBytesLikeArrayJsonString(arg.value)
         case ETHEREUM_TYPES.string:
           return checkIsString(arg.value)
+        case ETHEREUM_TYPES.tuple:
+          try {
+            return Boolean(
+              abiCoder.encode(
+                [arg.subtype],
+                [parseFuncArgToValueOfEncode(arg)],
+              ),
+            )
+          } catch {
+            return false
+          }
         case ETHEREUM_TYPES.uint:
           return checkIsUintLike(arg.value)
         case ETHEREUM_TYPES.uintArray:
@@ -57,6 +83,7 @@ export function ethereumBaseTypeValue(): ValidationRule {
         case _arg.type === ETHEREUM_TYPES.address:
         case _arg.type === ETHEREUM_TYPES.bool:
         case _arg.type === ETHEREUM_TYPES.boolArray:
+        case _arg.type === ETHEREUM_TYPES.tuple:
           return t(
             `validations.field-error_ethereumBaseTypeValue--${_arg.type.replace(
               '[]',
@@ -140,6 +167,7 @@ export const parseFuncArgToValueOfEncode = (
 
   switch (true) {
     case isArrayType:
+    case arg.type === ETHEREUM_TYPES.tuple:
       return JSON.parse(arg.value as string)
     case arg.type === ETHEREUM_TYPES.bool:
       return arg.value === 'true'
