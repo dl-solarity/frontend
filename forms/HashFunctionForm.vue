@@ -110,7 +110,7 @@ watch(form, () => {
 
 .hash-function-form__input {
   padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--text-secondary-main);
+  border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
 .hash-function-form__input-fields {

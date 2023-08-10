@@ -340,7 +340,7 @@ watch([form, isFieldsValid], debounce(onFormChange, 500))
 
 .abi-decode-form__input {
   padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--text-secondary-main);
+  border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
 .abi-decode-form__args_wrp {

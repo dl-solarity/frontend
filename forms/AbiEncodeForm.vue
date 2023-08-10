@@ -225,7 +225,7 @@ encode()
 
 .abi-encode-form__input {
   padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--text-secondary-main);
+  border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
 .abi-encode-form__args_wrp {

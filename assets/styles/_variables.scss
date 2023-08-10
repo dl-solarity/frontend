@@ -35,6 +35,9 @@
   --info-main: #{$info-main};
   --info-dark: #{$info-dark};
 
+  --disable-primary-main: #{$disable-primary-main};
+  --disable-primary-dark: #{$disable-primary-dark};
+
   /* brand colors */
   --primary-light: #{$primary-light};
   --primary-main: #{$primary-main};
@@ -124,7 +127,7 @@
   --field-placeholder: var(--text-secondary-main);
 
   /* border */
-  --field-border: var(--border-primary-main);
+  --field-border: var(--border-primary-dark);
   --field-border-hover: var(--border-primary-main);
   --field-border-focus: var(--primary-main);
 

@@ -104,7 +104,7 @@ watch(form, () => {
 
 .create2-address-form__create {
   padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--text-secondary-main);
+  border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
 .create2-address-form__create-fields {

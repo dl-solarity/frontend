@@ -1,5 +1,8 @@
 <template>
   <div class="input-field" :class="inputClasses">
+    <label v-if="label" class="input-field__label" :for="`input-field--${uid}`">
+      {{ label }}
+    </label>
     <div class="input-field__input-wrp">
       <div
         v-if="$slots.nodeLeft"
@@ -8,9 +11,6 @@
       >
         <slot name="nodeLeft" />
       </div>
-      <label v-if="label" class="input-field__label">
-        {{ label }}
-      </label>
       <input
         ref="inputEl"
         class="input-field__input"
@@ -229,9 +229,20 @@ $z-index-side-nodes: 1;
   width: 100%;
   flex: 1;
 
+  &:disabled,
+  &:read-only,
   &--disabled,
   &--readonly {
-    opacity: 0.5;
+    .input-field__input {
+      border-color: var(--disable-primary-dark);
+      background: var(--disable-primary-dark);
+
+      &::placeholder {
+        color: var(--disable-primary-main);
+        -webkit-text-fill-color: var(--disable-primary-main);
+        fill: var(--disable-primary-main);
+      }
+    }
   }
 }
 
@@ -345,7 +356,7 @@ $z-index-side-nodes: 1;
 .input-field__node-left-wrp {
   overflow: hidden;
   position: absolute;
-  top: 65%;
+  top: 50%;
   left: var(--field-padding-left);
   transform: translateY(-50%);
   color: inherit;
@@ -355,7 +366,7 @@ $z-index-side-nodes: 1;
 
 .input-field__node-right-wrp {
   position: absolute;
-  top: 65%;
+  top: 50%;
   right: var(--field-padding-right);
   transform: translateY(-50%);
   color: inherit;

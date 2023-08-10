@@ -174,7 +174,7 @@ a {
   min-height: toRem(400);
   width: 100%;
   border-radius: toRem(8);
-  border: toRem(1) solid var(--border-primary-main);
+  border: toRem(1) solid var(--border-primary-dark);
   background: var(--background-primary-light);
 }
 
@@ -210,8 +210,8 @@ a {
   --dp-primary-color: var(--primary-main);
   --dp-primary-text-color: var(--text-primary-invert-main);
   --dp-secondary-color: var(--text-secondary-main);
-  --dp-border-color: var(--border-primary-main);
-  --dp-menu-border-color:  var(--border-primary-main);
+  --dp-border-color: var(--border-primary-dark);
+  --dp-menu-border-color:  var(--border-primary-dark);
   --dp-border-color-hover: var(--border-primary-light);
   --dp-disabled-color: var(--text-secondary-dark);;
   --dp-scroll-bar-background: var(--border-secondary-dark);
