@@ -30,7 +30,7 @@
             class="abi-encode-form__tuple"
           >
             <input-field
-              v-model="arg.subtype"
+              :model-value="arg.subtype"
               is-clearable
               :label="$t('abi-encode-form.arg-subtype-label')"
               :placeholder="
@@ -39,6 +39,9 @@
               :error-message="getFieldErrorMessage(`args[${idx}].subtype`)"
               @blur="touchField(`args[${idx}].subtype`)"
               @clear="removeArg(arg.id)"
+              @update:model-value="
+                newValue => onArgSubtypeUpdate(newValue as string, idx)
+              "
             />
             <input-field
               v-model="arg.value"
@@ -164,6 +167,16 @@ const removeArg = (id: AbiEncodeForm.FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
 
+const formatArgSubtype = (subtype: AbiEncodeForm.FuncArg['subtype']) => {
+  return subtype.startsWith('(') ? `tuple${subtype}` : subtype
+}
+const onArgSubtypeUpdate = (
+  newValue: AbiEncodeForm.FuncArg['subtype'],
+  argIdx: number,
+) => {
+  form.args[argIdx].subtype = formatArgSubtype(newValue)
+}
+
 const createFuncSignature = (
   name: string,
   types: Array<AbiEncodeForm.FuncArg['type']>,
@@ -190,18 +203,7 @@ const encodeAbi = (types: string[], values: unknown[]): string => {
   return iface.encodeFunctionData(form.funcName, values)
 }
 
-let _formStateJsonString = ''
 const onFormChange = () => {
-  // to avoid endless loop,because form can change on invoke
-  if (JSON.stringify(form) === _formStateJsonString) return
-
-  form.args = form.args.map(arg => ({
-    ...arg,
-    subtype: arg.subtype.startsWith('(') ? `tuple${arg.subtype}` : arg.subtype,
-  }))
-
-  _formStateJsonString = JSON.stringify(form)
-
   if (!isFormValid()) {
     resetOutput()
     return
