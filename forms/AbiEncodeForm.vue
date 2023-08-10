@@ -106,7 +106,7 @@ import {
   withinSizeOfEthereumType,
 } from '@/helpers'
 import { type AbiEncodeForm } from '@/types'
-import { Interface } from 'ethers'
+import { Interface, ParamType } from 'ethers'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, watch } from 'vue'
 
@@ -164,22 +164,30 @@ const removeArg = (id: AbiEncodeForm.FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
 
-const encode = () => {
-  const types = form.args.map(arg =>
-    arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
-  )
-  const values = form.args.map(parseFuncArgToValueOfEncode)
+const createFuncSignature = (
+  name: string,
+  types: Array<AbiEncodeForm.FuncArg['type']>,
+): string => {
+  const _types = types.map(type => {
+    const paramType = ParamType.from(type)
+    return paramType.type.replaceAll('tuple(', '(').replaceAll('(', 'tuple(')
+  })
 
+  return name
+    ? `${name}(${_types.join(',')})`
+    : `constructor(${_types.join(',')})`
+}
+
+const encodeAbi = (types: string[], values: unknown[]): string => {
   if (!form.funcName) {
-    funcSignature.value = `constructor(${types.join(', ')})`
-    const iface = new Interface([funcSignature.value])
-    abiEncoding.value = iface.encodeDeploy(values)
-    return
+    const iface = new Interface([`constructor(${types.join(', ')})`])
+    return iface.encodeDeploy(values)
   }
 
-  funcSignature.value = `${form.funcName}(${types.join(', ')})`
-  const iface = new Interface([`function ${funcSignature.value}`])
-  abiEncoding.value = iface.encodeFunctionData(form.funcName, values)
+  const iface = new Interface([
+    `function ${form.funcName}(${types.join(', ')})`,
+  ])
+  return iface.encodeFunctionData(form.funcName, values)
 }
 
 let _formStateJsonString = ''
@@ -200,7 +208,13 @@ const onFormChange = () => {
   }
 
   try {
-    encode()
+    const types = form.args.map(arg =>
+      arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
+    )
+    const values = form.args.map(parseFuncArgToValueOfEncode)
+
+    funcSignature.value = createFuncSignature(form.funcName, types)
+    abiEncoding.value = encodeAbi(types, values)
   } catch (error) {
     resetOutput()
     ErrorHandler.process(error)
@@ -208,7 +222,7 @@ const onFormChange = () => {
 }
 
 watch(form, onFormChange)
-encode()
+encodeAbi([], [])
 </script>
 
 <style lang="scss" scoped>
