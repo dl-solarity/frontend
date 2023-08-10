@@ -54,7 +54,7 @@
                 class="abi-decode-form__tuple"
               >
                 <input-field
-                  v-model="arg.subtype"
+                  :model-value="arg.subtype"
                   :readonly="form.decodeMode === DECODE_MODES.auto"
                   :is-clearable="form.decodeMode === DECODE_MODES.manual"
                   :label="$t('abi-decode-form.arg-subtype-label')"
@@ -64,6 +64,9 @@
                   :error-message="getFieldErrorMessage(`args[${idx}].subtype`)"
                   @blur="touchField(`args[${idx}].subtype`)"
                   @clear="removeArg(arg.id)"
+                  @update:model-value="
+                    newValue => onArgSubtypeUpdate(newValue as string, idx)
+                  "
                 />
                 <input-field
                   v-model="arg.value"
@@ -154,6 +157,13 @@ const removeArg = (id: FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
 
+const formatArgSubtype = (subtype: FuncArg['subtype']) => {
+  return subtype.startsWith('(') ? `tuple${subtype}` : subtype
+}
+const onArgSubtypeUpdate = (newValue: FuncArg['subtype'], argIdx: number) => {
+  form.args[argIdx].subtype = formatArgSubtype(newValue)
+}
+
 const decodeModeOptions = computed<FieldOption[]>(() => [
   {
     value: DECODE_MODES.auto,
@@ -213,26 +223,26 @@ const decode = async (): Promise<DecodedData> => {
   let values: DecodedData['values'] = []
 
   try {
-    switch (true) {
-      case form.decodeMode === DECODE_MODES.auto && form.hasFuncSelector: {
-        const funcSelector = form.abiEncoding.substring(0, 10)
-        const funcData = '0x' + form.abiEncoding.substring(10)
+    switch (form.decodeMode) {
+      case DECODE_MODES.auto: {
+        if (form.hasFuncSelector) {
+          const funcSelector = form.abiEncoding.substring(0, 10)
+          const funcData = '0x' + form.abiEncoding.substring(10)
 
-        const funcSignature = await fetchFuncSignature(funcSelector)
+          const funcSignature = await fetchFuncSignature(funcSelector)
 
-        const funcFragment = funcSignature
-          ? FunctionFragment.from(funcSignature)
-          : guessFragment(form.abiEncoding)
-        if (!funcFragment)
-          throw new Error('failed to assume function signature')
+          const funcFragment = funcSignature
+            ? FunctionFragment.from(funcSignature)
+            : guessFragment(form.abiEncoding)
+          if (!funcFragment)
+            throw new Error('failed to assume function signature')
 
-        types = funcFragment.inputs.map(paramType => paramType.format())
-        values = AbiCoder.defaultAbiCoder().decode(types, funcData)
+          types = funcFragment.inputs.map(paramType => paramType.format())
+          values = AbiCoder.defaultAbiCoder().decode(types, funcData)
 
-        break
-      }
+          break
+        }
 
-      case form.decodeMode === DECODE_MODES.auto: {
         const paramTypes = guessAbiEncodedData(form.abiEncoding)
         if (!paramTypes) throw new Error('failed guess params types')
 
@@ -242,22 +252,15 @@ const decode = async (): Promise<DecodedData> => {
         break
       }
 
-      case form.decodeMode === DECODE_MODES.manual && form.hasFuncSelector: {
-        const funcData = '0x' + form.abiEncoding.substring(10)
+      case DECODE_MODES.manual: {
+        const data = form.hasFuncSelector
+          ? '0x' + form.abiEncoding.substring(10)
+          : form.abiEncoding
 
         types = form.args.map(arg =>
           ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
         )
-        values = AbiCoder.defaultAbiCoder().decode(types, funcData)
-
-        break
-      }
-
-      case form.decodeMode === DECODE_MODES.manual: {
-        types = form.args.map(arg =>
-          arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
-        )
-        values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+        values = AbiCoder.defaultAbiCoder().decode(types, data)
 
         break
       }
@@ -301,7 +304,7 @@ const onFormChange = async () => {
       ...(type.includes('tuple') || type.startsWith('(')
         ? {
             type: ETHEREUM_TYPES.tuple,
-            subtype: type.startsWith('(') ? `tuple${type}` : type,
+            subtype: formatArgSubtype(type),
           }
         : { type, subtype: '' }),
       value: formatValue(values[idx]),
