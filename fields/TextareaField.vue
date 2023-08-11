@@ -14,7 +14,7 @@
         v-bind="$attrs"
         v-on="listeners"
         :value="modelValue"
-        :placeholder="!label ? placeholder : ' '"
+        :placeholder="placeholder"
         :tabindex="isDisabled || isReadonly ? -1 : ($attrs.tabindex as number)"
         :disabled="isDisabled || isReadonly"
       />
@@ -110,9 +110,14 @@ const setHeightCSSVar = (element: Element) => {
   width: 100%;
   flex: 1;
 
+  &:disabled,
+  &:read-only,
   &--disabled,
   &--readonly {
-    opacity: 0.5;
+    .textarea-field__textarea {
+      border-color: var(--disable-primary-dark);
+      background: var(--disable-primary-dark);
+    }
   }
 }
 
@@ -167,6 +172,26 @@ const setHeightCSSVar = (element: Element) => {
 
   transition-property: all;
 
+  &:read-only::-webkit-input-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only::-moz-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only:-moz-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only:-ms-input-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only::placeholder {
+    @include field-placeholder-readonly;
+  }
+
   &::-webkit-input-placeholder {
     @include field-placeholder;
   }
@@ -189,21 +214,17 @@ const setHeightCSSVar = (element: Element) => {
 
   .textarea-field--error.textarea-field--primary & {
     border-color: var(--field-error);
-    box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary),
-      0 0 0 toRem(1) var(--field-error);
   }
 
   &:not([disabled]):focus {
     .textarea-field--primary & {
       box-sizing: border-box;
-      box-shadow: inset 0 0 0 toRem(500) var(--field-bg-primary),
-        0 0 0 toRem(1) var(--field-border-focus);
       border-color: var(--field-border-focus);
     }
   }
 
   &:not([disabled]):not(:focus):hover {
-    .textarea-field--primary & {
+    .textarea-field--primary:not(.textarea-field--error) & {
       border-color: var(--field-border-hover);
     }
   }

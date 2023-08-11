@@ -11,11 +11,12 @@
     >
       <input
         class="radio-button-field__input"
-        type="radio"
         v-bind="$attrs"
+        type="radio"
         :checked="modelValue === option.value"
         :id="`${uuid}-${option.value}`"
-        :value="option.title"
+        :name="uuid"
+        :value="option.value"
         :disabled="isDisabled"
         @change="emit('update:model-value', option.value)"
       />
@@ -53,18 +54,31 @@ $checkmark-size: toRem(18);
 .radio-button-field {
   display: flex;
   gap: toRem(24);
+  height: toRem(22);
+  padding-left: toRem(2);
 }
 
 .radio-button-field__label {
   display: flex;
-  gap: toRem(12);
+  align-items: center;
+  gap: toRem(8);
   cursor: pointer;
   user-select: none;
 
   .radio-button-field--disabled & {
     cursor: not-allowed;
-    filter: grayscale(50);
-    opacity: 0.5;
+
+    .radio-button-field__label-text {
+      color: var(--disable-primary-main);
+    }
+
+    .radio-button-field__checkmark {
+      border-color: var(--disable-primary-main);
+
+      &:after {
+        background: var(--disable-primary-main);
+      }
+    }
   }
 }
 
@@ -83,11 +97,29 @@ $checkmark-size: toRem(18);
 
 .radio-button-field__checkmark {
   position: relative;
+  flex-shrink: 0;
   height: $checkmark-size;
   width: $checkmark-size;
-  border: toRem(2) solid var(--primary-main);
+  border: toRem(2) solid var(--text-primary-light);
   background-color: transparent;
   border-radius: 50%;
+  transition: border var(--field-transition-duration);
+
+  .radio-button-field__input:not([disabled]):not(:checked):hover ~ & {
+    border-color: var(--text-primary-main);
+  }
+
+  .radio-button-field__input:not([disabled]):checked ~ & {
+    border-color: var(--primary-main);
+  }
+
+  .radio-button-field__input:not([disabled]):checked:hover ~ & {
+    border-color: var(--primary-light);
+
+    &:after {
+      background: var(--primary-light);
+    }
+  }
 }
 
 .radio-button-field__checkmark:after {
@@ -96,10 +128,12 @@ $checkmark-size: toRem(18);
   inset: toRem(2);
   border-radius: 50%;
   background: var(--primary-main);
-  display: none;
+  opacity: 0;
+  transition: var(--field-transition-duration);
+  transition-property: background-color, opacity;
 
   .radio-button-field__input:checked ~ & {
-    display: block;
+    opacity: 1;
   }
 }
 

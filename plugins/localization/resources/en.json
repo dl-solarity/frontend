@@ -80,7 +80,7 @@
     "decode-mode-option-title--manual": "Manually specify parameter types",
     "output-title": "Decoded data",
     "arg-value-label": "Value",
-    "arg-value-placeholder": "Enter value",
+    "arg-value-placeholder": "Value",
     "arg-type-label": "Type",
     "arg-type-placeholder": "Select type",
     "arg-subtype-label": "Value",

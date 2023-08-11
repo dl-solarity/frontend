@@ -18,15 +18,8 @@
     />
 
     <span class="checkbox-field__frame-wrp" aria-hidden="true">
-      <span
-        class="checkbox-field__frame"
-        :class="{ 'checkbox-field__frame--checked': modelValue }"
-      >
-        <icon
-          v-if="modelValue"
-          class="checkbox-field__frame-icon"
-          :name="$icons.check"
-        />
+      <span class="checkbox-field__frame">
+        <icon class="checkbox-field__frame-icon" :name="$icons.check" />
       </span>
     </span>
 
@@ -73,14 +66,28 @@ export default defineComponent({
 .checkbox-field {
   cursor: pointer;
   display: grid;
-  align-items: start;
+  align-items: center;
   grid-template-columns: toRem(18) 1fr;
-  grid-gap: toRem(12);
+  grid-gap: toRem(8);
+  height: toRem(22);
+  padding-left: toRem(2);
+  max-width: max-content;
 
   &--disabled {
     cursor: not-allowed;
-    filter: grayscale(50);
-    opacity: 0.5;
+
+    .checkbox-field__frame-wrp {
+      border-color: var(--disable-primary-main);
+    }
+
+    .checkbox-field__label {
+      color: var(--disable-primary-main);
+    }
+
+    &.checkbox-field--checked .checkbox-field__frame-wrp {
+      border-color: var(--disable-primary-main);
+      background-color: var(--disable-primary-main);
+    }
   }
 }
 
@@ -101,10 +108,24 @@ export default defineComponent({
   overflow: hidden;
   width: toRem(18);
   height: toRem(18);
-  transition: var(--field-transition-duration) ease-in;
-  transition-property: border-color, box-shadow, background-color;
+  transition: var(--field-transition-duration);
+  transition-property: border-color, background-color;
   border-radius: toRem(3);
-  box-shadow: inset 0 0 0 toRem(2) var(--field-border);
+  border: toRem(2) solid var(--text-primary-light);
+
+  .checkbox-field--checked & {
+    border-color: var(--primary-main);
+    background: var(--primary-main);
+  }
+
+  .checkbox-field:not(.checkbox-field--disabled):hover & {
+    border-color: var(--text-primary-main);
+  }
+
+  .checkbox-field--checked:not(.checkbox-field--disabled):hover & {
+    border-color: var(--primary-light);
+    background: var(--primary-light);
+  }
 }
 
 .checkbox-field__frame {
@@ -113,20 +134,23 @@ export default defineComponent({
   align-items: center;
   width: 100%;
   height: 100%;
-  color: var(--field-bg);
-
-  .checkbox-field--checked & {
-    background-color: var(--primary-main);
-  }
 }
 
 .checkbox-field__frame-icon {
-  width: toRem(42);
-  height: toRem(42);
+  width: toRem(10);
+  height: toRem(10);
+  color: var(--background-primary-light);
+  transition: opacity var(--field-transition-duration);
+  opacity: 0;
+
+  .checkbox-field--checked & {
+    opacity: 1;
+  }
 }
 
 .checkbox-field__label {
-  display: inline-flex;
+  display: flex;
+  align-items: center;
   user-select: none;
 
   @include field-text;

@@ -168,6 +168,7 @@ const inputClasses = computed(() =>
     ...(isDisabled.value ? ['input-field--disabled'] : []),
     ...(isReadonly.value ? ['input-field--readonly'] : []),
     ...(props.errorMessage ? ['input-field--error'] : []),
+    ...(props.modelValue ? ['input-field--filled'] : []),
     `input-field--${props.scheme}`,
   ].join(' '),
 )
@@ -236,12 +237,6 @@ $z-index-side-nodes: 1;
     .input-field__input {
       border-color: var(--disable-primary-dark);
       background: var(--disable-primary-dark);
-
-      &::placeholder {
-        color: var(--disable-primary-main);
-        -webkit-text-fill-color: var(--disable-primary-main);
-        fill: var(--disable-primary-main);
-      }
     }
   }
 }
@@ -291,6 +286,26 @@ $z-index-side-nodes: 1;
 
   transition-property: all;
 
+  &:read-only::-webkit-input-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only::-moz-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only:-moz-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only:-ms-input-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only::placeholder {
+    @include field-placeholder-readonly;
+  }
+
   &::-webkit-input-placeholder {
     @include field-placeholder;
   }
@@ -333,21 +348,17 @@ $z-index-side-nodes: 1;
 
   .input-field--error.input-field--primary & {
     border-color: var(--field-error);
-    box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary),
-      0 0 0 toRem(1) var(--field-error);
   }
 
   &:not([disabled]):focus {
     .input-field--primary & {
       box-sizing: border-box;
-      box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary),
-        0 0 0 toRem(1) var(--field-border-focus);
       border-color: var(--field-border-focus);
     }
   }
 
   &:not([disabled]):not(:focus):hover {
-    .input-field--primary & {
+    .input-field--primary:not(.input-field--error) & {
       border-color: var(--field-border-hover);
     }
   }
@@ -375,11 +386,22 @@ $z-index-side-nodes: 1;
 
 .input-field__remove-btn {
   display: block;
+
+  &:not([disabled]):hover {
+    .input-field__icon:not(.input-field__icon--error) {
+      color: var(--primary-main);
+    }
+  }
 }
 
 .input-field__icon {
   max-width: toRem(24);
   max-height: toRem(24);
+  transition: color var(--field-transition-duration);
+
+  .input-field--filled &:not(.input-field__icon--error) {
+    color: var(--field-text);
+  }
 
   &--error {
     color: var(--field-error);

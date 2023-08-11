@@ -8,6 +8,8 @@ export enum ICON_NAMES {
   arrowCircleRight = 'arrow-circle-right',
   arrowCircleUp = 'arrow-circle-up',
   arrowDown = 'arrow-down',
+  arrowDropDown = 'arrow-drop-down',
+  arrowDropUp = 'arrow-drop-up',
   arrowLeft = 'arrow-left',
   arrowNarrowDown = 'arrow-narrow-down',
   arrowNarrowLeft = 'arrow-narrow-left',

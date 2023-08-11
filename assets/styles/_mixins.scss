@@ -66,6 +66,16 @@ $media-breakpoints: (
   transition-property: opacity, color;
 }
 
+@mixin field-placeholder-readonly {
+  @include field-text;
+
+  color: var(--disable-primary-main);
+  -webkit-text-fill-color: var(--disable-primary-main);
+  fill: var(--disable-primary-main);
+  transition: color var(--field-transition-duration) ease;
+  transition-property: opacity, color;
+}
+
 @mixin field-error {
   overflow: hidden;
   color: var(--field-error);

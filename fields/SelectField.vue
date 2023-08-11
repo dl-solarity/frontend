@@ -1,17 +1,18 @@
 <template>
   <div :class="selectFieldClasses">
     <div ref="selectElement" class="select-field__select-wrp">
+      <label
+        v-if="label"
+        class="select-field__label"
+        :for="`select-field--${uid}`"
+      >
+        {{ label }}
+      </label>
       <div class="select-field__select-head-wrp">
-        <label
-          v-if="label"
-          class="select-field__label"
-          :for="`select-field--${uid}`"
-        >
-          {{ label }}
-        </label>
         <button
           type="button"
           class="select-field__select-head"
+          :id="`select-field--${uid}`"
           @blur="emit('blur')"
           @click="toggleDropdown"
         >
@@ -44,7 +45,7 @@
                 'select-field__select-head-indicator--open': isDropdownOpen,
               },
             ]"
-            :name="$icons.chevronDown"
+            :name="$icons.arrowDropDown"
           />
         </button>
       </div>
@@ -157,6 +158,7 @@ const isLabelActive = computed(() => isDropdownOpen.value || !!props.modelValue)
 const selectFieldClasses = computed(() => ({
   'select-field': true,
   'select-field--error': props.errorMessage,
+  'select-field--filled': props.modelValue,
   'select-field--open': isDropdownOpen.value,
   'select-field--disabled': isDisabled.value,
   'select-field--readonly': isReadonly.value,
@@ -220,8 +222,11 @@ $z-local-index: 2;
 
   &--disabled,
   &--readonly {
-    opacity: 0.5;
     pointer-events: none;
+
+    .select-field__placeholder {
+      @include field-placeholder-readonly;
+    }
   }
 }
 
@@ -290,16 +295,18 @@ $z-local-index: 2;
     @include field-border;
   }
 
+  .select-field--primary:not(.select-field--open):not(.select-field--error) & {
+    &:not([disabled]):hover {
+      border-color: var(--field-border-hover);
+    }
+  }
+
   .select-field--error.select-field--primary & {
-    box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary),
-      0 0 0 toRem(1) var(--field-error);
     border-color: var(--field-error);
   }
 
   .select-field--open.select-field--primary & {
-    box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary),
-      0 0 0 toRem(2) var(--primary-main);
-    border-color: var(--primary-main);
+    border-color: var(--field-border-focus);
   }
 }
 
@@ -310,13 +317,22 @@ $z-local-index: 2;
 .select-field__select-head-indicator {
   pointer-events: none;
   position: absolute;
-  top: 65%;
+  top: 50%;
   right: var(--field-padding-right);
   transform: translateY(-50%);
-  width: toRem(18);
-  height: toRem(18);
-  color: var(--field-text);
+  width: toRem(22);
+  height: toRem(22);
+  color: var(--field-placeholder);
   transition: var(--field-transition-duration) ease-in-out;
+
+  .select-field--disabled &,
+  .select-field--readonly & {
+    color: var(--disable-primary-main);
+  }
+
+  .select-field--filled & {
+    color: var(--field-text);
+  }
 
   &--open {
     transform: translateY(-50%) rotate(180deg);
@@ -362,18 +378,20 @@ $z-local-index: 2;
 }
 
 .select-field__select-dropdown-item {
+  @include field-text;
+
   text-align: left;
   width: 100%;
   padding: var(--field-padding);
   background: var(--field-bg-primary);
 
-  &:hover {
-    opacity: 0.9;
+  &:not([disabled]):not(.select-field__select-dropdown-item--active):hover {
+    background: var(--background-primary-light);
   }
 
   &--active {
-    background: var(--background-primary-light);
-    color: var(--primary-main);
+    background: var(--primary-main);
+    color: var(--text-primary-invert-main);
   }
 }
 
