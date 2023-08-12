@@ -63,7 +63,6 @@
         </div>
       </div>
       <app-button
-        class="abi-encode-form__add-arg-btn"
         scheme="none"
         :text="$t('abi-encode-form.add-arg-btn')"
         :icon-left="$icons.plus"
@@ -261,10 +260,6 @@ encodeAbi([], [])
   @include respond-to(small) {
     grid-template-columns: auto;
   }
-}
-
-.abi-encode-form__add-arg-btn {
-  padding: toRem(12) toRem(16);
 }
 
 .abi-encode-form__tuple {

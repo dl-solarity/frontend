@@ -86,6 +86,7 @@
     "arg-subtype-label": "Value",
     "arg-subtype-placeholder--tuple": "Enter type, e.g. tuple(address, tuple(uint256))",
     "add-arg-btn": "Add argument",
+    "abi-decoding-copy-btn": "Copy decoding",
     "error-msg": "Error: {msg}",
     "error-msg--unknown": "unknown error"
   },

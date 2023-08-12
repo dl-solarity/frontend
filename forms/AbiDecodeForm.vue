@@ -88,14 +88,27 @@
         </template>
       </template>
     </div>
-    <app-button
-      v-if="form.decodeMode === DECODE_MODES.manual"
-      class="abi-decode-form__add-arg-btn"
-      scheme="none"
-      :text="$t('abi-decode-form.add-arg-btn')"
-      :icon-left="$icons.plus"
-      @click="addArg"
-    />
+    <div class="abi-decode-form__buttons">
+      <template v-if="form.decodeMode === DECODE_MODES.manual">
+        <app-button
+          scheme="none"
+          :text="$t('abi-decode-form.add-arg-btn')"
+          :icon-left="$icons.plus"
+          @click="addArg"
+        />
+        <app-button
+          v-if="form.args.length && isDecoded"
+          scheme="none"
+          :text="$t('abi-decode-form.abi-decoding-copy-btn')"
+          @click="copyDecodedValues"
+        />
+      </template>
+      <app-button
+        v-else-if="form.args.length && isDecoded"
+        :text="$t('abi-decode-form.abi-decoding-copy-btn')"
+        @click="copyDecodedValues"
+      />
+    </div>
   </form>
 </template>
 
@@ -113,9 +126,11 @@ import {
 import {
   ErrorHandler,
   checkIsBigInt,
-  hex,
-  required,
+  copyToClipboard,
   ethereumBaseType,
+  hex,
+  parseFuncArgToValueOfEncode,
+  required,
 } from '@/helpers'
 import { type ArrayElement, type FieldOption } from '@/types'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
@@ -150,6 +165,7 @@ const { t } = i18n.global
 
 const errorMessage = ref('')
 const isDecoding = ref(false)
+const isDecoded = ref(false)
 
 const addArg = () =>
   form.args.push({ id: uuidv4(), type: '', subtype: '', value: '' })
@@ -162,6 +178,10 @@ const formatArgSubtype = (subtype: FuncArg['subtype']) => {
 }
 const onArgSubtypeUpdate = (newValue: FuncArg['subtype'], argIdx: number) => {
   form.args[argIdx].subtype = formatArgSubtype(newValue)
+}
+
+const copyDecodedValues = () => {
+  copyToClipboard(JSON.stringify(form.args.map(parseFuncArgToValueOfEncode)))
 }
 
 const decodeModeOptions = computed<FieldOption[]>(() => [
@@ -216,8 +236,9 @@ const fetchFuncSignature = async (selector: string): Promise<string> => {
   return response.result.function[selector]?.[0]?.name || ''
 }
 
-const decode = async (): Promise<DecodedData> => {
+const decodeAbi = async (): Promise<DecodedData> => {
   isDecoding.value = true
+  isDecoded.value = false
 
   let types: DecodedData['types'] = []
   let values: DecodedData['values'] = []
@@ -258,7 +279,7 @@ const decode = async (): Promise<DecodedData> => {
           : form.abiEncoding
 
         types = form.args.map(arg =>
-          ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
+          arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
         )
         values = AbiCoder.defaultAbiCoder().decode(types, data)
 
@@ -269,6 +290,7 @@ const decode = async (): Promise<DecodedData> => {
         throw new Error('case for decode not found')
     }
 
+    isDecoded.value = true
     return { types, values }
   } finally {
     isDecoding.value = false
@@ -292,12 +314,13 @@ const onFormChange = async () => {
   if (!isFormValid()) {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
     else form.args = form.args.map(arg => ({ ...arg, value: '' }))
+    isDecoded.value = false
     errorMessage.value = ''
     return
   }
 
   try {
-    const { types, values } = await decode()
+    const { types, values } = await decodeAbi()
 
     form.args = types.map((type, idx) => ({
       id: form.args[idx]?.id || uuidv4(),
@@ -370,12 +393,15 @@ watch([form, isFieldsValid], debounce(onFormChange, 500))
   word-break: break-all;
 }
 
-.abi-decode-form__add-arg-btn {
-  padding: toRem(12) toRem(16);
-}
-
 .abi-decode-form__tuple {
   display: grid;
   grid-gap: toRem(16);
+}
+
+.abi-decode-form__buttons {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: toRem(16);
+  max-width: max-content;
 }
 </style>

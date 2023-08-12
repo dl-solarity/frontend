@@ -391,7 +391,7 @@ const buttonType = computed<ButtonType>(
   }
 
   &--medium {
-    padding: toRem(16) toRem(30);
+    padding: toRem(12) toRem(16);
     font-size: toRem(16);
     line-height: 1.4;
     font-weight: 600;
