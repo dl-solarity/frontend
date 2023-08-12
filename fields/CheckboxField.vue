@@ -69,7 +69,7 @@ export default defineComponent({
   align-items: center;
   grid-template-columns: toRem(18) 1fr;
   grid-gap: toRem(8);
-  height: toRem(22);
+  min-height: toRem(22);
   padding-left: toRem(2);
   max-width: max-content;
 

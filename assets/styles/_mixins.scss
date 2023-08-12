@@ -49,6 +49,7 @@ $media-breakpoints: (
   color: var(--field-label);
   transition: var(--field-transition-duration) ease;
   margin-bottom: toRem(4);
+  max-width: max-content;
 }
 
 @mixin field-border {

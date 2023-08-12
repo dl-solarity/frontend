@@ -54,7 +54,8 @@ $checkmark-size: toRem(18);
 .radio-button-field {
   display: flex;
   gap: toRem(24);
-  height: toRem(22);
+  flex-wrap: wrap;
+  min-height: toRem(22);
   padding-left: toRem(2);
 }
 

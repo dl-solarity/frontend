@@ -5,9 +5,8 @@
       :key="index"
       :text="link.text"
       :href="link.href"
-      scheme="none"
-      modification="none"
-      size="none"
+      color="none"
+      modification="text"
       class="app-footer__btn"
     />
   </div>
@@ -42,6 +41,8 @@ const links = [
 }
 
 .app-footer__btn {
-  --app-button-text-hover: var(--text-primary-main);
+  .app-footer & {
+    --app-button-text: var(--text-primary-main);
+  }
 }
 </style>

@@ -65,7 +65,7 @@ const props = withDefaults(
   defineProps<{
     text?: string
     scheme?: 'filled' | 'flat' | 'none'
-    modification?: 'border-circle' | 'border-rounded' | 'none'
+    modification?: 'border-circle' | 'border-rounded' | 'text' | 'none'
     color?: 'primary' | 'success' | 'error' | 'warning' | 'info' | 'none'
     size?: 'large' | 'medium' | 'small' | 'x-small' | 'none'
     route?: string
@@ -249,15 +249,15 @@ const buttonType = computed<ButtonType>(
     --app-button-flat-bg-focused: var(--background-primary-dark);
     --app-button-flat-bg-active: var(--background-primary-dark);
 
-    --app-button-flat-text: var(--text-primary-light);
-    --app-button-flat-text-hover: var(--text-primary-light);
-    --app-button-flat-text-focused: var(--primary-main);
-    --app-button-flat-text-active: var(--primary-main);
+    --app-button-flat-text: var(--primary-main);
+    --app-button-flat-text-hover: var(--primary-main);
+    --app-button-flat-text-focused: var(--primary-light);
+    --app-button-flat-text-active: var(--primary-light);
 
-    --app-button-flat-border: #{toRem(1)} solid var(--border-primary-light);
-    --app-button-flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
-    --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-main);
-    --app-button-flat-border-active: #{toRem(1)} solid var(--primary-main);
+    --app-button-flat-border: #{toRem(1)} solid var(--primary-main);
+    --app-button-flat-border-hover: #{toRem(1)} solid var(--primary-main);
+    --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-light);
+    --app-button-flat-border-active: #{toRem(1)} solid var(--primary-light);
 
     --app-button-none-bg-hover: var(--background-primary-dark);
     --app-button-none-bg-focused: var(--background-primary-dark);
@@ -377,12 +377,36 @@ const buttonType = computed<ButtonType>(
     --app-button-none-text-active: var(--info-dark);
   }
 
-  &--border-circle {
-    border-radius: toRem(50);
-  }
+  &--none {
+    --app-button-flat-bg-hover: var(--background-primary-dark);
+    --app-button-flat-bg-focused: var(--background-primary-dark);
+    --app-button-flat-bg-active: var(--background-primary-dark);
 
-  &--border-rounded {
-    border-radius: toRem(10);
+    --app-button-flat-text: var(--text-primary-light);
+    --app-button-flat-text-hover: var(--text-primary-light);
+    --app-button-flat-text-focused: var(--primary-main);
+    --app-button-flat-text-active: var(--primary-main);
+
+    --app-button-flat-border: #{toRem(1)} solid var(--border-primary-light);
+    --app-button-flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
+    --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-main);
+    --app-button-flat-border-active: #{toRem(1)} solid var(--primary-main);
+
+    --app-button-none-bg-hover: var(--background-primary-dark);
+    --app-button-none-bg-focused: var(--background-primary-dark);
+    --app-button-none-bg-active: var(--background-primary-dark);
+
+    --app-button-none-text: var(--text-primary-light);
+    --app-button-none-text-hover: var(--text-primary-light);
+    --app-button-none-text-focused: var(--primary-main);
+    --app-button-none-text-active: var(--primary-main);
+
+    &.app-button--text {
+      --app-button-text: var(--text-primary-light);
+      --app-button-text-hover: var(--primary-main);
+      --app-button-text-focused: var(--primary-light);
+      --app-button-text-active: var(--primary-light);
+    }
   }
 
   &--large {
@@ -395,7 +419,7 @@ const buttonType = computed<ButtonType>(
     font-size: toRem(16);
     line-height: 1.4;
     font-weight: 600;
-    grid-gap: toRem(12);
+    grid-gap: toRem(8);
     letter-spacing: 0;
   }
 
@@ -404,10 +428,33 @@ const buttonType = computed<ButtonType>(
     grid-gap: toRem(8);
   }
 
+  &--border-circle {
+    border-radius: toRem(50);
+  }
+
+  &--border-rounded {
+    border-radius: toRem(10);
+  }
+
+  &--text {
+    --app-button-bg: none;
+    --app-button-bg-hover: none;
+    --app-button-bg-focused: none;
+    --app-button-bg-active: none;
+
+    --app-button-border: none;
+    --app-button-border-hover: none;
+    --app-button-border-focused: none;
+    --app-button-border-active: none;
+
+    display: inline;
+    padding: 0;
+  }
+
   .app-button__icon-left,
   .app-button__icon-right {
-    height: 1.2em;
-    width: 1.2em;
+    height: 1.4em;
+    width: 1.4em;
   }
 }
 

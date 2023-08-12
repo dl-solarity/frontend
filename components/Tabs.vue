@@ -53,8 +53,6 @@ const updateTab = (tab: Tab) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
   padding: toRem(16) toRem(32);
   gap: toRem(8);
 

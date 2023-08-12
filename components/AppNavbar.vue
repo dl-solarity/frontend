@@ -7,9 +7,8 @@
         :key="index"
         :text="link.text"
         :href="link.href"
-        scheme="none"
-        size="none"
-        class="app-navbar__links-btn"
+        color="none"
+        modification="text"
       />
     </nav>
   </div>
@@ -81,9 +80,5 @@ onUnmounted(() => {
 .app-navbar__links {
   display: flex;
   gap: toRem(12);
-}
-
-.app-navbar__links-btn {
-  --app-button-text-hover: var(--text-primary-main);
 }
 </style>

@@ -16,6 +16,7 @@ export enum ICON_NAMES {
   arrowNarrowRight = 'arrow-narrow-right',
   arrowNarrowUp = 'arrow-narrow-up',
   arrowRight = 'arrow-right',
+  arrowRightUp = 'arrow-right-up',
   arrowSmDown = 'arrow-sm-down',
   arrowSmLeft = 'arrow-sm-left',
   arrowSmRight = 'arrow-sm-right',
