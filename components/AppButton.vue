@@ -245,9 +245,9 @@ const buttonType = computed<ButtonType>(
     --app-button-filled-text-focused: var(--primary-light);
     --app-button-filled-text-active: var(--primary-light);
 
-    --app-button-flat-bg-hover: var(--background-primary-dark);
-    --app-button-flat-bg-focused: var(--background-primary-dark);
-    --app-button-flat-bg-active: var(--background-primary-dark);
+    --app-button-flat-bg-hover: var(--background-primary-light);
+    --app-button-flat-bg-focused: var(--background-primary-light);
+    --app-button-flat-bg-active: var(--background-primary-light);
 
     --app-button-flat-text: var(--primary-main);
     --app-button-flat-text-hover: var(--primary-main);
@@ -259,9 +259,9 @@ const buttonType = computed<ButtonType>(
     --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-light);
     --app-button-flat-border-active: #{toRem(1)} solid var(--primary-light);
 
-    --app-button-none-bg-hover: var(--background-primary-dark);
-    --app-button-none-bg-focused: var(--background-primary-dark);
-    --app-button-none-bg-active: var(--background-primary-dark);
+    --app-button-none-bg-hover: var(--background-primary-light);
+    --app-button-none-bg-focused: var(--background-primary-light);
+    --app-button-none-bg-active: var(--background-primary-light);
 
     --app-button-none-text: var(--primary-main);
     --app-button-none-text-hover: var(--primary-main);
@@ -378,9 +378,9 @@ const buttonType = computed<ButtonType>(
   }
 
   &--none {
-    --app-button-flat-bg-hover: var(--background-primary-dark);
-    --app-button-flat-bg-focused: var(--background-primary-dark);
-    --app-button-flat-bg-active: var(--background-primary-dark);
+    --app-button-flat-bg-hover: var(--background-primary-light);
+    --app-button-flat-bg-focused: var(--background-primary-light);
+    --app-button-flat-bg-active: var(--background-primary-light);
 
     --app-button-flat-text: var(--text-primary-light);
     --app-button-flat-text-hover: var(--text-primary-light);
@@ -392,9 +392,9 @@ const buttonType = computed<ButtonType>(
     --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-main);
     --app-button-flat-border-active: #{toRem(1)} solid var(--primary-main);
 
-    --app-button-none-bg-hover: var(--background-primary-dark);
-    --app-button-none-bg-focused: var(--background-primary-dark);
-    --app-button-none-bg-active: var(--background-primary-dark);
+    --app-button-none-bg-hover: var(--background-primary-light);
+    --app-button-none-bg-focused: var(--background-primary-light);
+    --app-button-none-bg-active: var(--background-primary-light);
 
     --app-button-none-text: var(--text-primary-light);
     --app-button-none-text-hover: var(--text-primary-light);

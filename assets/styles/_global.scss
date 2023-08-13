@@ -20,14 +20,14 @@ body, #__nuxt {
   overflow-x: hidden;
   overflow-y: auto;
   width: 100vw;
-  background: var(--background-primary-main);
+  background: var(--background-primary-dark);
   color: var(--text-primary-light);
 }
 
 input,
 select,
 textarea {
-  background: var(--background-primary-main);
+  background: var(--background-primary-dark);
   color: var(--text-primary-light);
   font-family: var(--app-font-family-main);
   font-size: toRem(16);
@@ -160,11 +160,11 @@ a {
   margin: 0 auto;
 }
 
-.ff-secondary { 
+.ff-secondary {
   font-family: var(--app-font-family-secondary);
 }
 
-.ff-tertiary { 
+.ff-tertiary {
   font-family: var(--app-font-family-tertiary);
 }
 
@@ -175,7 +175,7 @@ a {
   width: 100%;
   border-radius: toRem(8);
   border: toRem(1) solid var(--border-primary-dark);
-  background: var(--background-primary-light);
+  background: var(--background-primary-main);
 }
 
 .content {
@@ -202,7 +202,7 @@ a {
 
 .dp__theme_dark {
   font-family: var(--app-font-family-main);
-  --dp-background-color: var(--background-primary-dark);
+  --dp-background-color: var(--background-primary-light);
   --dp-text-color: var(--text-primary-main);
   --dp-hover-color: var(--text-primary-dark);
   --dp-hover-text-color: var(--text-primary-light);

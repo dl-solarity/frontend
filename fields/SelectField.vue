@@ -386,7 +386,7 @@ $z-local-index: 2;
   background: var(--field-bg-primary);
 
   &:not([disabled]):not(.select-field__select-dropdown-item--active):hover {
-    background: var(--background-primary-light);
+    background: var(--background-primary-main);
   }
 
   &--active {

@@ -41,7 +41,7 @@ const updateTab = (tab: Tab) => {
   overflow-x: scroll;
   overflow-y: hidden;
   border-radius: toRem(8) toRem(8) 0 0;
-  background: var(--background-primary-dark);
+  background: var(--background-primary-light);
 
   ::-webkit-scrollbar-thumb {
     height: toRem(2);

@@ -114,7 +114,7 @@ $custom-z-index: 5;
   width: 100%;
   max-width: toRem(280);
   height: vh(100);
-  background: var(--background-primary-light);
+  background: var(--background-primary-main);
 
   @include respond-to(medium) {
     padding: toRem(0);
@@ -137,11 +137,11 @@ $custom-z-index: 5;
   box-sizing: border-box;
   max-width: toRem(280);
   padding: toRem(24);
-  background: var(--background-primary-light);
+  background: var(--background-primary-main);
 
   @include respond-to(medium) {
     padding: toRem(24);
-    background: var(--background-primary-light);
+    background: var(--background-primary-main);
   }
 
   @include respond-to(tablet) {
@@ -178,12 +178,12 @@ $custom-z-index: 5;
   border-radius: toRem(8);
 
   &:hover {
-    background: var(--background-primary-dark);
+    background: var(--background-primary-light);
     color: var(--text-primary-main);
   }
 
   &.router-link-active {
-    background: var(--background-primary-dark);
+    background: var(--background-primary-light);
     color: var(--primary-main);
   }
 }

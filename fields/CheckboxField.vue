@@ -139,7 +139,7 @@ export default defineComponent({
 .checkbox-field__frame-icon {
   width: toRem(10);
   height: toRem(10);
-  color: var(--background-primary-light);
+  color: var(--background-primary-main);
   transition: opacity var(--field-transition-duration);
   opacity: 0;
 
