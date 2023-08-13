@@ -38,12 +38,12 @@
         >
           <icon
             class="input-field__icon"
-            :name="isPasswordShown ? ICON_NAMES.eye : ICON_NAMES.eyeOff"
+            :name="isPasswordShown ? $icons.eye : $icons.eyeOff"
           />
         </button>
         <button
           v-else-if="isClearable"
-          class="input-field__remove-btn"
+          class="input-field__clear-btn"
           type="button"
           @click="clear"
         >
@@ -52,7 +52,7 @@
         <icon
           v-else-if="props.errorMessage"
           class="input-field__icon input-field__icon--error"
-          :name="ICON_NAMES.exclamationCircle"
+          :name="$icons.exclamationCircle"
         />
       </div>
     </div>
@@ -72,11 +72,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, useAttrs, useSlots } from 'vue'
-
 import { Icon } from '#components'
-import { ICON_NAMES } from '@/enums'
 import { v4 as uuidv4 } from 'uuid'
+import { computed, onMounted, ref, useAttrs, useSlots } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -383,7 +381,7 @@ $z-index-side-nodes: 1;
   z-index: $z-index-side-nodes;
 }
 
-.input-field__remove-btn {
+.input-field__clear-btn {
   display: block;
 
   &:not([disabled]):hover {

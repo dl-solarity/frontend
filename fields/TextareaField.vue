@@ -1,13 +1,13 @@
 <template>
   <div :class="textareaClasses">
+    <label
+      v-if="label"
+      :for="`textarea-field--${uid}`"
+      class="textarea-field__label"
+    >
+      {{ label }}
+    </label>
     <div class="textarea-field__textarea-wrp">
-      <label
-        v-if="label"
-        :for="`textarea-field--${uid}`"
-        class="textarea-field__label"
-      >
-        {{ label }}
-      </label>
       <textarea
         class="textarea-field__textarea"
         :id="`textarea-field--${uid}`"
@@ -18,6 +18,26 @@
         :tabindex="isDisabled || isReadonly ? -1 : ($attrs.tabindex as number)"
         :disabled="isDisabled || isReadonly"
       />
+      <div
+        v-if="hasRightNode"
+        ref="nodeRightWrp"
+        class="textarea-field__node-right-wrp"
+      >
+        <slot v-if="$slots.nodeRight" name="nodeRight" />
+        <button
+          v-else-if="isClearable"
+          class="textarea-field__clear-btn"
+          type="button"
+          @click="clear"
+        >
+          <icon class="textarea-field__icon" :name="$icons.x" />
+        </button>
+        <icon
+          v-else-if="props.errorMessage"
+          class="textarea-field__icon textarea-field__icon--error"
+          :name="$icons.exclamationCircle"
+        />
+      </div>
     </div>
     <transition
       name="textarea-field__err-msg-transition"
@@ -35,8 +55,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useAttrs } from 'vue'
+import { Icon } from '#components'
 import { v4 as uuidv4 } from 'uuid'
+import { computed, useAttrs, useSlots } from 'vue'
 
 type SCHEMES = 'primary'
 
@@ -48,6 +69,7 @@ const props = withDefaults(
     placeholder?: string
     errorMessage?: string
     note?: string
+    isClearable: boolean
   }>(),
   {
     scheme: 'primary',
@@ -55,14 +77,17 @@ const props = withDefaults(
     placeholder: ' ',
     errorMessage: '',
     note: '',
+    isClearable: false,
   },
 )
 
 const emit = defineEmits<{
-  (event: 'update:model-value', value: string | number): void
+  (event: 'update:modelValue', value: string | number): void
+  (e: 'clear'): void
 }>()
 
 const attrs = useAttrs()
+const slots = useSlots()
 
 const uid = uuidv4()
 
@@ -74,25 +99,36 @@ const isReadonly = computed(() =>
   ['', 'readonly', true].includes(attrs.readonly as string | boolean),
 )
 
+const hasRightNode = computed<boolean>(() =>
+  Boolean(slots.nodeRight || props.isClearable || props.errorMessage),
+)
+
 const listeners = computed(() => ({
   input: (event: Event) => {
     const eventTarget = event.target as HTMLTextAreaElement
 
     if (props.modelValue === eventTarget.value) return
 
-    emit('update:model-value', eventTarget.value)
+    emit('update:modelValue', eventTarget.value)
   },
 }))
 
 const textareaClasses = computed(() =>
   [
     'textarea-field',
+    ...(hasRightNode.value ? ['textarea-field--node-right'] : []),
     ...(isDisabled.value ? ['textarea-field--disabled'] : []),
     ...(isReadonly.value ? ['textarea-field--readonly'] : []),
     ...(props.errorMessage ? ['textarea-field--error'] : []),
+    ...(props.modelValue ? ['textarea-field--filled'] : []),
     `textarea-field--${props.scheme}`,
   ].join(' '),
 )
+
+const clear = () => {
+  emit('update:modelValue', '')
+  emit('clear')
+}
 
 const setHeightCSSVar = (element: Element) => {
   ;(element as HTMLElement).style.setProperty(
@@ -103,6 +139,8 @@ const setHeightCSSVar = (element: Element) => {
 </script>
 
 <style lang="scss" scoped>
+$z-index-side-nodes: 1;
+
 .textarea-field {
   display: flex;
   flex-direction: column;
@@ -211,6 +249,10 @@ const setHeightCSSVar = (element: Element) => {
     @include field-placeholder;
   }
 
+  .textarea-field--node-right & {
+    padding-right: calc(var(--field-padding-right) * 3);
+  }
+
   .textarea-field--error.textarea-field--primary & {
     border-color: var(--field-error);
   }
@@ -226,6 +268,39 @@ const setHeightCSSVar = (element: Element) => {
     .textarea-field--primary:not(.textarea-field--error) & {
       border-color: var(--field-border-hover);
     }
+  }
+}
+
+.textarea-field__node-right-wrp {
+  position: absolute;
+  top: 50%;
+  right: var(--field-padding-right);
+  transform: translateY(-50%);
+  color: inherit;
+  z-index: $z-index-side-nodes;
+}
+
+.textarea-field__clear-btn {
+  display: block;
+
+  &:not([disabled]):hover {
+    .textarea-field__icon:not(.textarea-field__icon--error) {
+      color: var(--primary-main);
+    }
+  }
+}
+
+.textarea-field__icon {
+  max-width: toRem(24);
+  max-height: toRem(24);
+  transition: color var(--field-transition-duration);
+
+  .textarea-field--filled &:not(.textarea-field__icon--error) {
+    color: var(--field-text);
+  }
+
+  &--error {
+    color: var(--field-error);
   }
 }
 
