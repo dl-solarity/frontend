@@ -84,6 +84,7 @@
         readonly
       />
       <app-button
+        v-if="abiEncoding"
         :text="$t('abi-encode-form.abi-encoding-copy-btn')"
         @click="copyToClipboard(abiEncoding)"
       />
@@ -223,7 +224,9 @@ const onFormChange = () => {
 }
 
 watch(form, onFormChange)
-encodeAbi([], [])
+
+funcSignature.value = createFuncSignature('', [])
+abiEncoding.value = encodeAbi([], [])
 </script>
 
 <style lang="scss" scoped>

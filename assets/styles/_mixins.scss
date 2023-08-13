@@ -54,7 +54,7 @@ $media-breakpoints: (
 
 @mixin field-border {
   border: toRem(1) solid var(--field-border);
-  border-radius: toRem(14);
+  border-radius: toRem(8);
 }
 
 @mixin field-placeholder {
