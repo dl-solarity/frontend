@@ -125,10 +125,10 @@ import {
 } from '@/fields'
 import {
   ErrorHandler,
+  bytes,
   checkIsBigInt,
   copyToClipboard,
   ethereumBaseType,
-  hex,
   parseFuncArgToValueOfEncode,
   required,
 } from '@/helpers'
@@ -202,7 +202,7 @@ const form = reactive({
   args: [] as FuncArg[],
 })
 const rules = computed(() => ({
-  abiEncoding: { required, hex },
+  abiEncoding: { required, bytes },
   decodeMode: { required },
   args: {
     ...form.args.reduce(

@@ -5,7 +5,7 @@
     "field-error_address": "Field must be a valid address",
     "field-error_minValue": "Field must be greater than {min}",
     "field-error_hash": "Field must be a valid 32 bytes hash",
-    "field-error_bytes": "Field must be a valid bytes hash",
+    "field-error_bytes": "Field must be a valid bytes",
     "field-error_hex": "Field must be a valid hex",
     "field-error_integer": "Field must be a integer",
     "field-error_email": "Field must be a valid email",
