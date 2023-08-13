@@ -230,11 +230,10 @@ $z-index-side-nodes: 1;
   width: 100%;
   flex: 1;
 
-  &:disabled,
-  &:read-only,
   &--disabled,
   &--readonly {
-    .input-field__input {
+    .input-field__input:disabled,
+    .input-field__input:read-only {
       border-color: var(--disable-primary-dark);
       background: var(--disable-primary-dark);
     }

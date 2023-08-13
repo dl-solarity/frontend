@@ -110,11 +110,10 @@ const setHeightCSSVar = (element: Element) => {
   width: 100%;
   flex: 1;
 
-  &:disabled,
-  &:read-only,
   &--disabled,
   &--readonly {
-    .textarea-field__textarea {
+    .textarea-field__textarea:disabled,
+    .textarea-field__textarea:read-only {
       border-color: var(--disable-primary-dark);
       background: var(--disable-primary-dark);
     }
