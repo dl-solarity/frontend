@@ -1,6 +1,6 @@
 <template>
   <div class="app-navbar" :class="{ 'app-navbar--dark': isDarkenBg }">
-    <app-logo class="app-navbar__logo" />
+    <app-logo />
     <nav class="app-navbar__links">
       <app-button
         v-for="(link, index) in links"
@@ -67,13 +67,6 @@ onUnmounted(() => {
 
   @include respond-to(tablet) {
     flex-wrap: wrap;
-  }
-}
-
-.app-navbar__logo {
-  @include respond-to(xsmall) {
-    width: 100%;
-    margin-bottom: toRem(24);
   }
 }
 
