@@ -113,7 +113,7 @@ $custom-z-index: 5;
 .tools-sidebar {
   width: 100%;
   max-width: toRem(280);
-  height: 100vh;
+  height: vh(100);
   background: var(--background-primary-light);
 
   @include respond-to(medium) {
@@ -123,7 +123,7 @@ $custom-z-index: 5;
     min-width: 100vw;
     width: 100%;
     height: 100%;
-    min-height: 100vh;
+    min-height: vh(100);
     background: rgba(var(--black-rgb), 0.5);
   }
 }
@@ -133,7 +133,7 @@ $custom-z-index: 5;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: vh(100);
   box-sizing: border-box;
   max-width: toRem(280);
   padding: toRem(24);

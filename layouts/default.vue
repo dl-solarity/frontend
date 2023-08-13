@@ -18,7 +18,7 @@ body,
   overflow: hidden auto;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: vh(100);
   background: var(--background-primary-light);
 
   color: var(--text-primary-light);

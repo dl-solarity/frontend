@@ -11,8 +11,8 @@
 .solidity-tools {
   padding: 0;
   display: flex;
-  min-width: 100vh;
-  min-height: 100vh;
+  min-width: vh(100);
+  min-height: vh(100);
   position: relative;
 }
 
