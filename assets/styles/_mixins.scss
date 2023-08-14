@@ -49,11 +49,12 @@ $media-breakpoints: (
   color: var(--field-label);
   transition: var(--field-transition-duration) ease;
   margin-bottom: toRem(4);
+  max-width: max-content;
 }
 
 @mixin field-border {
   border: toRem(1) solid var(--field-border);
-  border-radius: toRem(14);
+  border-radius: toRem(8);
 }
 
 @mixin field-placeholder {
@@ -62,6 +63,16 @@ $media-breakpoints: (
   color: var(--field-placeholder);
   -webkit-text-fill-color: var(--field-placeholder);
   fill: var(--field-placeholder);
+  transition: color var(--field-transition-duration) ease;
+  transition-property: opacity, color;
+}
+
+@mixin field-placeholder-readonly {
+  @include field-text;
+
+  color: var(--disable-primary-main);
+  -webkit-text-fill-color: var(--disable-primary-main);
+  fill: var(--disable-primary-main);
   transition: color var(--field-transition-duration) ease;
   transition-property: opacity, color;
 }

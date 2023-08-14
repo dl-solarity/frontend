@@ -11,8 +11,8 @@
 .solidity-tools {
   padding: 0;
   display: flex;
-  min-width: 100vh;
-  min-height: 100vh;
+  min-width: vh(100);
+  min-height: vh(100);
   position: relative;
 }
 
@@ -21,6 +21,6 @@
   max-width: 100vw;
   width: 100%;
   overflow-y: scroll;
-  background: var(--background-primary-main);
+  background: var(--background-primary-dark);
 }
 </style>

@@ -52,7 +52,7 @@ const cards = [
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: 100vw;
-  height: 100vh;
+  min-height: vh(100);
   padding: toRem(204) toRem(96) toRem(80);
 
   @include respond-to(tablet) {

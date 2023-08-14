@@ -18,6 +18,7 @@
       </p>
       <app-button
         class="audits-card__btn"
+        color="none"
         scheme="flat"
         modification="border-circle"
         :text="props.audit.btnText || $t('audits-card.download-btn')"

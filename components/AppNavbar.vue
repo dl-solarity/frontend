@@ -1,15 +1,14 @@
 <template>
   <div class="app-navbar" :class="{ 'app-navbar--dark': isDarkenBg }">
-    <app-logo class="app-navbar__logo" />
+    <app-logo />
     <nav class="app-navbar__links">
       <app-button
         v-for="(link, index) in links"
         :key="index"
         :text="link.text"
         :href="link.href"
-        scheme="none"
-        size="none"
-        class="app-navbar__links-btn"
+        color="none"
+        modification="text"
       />
     </nav>
   </div>
@@ -71,19 +70,8 @@ onUnmounted(() => {
   }
 }
 
-.app-navbar__logo {
-  @include respond-to(xsmall) {
-    width: 100%;
-    margin-bottom: toRem(24);
-  }
-}
-
 .app-navbar__links {
   display: flex;
   gap: toRem(12);
-}
-
-.app-navbar__links-btn {
-  --app-button-text-hover: var(--text-primary-main);
 }
 </style>

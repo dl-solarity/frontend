@@ -1,5 +1,8 @@
 <template>
   <div class="input-field" :class="inputClasses">
+    <label v-if="label" class="input-field__label" :for="`input-field--${uid}`">
+      {{ label }}
+    </label>
     <div class="input-field__input-wrp">
       <div
         v-if="$slots.nodeLeft"
@@ -8,9 +11,6 @@
       >
         <slot name="nodeLeft" />
       </div>
-      <label v-if="label" class="input-field__label">
-        {{ label }}
-      </label>
       <input
         ref="inputEl"
         class="input-field__input"
@@ -38,12 +38,12 @@
         >
           <icon
             class="input-field__icon"
-            :name="isPasswordShown ? ICON_NAMES.eye : ICON_NAMES.eyeOff"
+            :name="isPasswordShown ? $icons.eye : $icons.eyeOff"
           />
         </button>
         <button
           v-else-if="isClearable"
-          class="input-field__remove-btn"
+          class="input-field__clear-btn"
           type="button"
           @click="clear"
         >
@@ -52,7 +52,7 @@
         <icon
           v-else-if="props.errorMessage"
           class="input-field__icon input-field__icon--error"
-          :name="ICON_NAMES.exclamationCircle"
+          :name="$icons.exclamationCircle"
         />
       </div>
     </div>
@@ -72,11 +72,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, useAttrs, useSlots } from 'vue'
-
 import { Icon } from '#components'
-import { ICON_NAMES } from '@/enums'
 import { v4 as uuidv4 } from 'uuid'
+import { computed, onMounted, ref, useAttrs, useSlots } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -168,6 +166,7 @@ const inputClasses = computed(() =>
     ...(isDisabled.value ? ['input-field--disabled'] : []),
     ...(isReadonly.value ? ['input-field--readonly'] : []),
     ...(props.errorMessage ? ['input-field--error'] : []),
+    ...(props.modelValue ? ['input-field--filled'] : []),
     `input-field--${props.scheme}`,
   ].join(' '),
 )
@@ -231,7 +230,11 @@ $z-index-side-nodes: 1;
 
   &--disabled,
   &--readonly {
-    opacity: 0.5;
+    .input-field__input:disabled,
+    .input-field__input:read-only {
+      border-color: var(--disable-primary-dark);
+      background: var(--disable-primary-dark);
+    }
   }
 }
 
@@ -280,6 +283,26 @@ $z-index-side-nodes: 1;
 
   transition-property: all;
 
+  &:read-only::-webkit-input-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only::-moz-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only:-moz-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only:-ms-input-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only::placeholder {
+    @include field-placeholder-readonly;
+  }
+
   &::-webkit-input-placeholder {
     @include field-placeholder;
   }
@@ -322,21 +345,17 @@ $z-index-side-nodes: 1;
 
   .input-field--error.input-field--primary & {
     border-color: var(--field-error);
-    box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary),
-      0 0 0 toRem(1) var(--field-error);
   }
 
   &:not([disabled]):focus {
     .input-field--primary & {
       box-sizing: border-box;
-      box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary),
-        0 0 0 toRem(1) var(--field-border-focus);
       border-color: var(--field-border-focus);
     }
   }
 
   &:not([disabled]):not(:focus):hover {
-    .input-field--primary & {
+    .input-field--primary:not(.input-field--error) & {
       border-color: var(--field-border-hover);
     }
   }
@@ -345,7 +364,7 @@ $z-index-side-nodes: 1;
 .input-field__node-left-wrp {
   overflow: hidden;
   position: absolute;
-  top: 65%;
+  top: 50%;
   left: var(--field-padding-left);
   transform: translateY(-50%);
   color: inherit;
@@ -355,20 +374,31 @@ $z-index-side-nodes: 1;
 
 .input-field__node-right-wrp {
   position: absolute;
-  top: 65%;
+  top: 50%;
   right: var(--field-padding-right);
   transform: translateY(-50%);
   color: inherit;
   z-index: $z-index-side-nodes;
 }
 
-.input-field__remove-btn {
+.input-field__clear-btn {
   display: block;
+
+  &:not([disabled]):hover {
+    .input-field__icon:not(.input-field__icon--error) {
+      color: var(--primary-main);
+    }
+  }
 }
 
 .input-field__icon {
   max-width: toRem(24);
   max-height: toRem(24);
+  transition: color var(--field-transition-duration);
+
+  .input-field--filled &:not(.input-field__icon--error) {
+    color: var(--field-text);
+  }
 
   &--error {
     color: var(--field-error);

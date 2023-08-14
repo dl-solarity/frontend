@@ -30,7 +30,7 @@
             class="abi-encode-form__tuple"
           >
             <input-field
-              v-model="arg.subtype"
+              :model-value="arg.subtype"
               is-clearable
               :label="$t('abi-encode-form.arg-subtype-label')"
               :placeholder="
@@ -39,6 +39,9 @@
               :error-message="getFieldErrorMessage(`args[${idx}].subtype`)"
               @blur="touchField(`args[${idx}].subtype`)"
               @clear="removeArg(arg.id)"
+              @update:model-value="
+                newValue => onArgSubtypeUpdate(newValue as string, idx)
+              "
             />
             <input-field
               v-model="arg.value"
@@ -60,7 +63,6 @@
         </div>
       </div>
       <app-button
-        class="abi-encode-form__add-arg-btn"
         scheme="none"
         :text="$t('abi-encode-form.add-arg-btn')"
         :icon-left="$icons.plus"
@@ -82,6 +84,7 @@
         readonly
       />
       <app-button
+        v-if="abiEncoding"
         :text="$t('abi-encode-form.abi-encoding-copy-btn')"
         @click="copyToClipboard(abiEncoding)"
       />
@@ -106,7 +109,7 @@ import {
   withinSizeOfEthereumType,
 } from '@/helpers'
 import { type AbiEncodeForm } from '@/types'
-import { Interface } from 'ethers'
+import { Interface, ParamType } from 'ethers'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, watch } from 'vue'
 
@@ -153,7 +156,7 @@ const rules = computed(() => ({
   },
 }))
 
-const { getFieldErrorMessage, isFieldsValid, touchField } = useFormValidation(
+const { getFieldErrorMessage, isFormValid, touchField } = useFormValidation(
   form,
   rules,
 )
@@ -164,32 +167,56 @@ const removeArg = (id: AbiEncodeForm.FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
 
-const encode = () => {
-  const types = form.args.map(arg =>
-    arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
-  )
-  const values = form.args.map(parseFuncArgToValueOfEncode)
+const formatArgSubtype = (subtype: AbiEncodeForm.FuncArg['subtype']) => {
+  return subtype.startsWith('(') ? `tuple${subtype}` : subtype
+}
+const onArgSubtypeUpdate = (
+  newValue: AbiEncodeForm.FuncArg['subtype'],
+  argIdx: number,
+) => {
+  form.args[argIdx].subtype = formatArgSubtype(newValue)
+}
 
+const createFuncSignature = (
+  name: string,
+  types: Array<AbiEncodeForm.FuncArg['type']>,
+): string => {
+  const _types = types.map(type => {
+    const paramType = ParamType.from(type)
+    return paramType.type.replaceAll('tuple(', '(').replaceAll('(', 'tuple(')
+  })
+
+  return name
+    ? `${name}(${_types.join(',')})`
+    : `constructor(${_types.join(',')})`
+}
+
+const encodeAbi = (types: string[], values: unknown[]): string => {
   if (!form.funcName) {
-    funcSignature.value = `constructor(${types.join(', ')})`
-    const iface = new Interface([funcSignature.value])
-    abiEncoding.value = iface.encodeDeploy(values)
-    return
+    const iface = new Interface([`constructor(${types.join(', ')})`])
+    return iface.encodeDeploy(values)
   }
 
-  funcSignature.value = `${form.funcName}(${types.join(', ')})`
-  const iface = new Interface([`function ${funcSignature.value}`])
-  abiEncoding.value = iface.encodeFunctionData(form.funcName, values)
+  const iface = new Interface([
+    `function ${form.funcName}(${types.join(', ')})`,
+  ])
+  return iface.encodeFunctionData(form.funcName, values)
 }
 
 const onFormChange = () => {
-  if (!isFieldsValid.value) {
+  if (!isFormValid()) {
     resetOutput()
     return
   }
 
   try {
-    encode()
+    const types = form.args.map(arg =>
+      arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
+    )
+    const values = form.args.map(parseFuncArgToValueOfEncode)
+
+    funcSignature.value = createFuncSignature(form.funcName, types)
+    abiEncoding.value = encodeAbi(types, values)
   } catch (error) {
     resetOutput()
     ErrorHandler.process(error)
@@ -197,7 +224,9 @@ const onFormChange = () => {
 }
 
 watch(form, onFormChange)
-onFormChange()
+
+funcSignature.value = createFuncSignature('', [])
+abiEncoding.value = encodeAbi([], [])
 </script>
 
 <style lang="scss" scoped>
@@ -214,7 +243,7 @@ onFormChange()
 
 .abi-encode-form__input {
   padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--text-secondary-main);
+  border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
 .abi-encode-form__args_wrp {
@@ -234,10 +263,6 @@ onFormChange()
   @include respond-to(small) {
     grid-template-columns: auto;
   }
-}
-
-.abi-encode-form__add-arg-btn {
-  padding: toRem(12) toRem(16);
 }
 
 .abi-encode-form__tuple {

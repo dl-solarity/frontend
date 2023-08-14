@@ -1,7 +1,7 @@
 <template>
   <transition name="tools-sidebar__transition">
-    <div v-show="isSidebarShown" class="tools-sidebar">
-      <aside ref="asideElement" class="tools-sidebar__aside">
+    <div v-show="isSidebarShown" class="tools-sidebar" @click="closeSidebar">
+      <aside ref="asideElement" class="tools-sidebar__aside" @click.prevent>
         <div class="tools-sidebar__header">
           <app-logo class="tools-sidebar__logo" />
           <app-button
@@ -20,11 +20,7 @@
               class="tools-sidebar__action-item"
               :key="index"
             >
-              <nuxt-link
-                class="tools-sidebar__action"
-                :to="link.name"
-                @click="closeSidebar"
-              >
+              <nuxt-link class="tools-sidebar__action" :to="link.name">
                 <icon :name="link.icon" class="tools-sidebar__action-icon" />
                 <span class="tools-sidebar__action-text">
                   {{ link.title }}
@@ -40,13 +36,15 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
+import { useRoute } from '#app'
 import { AppLogo, Icon, AppButton } from '#components'
 import { bus, BUS_EVENTS } from '@/helpers'
-import { useWindowSize, onClickOutside } from '@vueuse/core'
+import { useWindowSize } from '@vueuse/core'
 import { WINDOW_BREAKPOINTS, ICON_NAMES } from '@/enums'
 import { ROUTE_PATH } from '@/constants'
 import { i18n } from '~/plugins/localization'
 
+const route = useRoute()
 const { t } = i18n.global
 
 const navLinks = computed(() => [
@@ -93,22 +91,20 @@ const toggleSidebar = () => {
   isVisible.value = !isVisible.value
 }
 
-const closeSidebar = () => {
+const closeSidebar = (event: Event) => {
+  if (event.defaultPrevented) return
   isVisible.value = false
 }
-
-watch(asideElement, () => {
-  if (!asideElement.value || !isLessThanMediumScreen.value || !isVisible.value)
-    return
-
-  onClickOutside(asideElement, closeSidebar)
-})
 
 bus.on(BUS_EVENTS.toggleSidebar, toggleSidebar)
 
 onBeforeUnmount(() => {
   bus.off(BUS_EVENTS.toggleSidebar, toggleSidebar)
 })
+
+// eslint-disable-next-line
+// @ts-ignore
+watch(() => route.name, closeSidebar)
 </script>
 
 <style scoped lang="scss">
@@ -117,8 +113,8 @@ $custom-z-index: 5;
 .tools-sidebar {
   width: 100%;
   max-width: toRem(280);
-  height: 100vh;
-  background: var(--background-primary-light);
+  height: vh(100);
+  background: var(--background-primary-main);
 
   @include respond-to(medium) {
     padding: toRem(0);
@@ -127,7 +123,7 @@ $custom-z-index: 5;
     min-width: 100vw;
     width: 100%;
     height: 100%;
-    min-height: 100vh;
+    min-height: vh(100);
     background: rgba(var(--black-rgb), 0.5);
   }
 }
@@ -137,15 +133,15 @@ $custom-z-index: 5;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: vh(100);
   box-sizing: border-box;
   max-width: toRem(280);
   padding: toRem(24);
-  background: var(--background-primary-light);
+  background: var(--background-primary-main);
 
   @include respond-to(medium) {
     padding: toRem(24);
-    background: var(--background-primary-light);
+    background: var(--background-primary-main);
   }
 
   @include respond-to(tablet) {
@@ -182,12 +178,12 @@ $custom-z-index: 5;
   border-radius: toRem(8);
 
   &:hover {
-    background: var(--background-primary-dark);
+    background: var(--background-primary-light);
     color: var(--text-primary-main);
   }
 
   &.router-link-active {
-    background: var(--background-primary-dark);
+    background: var(--background-primary-light);
     color: var(--primary-main);
   }
 }

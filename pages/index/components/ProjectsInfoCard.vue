@@ -7,10 +7,11 @@
       {{ props.message }}
     </p>
     <app-button
+      color="none"
       scheme="flat"
       modification="border-circle"
       :text="btnText"
-      :icon-right="$icons.arrowRight"
+      :icon-right="$icons.arrowRightUp"
       :route="props.route"
       :href="props.href"
     />

@@ -41,7 +41,7 @@ const updateTab = (tab: Tab) => {
   overflow-x: scroll;
   overflow-y: hidden;
   border-radius: toRem(8) toRem(8) 0 0;
-  background: var(--background-primary-dark);
+  background: var(--background-primary-light);
 
   ::-webkit-scrollbar-thumb {
     height: toRem(2);
@@ -53,8 +53,6 @@ const updateTab = (tab: Tab) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
   padding: toRem(16) toRem(32);
   gap: toRem(8);
 
