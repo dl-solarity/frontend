@@ -69,7 +69,7 @@ const props = withDefaults(
     placeholder?: string
     errorMessage?: string
     note?: string
-    isClearable: boolean
+    isClearable?: boolean
   }>(),
   {
     scheme: 'primary',
