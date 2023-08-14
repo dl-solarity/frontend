@@ -308,6 +308,13 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
+"@distributedlab/fetcher@^1.0.0-rc.6":
+  version "1.0.0-rc.6"
+  resolved "https://registry.yarnpkg.com/@distributedlab/fetcher/-/fetcher-1.0.0-rc.6.tgz#6bf3ddc329bbcc8fc906c6a6f9ae36c0b1e02fa3"
+  integrity sha512-EBJL1eneD8mp7EXWQhovvpBLndpC3+HFVVxZeQpRNNecMlrTYhwaUfdFfPVpm2Ddyx+rAAinPJOTKGM6iaZ1sg==
+  dependencies:
+    uuid "^9.0.0"
+
 "@distributedlab/tools@^1.0.0-rc.2":
   version "1.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/@distributedlab/tools/-/tools-1.0.0-rc.2.tgz#eba8fa822876ce0a6b8ed98570a80d0818f7fde7"

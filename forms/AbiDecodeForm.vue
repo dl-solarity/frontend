@@ -24,9 +24,24 @@
     >
       <loader v-if="isDecoding" />
       <template v-else>
-        <p v-if="errorMessage" class="abi-decode-form__error-msg">
-          {{ $t('abi-decode-form.error-msg', { msg: errorMessage }) }}
-        </p>
+        <div v-if="errorMessage" class="abi-decode-form__msg-wrp">
+          <icon
+            :class="['abi-decode-form__icon', 'abi-decode-form__icon--error']"
+            :name="$icons.exclamationCircle"
+          />
+          <p :class="['abi-decode-form__msg', 'abi-decode-form__msg--error']">
+            {{ errorMessage }}
+          </p>
+        </div>
+        <div v-if="warningMessage" class="abi-decode-form__msg-wrp">
+          <icon
+            :class="['abi-decode-form__icon', 'abi-decode-form__icon--warning']"
+            :name="$icons.exclamationCircle"
+          />
+          <p :class="['abi-decode-form__msg', 'abi-decode-form__msg--warning']">
+            {{ warningMessage }}
+          </p>
+        </div>
         <template v-if="form.args.length">
           <h2>{{ $t('abi-decode-form.output-title') }}</h2>
           <div class="abi-decode-form__args_wrp">
@@ -88,7 +103,7 @@
         </template>
       </template>
     </div>
-    <div class="abi-decode-form__buttons">
+    <div v-if="hasButtons" class="abi-decode-form__buttons">
       <template v-if="form.decodeMode === DECODE_MODES.manual">
         <app-button
           scheme="none"
@@ -113,9 +128,10 @@
 </template>
 
 <script lang="ts" setup>
-import { AppButton, Loader } from '#components'
+import { AppButton, Icon, Loader } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
+import { errors } from '@/errors'
 import {
   CheckboxField,
   InputField,
@@ -129,10 +145,12 @@ import {
   checkIsBigInt,
   copyToClipboard,
   ethereumBaseType,
+  getErrorMessage,
   parseFuncArgToValueOfEncode,
   required,
 } from '@/helpers'
 import { type ArrayElement, type FieldOption } from '@/types'
+import { fetcher } from '@distributedlab/fetcher'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
 import { AbiCoder, FunctionFragment } from 'ethers'
 import { debounce } from 'lodash-es'
@@ -164,6 +182,8 @@ defineProps<{
 const { t } = i18n.global
 
 const errorMessage = ref('')
+const warningMessage = ref('')
+
 const isDecoding = ref(false)
 const isDecoded = ref(false)
 
@@ -194,6 +214,13 @@ const decodeModeOptions = computed<FieldOption[]>(() => [
     title: t('abi-decode-form.decode-mode-option-title--manual'),
   },
 ])
+
+const hasButtons = computed<boolean>(() =>
+  Boolean(
+    form.decodeMode === DECODE_MODES.manual ||
+      (form.args.length && isDecoded.value),
+  ),
+)
 
 const form = reactive({
   abiEncoding: '',
@@ -227,13 +254,21 @@ const { getFieldErrorMessage, isFieldsValid, isFormValid, touchField } =
   useFormValidation(form, rules)
 
 const fetchFuncSignature = async (selector: string): Promise<string> => {
-  const url = 'https://api.openchain.xyz/signature-database/v1/lookup'
-  const query = `function=${selector}`
+  let responseData
+  try {
+    responseData = (
+      await fetcher.get(
+        'https://api.openchain.xyz/signature-database/v1/look',
+        { query: { function: selector } },
+      )
+    ).data
+  } catch {
+    throw new errors.FuncSignatureFetchError()
+  }
 
-  const response = await (await fetch(`${url}?${query}`)).json()
-  if (!response.ok) throw new Error(response.error)
-
-  return response.result.function[selector]?.[0]?.name || ''
+  // eslint-disable-next-line
+  // @ts-ignore
+  return responseData?.result?.function[selector]?.[0]?.name || ''
 }
 
 const decodeAbi = async (): Promise<DecodedData> => {
@@ -250,13 +285,16 @@ const decodeAbi = async (): Promise<DecodedData> => {
           const funcSelector = form.abiEncoding.substring(0, 10)
           const funcData = '0x' + form.abiEncoding.substring(10)
 
-          const funcSignature = await fetchFuncSignature(funcSelector)
-
-          const funcFragment = funcSignature
-            ? FunctionFragment.from(funcSignature)
-            : guessFragment(form.abiEncoding)
-          if (!funcFragment)
-            throw new Error('failed to assume function signature')
+          let funcFragment
+          try {
+            funcFragment = FunctionFragment.from(
+              await fetchFuncSignature(funcSelector),
+            )
+          } catch {
+            funcFragment = guessFragment(form.abiEncoding)
+            if (!funcFragment) throw new errors.FunctionFragmentGuessError()
+            warningMessage.value = t('abi-decode-form.func-is-guessed-warning')
+          }
 
           types = funcFragment.inputs.map(paramType => paramType.format())
           values = AbiCoder.defaultAbiCoder().decode(types, funcData)
@@ -265,7 +303,7 @@ const decodeAbi = async (): Promise<DecodedData> => {
         }
 
         const paramTypes = guessAbiEncodedData(form.abiEncoding)
-        if (!paramTypes) throw new Error('failed guess params types')
+        if (!paramTypes) throw new errors.ParamTypesGuessError()
 
         types = paramTypes.map(type => type.format())
         values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
@@ -311,6 +349,8 @@ const onFormChange = async () => {
   // to avoid re-decoding,because form can change on decode
   if (JSON.stringify(form) === _formStateJsonString) return
 
+  warningMessage.value = ''
+
   if (!isFormValid()) {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
     else form.args = form.args.map(arg => ({ ...arg, value: '' }))
@@ -338,11 +378,7 @@ const onFormChange = async () => {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
     else form.args = form.args.map(arg => ({ ...arg, value: '' }))
 
-    errorMessage.value =
-      error instanceof Error
-        ? error.message
-        : t('abi-decode-form.error-msg--unknown')
-
+    errorMessage.value = getErrorMessage(error)
     ErrorHandler.process(error)
   }
 
@@ -388,9 +424,35 @@ watch([form, isFieldsValid], debounce(onFormChange, 500))
   }
 }
 
-.abi-decode-form__error-msg {
-  color: var(--error-main);
+.abi-decode-form__msg-wrp {
+  display: flex;
+  align-items: center;
+  gap: toRem(8);
+}
+
+.abi-decode-form__icon {
+  height: toRem(22);
+  width: toRem(22);
+
+  &--error {
+    color: var(--error-main);
+  }
+
+  &--warning {
+    color: var(--warning-main);
+  }
+}
+
+.abi-decode-form__msg {
   word-break: break-all;
+
+  &--error {
+    color: var(--error-main);
+  }
+
+  &--warning {
+    color: var(--warning-main);
+  }
 }
 
 .abi-decode-form__tuple {

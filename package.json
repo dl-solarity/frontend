@@ -54,6 +54,7 @@
     "vue-eslint-parser": "^9.0.3"
   },
   "dependencies": {
+    "@distributedlab/fetcher": "^1.0.0-rc.6",
     "@distributedlab/tools": "^1.0.0-rc.2",
     "@openchainxyz/abi-guesser": "^1.0.2",
     "@vuelidate/core": "^2.0.3",
