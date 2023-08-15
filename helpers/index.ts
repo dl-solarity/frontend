@@ -1,6 +1,7 @@
 export * from './abi-encode-form.helpers'
 export * from './error-handler.helper'
 export * from './errors.helpers'
+export * from './ethereum.helpers'
 export * from './event-bus.helper'
 export * from './clipboard.helpers'
 export * from './promise.helpers'

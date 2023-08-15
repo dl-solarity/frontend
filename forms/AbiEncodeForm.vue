@@ -101,6 +101,7 @@ import {
   ErrorHandler,
   contractFuncName,
   copyToClipboard,
+  createFunctionSignature,
   ethereumBaseType,
   ethereumBaseTypeValue,
   json,
@@ -177,20 +178,6 @@ const onArgSubtypeUpdate = (
   form.args[argIdx].subtype = formatArgSubtype(newValue)
 }
 
-const createFuncSignature = (
-  name: string,
-  types: Array<AbiEncodeForm.FuncArg['type']>,
-): string => {
-  const _types = types.map(type => {
-    const paramType = ParamType.from(type)
-    return paramType.type.replaceAll('tuple(', '(').replaceAll('(', 'tuple(')
-  })
-
-  return name
-    ? `${name}(${_types.join(',')})`
-    : `constructor(${_types.join(',')})`
-}
-
 const encodeAbi = (types: string[], values: unknown[]): string => {
   if (!form.funcName) {
     const iface = new Interface([`constructor(${types.join(', ')})`])
@@ -215,7 +202,10 @@ const onFormChange = () => {
     )
     const values = form.args.map(parseFuncArgToValueOfEncode)
 
-    funcSignature.value = createFuncSignature(form.funcName, types)
+    funcSignature.value = createFunctionSignature(
+      types.map(type => ParamType.from(type)),
+      form.funcName,
+    )
     abiEncoding.value = encodeAbi(types, values)
   } catch (error) {
     resetOutput()
@@ -225,7 +215,7 @@ const onFormChange = () => {
 
 watch(form, onFormChange)
 
-funcSignature.value = createFuncSignature('', [])
+funcSignature.value = createFunctionSignature([])
 abiEncoding.value = encodeAbi([], [])
 </script>
 
