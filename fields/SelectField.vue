@@ -43,7 +43,7 @@
             :name="$icons.arrowDropDown"
           />
         </button>
-        <transition name="select-field__select-dropdown">
+        <transition name="select-field__select-drop-menu">
           <div v-if="isDropMenuOpen" class="select-field__select-drop-menu">
             <template v-if="$slots.default">
               <slot
@@ -366,25 +366,22 @@ $z-local-index: 2;
   }
 }
 
-.select-field__select-dropdown-enter-active {
-  animation: dropdown var(--field-transition-duration);
+.select-field__select-drop-menu-enter-active {
+  animation: drop-menu var(--field-transition-duration);
 }
 
-.select-field__select-dropdown-leave-active {
-  animation: dropdown var(--field-transition-duration) 0.1s reverse;
+.select-field__select-drop-menu-leave-active {
+  animation: drop-menu var(--field-transition-duration) reverse;
 }
 
-@keyframes dropdown {
+@keyframes drop-menu {
   from {
     opacity: 0;
-    transform: translateY(20%);
-    max-height: 0;
+    transform: scale(0.8);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
-    max-height: 500%;
   }
 }
 
