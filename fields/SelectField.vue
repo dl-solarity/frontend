@@ -67,7 +67,7 @@
                 ]"
                 type="button"
                 v-for="(option, idx) in valueOptions"
-                :key="`[${idx}] ${option}`"
+                :key="`${idx}-${option.value}`"
                 @click="select(option.value)"
               >
                 {{ option.title }}
