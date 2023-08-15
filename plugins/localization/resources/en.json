@@ -87,8 +87,7 @@
     "arg-subtype-placeholder--tuple": "Enter type, e.g. tuple(address, tuple(uint256))",
     "add-arg-btn": "Add argument",
     "abi-decoding-copy-btn": "Copy decoding",
-    "error-msg": "Error: {msg}",
-    "error-msg--unknown": "unknown error"
+    "func-is-guessed-warning": "The function signature has guessed"
   },
   "abi-encode-form": {
     "func-name-label": "Function name",
@@ -161,9 +160,12 @@
     "result-title": "Result"
   },
   "errors": {
-    "default": "Something went wrong"
+    "default": "Something went wrong",
+    "failed-to-fetch-func-signature": "Failed to get function signature",
+    "failed-to-guess-func-fragment": "Failed to guess function signature",
+    "failed-to-guess-param-types": "Failed to guess types",
+    "failed-to-decode-abi": "Failed to decode values with given types"
   },
-
   "login-form": {
     "login-lbl": "Login",
     "password-lbl": "Password",
