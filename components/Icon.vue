@@ -14,9 +14,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
   pointer-events: none;
 }
 </style>
