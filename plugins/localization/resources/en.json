@@ -87,6 +87,8 @@
     "arg-subtype-placeholder--tuple": "Enter type, e.g. tuple(address, tuple(uint256))",
     "add-arg-btn": "Add argument",
     "abi-decoding-copy-btn": "Copy decoding",
+    "func-signature-label": "Function signature",
+    "func-signature-placeholder": "Function signature",
     "func-is-guessed-warning": "The function signature has guessed"
   },
   "abi-encode-form": {
@@ -99,7 +101,7 @@
     "arg-subtype-label": "Value",
     "arg-subtype-placeholder--tuple": "Enter type, e.g. tuple(address, tuple(uint256))",
     "add-arg-btn": "Add argument",
-    "output-title": "Encoded",
+    "output-title": "Encoded data",
     "abi-encoding-label": "Abi encoding",
     "abi-encoding-placeholder": "Abi encoding",
     "abi-encoding-copy-btn": "Copy encoding",

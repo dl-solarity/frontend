@@ -33,17 +33,28 @@
             {{ errorMessage }}
           </p>
         </div>
-        <div v-if="warningMessage" class="abi-decode-form__msg-wrp">
-          <icon
-            :class="['abi-decode-form__icon', 'abi-decode-form__icon--warning']"
-            :name="$icons.exclamationCircle"
-          />
-          <p :class="['abi-decode-form__msg', 'abi-decode-form__msg--warning']">
-            {{ warningMessage }}
-          </p>
-        </div>
         <template v-if="form.args.length">
           <h2>{{ $t('abi-decode-form.output-title') }}</h2>
+          <input-field
+            :model-value="funcSignature"
+            :label="$t('abi-decode-form.func-signature-label')"
+            :placeholder="$t('abi-decode-form.func-signature-placeholder')"
+            readonly
+          />
+          <div v-if="warningMessage" class="abi-decode-form__msg-wrp">
+            <icon
+              :class="[
+                'abi-decode-form__icon',
+                'abi-decode-form__icon--warning',
+              ]"
+              :name="$icons.exclamationCircle"
+            />
+            <p
+              :class="['abi-decode-form__msg', 'abi-decode-form__msg--warning']"
+            >
+              {{ warningMessage }}
+            </p>
+          </div>
           <div class="abi-decode-form__args_wrp">
             <div
               v-for="(arg, idx) in form.args"
@@ -145,6 +156,7 @@ import {
   bytes,
   checkIsBigInt,
   copyToClipboard,
+  createFunctionSignature,
   ethereumBaseType,
   getErrorMessage,
   parseFuncArgToValueOfEncode,
@@ -153,7 +165,7 @@ import {
 import { type ArrayElement, type FieldOption } from '@/types'
 import { fetcher } from '@distributedlab/fetcher'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
-import { AbiCoder, FunctionFragment } from 'ethers'
+import { AbiCoder, FunctionFragment, ParamType } from 'ethers'
 import { debounce } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, watch } from 'vue'
@@ -180,7 +192,10 @@ defineProps<{
   title: string
 }>()
 
+const DEFAULT_FUNCTION_NAME = 'function'
 const { t } = i18n.global
+
+const funcSignature = ref('')
 
 const errorMessage = ref('')
 const warningMessage = ref('')
@@ -303,12 +318,16 @@ const decodeAbi = async (): Promise<DecodedData> => {
 
           let funcFragment
           try {
-            funcFragment = FunctionFragment.from(
-              await fetchFuncSignature(funcSelector),
-            )
+            funcSignature.value = await fetchFuncSignature(funcSelector)
+            funcFragment = FunctionFragment.from(funcSignature.value)
           } catch {
             funcFragment = guessFragment(form.abiEncoding)
             if (!funcFragment) throw new errors.FunctionFragmentGuessError()
+
+            funcSignature.value = createFunctionSignature(
+              funcFragment.inputs as unknown as ParamType[],
+              DEFAULT_FUNCTION_NAME,
+            )
             warningMessage.value = t('abi-decode-form.func-is-guessed-warning')
           }
 
@@ -320,6 +339,10 @@ const decodeAbi = async (): Promise<DecodedData> => {
 
         const paramTypes = guessAbiEncodedData(form.abiEncoding)
         if (!paramTypes) throw new errors.ParamTypesGuessError()
+
+        funcSignature.value = createFunctionSignature(
+          paramTypes as unknown as ParamType[],
+        )
 
         types = paramTypes.map(type => type.format())
         values = decodeValues(types, form.abiEncoding)
@@ -335,6 +358,12 @@ const decodeAbi = async (): Promise<DecodedData> => {
         types = form.args.map(arg =>
           arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
         )
+
+        funcSignature.value = createFunctionSignature(
+          types.map(type => ParamType.from(type)),
+          form.hasFuncSelector ? DEFAULT_FUNCTION_NAME : '',
+        )
+
         values = decodeValues(types, data)
 
         break
@@ -370,8 +399,11 @@ const onFormChange = async () => {
   if (!isFormValid()) {
     if (form.decodeMode === DECODE_MODES.auto) form.args.length = 0
     else form.args = form.args.map(arg => ({ ...arg, value: '' }))
+
     isDecoded.value = false
     errorMessage.value = ''
+    funcSignature.value = ''
+
     return
   }
 
