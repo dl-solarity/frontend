@@ -218,9 +218,14 @@ $z-local-index: 2;
   width: 100%;
   flex: 1;
 
-  &--disabled,
-  &--readonly {
+  &--disabled.select-field--primary,
+  &--readonly.select-field--primary {
     pointer-events: none;
+
+    .select-field__select-head {
+      border-color: var(--disable-primary-dark);
+      background: var(--disable-primary-dark);
+    }
 
     .select-field__placeholder {
       @include field-placeholder-readonly;
