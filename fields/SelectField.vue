@@ -14,17 +14,17 @@
           class="select-field__select-head"
           :id="`select-field--${uid}`"
           @blur="emit('blur')"
-          @click="toggleDropdown"
+          @click="toggleDropMenu"
         >
           <template v-if="$slots.head && !!modelValue">
             <slot
               name="head"
               :select-field="{
                 select,
-                isOpen: isDropdownOpen,
-                close: closeDropdown,
-                open: openDropdown,
-                toggle: toggleDropdown,
+                isOpen: isDropMenuOpen,
+                close: closeDropMenu,
+                open: openDropMenu,
+                toggle: toggleDropMenu,
               }"
             />
           </template>
@@ -39,48 +39,43 @@
             </template>
           </template>
           <icon
-            :class="[
-              'select-field__select-head-indicator',
-              {
-                'select-field__select-head-indicator--open': isDropdownOpen,
-              },
-            ]"
+            class="select-field__select-head-indicator"
             :name="$icons.arrowDropDown"
           />
         </button>
+        <transition name="select-field__select-drop-menu">
+          <div v-if="isDropMenuOpen" class="select-field__select-drop-menu">
+            <template v-if="$slots.default">
+              <slot
+                :select-field="{
+                  select,
+                  isOpen: isDropMenuOpen,
+                  close: closeDropMenu,
+                  open: openDropMenu,
+                  toggle: toggleDropMenu,
+                }"
+              />
+            </template>
+            <template v-else-if="valueOptions?.length">
+              <button
+                :class="[
+                  'select-field__select-dropdown-item',
+                  {
+                    'select-field__select-dropdown-item--active':
+                      modelValue === option.value,
+                  },
+                ]"
+                type="button"
+                v-for="(option, idx) in valueOptions"
+                :key="`${idx}-${option.value}`"
+                @click="select(option.value)"
+              >
+                {{ option.title }}
+              </button>
+            </template>
+          </div>
+        </transition>
       </div>
-      <transition name="select-field__select-dropdown">
-        <div v-if="isDropdownOpen" class="select-field__select-dropdown">
-          <template v-if="$slots.default">
-            <slot
-              :select-field="{
-                select,
-                isOpen: isDropdownOpen,
-                close: closeDropdown,
-                open: openDropdown,
-                toggle: toggleDropdown,
-              }"
-            />
-          </template>
-          <template v-else-if="valueOptions?.length">
-            <button
-              :class="[
-                'select-field__select-dropdown-item',
-                {
-                  'select-field__select-dropdown-item--active':
-                    modelValue === option.value,
-                },
-              ]"
-              type="button"
-              v-for="(option, idx) in valueOptions"
-              :key="`[${idx}] ${option}`"
-              @click="select(option.value)"
-            >
-              {{ option.title }}
-            </button>
-          </template>
-        </div>
-      </transition>
     </div>
     <transition
       name="select-field__err-msg-transition"
@@ -107,22 +102,24 @@ import { v4 as uuidv4 } from 'uuid'
 
 const props = withDefaults(
   defineProps<{
-    scheme?: 'primary'
     modelValue: string | number
     valueOptions?: FieldOption[]
     label?: string
     placeholder?: string
     errorMessage?: string
     note?: string
+    scheme?: 'primary'
+    modification?: 'dropdown' | 'dropup'
   }>(),
   {
-    scheme: 'primary',
     valueOptions: () => [],
     type: 'text',
     label: '',
     placeholder: ' ',
     errorMessage: '',
     note: '',
+    scheme: 'primary',
+    modification: 'dropdown',
   },
 )
 
@@ -133,16 +130,16 @@ const emit = defineEmits<{
 
 const attrs = useAttrs()
 
-const selectElement = ref<HTMLDivElement>()
+const selectElement = ref<HTMLDivElement | null>(null)
 
-const isDropdownOpen = ref(false)
+const isDropMenuOpen = ref(false)
 const fieldIndex = computed(() =>
   props.valueOptions.findIndex(item => item.value === props.modelValue),
 )
 const uid = uuidv4()
 
 onBeforeRouteUpdate(() => {
-  closeDropdown()
+  closeDropMenu()
 })
 
 const isDisabled = computed(() =>
@@ -153,17 +150,18 @@ const isReadonly = computed(() =>
   ['', 'readonly', true].includes(attrs.readonly as string | boolean),
 )
 
-const isLabelActive = computed(() => isDropdownOpen.value || !!props.modelValue)
+const isLabelActive = computed(() => isDropMenuOpen.value || !!props.modelValue)
 
 const selectFieldClasses = computed(() => ({
   'select-field': true,
   'select-field--error': props.errorMessage,
   'select-field--filled': props.modelValue,
-  'select-field--open': isDropdownOpen.value,
+  'select-field--open': isDropMenuOpen.value,
   'select-field--disabled': isDisabled.value,
   'select-field--readonly': isReadonly.value,
   'select-field--label-active': isLabelActive.value,
   [`select-field--${props.scheme}`]: true,
+  [`select-field--${props.modification}`]: true,
 }))
 
 const setHeightCSSVar = (element: Element) => {
@@ -173,31 +171,31 @@ const setHeightCSSVar = (element: Element) => {
   )
 }
 
-const toggleDropdown = () => {
-  isDropdownOpen.value ? closeDropdown() : openDropdown()
+const toggleDropMenu = () => {
+  isDropMenuOpen.value ? closeDropMenu() : openDropMenu()
 }
 
-const openDropdown = () => {
+const openDropMenu = () => {
   if (isDisabled.value || isReadonly.value) return
 
-  isDropdownOpen.value = true
+  isDropMenuOpen.value = true
 }
 
-const closeDropdown = () => {
-  isDropdownOpen.value = false
+const closeDropMenu = () => {
+  isDropMenuOpen.value = false
 }
 
 const select = (value: string | number) => {
   if (isDisabled.value || isReadonly.value) return
 
   emit('update:modelValue', value)
-  closeDropdown()
+  closeDropMenu()
 }
 
 onMounted(() => {
   if (selectElement.value) {
     onClickOutside(selectElement, () => {
-      closeDropdown()
+      closeDropMenu()
     })
   }
 })
@@ -205,7 +203,7 @@ onMounted(() => {
 watch(
   () => props.modelValue,
   () => {
-    closeDropdown()
+    closeDropMenu()
   },
 )
 </script>
@@ -220,9 +218,14 @@ $z-local-index: 2;
   width: 100%;
   flex: 1;
 
-  &--disabled,
-  &--readonly {
+  &--disabled.select-field--primary,
+  &--readonly.select-field--primary {
     pointer-events: none;
+
+    .select-field__select-head {
+      border-color: var(--disable-primary-dark);
+      background: var(--disable-primary-dark);
+    }
 
     .select-field__placeholder {
       @include field-placeholder-readonly;
@@ -334,17 +337,17 @@ $z-local-index: 2;
     color: var(--field-text);
   }
 
-  &--open {
+  .select-field--dropup:not(.select-field--open) &,
+  .select-field--dropdown.select-field--open & {
     transform: translateY(-50%) rotate(180deg);
   }
 }
 
-.select-field__select-dropdown {
+.select-field__select-drop-menu {
   display: flex;
   flex-direction: column;
   position: absolute;
   overflow: hidden auto;
-  top: 110%;
   right: 0;
   width: 100%;
   max-height: 500%;
@@ -353,27 +356,32 @@ $z-local-index: 2;
   box-shadow: 0 toRem(1) toRem(2) rgba(var(--black-rgb), 0.3),
     0 toRem(2) toRem(6) toRem(2) rgba(var(--black-rgb), 0.15);
   border-radius: toRem(14);
+
+  .select-field--dropdown & {
+    top: 110%;
+  }
+
+  .select-field--dropup & {
+    bottom: 110%;
+  }
 }
 
-.select-field__select-dropdown-enter-active {
-  animation: dropdown var(--field-transition-duration);
+.select-field__select-drop-menu-enter-active {
+  animation: drop-menu var(--field-transition-duration);
 }
 
-.select-field__select-dropdown-leave-active {
-  animation: dropdown var(--field-transition-duration) 0.1s reverse;
+.select-field__select-drop-menu-leave-active {
+  animation: drop-menu var(--field-transition-duration) reverse;
 }
 
-@keyframes dropdown {
+@keyframes drop-menu {
   from {
     opacity: 0;
-    transform: translateY(20%);
-    max-height: 0;
+    transform: scale(0.8);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
-    max-height: 500%;
   }
 }
 

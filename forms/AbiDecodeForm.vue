@@ -52,6 +52,7 @@
             >
               <select-field
                 v-model="arg.type"
+                modification="dropup"
                 :readonly="form.decodeMode === DECODE_MODES.auto"
                 :label="$t('abi-decode-form.arg-type-label')"
                 :placeholder="$t('abi-decode-form.arg-type-placeholder')"
