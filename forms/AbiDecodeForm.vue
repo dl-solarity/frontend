@@ -258,17 +258,32 @@ const fetchFuncSignature = async (selector: string): Promise<string> => {
   try {
     responseData = (
       await fetcher.get(
-        'https://api.openchain.xyz/signature-database/v1/look',
+        'https://api.openchain.xyz/signature-database/v1/lookup',
         { query: { function: selector } },
       )
     ).data
   } catch {
-    throw new errors.FuncSignatureFetchError()
+    throw new errors.FunctionSignatureFetchError()
   }
 
   // eslint-disable-next-line
   // @ts-ignore
   return responseData?.result?.function[selector]?.[0]?.name || ''
+}
+
+const decodeValues = (
+  ...params: Parameters<AbiCoder['decode']>
+): ReturnType<AbiCoder['decode']> => {
+  try {
+    const values = AbiCoder.defaultAbiCoder().decode(...params)
+
+    // values is a Proxy with a get trap, checking access is required
+    for (const idx of values) values[idx]
+
+    return values
+  } catch {
+    throw new errors.AbiDecodeError()
+  }
 }
 
 const decodeAbi = async (): Promise<DecodedData> => {
@@ -297,7 +312,7 @@ const decodeAbi = async (): Promise<DecodedData> => {
           }
 
           types = funcFragment.inputs.map(paramType => paramType.format())
-          values = AbiCoder.defaultAbiCoder().decode(types, funcData)
+          values = decodeValues(types, funcData)
 
           break
         }
@@ -306,7 +321,7 @@ const decodeAbi = async (): Promise<DecodedData> => {
         if (!paramTypes) throw new errors.ParamTypesGuessError()
 
         types = paramTypes.map(type => type.format())
-        values = AbiCoder.defaultAbiCoder().decode(types, form.abiEncoding)
+        values = decodeValues(types, form.abiEncoding)
 
         break
       }
@@ -319,7 +334,7 @@ const decodeAbi = async (): Promise<DecodedData> => {
         types = form.args.map(arg =>
           arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
         )
-        values = AbiCoder.defaultAbiCoder().decode(types, data)
+        values = decodeValues(types, data)
 
         break
       }
