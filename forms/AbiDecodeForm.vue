@@ -256,12 +256,12 @@ const { getFieldErrorMessage, isFieldsValid, isFormValid, touchField } =
 const fetchFuncSignature = async (selector: string): Promise<string> => {
   let responseData
   try {
-    responseData = (
-      await fetcher.get(
-        'https://api.openchain.xyz/signature-database/v1/lookup',
-        { query: { function: selector } },
-      )
-    ).data
+    const { data } = await fetcher.get(
+      'https://api.openchain.xyz/signature-database/v1/lookup',
+      { query: { function: selector } },
+    )
+
+    responseData = data
   } catch {
     throw new errors.FunctionSignatureFetchError()
   }
