@@ -14,7 +14,7 @@ git:
         - package.json
         - yarn.lock
       setup: 
-        - yarn build
+        - "**/*"
 shell: 
   beforeInstall:
     - apk --no-cache --update --virtual build-dependencies add python3 make g++
@@ -23,6 +23,8 @@ shell:
     #- yarn autoclean --init
     #- yarn autoclean --force
     - yarn install
+  setup:
+    - yarn build
 # ---
 # image: web
 # from: nginx:alpine
