@@ -39,7 +39,7 @@ const props = defineProps<{
 
 <style lang="scss" scoped>
 .audits-card {
-  border: toRem(1) solid var(--text-secondary-dark);
+  background: var(--background-primary-light);
   padding: toRem(24);
   display: flex;
   flex-direction: column;

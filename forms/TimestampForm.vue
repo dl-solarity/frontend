@@ -10,7 +10,6 @@
           type="number"
           :label="$t('timestamp-form.timestamp-title')"
           :error-message="getFieldErrorMessage('timestamp')"
-          :disabled="isFormDisabled"
           @blur="touchField('timestamp')"
         />
       </div>
@@ -45,7 +44,7 @@ import { Time } from '@distributedlab/tools'
 import { required, integer, minValue, maxLength } from '@/helpers'
 import { InputField } from '@/fields'
 import { Copy } from '#components'
-import { useForm, useFormValidation } from '@/composables'
+import { useFormValidation } from '@/composables'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
@@ -53,7 +52,7 @@ const { t } = i18n.global
 const form = reactive({
   timestamp: new Time().timestamp,
 })
-const { isFormDisabled } = useForm()
+
 const { isFieldsValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   {

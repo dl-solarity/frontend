@@ -168,12 +168,6 @@
     "failed-to-guess-param-types": "Failed to guess types",
     "failed-to-decode-abi": "Failed to decode values with given types"
   },
-  "login-form": {
-    "login-lbl": "Login",
-    "password-lbl": "Password",
-    "login-success-msg": "Access granted",
-    "submit-btn": "Submit"
-  },
   "app-logo": {
     "title": "DLSL"
   },

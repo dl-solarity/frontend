@@ -14,10 +14,6 @@
   --background-primary-main: #{$background-primary-main};
   --background-primary-dark: #{$background-primary-dark};
 
-  --background-secondary-light: #{$background-secondary-light};
-  --background-secondary-main: #{$background-secondary-main};
-  --background-secondary-dark: #{$background-secondary-dark};
-
   /* status colors */
   --success-light: #{$success-light};
   --success-main: #{$success-main};
@@ -46,35 +42,19 @@
   --primary-main-rgb: #{$primary-main-rgb};
   --primary-dark-rgb: #{$primary-dark-rgb};
 
-  --secondary-light: #{$secondary-light};
-  --secondary-main: #{$secondary-main};
-  --secondary-dark: #{$secondary-dark};
-
   /* typography colors */
   --text-primary-light: #{$text-primary-light};
   --text-primary-main: #{$text-primary-main};
   --text-primary-dark: #{$text-primary-dark};
 
-  --text-secondary-light: #{$text-secondary-light};
-  --text-secondary-main: #{$text-secondary-main};
-  --text-secondary-dark: #{$text-secondary-dark};
-
   --text-primary-invert-light: #{$text-primary-invert-light};
   --text-primary-invert-main: #{$text-primary-invert-main};
   --text-primary-invert-dark: #{$text-primary-invert-dark};
-
-  --text-secondary-invert-light: #{$text-secondary-invert-light};
-  --text-secondary-invert-main: #{$text-secondary-invert-main};
-  --text-secondary-invert-dark: #{$text-secondary-invert-dark};
 
   /* border colors */
   --border-primary-light: #{$border-primary-light};
   --border-primary-main: #{$border-primary-main};
   --border-primary-dark: #{$border-primary-dark};
-
-  --border-secondary-light: #{$border-secondary-light};
-  --border-secondary-main: #{$border-secondary-main};
-  --border-secondary-dark: #{$border-secondary-dark};
 
   /* App variables */
   --app-txt: #{$text-primary-main};
@@ -111,7 +91,6 @@
 
   /* --------------------------------------- */
   --field-bg-primary: var(--background-primary-light);
-  --field-bg-secondary: var(--background-secondary-light);
 
   /* label */
   --field-label: var(--text-primary-main);

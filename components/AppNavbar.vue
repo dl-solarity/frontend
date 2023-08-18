@@ -62,7 +62,8 @@ onUnmounted(() => {
   border-bottom: var(--border-primary-main);
 
   &--dark {
-    background: rgba(var(--black-rgb), 0.6);
+    background: var(--background-primary-main);
+    box-shadow: 0 toRem(2) toRem(4) var(--background-primary-dark);
   }
 
   @include respond-to(tablet) {

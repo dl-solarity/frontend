@@ -10,21 +10,18 @@
           :label="$t('create2-address-form.account-address-title')"
           :error-message="getFieldErrorMessage('address')"
           @blur="touchField('address')"
-          :disabled="isFormDisabled"
         />
         <input-field
           v-model="form.contractCode"
           :label="$t('create2-address-form.contract-code-title')"
           :error-message="getFieldErrorMessage('contractCode')"
           @blur="touchField('contractCode')"
-          :disabled="isFormDisabled"
         />
         <input-field
           v-model="form.salt"
           :label="$t('create2-address-form.salt-title')"
           :error-message="getFieldErrorMessage('salt')"
           @blur="touchField('salt')"
-          :disabled="isFormDisabled"
         />
       </div>
     </div>
@@ -53,7 +50,7 @@ import { reactive, ref, watch } from 'vue'
 import { ethers } from 'ethers'
 import { required, address, hash, ErrorHandler } from '@/helpers'
 import { InputField } from '@/fields'
-import { useForm, useFormValidation } from '@/composables'
+import { useFormValidation } from '@/composables'
 
 const contractAddress = ref('')
 const form = reactive({
@@ -62,7 +59,6 @@ const form = reactive({
   salt: '',
 })
 
-const { isFormDisabled } = useForm()
 const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   {

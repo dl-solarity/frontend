@@ -37,7 +37,7 @@ const links = [
   gap: toRem(24);
   padding: toRem(24);
   justify-content: center;
-  border-top: toRem(1) solid var(--text-secondary-dark);
+  border-top: toRem(1) solid var(--background-primary-light);
 }
 
 .app-footer__btn {

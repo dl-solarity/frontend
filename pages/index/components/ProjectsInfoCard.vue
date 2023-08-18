@@ -42,7 +42,7 @@ const props = withDefaults(
   flex-direction: column;
   padding: toRem(32);
   border-radius: toRem(8);
-  background: var(--text-secondary-dark);
+  background: var(--background-primary-light);
 }
 
 .projects-info-card__title {

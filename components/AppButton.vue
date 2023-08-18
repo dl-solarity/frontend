@@ -378,9 +378,9 @@ const buttonType = computed<ButtonType>(
   }
 
   &--none {
-    --app-button-flat-bg-hover: var(--background-primary-light);
-    --app-button-flat-bg-focused: var(--background-primary-light);
-    --app-button-flat-bg-active: var(--background-primary-light);
+    --app-button-flat-bg-hover: var(--background-primary-main);
+    --app-button-flat-bg-focused: var(--background-primary-main);
+    --app-button-flat-bg-active: var(--background-primary-main);
 
     --app-button-flat-text: var(--text-primary-light);
     --app-button-flat-text-hover: var(--text-primary-light);

@@ -9,14 +9,12 @@
           v-model="form.type"
           :label="$t('hash-function-form.type-title')"
           :value-options="decodeTitles"
-          :disabled="isFormDisabled"
           :error-message="getFieldErrorMessage('type')"
           @blur="touchField('type')"
         />
         <textarea-field
           v-model="form.text"
           :label="$t('hash-function-form.text-title')"
-          :disabled="isFormDisabled"
           :error-message="getFieldErrorMessage('text')"
           @blur="touchField('text')"
         />
@@ -45,7 +43,7 @@
 <script lang="ts" setup>
 import { required, hex, minLength, ErrorHandler } from '@/helpers'
 import { TextareaField, SelectField } from '@/fields'
-import { useForm, useFormValidation } from '@/composables'
+import { useFormValidation } from '@/composables'
 import { type DecodeType, type HashFunction } from '@/types'
 import { reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -68,7 +66,6 @@ const form = reactive({
   text: '',
 })
 
-const { isFormDisabled } = useForm()
 const rules = computed(() => ({
   type: { required },
   text: {

@@ -37,7 +37,7 @@ const toastIcon = computed(() => props.iconName || ICON_NAMES.checkCircle)
 
 <style lang="scss">
 .Vue-Toastification__toast.default-toast {
-  background: var(--white);
+  background: var(--background-primary-main);
   padding: toRem(12);
 }
 
@@ -96,14 +96,14 @@ const toastIcon = computed(() => props.iconName || ICON_NAMES.checkCircle)
   line-height: 1.5;
   font-weight: 500;
   letter-spacing: toRem(0.1);
-  color: var(--text-primary-main);
+  color: var(--text-primary-light);
 }
 
 .default-toast__message {
   font-size: toRem(14);
   line-height: 1.5;
   letter-spacing: toRem(0.25);
-  color: var(--text-secondary-main);
+  color: var(--text-primary-main);
   width: toRem(230);
 
   @include respond-to(xsmall) {
@@ -113,7 +113,7 @@ const toastIcon = computed(() => props.iconName || ICON_NAMES.checkCircle)
 
 .Vue-Toastification__close-button {
   align-self: flex-start;
-  color: var(--text-secondary-main);
+  color: var(--text-primary-light);
   padding: 0;
   font-size: toRem(28);
   line-height: 1;

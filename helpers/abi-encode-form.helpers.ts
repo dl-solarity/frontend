@@ -1,8 +1,4 @@
 import { ETHEREUM_TYPES } from '@/enums'
-import { type AbiEncodeForm, type BytesLike } from '@/types'
-import { ValidationRule } from '@vuelidate/core'
-import { type BigNumber } from 'bignumber.js'
-import { AbiCoder, ParamType } from 'ethers'
 import {
   checkBytesAmount,
   checkIsAddress,
@@ -15,7 +11,11 @@ import {
   checkIsUintLike,
   checkIsUnitLikeArrayJsonString,
   checkUintIsWithinRange,
-} from '~/helpers/type.helpers'
+} from '@/helpers'
+import { type AbiEncodeForm, type BytesLike } from '@/types'
+import { ValidationRule } from '@vuelidate/core'
+import { type BigNumber } from 'bignumber.js'
+import { AbiCoder, ParamType } from 'ethers'
 import { i18n } from '~/plugins/localization'
 
 const abiCoder = AbiCoder.defaultAbiCoder()
