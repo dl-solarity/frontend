@@ -3,6 +3,8 @@ project: "web-client"
 ---
 image: web
 from: node:16-alpine
+docker:
+  ENTRYPOINT: ["yarn", "dev"]
 git:
   - add: /
     to: /app
@@ -20,10 +22,6 @@ shell:
     #- yarn autoclean --init
     #- yarn autoclean --force
     - yarn install
-  setup: 
-    - cd /app
-    - yarn dev
-
 # ---
 # image: web
 # from: nginx:alpine
