@@ -7,9 +7,9 @@ docker:
   WORKDIR: /app
   ENTRYPOINT: ["yarn", "dev"]
   ENV:
-  VITE_ENVIRONMENT: development
-  VITE_PORT: 8095
-  VITE_APP_NAME: 'DLSL'
+    VITE_ENVIRONMENT: development
+    VITE_PORT: 8095
+    VITE_APP_NAME: 'DLSL'
 git:
   - add: /
     to: /app
