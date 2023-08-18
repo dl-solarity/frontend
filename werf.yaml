@@ -1,7 +1,7 @@
 configVersion: 1
 project: "web-client"
 ---
-image: builder
+image: web
 from: node:16-alpine
 git:
   - add: /
@@ -22,18 +22,18 @@ shell:
     - yarn install
   setup: 
     - cd /app
-    - yarn build
+    - yarn start
 
----
-image: web
-from: nginx:alpine
-git:
-  - add: /nginx.conf
-    to: /etc/nginx/nginx.conf
-import:
-  - image: builder
-    add: /app/.output
-    to: /usr/share/nginx/html
-    after: setup
+# ---
+# image: web
+# from: nginx:alpine
+# git:
+#   - add: /nginx.conf
+#     to: /etc/nginx/nginx.conf
+# import:
+#   - image: builder
+#     add: /app/.output
+#     to: /usr/share/nginx/html
+#     after: setup
 
 
