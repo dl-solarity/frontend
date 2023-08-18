@@ -4,6 +4,7 @@ project: "web-client"
 image: web
 from: node:16-alpine
 docker:
+  WORKDIR: /app
   ENTRYPOINT: ["yarn", "dev"]
 git:
   - add: /
