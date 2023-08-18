@@ -24,6 +24,7 @@ shell:
     #- yarn autoclean --force
     - yarn install
   setup:
+    - cd /app
     - yarn build
 # ---
 # image: web
