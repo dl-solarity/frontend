@@ -6,6 +6,11 @@ from: node:16-alpine
 docker:
   WORKDIR: /app
   ENTRYPOINT: ["yarn", "dev"]
+  ENV:
+    VITE_ENVIRONMENT=development
+    VITE_PORT=8095
+    VITE_API_URL='http://localhost:8000/_/api/'
+    VITE_APP_NAME='DLSL'
 git:
   - add: /
     to: /app
