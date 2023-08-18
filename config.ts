@@ -1,6 +1,8 @@
 import { LogLevelDesc } from 'loglevel'
 
 export const config = {
-  APP_NAME: import.meta.env.VITE_APP_NAME as string,
+  NAME: import.meta.env.VITE_APP_NAME as string,
+  DOCUMENTATION_URL: import.meta.env.VITE_APP_DOCUMENTATION_URL as string,
+  GITHUB_URL: import.meta.env.VITE_APP_GITHUB_URL as string,
   LOG_LEVEL: 'trace' as LogLevelDesc,
 } as const

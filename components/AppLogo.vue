@@ -4,11 +4,7 @@ import { config } from '@/config'
 
 <template>
   <NuxtLink class="app-logo" :to="$routes.app">
-    <img
-      class="app-logo__img"
-      src="/branding/logo.png"
-      :alt="config.APP_NAME"
-    />
+    <img class="app-logo__img" src="/branding/logo.png" :alt="config.NAME" />
     <span class="app-logo__text ff-tertiary">{{ $t('app-logo.title') }}</span>
   </NuxtLink>
 </template>

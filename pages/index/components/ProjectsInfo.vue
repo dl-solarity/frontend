@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import ProjectsInfoCard from './ProjectsInfoCard.vue'
+import { config } from '@/config'
 import { ROUTE_PATH } from '@/constants'
 import { i18n } from '~/plugins/localization'
 
@@ -22,7 +23,7 @@ const infoCards = [
   {
     title: t('projects-info.documentation-title'),
     message: t('projects-info.documentation-message'),
-    href: 'https://docs.google.com/',
+    href: config.DOCUMENTATION_URL,
     btnText: t('projects-info.visit-btn'),
   },
   {
@@ -34,7 +35,7 @@ const infoCards = [
   {
     title: t('projects-info.github-title'),
     message: t('projects-info.github-message'),
-    href: 'https://github.com/dl-solidity-library',
+    href: config.GITHUB_URL,
     btnText: t('projects-info.visit-btn'),
   },
   {
