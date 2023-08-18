@@ -22,7 +22,7 @@ shell:
     - yarn install
   setup: 
     - cd /app
-    - yarn start
+    - yarn dev
 
 # ---
 # image: web
