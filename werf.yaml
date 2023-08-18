@@ -32,7 +32,7 @@ git:
     to: /etc/nginx/nginx.conf
 import:
   - image: builder
-    add: /.nuxt/dist
+    add: /app/.output
     to: /usr/share/nginx/html
     after: setup
 
