@@ -14,7 +14,7 @@ git:
         - "**/*"
 shell: 
   beforeInstall:
-    - apk --no-cache --update --virtual build-dependencies add python make g++
+    - apk --no-cache --update --virtual build-dependencies add python3 make g++
   install: 
     - cd /app
     #- yarn autoclean --init
