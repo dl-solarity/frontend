@@ -101,6 +101,12 @@ export default defineNuxtConfig({
         },
       },
     },
+    resolve: {
+      alias: {
+        '@distributedlab/fetcher':
+          '/node_modules/@distributedlab/fetcher/dist/esm/index.js',
+      },
+    },
   },
 
   // vueuse

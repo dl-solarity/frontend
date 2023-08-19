@@ -1,29 +1,29 @@
 <template>
   <div class="audits-card">
     <div class="audits-card__img-wrapper">
-      <img :src="props.audit.imgSrc" class="audits-card__img" />
+      <img :src="audit.imgSrc" class="audits-card__img" alt="audit-image" />
     </div>
     <div class="audits-card__content">
       <div class="audits-card__title-wrapper ff-tertiary">
         <p class="audits-card__title">
-          {{ props.audit.title }}
+          {{ audit.title }}
         </p>
         <div class="audits-card__circle"></div>
         <p class="audits-card__title">
-          {{ props.audit.fileSize }}
+          {{ audit.fileSize }}
         </p>
       </div>
       <p class="audits-card__description">
-        {{ props.audit.description }}
+        {{ audit.description }}
       </p>
       <app-button
         class="audits-card__btn"
         color="none"
         scheme="flat"
         modification="border-circle"
-        :text="props.audit.btnText || $t('audits-card.download-btn')"
+        :text="audit.btnText || $t('audits-card.download-btn')"
         :icon-right="$icons.download"
-        :href="props.audit.fileLink"
+        :href="audit.fileLink"
       />
     </div>
   </div>
@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 import { Audit } from '@/types'
 
-const props = defineProps<{
+defineProps<{
   audit: Audit
 }>()
 </script>

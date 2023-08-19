@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import AuditsCard from './components/AuditsCard.vue'
+import { AuditsCard } from '#components'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global

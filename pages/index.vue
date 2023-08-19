@@ -6,5 +6,5 @@
 </template>
 
 <script lang="ts" setup>
-import { StatsPreview, ProjectsInfo } from './components'
+import { StatsPreview, ProjectsInfo } from '#components'
 </script>
