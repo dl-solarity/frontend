@@ -1,85 +1,57 @@
 .noscript {
-  max-width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-sizing: content-box;
-  color: #202124;
-  padding: 0 10px;
-  text-align: center;
-  font: 1rem 'Roboto', 'Arial', sans-serif;
+  position: fixed;
+  inset: 0;
+  z-index: 1000000;
+  overflow: auto;
+  display: grid;
+  padding: 1rem;
+  background: var(--background-primary-main);
 }
 
-.noscript__title {
-  font-weight: normal;
-  font-size: 30px;
-  margin-top: 30px;
+.noscript__wrp {
+  display: grid;
+  grid-auto-rows: max-content;
+  justify-items: center;
+  align-content: center;
+  grid-gap: 0.75rem;
+  text-align: center;
 }
 
 .noscript__message {
-  margin-top: 0;
+  max-width: 44rem;
 }
 
 .noscript__enable-support {
-  color: #7b6eff;
+  transition: color var(--field-transition-duration);
+  color: var(--primary-main);
 }
 
 .noscript__list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  list-style: none;
-  padding: 0;
+  gap: 1rem;
 }
 
 .noscript__list-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  width: 100%;
+  display: grid;
+  grid-gap: 0.5rem;
 }
 
 .noscript__link {
-  border: 1px solid #dfe1e5;
-  padding: 5px;
-  border-radius: 5%;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .noscript__link:hover {
-  box-shadow: 0px 4px 8px 3px rgba(60,64,67,.15);
-}
+  box-shadow: 0 0 0.5rem 0.25rem var(--background-primary-light);
 
-.noscript__browser-name {
-  margin-top: 10px;
-}
-
-@media all and (min-width: 576px) {
-  .noscript__message {
-    max-width: 700px;
-  }
-
-  .noscript__list-item {
-    width: 34%;
+  .noscript__image {
+    transform: scale(1.1);
   }
 }
 
-@media all and (min-width: 992px) {
-  .noscript {
-    margin-top: 70px;
-    padding: 0 50px;
-  }
-
-  .noscript__list-item {
-    width: unset;
-    margin-right: 20px;
-    margin-bottom: 0;
-  }
-
-  .noscript__recommendations {
-    margin-bottom: 0;
-  }
+.noscript__image {
+  display: block;
+  transition: transform var(--field-transition-duration);
 }

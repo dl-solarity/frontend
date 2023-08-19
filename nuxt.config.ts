@@ -19,7 +19,7 @@ export default defineNuxtConfig({
       title: 'DLSL',
       meta: [
         { charset: 'utf-8' },
-        { httpEquiv: 'X-UA-Compatible', content: 'IE=edge' },
+        { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
         { name: 'theme-color', content: '#151314' },
 
         {
@@ -65,6 +65,41 @@ export default defineNuxtConfig({
 
         { href: '/noscript/style.css', type: 'text/css', rel: 'stylesheet' },
         { href: '/init-loader/style.css', type: 'text/css', rel: 'stylesheet' },
+      ],
+
+      noscript: [
+        {
+          innerHTML:
+            '<noscript>\n' +
+            '  <div class="noscript">\n' +
+            '    <div class="noscript__wrp">\n' +
+            '      <h2>Update your browser or enable JavaScript</h2>\n' +
+            '      <p class="noscript__message">Your browser either does not support JavaScript, or it has JavaScript support disabled. If you want to correctly view this page, please upgrade your browser or <a class="noscript__enable-support" href="https://www.enablejavascript.io/" target="_blank">enable JavaScript support</a>.</p>\n' +
+            '      <p>These are the ones we recommend:</p>\n' +
+            '      <ul class="noscript__list">\n' +
+            '        <li class="noscript__list-item">\n' +
+            '          <a class="noscript__link" href="https://www.google.com/chrome/?hl=en%22" >\n' +
+            '            <img class="noscript__image" src="/noscript/chrome.jpg" width="138px" height="138px" alt="chrome-logo">\n' +
+            '          </a>\n' +
+            '          <span>Google Chrome</span>\n' +
+            '        </li>\n' +
+            '        <li class="noscript__list-item">\n' +
+            '          <a class="noscript__link" href="https://www.mozilla.com/firefox/">\n' +
+            '            <img class="noscript__image" src="/noscript/firefox.jpg" width="138px" height="138px" alt="firefox-logo">\n' +
+            '          </a>\n' +
+            '          <span>Firefox</span>\n' +
+            '        </li>\n' +
+            '        <li class="noscript__list-item" style="margin-right: 0;">\n' +
+            '          <a class="noscript__link" href="https://www.apple.com/safari/">\n' +
+            '            <img class="noscript__image" src="/noscript/safari.jpg" width="138px" height="138px" alt="safari-logo">\n' +
+            '          </a>\n' +
+            '          <span>Safari</span>\n' +
+            '        </li>\n' +
+            '      </ul>\n' +
+            '    </div>\n' +
+            '  </div>\n' +
+            '</noscript>\n',
+        },
       ],
     },
   },
