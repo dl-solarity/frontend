@@ -56,11 +56,12 @@
   --border-primary-main: #{$border-primary-main};
   --border-primary-dark: #{$border-primary-dark};
 
+  /* border radii */
+  --border-radius-main: #{toRem(8)};
+
   /* App variables */
   --app-txt: #{$text-primary-main};
   --app-font-family-main: 'Inter', 'Arial', sans-serif;
-  --app-font-family-secondary: 'Roboto', 'Arial', sans-serif;
-  --app-font-family-tertiary: 'Rubik', sans-serif;
   --app-padding-right: #{toRem(32)};
   --app-padding-left: #{toRem(32)};
   --app-padding-top: #{toRem(48)};
@@ -92,23 +93,38 @@
   /* --------------------------------------- */
   --field-bg-primary: var(--background-primary-light);
 
-  /* label */
-  --field-label: var(--text-primary-main);
-  --field-label-hover: var(--text-primary-main);
-  --field-label-focus: var(--primary-main);
-  --field-label-font-size: #{toRem(14)};
-  --field-label-line-height: 1.6;
+    /* label */
+    --field-label-font-family: var(--app-font-family-main);
+    --field-label-font-size: #{toRem(14)};
+    --field-label-font-weight: 400;
+    --field-label-line-height: #{toRem(22)};
+    --field-label-letter-spacing: 0;
+    --field-label: var(--text-primary-main);
+    --field-label-margin-bottom: #{toRem(4)};
 
   /* text */
-  --field-text: var(--text-primary-light);
+  --field-text-font-family: var(--app-font-family-main);
   --field-text-font-size: #{toRem(14)};
-  --field-text-line-height: 1.4;
+  --field-text-font-weight: 500;
+  --field-text-line-height: #{toRem(22)};
+  --field-text-letter-spacing: 0;
+  --field-text: var(--text-primary-light);
   --field-placeholder: var(--text-primary-main);
+  --field-placeholder-readonly: var(--disable-primary-main);
+
+  /* error */
+  --field-error-font-family: var(--app-font-family-main);
+  --field-error-font-size: #{toRem(12)};
+  --field-error-font-weight: 300;
+  --field-error-line-height: #{toRem(20)};
+  --field-error-letter-spacing: 0;
+  --field-error: var(--error-main);
 
   /* border */
   --field-border: var(--border-primary-dark);
   --field-border-hover: var(--border-primary-main);
   --field-border-focus: var(--primary-main);
+  --field-border-radius: #{toRem(8)};
 
   /* transition duration */
   --field-transition-duration: 0.2s;
@@ -123,6 +139,4 @@
     var(--field-padding-right)
     var(--field-padding-bottom)
     var(--field-padding-left);
-
-  --field-error: var(--error-main);
 }

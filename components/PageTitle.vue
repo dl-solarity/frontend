@@ -1,8 +1,8 @@
 <template>
   <div class="page-title">
-    <h1 class="page-title__title">
+    <h2 class="page-title__title">
       {{ title }}
-    </h1>
+    </h2>
     <app-button
       class="page-title__sidebar-button"
       scheme="none"
@@ -35,10 +35,6 @@ defineProps<{
 }
 
 .page-title__title {
-  line-height: 1.2;
-  font-size: toRem(40);
-  font-weight: 500;
-
   @include text-ellipsis;
 
   @include respond-to(small) {

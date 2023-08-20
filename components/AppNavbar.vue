@@ -1,10 +1,10 @@
 <template>
   <div class="app-navbar" :class="{ 'app-navbar--dark': isDarkenBg }">
     <app-logo />
-    <nav class="app-navbar__links">
+    <nav class="app-navbar__nav">
       <app-button
         v-for="(link, index) in links"
-        :key="index"
+        :key="`${link}-${index}`"
         :text="link.text"
         :href="link.href"
         color="none"
@@ -60,18 +60,16 @@ onUnmounted(() => {
   padding: toRem(24) var(--app-padding-right) toRem(24) var(--app-padding-left);
   background: transparent;
   border-bottom: var(--border-primary-main);
+  transition: var(--field-transition-duration) ease;
+  transition-property: background-color, box-shadow;
 
   &--dark {
     background: var(--background-primary-main);
     box-shadow: 0 toRem(2) toRem(4) var(--background-primary-dark);
   }
-
-  @include respond-to(tablet) {
-    flex-wrap: wrap;
-  }
 }
 
-.app-navbar__links {
+.app-navbar__nav {
   display: flex;
   gap: toRem(12);
 }

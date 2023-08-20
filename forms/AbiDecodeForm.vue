@@ -1,7 +1,7 @@
 <template>
   <form class="abi-decode-form">
     <div class="abi-decode-form__input">
-      <h2>{{ title }}</h2>
+      <h3>{{ title }}</h3>
       <textarea-field
         v-model="form.abiEncoding"
         :label="$t('abi-decode-form.abi-encoding-label')"
@@ -34,7 +34,7 @@
           </p>
         </div>
         <template v-if="form.args.length">
-          <h2>{{ $t('abi-decode-form.output-title') }}</h2>
+          <h3>{{ $t('abi-decode-form.output-title') }}</h3>
           <input-field
             :model-value="funcSignature"
             :label="$t('abi-decode-form.func-signature-label')"

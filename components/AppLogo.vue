@@ -1,19 +1,28 @@
-<script lang="ts" setup>
-import { config } from '@/config'
-</script>
-
 <template>
-  <NuxtLink class="app-logo" :to="$routes.app">
+  <nuxt-link class="app-logo" :to="$routes.app" @click="onClick">
     <img class="app-logo__img" src="/branding/logo.png" :alt="config.NAME" />
-    <span class="app-logo__text ff-tertiary">{{ $t('app-logo.title') }}</span>
-  </NuxtLink>
+    <h3 class="app-logo__title">
+      {{ $t('app-logo.title') }}
+    </h3>
+  </nuxt-link>
 </template>
+
+<script lang="ts" setup>
+import { useRoute } from '#app'
+import { config } from '@/config'
+import { ROUTE_PATH } from '@/constants'
+
+const route = useRoute()
+
+const onClick = () => {
+  if (route.path === ROUTE_PATH.app) window.location.reload()
+}
+</script>
 
 <style lang="scss" scoped>
 .app-logo {
   display: flex;
   align-items: center;
-  height: 100%;
 }
 
 .app-logo__img {
@@ -21,10 +30,7 @@ import { config } from '@/config'
   max-height: toRem(32);
 }
 
-.app-logo__text {
+.app-logo__title {
   font-size: toRem(20);
-  font-weight: 500;
-  line-height: 120%;
-  color: var(--text-primary-light);
 }
 </style>

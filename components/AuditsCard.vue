@@ -1,14 +1,10 @@
 <template>
   <div class="audits-card">
-    <div class="audits-card__img-wrapper">
-      <img :src="audit.imgSrc" class="audits-card__img" alt="audit-image" />
-    </div>
+    <img :src="audit.imgSrc" class="audits-card__img" alt="audit-image" />
     <div class="audits-card__content">
-      <div class="audits-card__title-wrapper ff-tertiary">
-        <p class="audits-card__title">
-          {{ audit.title }}
-        </p>
-        <div class="audits-card__circle"></div>
+      <div class="audits-card__title-wrp">
+        <h3>{{ audit.title }}</h3>
+        <div class="audits-card__circle" />
         <p class="audits-card__title">
           {{ audit.fileSize }}
         </p>
@@ -44,47 +40,31 @@ defineProps<{
   display: flex;
   flex-direction: column;
   gap: toRem(16);
-}
-
-.audits-card__img-wrapper {
-  position: relative;
-  height: 0;
-  padding-top: 55%;
+  border-radius: var(--border-radius-main);
 }
 
 .audits-card__img {
-  position: absolute;
-  height: 100%;
+  display: block;
+  aspect-ratio: 600 / 318;
   width: 100%;
-  inset: 0;
   object-fit: cover;
-  color: transparent;
 }
 
 .audits-card__content {
   display: flex;
   flex-direction: column;
-  gap: toRem(16);
 }
 
-.audits-card__title-wrapper {
+.audits-card__title-wrp {
   display: flex;
   align-items: center;
   gap: toRem(8);
 }
 
-.audits-card__title {
-  font-size: toRem(24);
-  line-height: 133%;
-}
-
 .audits-card__description {
-  line-height: 175%;
+  margin-top: toRem(12);
+  margin-bottom: toRem(24);
   color: var(--text-primary-main);
-}
-
-.audits-card__btn {
-  align-self: end;
 }
 
 .audits-card__circle {
@@ -92,5 +72,9 @@ defineProps<{
   height: toRem(5);
   background-color: var(--text-primary-light);
   border-radius: 50%;
+}
+
+.audits-card__btn {
+  align-self: end;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <form class="hash-function-form">
     <div class="hash-function-form__input">
-      <h2 class="hash-function-form__input-title">
+      <h3 class="hash-function-form__input-title">
         {{ $t('hash-function-form.input-title', { type: title }) }}
-      </h2>
+      </h3>
       <div class="hash-function-form__input-fields">
         <select-field
           v-model="form.type"
@@ -21,9 +21,9 @@
       </div>
     </div>
     <div class="hash-function-form__output">
-      <h2 class="hash-function-form__output-title">
+      <h3 class="hash-function-form__output-title">
         {{ $t('hash-function-form.output-title') }}
-      </h2>
+      </h3>
       <div class="hash-function-form__output-content">
         <div class="hash-function-form__output-content-item">
           <p class="hash-function-form__output-content-item-title">

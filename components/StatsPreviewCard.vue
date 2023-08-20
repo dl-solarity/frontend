@@ -1,9 +1,7 @@
 <template>
   <div class="stats-preview-card">
-    <p class="stats-preview-card__title ff-tertiary">
-      {{ props.title }}
-    </p>
-    <p class="stats-preview-card__message ff-secondary">
+    <h2>{{ props.title }}</h2>
+    <p class="stats-preview-card__message">
       {{ props.message }}
     </p>
   </div>
@@ -24,17 +22,9 @@ const props = defineProps<{
   gap: toRem(8);
 }
 
-.stats-preview-card__title {
-  font-size: toRem(40);
-  font-weight: 600;
-  line-height: 120%;
-}
-
 .stats-preview-card__message {
-  font-size: toRem(18);
-  font-weight: 500;
-  line-height: 175%;
-  letter-spacing: toRem(0.36);
   text-transform: uppercase;
+
+  @include p-16-medium;
 }
 </style>

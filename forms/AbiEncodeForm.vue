@@ -1,7 +1,7 @@
 <template>
   <form class="abi-encode-form" @submit.prevent>
     <div class="abi-encode-form__input">
-      <h2>{{ title }}</h2>
+      <h3>{{ title }}</h3>
       <input-field
         v-model="form.funcName"
         :label="$t('abi-encode-form.func-name-label')"
@@ -70,7 +70,7 @@
       />
     </div>
     <div class="abi-encode-form__output">
-      <h2>{{ $t('abi-encode-form.output-title') }}</h2>
+      <h3>{{ $t('abi-encode-form.output-title') }}</h3>
       <input-field
         :model-value="funcSignature"
         :label="$t('abi-encode-form.func-signature-label')"

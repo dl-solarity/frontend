@@ -1,12 +1,12 @@
 <template>
   <div class="stats-preview">
     <div class="stats-preview__header">
-      <h1 class="stats-preview__header-main-title ff-tertiary">
+      <h1 class="stats-preview__header-main-title">
         {{ t('stats-preview.main-title') }}
       </h1>
-      <h2 class="stats-preview__header-secondary-title ff-secondary">
+      <p class="stats-preview__header-secondary-title">
         {{ t('stats-preview.secondary-title') }}
-      </h2>
+      </p>
     </div>
 
     <div class="stats-preview__cards">
@@ -49,9 +49,8 @@ const cards = [
   justify-content: space-between;
   gap: toRem(60);
   background-image: url('/branding/bg.png');
-  background-repeat: no-repeat;
   background-size: 100% 100%;
-  width: 100vw;
+  width: 100%;
   min-height: vh(100);
   padding: toRem(204) toRem(96) toRem(80);
 
@@ -68,17 +67,11 @@ const cards = [
 }
 
 .stats-preview__header-main-title {
-  font-size: toRem(56);
-  font-weight: 500;
-  line-height: 125%;
-  max-width: toRem(950);
+  max-width: toRem(940);
 }
 
 .stats-preview__header-secondary-title {
-  font-size: toRem(18);
-  font-weight: 400;
-  line-height: 175%;
-  max-width: toRem(540);
+  max-width: toRem(440);
   color: var(--text-primary-main);
 }
 

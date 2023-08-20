@@ -115,19 +115,12 @@ const buttonType = computed<ButtonType>(
 .app-button {
   --button-transition-duration: 0.2s;
 
-  outline: 0;
-  font-family: var(--app-font-family);
-  margin: 0;
-  cursor: pointer;
-  user-select: none;
-  overflow: hidden;
   display: grid;
   width: min-content;
   grid: auto / auto-flow max-content;
   align-items: center;
   justify-content: center;
   transition: all var(--button-transition-duration) ease-in;
-  text-decoration: none;
   border: var(--app-button-border);
   background-color: var(--app-button-bg);
   color: var(--app-button-text);
@@ -409,23 +402,11 @@ const buttonType = computed<ButtonType>(
     }
   }
 
-  &--large {
-    padding: toRem(24) toRem(50);
-    grid-gap: toRem(16);
-  }
-
   &--medium {
     padding: toRem(12) toRem(16);
-    font-size: toRem(16);
-    line-height: 1.4;
-    font-weight: 600;
     grid-gap: toRem(8);
-    letter-spacing: 0;
-  }
 
-  &--small {
-    padding: toRem(8) toRem(15);
-    grid-gap: toRem(8);
+    @include p-16-medium;
   }
 
   &--border-circle {
@@ -453,8 +434,8 @@ const buttonType = computed<ButtonType>(
 
   .app-button__icon-left,
   .app-button__icon-right {
-    height: 1.4em;
-    width: 1.4em;
+    height: 1.6em;
+    width: 1.6em;
   }
 }
 

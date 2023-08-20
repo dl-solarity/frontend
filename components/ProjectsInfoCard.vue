@@ -1,9 +1,7 @@
 <template>
   <div class="projects-info-card">
-    <p class="projects-info-card__title ff-tertiary">
-      {{ props.title }}
-    </p>
-    <p class="projects-info-card__message ff-secondary">
+    <h3>{{ props.title }}</h3>
+    <p class="projects-info-card__message">
       {{ props.message }}
     </p>
     <app-button
@@ -38,25 +36,14 @@ const props = withDefaults(
 
 <style scoped lang="scss">
 .projects-info-card {
-  display: flex;
-  flex-direction: column;
   padding: toRem(32);
-  border-radius: toRem(8);
+  border-radius: var(--border-radius-main);
   background: var(--background-primary-light);
 }
 
-.projects-info-card__title {
-  font-size: toRem(32);
-  margin-bottom: toRem(12);
-  font-weight: 500;
-  line-height: 125%;
-}
-
 .projects-info-card__message {
-  font-size: toRem(18);
+  margin-top: toRem(12);
   margin-bottom: toRem(24);
-  font-weight: 400;
-  line-height: 175%;
   color: var(--text-primary-main);
 }
 </style>

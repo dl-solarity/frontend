@@ -1,7 +1,7 @@
 <template>
   <div class="projects-info layout-wrapper">
     <projects-info-card
-      v-for="(card, idx) in infoCards"
+      v-for="(card, idx) in cards"
       :key="idx"
       :title="card.title"
       :message="card.message"
@@ -19,7 +19,7 @@ import { ROUTE_PATH } from '@/constants'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
-const infoCards = [
+const cards = [
   {
     title: t('projects-info.documentation-title'),
     message: t('projects-info.documentation-message'),

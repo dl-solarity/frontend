@@ -1,9 +1,9 @@
 <template>
   <form class="create2-address-form">
     <div class="create2-address-form__create">
-      <h2 class="create2-address-form__create-title">
+      <h3 class="create2-address-form__create-title">
         {{ $t('create2-address-form.create-title') }}
-      </h2>
+      </h3>
       <div class="create2-address-form__create-fields">
         <input-field
           v-model="form.address"
@@ -26,9 +26,9 @@
       </div>
     </div>
     <div class="create2-address-form__result">
-      <h2 class="create2-address-form__result-title">
+      <h3 class="create2-address-form__result-title">
         {{ $t('create2-address-form.result-title') }}
-      </h2>
+      </h3>
       <div class="create2-address-form__result-content">
         <div class="create2-address-form__result-content-item">
           <p class="create2-address-form__result-content-item-title">

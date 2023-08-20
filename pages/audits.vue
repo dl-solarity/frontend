@@ -1,18 +1,16 @@
 <template>
   <div class="audits-page">
     <div class="audits-page__title">
-      <h1 class="audits-page__title-main ff-tertiary">
-        {{ $t('audits-page.main-title') }}
-      </h1>
-      <h2 class="audits-page__title-secondary ff-secondary">
+      <h2>{{ $t('audits-page.main-title') }}</h2>
+      <p class="audits-page__title-secondary">
         {{ $t('audits-page.secondary-title') }}
-      </h2>
+      </p>
     </div>
     <div class="audits-page__list">
       <audits-card
-        v-for="(card, indx) in auditsList"
-        :key="indx"
-        :audit="card"
+        v-for="(audit, idx) in audits"
+        :key="`${audit.title}-${idx}`"
+        :audit="audit"
       />
     </div>
   </div>
@@ -20,11 +18,12 @@
 
 <script lang="ts" setup>
 import { AuditsCard } from '#components'
+import { Audit } from '@/types'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
 
-const auditsList = [
+const audits: Audit[] = [
   {
     imgSrc: '/img/audits/tornado-proposal.png',
     fileLink: 'https://github.com/dl-solidity-library/docs',
@@ -62,17 +61,7 @@ const auditsList = [
   gap: toRem(16);
 }
 
-.audits-page__title-main {
-  font-size: toRem(40);
-  font-weight: 600;
-  line-height: 120%;
-  color: var(--text-primary-light);
-}
-
 .audits-page__title-secondary {
-  font-size: toRem(18);
-  line-height: 175%;
-  font-weight: 400;
   color: var(--text-primary-main);
 }
 
