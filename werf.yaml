@@ -1,14 +1,14 @@
 configVersion: 1
 project: "web-client"
 ---
-image: builder
+image: web
 from: node:16-alpine
-# docker:
-#   WORKDIR: /app
-#   ENTRYPOINT: ["yarn", "dev"]
+docker:
+  WORKDIR: /frontend
+  ENTRYPOINT: ["yarn", "dev"]
 git:
   - add: /
-    to: /app
+    to: /frontend
     stageDependencies:
       install:
         - package.json
@@ -19,24 +19,10 @@ shell:
   beforeInstall:
     - apk --no-cache --update --virtual build-dependencies add python3 make g++
   install: 
-    - cd /app
+    - cd /frontend
     #- yarn autoclean --init
     #- yarn autoclean --force
     - yarn install
   setup:
-    - cd /app
+    - cd /frontend
     - yarn build
-    - yarn generate
----
-image: web
-from: nginx:alpine
-git:
-  - add: /nginx.conf
-    to: /etc/nginx/nginx.conf
-import:
-  - image: builder
-    add: /app/dist
-    to: /usr/share/nginx/html
-    after: setup
-
-
