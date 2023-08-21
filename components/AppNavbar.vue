@@ -8,6 +8,7 @@
         :text="link.text"
         :href="link.href"
         color="none"
+        size="large"
         modification="text"
       />
     </nav>

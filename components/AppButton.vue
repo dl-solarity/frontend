@@ -402,11 +402,18 @@ const buttonType = computed<ButtonType>(
     }
   }
 
+  &--large {
+    padding: toRem(12) toRem(16);
+    grid-gap: toRem(8);
+
+    @include p-16-semi-bold;
+  }
+
   &--medium {
     padding: toRem(12) toRem(16);
     grid-gap: toRem(8);
 
-    @include p-16-medium;
+    @include p-14-semi-bold;
   }
 
   &--border-circle {

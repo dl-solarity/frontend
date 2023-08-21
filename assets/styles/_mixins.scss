@@ -125,6 +125,14 @@ $media-breakpoints: (
   margin: auto;
 }
 
+@mixin p-16-semi-bold {
+  font-family: var(--app-font-family-main);
+  font-size: toRem(16);
+  font-weight: 600;
+  line-height: toRem(24);
+  letter-spacing: 0;
+}
+
 @mixin p-16-medium {
   font-family: var(--app-font-family-main);
   font-size: toRem(16);
