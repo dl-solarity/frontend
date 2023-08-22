@@ -2,18 +2,18 @@
   <div class="app-footer">
     <app-button
       v-for="(link, index) in links"
-      :key="index"
+      :key="`${link.text}-${index}`"
       :text="link.text"
       :href="link.href"
-      color="none"
+      color="secondary"
       modification="text"
-      class="app-footer__btn"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { AppButton } from '#components'
+import { config } from '@/config'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
@@ -22,11 +22,11 @@ const { t } = i18n.global
 const links = [
   {
     text: t('app-footer.link-text'),
-    href: 'https://github.com/dl-solidity-library/',
+    href: config.GITHUB_URL,
   },
   {
     text: t('app-footer.link-text'),
-    href: 'https://github.com/dl-solidity-library/',
+    href: config.GITHUB_URL,
   },
 ]
 </script>
@@ -38,11 +38,5 @@ const links = [
   padding: toRem(24);
   justify-content: center;
   border-top: toRem(1) solid var(--background-primary-light);
-}
-
-.app-footer__btn {
-  .app-footer & {
-    --app-button-text: var(--text-primary-main);
-  }
 }
 </style>

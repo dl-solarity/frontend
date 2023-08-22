@@ -31,7 +31,7 @@ export const useNotifications = () => {
     [TYPE.DEFAULT]: ICON_NAMES.exclamationCircle,
     [TYPE.INFO]: ICON_NAMES.exclamationCircle,
     [TYPE.SUCCESS]: ICON_NAMES.checkCircle,
-    [TYPE.ERROR]: ICON_NAMES.xCircle,
+    [TYPE.ERROR]: ICON_NAMES.exclamationCircle,
     [TYPE.WARNING]: ICON_NAMES.shieldExclamation,
   }
 
