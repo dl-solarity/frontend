@@ -151,8 +151,7 @@ h3 {
   flex-direction: column;
   min-height: toRem(400);
   width: 100%;
-  border-radius: toRem(8);
-  border: toRem(1) solid var(--border-primary-dark);
+  border-radius: var(--border-radius-main);
   background: var(--background-primary-main);
 }
 

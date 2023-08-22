@@ -67,7 +67,7 @@ const props = withDefaults(
     scheme?: 'filled' | 'flat' | 'none'
     modification?: 'border-circle' | 'border-rounded' | 'text' | 'none'
     color?: 'primary' | 'secondary' | 'none'
-    size?: 'large' | 'medium' | 'small' | 'x-small' | 'none'
+    size?: 'large' | 'medium' | 'none'
     route?: string
     href?: string
     iconLeft?: ICON_NAMES
@@ -93,19 +93,19 @@ const isDisabled = computed((): boolean =>
   ['', 'disabled', true].includes(attrs.disabled as string | boolean),
 )
 
-const buttonClasses = computed(() =>
-  [
-    'app-button',
-    `app-button--scheme-${props.scheme}`,
-    `app-button--${props.modification}`,
-    `app-button--${props.color}`,
-    `app-button--${props.size}`,
-    ...(isDisabled.value ? ['app-button--disabled'] : []),
-    ...((props.iconLeft || props.iconRight) && !props.text && !slots.default
-      ? ['app-button--icon-only']
-      : []),
-  ].join(' '),
-)
+const buttonClasses = computed(() => [
+  'app-button',
+  `app-button--scheme-${props.scheme}`,
+  ...(props.modification !== 'none'
+    ? [`app-button--${props.modification}`]
+    : []),
+  `app-button--${props.color}`,
+  ...(props.size !== 'none' ? [`app-button--${props.size}`] : []),
+  ...(isDisabled.value ? ['app-button--disabled'] : []),
+  ...((props.iconLeft || props.iconRight) && !props.text && !slots.default
+    ? ['app-button--icon-only']
+    : []),
+])
 
 const buttonType = computed<ButtonType>(
   () => (attrs.type as ButtonType) || 'button',
@@ -346,7 +346,7 @@ const buttonType = computed<ButtonType>(
   }
 
   &--border-rounded {
-    border-radius: toRem(8);
+    border-radius: var(--border-radius-main);
   }
 
   &--text {

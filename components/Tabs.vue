@@ -1,22 +1,22 @@
 <template>
   <div class="tabs">
-    <button
+    <app-button
       v-for="tab in tabs"
-      class="tabs__btn"
       :key="tab.id"
+      :text="tab.title"
+      :icon-left="$icons.cube"
+      color="secondary"
+      scheme="none"
+      modification="none"
+      class="tabs__btn"
       :class="{ 'tabs__btn--active': modelValue.id === tab.id }"
       @click="updateTab(tab)"
-    >
-      <icon class="tabs__btn-icon" :name="$icons.cube" />
-      <p class="tabs__btn-text">
-        {{ tab.title }}
-      </p>
-    </button>
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { Icon } from '#components'
+import { AppButton } from '#components'
 import { Tab } from '@/types'
 
 defineProps<{
@@ -40,50 +40,29 @@ const updateTab = (tab: Tab) => {
   grid-auto-flow: column;
   overflow-x: scroll;
   overflow-y: hidden;
-  border-radius: toRem(8) toRem(8) 0 0;
+  border-radius: var(--border-radius-main) var(--border-radius-main) 0 0;
   background: var(--background-primary-light);
-
-  ::-webkit-scrollbar-thumb {
-    height: toRem(2);
-  }
 }
 
 .tabs__btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  grid-auto-flow: row;
+  justify-items: center;
   padding: toRem(16) toRem(32);
-  gap: toRem(8);
+  --app-button-bg-focused: var(--primary-main);
+  --app-button-bg-active: var(--primary-main);
+  --app-button-text-hover: var(--primary-main);
+  --app-button-text-focused: var(--text-primary-invert-main);
+  --app-button-text-active: var(--text-primary-invert-main);
 
-  &:hover {
-    .tabs__btn-icon,
-    .tabs__btn-text {
-      color: var(--text-primary-main);
-    }
-  }
-
-  &--active:hover,
   &--active {
-    background: var(--primary-main);
-
-    .tabs__btn-icon,
-    .tabs__btn-text {
-      color: var(--text-primary-invert-main);
-    }
+    --app-button-bg: var(--primary-main);
+    --app-button-bg-hover: var(--primary-main);
+    --app-button-bg-focused: var(--primary-main);
+    --app-button-bg-active: var(--primary-main);
+    --app-button-text: var(--text-primary-invert-main);
+    --app-button-text-hover: var(--text-primary-invert-main);
+    --app-button-text-focused: var(--text-primary-invert-main);
+    --app-button-text-active: var(--text-primary-invert-main);
   }
-}
-
-.tabs__btn-icon {
-  width: toRem(22);
-  color: var(--text-primary-dark);
-  height: toRem(22);
-}
-
-.tabs__btn-text {
-  font-weight: 600;
-  font-size: toRem(14);
-  white-space: nowrap;
-  color: var(--text-primary-dark);
 }
 </style>
