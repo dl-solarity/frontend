@@ -1,49 +1,42 @@
 <template>
   <form class="hash-function-form">
     <div class="hash-function-form__input">
-      <h3 class="hash-function-form__input-title">
-        {{ $t('hash-function-form.input-title', { type: title }) }}
-      </h3>
-      <div class="hash-function-form__input-fields">
-        <select-field
-          v-model="form.type"
-          :label="$t('hash-function-form.type-title')"
-          :value-options="decodeTitles"
-          :error-message="getFieldErrorMessage('type')"
-          @blur="touchField('type')"
-        />
-        <textarea-field
-          v-model="form.text"
-          :label="$t('hash-function-form.text-title')"
-          :error-message="getFieldErrorMessage('text')"
-          @blur="touchField('text')"
-        />
-      </div>
+      <h3>{{ $t('hash-function-form.input-title', { type: title }) }}</h3>
+      <select-field
+        v-model="form.type"
+        :label="$t('hash-function-form.type-title')"
+        :value-options="decodeTitles"
+        :error-message="getFieldErrorMessage('type')"
+        @blur="touchField('type')"
+      />
+      <textarea-field
+        v-model="form.text"
+        :label="$t('hash-function-form.text-title')"
+        :error-message="getFieldErrorMessage('text')"
+        @blur="touchField('text')"
+      />
     </div>
     <div class="hash-function-form__output">
-      <h3 class="hash-function-form__output-title">
-        {{ $t('hash-function-form.output-title') }}
-      </h3>
-      <div class="hash-function-form__output-content">
-        <div class="hash-function-form__output-content-item">
-          <p class="hash-function-form__output-content-item-title">
-            {{ $t('hash-function-form.decoded-hash-title') }}
-          </p>
-          <copy :value="decodedHash">
-            <p class="hash-function-form__output-content-item-value">
-              {{ decodedHash || '–' }}
-            </p>
-          </copy>
-        </div>
-      </div>
+      <h3>{{ $t('hash-function-form.output-title') }}</h3>
+      <input-field
+        readonly
+        :model-value="decodedHash"
+        :label="$t('hash-function-form.decoded-hash-label')"
+        :placeholder="$t('hash-function-form.decoded-hash-placeholder')"
+      >
+        <template #nodeRight>
+          <copy :value="decodedHash" />
+        </template>
+      </input-field>
     </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { required, hex, minLength, ErrorHandler } from '@/helpers'
-import { TextareaField, SelectField } from '@/fields'
+import { Copy } from '#components'
 import { useFormValidation } from '@/composables'
+import { InputField, SelectField, TextareaField } from '@/fields'
+import { required, hex, minLength, ErrorHandler } from '@/helpers'
 import { type DecodeType, type HashFunction } from '@/types'
 import { reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -108,33 +101,5 @@ watch(form, () => {
 .hash-function-form__input {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--border-primary-main);
-}
-
-.hash-function-form__input-fields {
-  display: flex;
-  flex-direction: column;
-  gap: toRem(16);
-}
-
-.hash-function-form__output-content {
-  display: grid;
-  gap: toRem(32);
-}
-
-.hash-function-form__output-content-item {
-  display: grid;
-  gap: toRem(4);
-}
-
-.hash-function-form__output-content-item-title {
-  color: var(--text-primary-main);
-  line-height: 1.4;
-}
-
-.hash-function-form__output-content-item-value {
-  font-size: toRem(18);
-  line-height: 1.4;
-
-  @include text-ellipsis;
 }
 </style>

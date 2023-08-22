@@ -13,8 +13,6 @@ export enum ICON_NAMES {
   download = 'download',
   duplicate = 'duplicate',
   exclamationCircle = 'exclamation-circle',
-  eye = 'eye',
-  eyeOff = 'eye-off',
   hashtag = 'hashtag',
   locationMarker = 'location-marker',
   plus = 'plus',

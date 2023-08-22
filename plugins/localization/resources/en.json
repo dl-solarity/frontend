@@ -145,8 +145,9 @@
     "select-option-text": "Text",
     "select-option-hex": "Hex",
     "text-title": "Input data",
-    "decoded-hash-title": "Decoded Hash",
-    "output-title": "Output"
+    "output-title": "Output",
+    "decoded-hash-label": "Decoded Hash",
+    "decoded-hash-placeholder": "Decoded Hash"
   },
   "create-address-form": {
     "create-title": "Create",

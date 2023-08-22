@@ -20,7 +20,7 @@
         :value="modelValue"
         :placeholder="placeholder"
         :tabindex="tabIndex"
-        :type="inputType"
+        :type="type"
         :min="min"
         :max="max"
         :disabled="isDisabled || isReadonly"
@@ -31,16 +31,6 @@
         class="input-field__node-right-wrp"
       >
         <slot v-if="$slots.nodeRight" name="nodeRight" />
-        <button
-          v-else-if="isPasswordType"
-          type="button"
-          @click="isPasswordShown = !isPasswordShown"
-        >
-          <icon
-            class="input-field__icon"
-            :name="isPasswordShown ? $icons.eye : $icons.eyeOff"
-          />
-        </button>
         <button
           v-else-if="isClearable"
           class="input-field__clear-btn"
@@ -82,7 +72,7 @@ const props = withDefaults(
     modelValue: string | number
     label?: string
     placeholder?: string
-    type?: 'text' | 'number' | 'password'
+    type?: 'text' | 'number'
     errorMessage?: string
     note?: string
     isClearable?: boolean
@@ -113,18 +103,10 @@ const inputEl = ref<HTMLInputElement>()
 const nodeLeftWrp = ref<HTMLDivElement>()
 const nodeRightWrp = ref<HTMLDivElement>()
 
-const isPasswordShown = ref(false)
-
 const isNumberType = computed(() => props.type === 'number')
-const isPasswordType = computed(() => props.type === 'password')
 
 const hasRightNode = computed<boolean>(() =>
-  Boolean(
-    slots.nodeRight ||
-      isPasswordType.value ||
-      props.isClearable ||
-      props.errorMessage,
-  ),
+  Boolean(slots.nodeRight || props.isClearable || props.errorMessage),
 )
 
 const min = computed((): string =>
@@ -171,13 +153,6 @@ const inputClasses = computed(() =>
   ].join(' '),
 )
 
-const inputType = computed(() => {
-  if (isPasswordType.value) {
-    return isPasswordShown.value ? 'text' : 'password'
-  }
-  return 'text'
-})
-
 const clear = () => {
   emit('update:modelValue', '')
   emit('clear')
@@ -200,7 +175,7 @@ onMounted(() => {
     inputEl.value?.style.setProperty(
       'padding-right',
       `calc(${
-        nodeRightWrp.value?.offsetWidth || 0
+        nodeRightWrp.value?.offsetWidth || OFFSET_WIDTH
       }px + var(--field-padding-right) * 2)`,
     )
   }
