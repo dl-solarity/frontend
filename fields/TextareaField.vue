@@ -30,9 +30,9 @@
           type="button"
           @click="clear"
         >
-          <icon class="textarea-field__icon" :name="$icons.x" />
+          <app-icon class="textarea-field__icon" :name="$icons.x" />
         </button>
-        <icon
+        <app-icon
           v-else-if="props.errorMessage"
           class="textarea-field__icon textarea-field__icon--error"
           :name="$icons.exclamationCircle"
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from '#components'
+import { AppIcon } from '#components'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, useAttrs, useSlots } from 'vue'
 

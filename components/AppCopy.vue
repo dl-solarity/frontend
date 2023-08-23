@@ -2,7 +2,7 @@
   <div class="copy">
     <slot />
     <button v-if="String(props.value)" type="button" @click="handleCopy">
-      <icon
+      <app-icon
         class="copy__icon"
         :name="isCopied ? $icons.clipboardCheck : $icons.duplicate"
       />
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from '#components'
+import { AppIcon } from '#components'
 import { copyToClipboard, sleep } from '@/helpers'
 import { ref } from 'vue'
 

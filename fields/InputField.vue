@@ -37,9 +37,9 @@
           type="button"
           @click="clear"
         >
-          <icon class="input-field__icon" :name="$icons.x" />
+          <app-icon class="input-field__icon" :name="$icons.x" />
         </button>
-        <icon
+        <app-icon
           v-else-if="props.errorMessage"
           class="input-field__icon input-field__icon--error"
           :name="$icons.exclamationCircle"
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from '#components'
+import { AppIcon } from '#components'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, onMounted, ref, useAttrs, useSlots } from 'vue'
 

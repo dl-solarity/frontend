@@ -19,7 +19,7 @@
 
     <span class="checkbox-field__frame-wrp" aria-hidden="true">
       <span class="checkbox-field__frame">
-        <icon class="checkbox-field__frame-icon" :name="$icons.check" />
+        <app-icon class="checkbox-field__frame-icon" :name="$icons.check" />
       </span>
     </span>
 
@@ -30,8 +30,7 @@
 </template>
 
 <script lang="ts">
-import { Icon } from '#components'
-
+import { AppIcon } from '#components'
 import { defineComponent } from 'vue'
 
 enum EVENTS {
@@ -40,7 +39,7 @@ enum EVENTS {
 
 export default defineComponent({
   name: 'checkbox-field',
-  components: { Icon },
+  components: { AppIcon },
   props: {
     modelValue: { type: Boolean, default: false },
     value: { type: [String, Number], default: '' },
