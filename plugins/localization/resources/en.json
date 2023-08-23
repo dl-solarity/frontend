@@ -135,13 +135,15 @@
     "hexadecimal-title": "Hexadecimal"
   },
   "timestamp-form": {
-    "create-title": "Enter Timestamp",
-    "timestamp-title": "Timestamp in seconds",
-    "format-title": "Format",
-    "gmt-title": "GMT",
-    "seconds-title": "Seconds",
-    "time-zone-title": "Your time zone",
-    "relative-time-title": "Relative",
+    "input-title": "Enter Timestamp",
+    "timestamp-label": "Timestamp in seconds",
+    "timestamp-placeholder": "Timestamp in seconds",
+    "format-label": "Format",
+    "format-value": "Seconds",
+    "gmt-label": "GMT",
+    "seconds-label": "Seconds",
+    "time-zone-label": "Your time zone",
+    "relative-time-label": "Relative",
     "output-title": "Output"
   },
   "hash-function-form": {
