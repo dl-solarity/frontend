@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
+import { Icon } from '#components'
 import { copyToClipboard, sleep } from '@/helpers'
 import { ref } from 'vue'
-import { Icon } from '#components'
 
 const props = defineProps<{ value: string | number }>()
 
@@ -29,15 +29,15 @@ const handleCopy = async () => {
 
 <style lang="scss" scoped>
 .copy {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-auto-flow: column;
   gap: toRem(8);
   font: inherit;
   color: inherit;
   border: none;
   background: none;
-
-  @include text-ellipsis;
+  overflow: hidden;
+  max-width: max-content;
 }
 
 .copy__icon {

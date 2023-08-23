@@ -34,11 +34,11 @@
           <p class="create2-address-form__result-content-item-title">
             {{ $t('create2-address-form.contract-address-title') }}
           </p>
-          <copy :value="contractAddress">
+          <app-copy :value="contractAddress">
             <p class="create2-address-form__result-content-item-value">
               {{ contractAddress || '–' }}
             </p>
-          </copy>
+          </app-copy>
         </div>
       </div>
     </div>
@@ -46,11 +46,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, watch } from 'vue'
-import { ethers } from 'ethers'
-import { required, address, hash, ErrorHandler } from '@/helpers'
-import { InputField } from '@/fields'
+import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
+import { InputField } from '@/fields'
+import { ErrorHandler, address, hash, required } from '@/helpers'
+import { ethers } from 'ethers'
+import { reactive, ref, watch } from 'vue'
 
 const contractAddress = ref('')
 const form = reactive({

@@ -111,17 +111,22 @@
     "func-signature-placeholder": "Function signature"
   },
   "date-form": {
-    "create-title": "Enter Date and Time",
-    "year-title": "Year",
-    "month-title": "Month",
-    "date-title": "Day",
-    "hour-title": "Hour",
-    "minute-title": "Minute",
-    "second-title": "Second",
+    "input-title": "Enter Date and Time",
+    "year-label": "Year",
+    "month-label": "Month",
+    "date-label": "Day",
+    "hour-label": "Hour",
+    "minute-label": "Minute",
+    "second-label": "Second",
+    "year-placeholder": "Year",
+    "month-placeholder": "Month",
+    "date-placeholder": "Day",
+    "hour-placeholder": "Hour",
+    "minute-placeholder": "Minute",
+    "second-placeholder": "Second",
     "output-title": "Output",
-    "seconds-title": "Seconds",
-    "milliseconds-title": "Milliseconds",
-    "timestamp-seconds-title": "Seconds"
+    "seconds-label": "Seconds",
+    "milliseconds-label": "Milliseconds"
   },
   "number-converter-form": {
     "binary-title": "Binary",
@@ -146,8 +151,7 @@
     "select-option-hex": "Hex",
     "text-title": "Input data",
     "output-title": "Output",
-    "decoded-hash-label": "Decoded Hash",
-    "decoded-hash-placeholder": "Decoded Hash"
+    "decoded-hash-label": "Decoded Hash"
   },
   "create-address-form": {
     "create-title": "Create",

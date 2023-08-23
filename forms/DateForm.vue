@@ -1,73 +1,62 @@
 <template>
   <form class="date-form">
-    <div class="date-form__create">
-      <div class="date-form__create-head">
-        <h3 class="date-form__create-head-title">
-          {{ $t('date-form.create-title') }}
-        </h3>
+    <div class="date-form__input">
+      <div class="date-form__input-head">
+        <h3>{{ $t('date-form.input-title') }}</h3>
         <datepicker
           v-model="calendarDate"
           dark
           enable-seconds
           :min-date="new Date(0)"
           position="right"
-          class="date-form__calendar"
           @update:model-value="setDate(calendarDate)"
         >
           <template #dp-input>
             <app-button
-              class="date-form__create-head-btn"
-              scheme="none"
-              size="none"
+              color="secondary"
+              modification="text"
               :icon-left="$icons.calendar"
             />
           </template>
         </datepicker>
       </div>
-      <div class="date-form__create-fields">
+      <div class="date-form__input-fields">
         <input-field
           v-for="(_, name) in form"
           :key="name"
           v-model="form[name]"
-          :label="$t(`date-form.${name}-title`)"
+          :label="$t(`date-form.${name}-label`)"
+          :placeholder="$t(`date-form.${name}-placeholder`)"
           :error-message="getFieldErrorMessage(name)"
           @blur="touchField(name)"
         />
       </div>
     </div>
     <div class="date-form__output">
-      <h3 class="date-form__output-title">
-        {{ $t('date-form.output-title') }}
-      </h3>
-      <div class="date-form__output-content">
-        <div
-          v-for="(item, index) in timeList"
-          :key="index"
-          class="date-form__output-content-item"
-        >
-          <p class="date-form__output-content-item-title">
-            {{ item.title }}
+      <h3>{{ $t('date-form.output-title') }}</h3>
+      <div v-for="(item, idx) in outputItems" :key="`${item.label}-${idx}`">
+        <p class="date-form__output-item-label">
+          {{ item.label }}
+        </p>
+        <app-copy :value="item.value">
+          <p class="date-form__output-item-value">
+            {{ item.value || '–' }}
           </p>
-          <copy :value="item.format">
-            <p class="date-form__output-content-item-value">
-              {{ item.format || '–' }}
-            </p>
-          </copy>
-        </div>
+        </app-copy>
       </div>
     </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, watch, computed } from 'vue'
-import { required, integer, minValue, maxValue, ErrorHandler } from '@/helpers'
-import { InputField } from '@/fields'
-import { Copy, AppButton } from '#components'
+import { AppButton, AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
+import { InputField } from '@/fields'
+import { ErrorHandler, integer, maxValue, minValue, required } from '@/helpers'
 import { Time } from '@distributedlab/tools'
-import { i18n } from '~/plugins/localization'
 import Datepicker from '@vuepic/vue-datepicker'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
 const calendarDate = ref('')
@@ -120,17 +109,17 @@ const rules = computed(() => ({
 const { isFormValid, getFieldErrorMessage, touchField, isFieldsValid } =
   useFormValidation(form, rules)
 
-const timeList = computed(() => [
+const outputItems = computed(() => [
   {
-    title: t('date-form.seconds-title'),
-    format:
+    label: t('date-form.seconds-label'),
+    value:
       isFieldsValid.value && currentDate.value
         ? new Time(currentDate.value).timestamp.toString()
         : '',
   },
   {
-    title: t('date-form.milliseconds-title'),
-    format:
+    label: t('date-form.milliseconds-label'),
+    value:
       isFieldsValid.value && currentDate.value
         ? new Time(currentDate.value).ms.toString()
         : '',
@@ -194,24 +183,24 @@ onMounted(() => {
 }
 
 .date-form__output,
-.date-form__create {
+.date-form__input {
   display: grid;
   gap: toRem(20);
 }
 
-.date-form__create {
+.date-form__input {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
-.date-form__create-head {
+.date-form__input-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: toRem(16);
 }
 
-.date-form__create-fields {
+.date-form__input-fields {
   display: grid;
   grid-template-columns: repeat(6, minmax(toRem(60), 1fr));
   gap: toRem(8);
@@ -221,25 +210,11 @@ onMounted(() => {
   }
 }
 
-.date-form__output-content {
-  display: grid;
-  gap: toRem(32);
+.date-form__output-item-label {
+  @include field-label;
 }
 
-.date-form__output-content-item {
-  display: grid;
-  gap: toRem(4);
-}
-
-.date-form__output-content-item-title {
-  color: var(--text-primary-main);
-  line-height: 1.4;
-}
-
-.date-form__output-content-item-value {
-  font-size: toRem(18);
-  line-height: 1.4;
-
+.date-form__output-item-value {
   @include text-ellipsis;
 }
 </style>

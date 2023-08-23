@@ -12,7 +12,7 @@
           @update:model-value="formatInputs($event, name)"
         >
           <template #nodeLeft>
-            <copy :value="form[name] || 0" />
+            <app-copy :value="form[name] || 0" />
           </template>
         </input-field>
       </div>
@@ -24,7 +24,7 @@
 import { reactive } from 'vue'
 import { hexadecimal, integer, octal, binary } from '@/helpers'
 import { InputField } from '@/fields'
-import { Copy } from '#components'
+import { AppCopy } from '#components'
 import { isEmpty } from 'lodash-es'
 import { useFormValidation } from '@/composables'
 import { BigNumber } from 'bignumber.js'

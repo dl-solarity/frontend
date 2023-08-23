@@ -27,11 +27,11 @@
           <p class="timestamp-form__output-content-item-title">
             {{ item.title }}
           </p>
-          <copy :value="item.format">
+          <app-copy :value="item.format">
             <p class="timestamp-form__output-content-item-value">
               {{ item.format || '–' }}
             </p>
-          </copy>
+          </app-copy>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@ import { reactive, computed } from 'vue'
 import { Time } from '@distributedlab/tools'
 import { required, integer, minValue, maxLength } from '@/helpers'
 import { InputField } from '@/fields'
-import { Copy } from '#components'
+import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { i18n } from '~/plugins/localization'
 

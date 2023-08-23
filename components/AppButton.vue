@@ -116,7 +116,7 @@ const buttonType = computed<ButtonType>(
   --button-transition-duration: 0.2s;
 
   display: grid;
-  width: min-content;
+  width: max-content;
   grid: auto / auto-flow max-content;
   align-items: center;
   justify-content: center;
