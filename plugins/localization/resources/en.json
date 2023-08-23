@@ -156,11 +156,13 @@
     "decoded-hash-label": "Decoded Hash"
   },
   "create-address-form": {
-    "create-title": "Create",
-    "account-address-title": "Deployer account address",
-    "account-nonce-title": "Deployer account nonce",
-    "contract-address-title": "Contract address",
-    "result-title": "Result"
+    "input-title": "Create",
+    "account-address-label": "Deployer account address",
+    "account-nonce-label": "Deployer account nonce",
+    "account-address-placeholder": "Deployer account address",
+    "account-nonce-placeholder": "Deployer account nonce",
+    "output-title": "Result",
+    "contract-address-label": "Contract address"
   },
   "create2-address-form": {
     "create-title": "Create2",
