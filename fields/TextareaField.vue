@@ -144,18 +144,8 @@ $z-index-side-nodes: 1;
 .textarea-field {
   display: flex;
   flex-direction: column;
-  position: relative;
-  width: 100%;
   flex: 1;
-
-  &--disabled,
-  &--readonly {
-    .textarea-field__textarea:disabled,
-    .textarea-field__textarea:read-only {
-      border-color: var(--disable-primary-dark);
-      background: var(--disable-primary-dark);
-    }
-  }
+  width: 100%;
 }
 
 .textarea-field__label {
@@ -169,14 +159,8 @@ $z-index-side-nodes: 1;
 }
 
 .textarea-field__textarea {
-  padding: var(--field-padding);
-  background: var(--field-bg-primary);
   resize: none;
   min-height: toRem(130);
-  box-shadow: inset 0 0 0 toRem(500) var(--field-bg-primary);
-  border: none;
-
-  @include field-text;
 
   & + .textarea-field__focus-indicator {
     pointer-events: none;
@@ -201,52 +185,6 @@ $z-index-side-nodes: 1;
         background: var(--field-error);
       }
     }
-  }
-
-  .textarea-field--primary & {
-    @include field-border;
-  }
-
-  transition-property: all;
-
-  &:read-only::-webkit-input-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only::-moz-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only:-moz-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only:-ms-input-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only::placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &::-webkit-input-placeholder {
-    @include field-placeholder;
-  }
-
-  &::-moz-placeholder {
-    @include field-placeholder;
-  }
-
-  &:-moz-placeholder {
-    @include field-placeholder;
-  }
-
-  &:-ms-input-placeholder {
-    @include field-placeholder;
-  }
-
-  &::placeholder {
-    @include field-placeholder;
   }
 
   .textarea-field--node-right & {
@@ -293,6 +231,7 @@ $z-index-side-nodes: 1;
 .textarea-field__icon {
   max-width: toRem(24);
   max-height: toRem(24);
+  color: var(--field-placeholder);
   transition: color var(--field-transition-duration);
 
   .textarea-field--filled &:not(.textarea-field__icon--error) {

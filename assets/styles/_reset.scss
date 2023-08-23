@@ -48,6 +48,18 @@ table {
   border-spacing: 0;
 }
 
+a {
+  text-decoration: none;
+  outline: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 *,
 *:before,
 *:after {
@@ -55,5 +67,40 @@ table {
 
   &:focus {
     outline: none;
+  }
+}
+
+// Hide number arrows
+input[type=number] {
+  -moz-appearance: textfield;
+
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+button {
+  border: none;
+  width: auto;
+  user-select: none;
+  background: transparent;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+
+  /* Remove excess padding and border in Firefox 4+ */
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
   }
 }

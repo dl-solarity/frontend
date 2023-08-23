@@ -17,6 +17,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
+
   },
   "devDependencies": {
     "@intlify/nuxt3": "^0.2.4",

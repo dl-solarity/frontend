@@ -1,37 +1,34 @@
 <template>
   <form class="create2-address-form">
     <div class="create2-address-form__create">
-      <h2 class="create2-address-form__create-title">
+      <h3 class="create2-address-form__create-title">
         {{ $t('create2-address-form.create-title') }}
-      </h2>
+      </h3>
       <div class="create2-address-form__create-fields">
         <input-field
           v-model="form.address"
           :label="$t('create2-address-form.account-address-title')"
           :error-message="getFieldErrorMessage('address')"
           @blur="touchField('address')"
-          :disabled="isFormDisabled"
         />
         <input-field
           v-model="form.contractCode"
           :label="$t('create2-address-form.contract-code-title')"
           :error-message="getFieldErrorMessage('contractCode')"
           @blur="touchField('contractCode')"
-          :disabled="isFormDisabled"
         />
         <input-field
           v-model="form.salt"
           :label="$t('create2-address-form.salt-title')"
           :error-message="getFieldErrorMessage('salt')"
           @blur="touchField('salt')"
-          :disabled="isFormDisabled"
         />
       </div>
     </div>
     <div class="create2-address-form__result">
-      <h2 class="create2-address-form__result-title">
+      <h3 class="create2-address-form__result-title">
         {{ $t('create2-address-form.result-title') }}
-      </h2>
+      </h3>
       <div class="create2-address-form__result-content">
         <div class="create2-address-form__result-content-item">
           <p class="create2-address-form__result-content-item-title">
@@ -53,7 +50,7 @@ import { reactive, ref, watch } from 'vue'
 import { ethers } from 'ethers'
 import { required, address, hash, ErrorHandler } from '@/helpers'
 import { InputField } from '@/fields'
-import { useForm, useFormValidation } from '@/composables'
+import { useFormValidation } from '@/composables'
 
 const contractAddress = ref('')
 const form = reactive({
@@ -62,7 +59,6 @@ const form = reactive({
   salt: '',
 })
 
-const { isFormDisabled } = useForm()
 const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   {

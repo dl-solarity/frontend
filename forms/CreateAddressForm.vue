@@ -1,30 +1,28 @@
 <template>
   <form class="create-address-form">
     <div class="create-address-form__create">
-      <h2 class="create-address-form__create-title">
+      <h3 class="create-address-form__create-title">
         {{ $t('create-address-form.create-title') }}
-      </h2>
+      </h3>
       <div class="create-address-form__create-fields">
         <input-field
           v-model="form.address"
           :label="$t('create-address-form.account-address-title')"
           :error-message="getFieldErrorMessage('address')"
           @blur="touchField('address')"
-          :disabled="isFormDisabled"
         />
         <input-field
           v-model="form.nonce"
           :label="$t('create-address-form.account-nonce-title')"
           :error-message="getFieldErrorMessage('nonce')"
           @blur="touchField('nonce')"
-          :disabled="isFormDisabled"
         />
       </div>
     </div>
     <div class="create-address-form__result">
-      <h2 class="create-address-form__result-title">
+      <h3 class="create-address-form__result-title">
         {{ $t('create-address-form.result-title') }}
-      </h2>
+      </h3>
       <div class="create-address-form__result-content">
         <div class="create-address-form__result-content-item">
           <p class="create-address-form__result-content-item-title">
@@ -46,14 +44,14 @@ import { reactive, ref, watch } from 'vue'
 import { ethers } from 'ethers'
 import { InputField } from '@/fields'
 import { required, address, integer, minValue, ErrorHandler } from '@/helpers'
-import { useForm, useFormValidation } from '@/composables'
+import { useFormValidation } from '@/composables'
 
 const contractAddress = ref('')
 const form = reactive({
   address: '',
   nonce: '',
 })
-const { isFormDisabled } = useForm()
+
 const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   {

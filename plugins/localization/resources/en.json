@@ -47,7 +47,9 @@
     "hash-functions-title": "Hash functions",
     "converter-title": "Converter",
     "unix-epoch-title": "Unix epoch",
-    "address-predictor-title": "Address predictor"
+    "address-predictor-title": "Address predictor",
+    "company-link-text": "Distributed Lab",
+    "github-link-text": "Github"
   },
   "abi-page": {
     "main-title": "ABI Encoder/Decoder",
@@ -143,8 +145,9 @@
     "select-option-text": "Text",
     "select-option-hex": "Hex",
     "text-title": "Input data",
-    "decoded-hash-title": "Decoded Hash",
-    "output-title": "Output"
+    "output-title": "Output",
+    "decoded-hash-label": "Decoded Hash",
+    "decoded-hash-placeholder": "Decoded Hash"
   },
   "create-address-form": {
     "create-title": "Create",
@@ -167,12 +170,6 @@
     "failed-to-guess-func-fragment": "Failed to guess function signature",
     "failed-to-guess-param-types": "Failed to guess types",
     "failed-to-decode-abi": "Failed to decode values with given types"
-  },
-  "login-form": {
-    "login-lbl": "Login",
-    "password-lbl": "Password",
-    "login-success-msg": "Access granted",
-    "submit-btn": "Submit"
   },
   "app-logo": {
     "title": "DLSL"

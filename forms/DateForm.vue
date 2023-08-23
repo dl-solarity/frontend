@@ -2,9 +2,9 @@
   <form class="date-form">
     <div class="date-form__create">
       <div class="date-form__create-head">
-        <h2 class="date-form__create-head-title">
+        <h3 class="date-form__create-head-title">
           {{ $t('date-form.create-title') }}
-        </h2>
+        </h3>
         <datepicker
           v-model="calendarDate"
           dark
@@ -36,9 +36,9 @@
       </div>
     </div>
     <div class="date-form__output">
-      <h2 class="date-form__output-title">
+      <h3 class="date-form__output-title">
         {{ $t('date-form.output-title') }}
-      </h2>
+      </h3>
       <div class="date-form__output-content">
         <div
           v-for="(item, index) in timeList"

@@ -20,7 +20,7 @@
         :value="modelValue"
         :placeholder="placeholder"
         :tabindex="tabIndex"
-        :type="inputType"
+        :type="type"
         :min="min"
         :max="max"
         :disabled="isDisabled || isReadonly"
@@ -31,16 +31,6 @@
         class="input-field__node-right-wrp"
       >
         <slot v-if="$slots.nodeRight" name="nodeRight" />
-        <button
-          v-else-if="isPasswordType"
-          type="button"
-          @click="isPasswordShown = !isPasswordShown"
-        >
-          <icon
-            class="input-field__icon"
-            :name="isPasswordShown ? $icons.eye : $icons.eyeOff"
-          />
-        </button>
         <button
           v-else-if="isClearable"
           class="input-field__clear-btn"
@@ -82,7 +72,7 @@ const props = withDefaults(
     modelValue: string | number
     label?: string
     placeholder?: string
-    type?: 'text' | 'number' | 'password'
+    type?: 'text' | 'number'
     errorMessage?: string
     note?: string
     isClearable?: boolean
@@ -113,18 +103,10 @@ const inputEl = ref<HTMLInputElement>()
 const nodeLeftWrp = ref<HTMLDivElement>()
 const nodeRightWrp = ref<HTMLDivElement>()
 
-const isPasswordShown = ref(false)
-
 const isNumberType = computed(() => props.type === 'number')
-const isPasswordType = computed(() => props.type === 'password')
 
 const hasRightNode = computed<boolean>(() =>
-  Boolean(
-    slots.nodeRight ||
-      isPasswordType.value ||
-      props.isClearable ||
-      props.errorMessage,
-  ),
+  Boolean(slots.nodeRight || props.isClearable || props.errorMessage),
 )
 
 const min = computed((): string =>
@@ -171,13 +153,6 @@ const inputClasses = computed(() =>
   ].join(' '),
 )
 
-const inputType = computed(() => {
-  if (isPasswordType.value) {
-    return isPasswordShown.value ? 'text' : 'password'
-  }
-  return 'text'
-})
-
 const clear = () => {
   emit('update:modelValue', '')
   emit('clear')
@@ -200,7 +175,7 @@ onMounted(() => {
     inputEl.value?.style.setProperty(
       'padding-right',
       `calc(${
-        nodeRightWrp.value?.offsetWidth || 0
+        nodeRightWrp.value?.offsetWidth || OFFSET_WIDTH
       }px + var(--field-padding-right) * 2)`,
     )
   }
@@ -224,18 +199,8 @@ $z-index-side-nodes: 1;
 .input-field {
   display: flex;
   flex-direction: column;
-  position: relative;
-  width: 100%;
   flex: 1;
-
-  &--disabled,
-  &--readonly {
-    .input-field__input:disabled,
-    .input-field__input:read-only {
-      border-color: var(--disable-primary-dark);
-      background: var(--disable-primary-dark);
-    }
-  }
+  width: 100%;
 }
 
 .input-field__label {
@@ -270,71 +235,6 @@ $z-index-side-nodes: 1;
 }
 
 .input-field__input {
-  padding: var(--field-padding);
-  background: var(--field-bg-primary);
-  box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary);
-  border: none;
-
-  @include field-text;
-
-  .input-field--primary & {
-    @include field-border;
-  }
-
-  transition-property: all;
-
-  &:read-only::-webkit-input-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only::-moz-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only:-moz-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only:-ms-input-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only::placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &::-webkit-input-placeholder {
-    @include field-placeholder;
-  }
-
-  &::-moz-placeholder {
-    @include field-placeholder;
-  }
-
-  &:-moz-placeholder {
-    @include field-placeholder;
-  }
-
-  &:-ms-input-placeholder {
-    @include field-placeholder;
-  }
-
-  &::placeholder {
-    @include field-placeholder;
-  }
-
-  // Hide number arrows
-  &[type='number'] {
-    -moz-appearance: textfield;
-
-    /* Chrome, Safari, Edge, Opera */
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
-
   .input-field--node-left & {
     padding-left: calc(var(--field-padding-left) * 3);
   }
@@ -394,6 +294,7 @@ $z-index-side-nodes: 1;
 .input-field__icon {
   max-width: toRem(24);
   max-height: toRem(24);
+  color: var(--field-placeholder);
   transition: color var(--field-transition-duration);
 
   .input-field--filled &:not(.input-field__icon--error) {
