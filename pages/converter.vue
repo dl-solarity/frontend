@@ -2,7 +2,7 @@
   <div class="converter-page">
     <page-title :title="$t('converter-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="tabsList" />
+      <app-tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
         <unit-converter-form
           v-show="currentTab.id === TABS_IDS.unitConverterForm"
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Tabs, PageTitle } from '#components'
+import { AppTabs, PageTitle } from '#components'
 import { UnitConverterForm, NumberConverterForm } from '@/forms'
 import { type Tab } from '@/types'
 import { ref, computed } from 'vue'

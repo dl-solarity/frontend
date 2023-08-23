@@ -2,7 +2,7 @@
   <div class="abi-page">
     <page-title :title="$t('abi-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="tabsList" />
+      <app-tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
         <abi-encode-form
           v-show="currentTab.id === TABS_IDS.encoder"
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Tabs, PageTitle } from '#components'
+import { AppTabs, PageTitle } from '#components'
 import { definePageMeta } from '#imports'
 import { AbiEncodeForm, AbiDecodeForm } from '@/forms'
 import { type Tab } from '@/types'

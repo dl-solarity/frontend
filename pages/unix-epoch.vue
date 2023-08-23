@@ -2,7 +2,7 @@
   <div class="unix-epoch-page">
     <page-title :title="$t('unix-epoch-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="tabsList" />
+      <app-tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
         <date-form v-show="currentTab.id === TABS_IDS.date" />
         <timestamp-form v-show="currentTab.id === TABS_IDS.timestamp" />
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Tabs, PageTitle } from '#components'
+import { AppTabs, PageTitle } from '#components'
 import { DateForm, TimestampForm } from '@/forms'
 import { type Tab } from '@/types'
 import { ref, computed } from 'vue'
