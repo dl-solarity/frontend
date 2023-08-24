@@ -1,45 +1,42 @@
 <template>
   <form class="create2-address-form">
-    <div class="create2-address-form__create">
-      <h3 class="create2-address-form__create-title">
-        {{ $t('create2-address-form.create-title') }}
-      </h3>
-      <div class="create2-address-form__create-fields">
+    <div class="create2-address-form__input">
+      <h3>{{ $t('create2-address-form.input-title') }}</h3>
+      <div class="create2-address-form__input-fields">
         <input-field
-          v-model="form.address"
-          :label="$t('create2-address-form.account-address-title')"
-          :error-message="getFieldErrorMessage('address')"
-          @blur="touchField('address')"
+          v-model="form.accountAddress"
+          :label="$t('create2-address-form.account-address-label')"
+          :placeholder="$t('create2-address-form.account-address-placeholder')"
+          :error-message="getFieldErrorMessage('accountAddress')"
+          @blur="touchField('accountAddress')"
         />
         <input-field
           v-model="form.contractCode"
-          :label="$t('create2-address-form.contract-code-title')"
+          :label="$t('create2-address-form.contract-code-label')"
+          :placeholder="$t('create2-address-form.contract-code-placeholder')"
           :error-message="getFieldErrorMessage('contractCode')"
           @blur="touchField('contractCode')"
         />
         <input-field
           v-model="form.salt"
-          :label="$t('create2-address-form.salt-title')"
+          :label="$t('create2-address-form.salt-label')"
+          :placeholder="$t('create2-address-form.salt-placeholder')"
           :error-message="getFieldErrorMessage('salt')"
           @blur="touchField('salt')"
         />
       </div>
     </div>
-    <div class="create2-address-form__result">
-      <h3 class="create2-address-form__result-title">
-        {{ $t('create2-address-form.result-title') }}
-      </h3>
-      <div class="create2-address-form__result-content">
-        <div class="create2-address-form__result-content-item">
-          <p class="create2-address-form__result-content-item-title">
-            {{ $t('create2-address-form.contract-address-title') }}
+    <div class="create2-address-form__output">
+      <h3>{{ $t('create2-address-form.output-title') }}</h3>
+      <div>
+        <p class="create2-address-form__output-item-label">
+          {{ $t('create2-address-form.contract-address-label') }}
+        </p>
+        <app-copy :value="contractAddress">
+          <p class="create2-address-form__output-item-value">
+            {{ contractAddress || '–' }}
           </p>
-          <app-copy :value="contractAddress">
-            <p class="create2-address-form__result-content-item-value">
-              {{ contractAddress || '–' }}
-            </p>
-          </app-copy>
-        </div>
+        </app-copy>
       </div>
     </div>
   </form>
@@ -50,12 +47,12 @@ import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { InputField } from '@/fields'
 import { ErrorHandler, address, hash, required } from '@/helpers'
-import { ethers } from 'ethers'
+import { getCreate2Address } from 'ethers'
 import { reactive, ref, watch } from 'vue'
 
 const contractAddress = ref('')
 const form = reactive({
-  address: '',
+  accountAddress: '',
   contractCode: '',
   salt: '',
 })
@@ -63,7 +60,7 @@ const form = reactive({
 const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   {
-    address: { required, address },
+    accountAddress: { required, address },
     contractCode: { required, hash },
     salt: { required, hash },
   },
@@ -75,14 +72,14 @@ watch(form, () => {
     return
   }
   try {
-    contractAddress.value = ethers.getCreate2Address(
-      form.address,
+    contractAddress.value = getCreate2Address(
+      form.accountAddress,
       form.salt,
       form.contractCode,
     )
   } catch (error) {
     contractAddress.value = ''
-    ErrorHandler.processWithoutFeedback(error)
+    ErrorHandler.process(error)
   }
 })
 </script>
@@ -93,42 +90,28 @@ watch(form, () => {
   gap: toRem(40);
 }
 
-.create2-address-form__result,
-.create2-address-form__create {
+.create2-address-form__output,
+.create2-address-form__input {
   display: grid;
   gap: toRem(20);
 }
 
-.create2-address-form__create {
+.create2-address-form__input {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
-.create2-address-form__create-fields {
+.create2-address-form__input-fields {
   display: flex;
   flex-direction: column;
   gap: toRem(16);
 }
 
-.create2-address-form__result-content {
-  display: grid;
-  gap: toRem(32);
+.create2-address-form__output-item-label {
+  @include field-label;
 }
 
-.create2-address-form__result-content-item {
-  display: grid;
-  gap: toRem(4);
-}
-
-.create2-address-form__result-content-item-title {
-  color: var(--text-primary-main);
-  line-height: 1.4;
-}
-
-.create2-address-form__result-content-item-value {
-  font-size: toRem(18);
-  line-height: 1.4;
-
+.create2-address-form__output-item-value {
   @include text-ellipsis;
 }
 </style>
