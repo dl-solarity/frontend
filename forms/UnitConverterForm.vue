@@ -60,8 +60,9 @@ const formatInputs = (value: string | number, key: keyof typeof form) => {
     return
   }
 
-  const rawValue = fromUnits(formattedValue, UNITS[key].decimals)
-  for (key of filteredKeys) form[key] = toUnits(rawValue, UNITS[key].decimals)
+  const etherAmount = fromUnits(formattedValue, UNITS[key].decimals)
+  for (key of filteredKeys)
+    form[key] = toUnits(etherAmount, UNITS[key].decimals)
 }
 
 formatInputs('1', 'ether')
