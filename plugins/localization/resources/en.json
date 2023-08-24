@@ -1,6 +1,7 @@
 {
   "validations": {
     "field-error_json": "Field must be a valid json",
+    "field-error_numeric": "Field must be a number",
     "field-error_required": "Please fill out this field",
     "field-error_address": "Field must be a valid address",
     "field-error_minValue": "Field must be greater than {min}",
@@ -127,6 +128,9 @@
     "output-title": "Output",
     "seconds-label": "Seconds",
     "milliseconds-label": "Milliseconds"
+  },
+  "unit-converter-form": {
+    "input-title": "Unit converter"
   },
   "number-converter-form": {
     "binary-title": "Binary",

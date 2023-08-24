@@ -1,5 +1,6 @@
 import {
   helpers,
+  numeric as _numeric,
   required as _required,
   email as _email,
   minLength as _minLength,
@@ -30,6 +31,8 @@ const messagePath = ({ $validator }: MessageProps) =>
   `validations.field-error_${$validator}`
 
 const withI18nMessage = createI18nMessage({ t, messagePath })
+
+export const numeric = <ValidationRule>withI18nMessage(_numeric)
 
 export const required = <ValidationRule>withI18nMessage(_required)
 
