@@ -12,9 +12,9 @@
     "field-error_email": "Field must be a valid email",
     "field-error_maxValue": "Field must be less than {max}",
     "field-error_maxLength": "Field must be less than {max} symbols",
-    "field-error_binary": "Field must be a binary number",
-    "field-error_hexadecimal": "Field must be a hexadecimal number",
-    "field-error_octal": "Field must be a octal number",
+    "field-error_binary": "Field must be a binary number with prefix \"0b\"",
+    "field-error_hexadecimal": "Field must be a hexadecimal number with prefix \"0x\"",
+    "field-error_octal": "Field must be a octal number with prefix \"0o\"",
     "field-error_contractFuncName": "Field must be a valid function name",
     "field-error_minLength": "Field must be greater than {min} symbols",
     "field-error_ethereumBaseType": "Field must be a valid {baseType} type",
@@ -133,10 +133,15 @@
     "input-title": "Unit converter"
   },
   "number-converter-form": {
-    "binary-title": "Binary",
-    "octal-title": "Octal",
-    "decimal-title": "Decimal",
-    "hexadecimal-title": "Hexadecimal"
+    "input-title": "Number converter",
+    "binary-label": "Binary",
+    "octal-label": "Octal",
+    "decimal-label": "Decimal",
+    "hexadecimal-label": "Hexadecimal",
+    "binary-placeholder": "Binary",
+    "octal-placeholder": "Octal",
+    "decimal-placeholder": "Decimal",
+    "hexadecimal-placeholder": "Hexadecimal"
   },
   "timestamp-form": {
     "input-title": "Enter Timestamp",

@@ -1,39 +1,39 @@
 <template>
   <form class="number-converter-form">
-    <div class="number-converter-form__create">
-      <div class="number-converter-form__create-fields">
-        <input-field
-          v-for="(_, name) in form"
-          :model-value="form[name]"
-          :key="name"
-          :label="$t(`number-converter-form.${name}-title`)"
-          :error-message="getFieldErrorMessage(name)"
-          @blur="touchField(name)"
-          @update:model-value="formatInputs($event, name)"
-        >
-          <template #nodeLeft>
-            <app-copy :value="form[name] || 0" />
-          </template>
-        </input-field>
-      </div>
+    <div class="number-converter-form__input">
+      <h3>{{ $t('number-converter-form.input-title') }}</h3>
+      <input-field
+        v-for="(_, key) in form"
+        :model-value="form[key]"
+        :key="key"
+        :label="$t(`number-converter-form.${key}-label`)"
+        :placeholder="$t(`number-converter-form.${key}-placeholder`)"
+        :error-message="getFieldErrorMessage(key)"
+        @blur="touchField(key)"
+        @update:model-value="formatInputs($event, key)"
+      >
+        <template #nodeLeft>
+          <app-copy :value="form[key] || 0" />
+        </template>
+      </input-field>
     </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
-import { hexadecimal, integer, octal, binary } from '@/helpers'
-import { InputField } from '@/fields'
 import { AppCopy } from '#components'
-import { isEmpty } from 'lodash-es'
 import { useFormValidation } from '@/composables'
-import { BigNumber } from 'bignumber.js'
 import { NUMBER_SYSTEMS } from '@/constants'
+import { InputField } from '@/fields'
+import { binary, hexadecimal, integer, octal } from '@/helpers'
+import { BigNumber } from 'bignumber.js'
+import { isEmpty } from 'lodash-es'
+import { reactive } from 'vue'
 
 const form = reactive({
   binary: '',
   octal: '',
-  decimal: '10',
+  decimal: '',
   hexadecimal: '',
 })
 
@@ -47,33 +47,32 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   },
 )
 
-const formatInputs = (value: string | number, name: keyof typeof form) => {
-  form[name] = String(value)
+const formatInputs = (value: string | number, key: keyof typeof form) => {
+  form[key] = String(value)
 
   const formKeys = Object.keys(form) as (keyof typeof form)[]
-  const filteredKeys = formKeys.filter(item => item !== name)
+  const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 
   if (isEmpty(formattedValue) || !isFormValid()) {
-    filteredKeys.forEach(item => {
-      form[item] = ''
-    })
+    for (key of filteredKeys) form[key] = ''
     return
   }
 
-  const rawValue = BigNumber(
-    NUMBER_SYSTEMS[name].prefix.concat(formattedValue.toLowerCase()),
-    NUMBER_SYSTEMS[name].base,
+  const bigNumber = BigNumber(
+    NUMBER_SYSTEMS[key].prefix.concat(formattedValue.toLowerCase()),
+    NUMBER_SYSTEMS[key].base,
   )
 
-  filteredKeys.forEach(item => {
-    form[item] = rawValue.isFinite()
-      ? rawValue.toString(NUMBER_SYSTEMS[item].base)
+  for (key of filteredKeys)
+    form[key] = bigNumber.isFinite()
+      ? NUMBER_SYSTEMS[key].prefix.concat(
+          bigNumber.toString(NUMBER_SYSTEMS[key].base),
+        )
       : ''
-  })
 }
 
-formatInputs(form.decimal, 'decimal')
+formatInputs('10', 'decimal')
 </script>
 
 <style lang="scss" scoped>
@@ -82,14 +81,8 @@ formatInputs(form.decimal, 'decimal')
   gap: toRem(40);
 }
 
-.number-converter-form__create {
+.number-converter-form__input {
   display: grid;
   gap: toRem(20);
-}
-
-.number-converter-form__create-fields {
-  display: flex;
-  flex-direction: column;
-  gap: toRem(8);
 }
 </style>

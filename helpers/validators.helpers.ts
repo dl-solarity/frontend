@@ -20,9 +20,9 @@ import { isAddress, isBytesLike } from 'ethers'
 
 const HASH_REGEX = /^0x[a-fA-F0-9]{64}$/
 const HEX_REGEX = /^0x[a-fA-F0-9]*$/
-const HEXADECIMAL_REGEX = /(^[a-fA-F0-9]*$)|(^-[a-fA-F0-9]+$)/
-const BINARY_REGEX = /(^[0-1]*$)|(^-[0-1]+$)/
-const OCTAL_REGEX = /(^[0-7]*$)|(^-[0-7]+$)/
+const HEXADECIMAL_REGEX = /^0x[a-fA-F0-9]*$/
+const BINARY_REGEX = /^0b[01]+$/
+const OCTAL_REGEX = /^0o?[0-7]+$/
 const CONTRACT_FUNC_NAME_REGEXP = /^[a-zA-Z_][a-zA-Z0-9_]*$/
 
 const { t } = i18n.global
