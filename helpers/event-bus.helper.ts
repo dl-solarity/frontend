@@ -1,3 +1,4 @@
+import { NotificationObjectPayload } from '@/types'
 import { EventEmitter } from '@distributedlab/tools'
 
 export enum BUS_EVENTS {
@@ -5,14 +6,16 @@ export enum BUS_EVENTS {
   warning = 'warning',
   success = 'success',
   info = 'info',
+  default = 'default',
   toggleSidebar = 'toggle-sidebar',
 }
 
 export type DefaultBusEventMap = {
-  [BUS_EVENTS.success]: unknown
-  [BUS_EVENTS.error]: unknown
-  [BUS_EVENTS.warning]: unknown
-  [BUS_EVENTS.info]: unknown
+  [BUS_EVENTS.success]: string | NotificationObjectPayload
+  [BUS_EVENTS.error]: string | NotificationObjectPayload
+  [BUS_EVENTS.warning]: string | NotificationObjectPayload
+  [BUS_EVENTS.info]: string | NotificationObjectPayload
+  [BUS_EVENTS.default]: string | NotificationObjectPayload
   [BUS_EVENTS.toggleSidebar]: unknown
 }
 

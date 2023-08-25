@@ -93,14 +93,14 @@
   /* --------------------------------------- */
   --field-bg-primary: var(--background-primary-light);
 
-    /* label */
-    --field-label-font-family: var(--app-font-family-main);
-    --field-label-font-size: #{toRem(14)};
-    --field-label-font-weight: 400;
-    --field-label-line-height: #{toRem(22)};
-    --field-label-letter-spacing: 0;
-    --field-label: var(--text-primary-main);
-    --field-label-margin-bottom: #{toRem(4)};
+  /* label */
+  --field-label-font-family: var(--app-font-family-main);
+  --field-label-font-size: #{toRem(14)};
+  --field-label-font-weight: 400;
+  --field-label-line-height: #{toRem(22)};
+  --field-label-letter-spacing: 0;
+  --field-label: var(--text-primary-main);
+  --field-label-margin-bottom: #{toRem(4)};
 
   /* text */
   --field-text-font-family: var(--app-font-family-main);

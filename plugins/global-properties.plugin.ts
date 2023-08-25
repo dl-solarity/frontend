@@ -1,6 +1,6 @@
-import { ICON_NAMES } from '@/enums'
-import { ROUTE_PATH } from '@/constants'
 import { defineNuxtPlugin } from '#imports'
+import { ROUTE_PATH } from '@/constants'
+import { ICON_NAMES } from '@/enums'
 
 export default defineNuxtPlugin(() => {
   return {
