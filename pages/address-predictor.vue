@@ -2,7 +2,7 @@
   <div class="address-predictor-page">
     <page-title :title="$t('address-predictor-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="tabsList" />
+      <app-tabs v-model="currentTab" :tabs="tabsList" />
       <div class="content">
         <create-address-form
           v-show="currentTab.id === TABS_IDS.createAddressForm"
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Tabs, PageTitle } from '#components'
+import { AppTabs, PageTitle } from '#components'
 import { CreateAddressForm, Create2AddressForm } from '@/forms'
 import { type Tab } from '@/types'
 import { ref, computed } from 'vue'

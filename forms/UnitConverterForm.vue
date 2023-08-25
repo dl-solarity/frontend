@@ -1,30 +1,33 @@
 <template>
   <form class="unit-converter-form">
-    <div class="unit-converter-form__create">
-      <div class="unit-converter-form__create-fields">
-        <input-field
-          v-for="(_, name) in form"
-          :key="name"
-          :label="UNITS[name].title"
-          :model-value="form[name]"
-          @update:model-value="formatInputs($event, name)"
-        >
-          <template #nodeLeft>
-            <copy :value="form[name] || 0" />
-          </template>
-        </input-field>
-      </div>
+    <div class="unit-converter-form__input">
+      <h3>{{ $t('unit-converter-form.input-title') }}</h3>
+      <input-field
+        v-for="(_, key) in form"
+        :key="key"
+        :label="UNITS[key].title"
+        :placeholder="UNITS[key].title"
+        :model-value="form[key]"
+        :error-message="getFieldErrorMessage(key)"
+        @blur="touchField(key)"
+        @update:model-value="formatInputs($event, key)"
+      >
+        <template #nodeLeft>
+          <app-copy :value="form[key] || 0" />
+        </template>
+      </input-field>
     </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
-import { toUnits, fromUnits } from '@/helpers'
-import { InputField } from '@/fields'
-import { Copy } from '#components'
-import { isEmpty, isNaN } from 'lodash-es'
+import { AppCopy } from '#components'
+import { useFormValidation } from '@/composables'
 import { UNITS } from '@/constants'
+import { InputField } from '@/fields'
+import { fromUnits, numeric, toUnits } from '@/helpers'
+import { isEmpty, mapValues } from 'lodash-es'
+import { reactive } from 'vue'
 
 const form = reactive({
   wei: '',
@@ -33,34 +36,36 @@ const form = reactive({
   gwei: '',
   finney: '',
   szabo: '',
-  ether: '1',
+  ether: '',
   kether: '',
   mether: '',
   gether: '',
   tether: '',
 })
 
-const formatInputs = (value: string | number, name: keyof typeof form) => {
-  form[name] = String(value)
+const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
+  form,
+  mapValues(form, () => ({ numeric })),
+)
+
+const formatInputs = (value: string | number, key: keyof typeof form) => {
+  form[key] = String(value)
 
   const formKeys = Object.keys(form) as (keyof typeof form)[]
-  const filteredKeys = formKeys.filter(item => item !== name)
+  const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 
-  if (isEmpty(formattedValue) || isNaN(+formattedValue)) {
-    filteredKeys.forEach(item => {
-      form[item] = ''
-    })
+  if (isEmpty(formattedValue) || !isFormValid()) {
+    for (key of filteredKeys) form[key] = ''
     return
   }
 
-  const rawValue = fromUnits(formattedValue, UNITS[name].decimals)
-  filteredKeys.forEach(item => {
-    form[item] = toUnits(rawValue, UNITS[item].decimals)
-  })
+  const etherAmount = fromUnits(formattedValue, UNITS[key].decimals)
+  for (key of filteredKeys)
+    form[key] = toUnits(etherAmount, UNITS[key].decimals)
 }
 
-formatInputs(form.ether, 'ether')
+formatInputs('1', 'ether')
 </script>
 
 <style lang="scss" scoped>
@@ -69,14 +74,8 @@ formatInputs(form.ether, 'ether')
   gap: toRem(40);
 }
 
-.unit-converter-form__create {
+.unit-converter-form__input {
   display: grid;
   gap: toRem(20);
-}
-
-.unit-converter-form__create-fields {
-  display: flex;
-  flex-direction: column;
-  gap: toRem(8);
 }
 </style>

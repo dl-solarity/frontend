@@ -1,6 +1,7 @@
 {
   "validations": {
     "field-error_json": "Field must be a valid json",
+    "field-error_numeric": "Field must be a number",
     "field-error_required": "Please fill out this field",
     "field-error_address": "Field must be a valid address",
     "field-error_minValue": "Field must be greater than {min}",
@@ -11,9 +12,9 @@
     "field-error_email": "Field must be a valid email",
     "field-error_maxValue": "Field must be less than {max}",
     "field-error_maxLength": "Field must be less than {max} symbols",
-    "field-error_binary": "Field must be a binary number",
-    "field-error_hexadecimal": "Field must be a hexadecimal number",
-    "field-error_octal": "Field must be a octal number",
+    "field-error_binary": "Field must be a binary number with prefix \"0b\"",
+    "field-error_hexadecimal": "Field must be a hexadecimal number with prefix \"0x\"",
+    "field-error_octal": "Field must be a octal number with prefix \"0o\"",
     "field-error_contractFuncName": "Field must be a valid function name",
     "field-error_minLength": "Field must be greater than {min} symbols",
     "field-error_ethereumBaseType": "Field must be a valid {baseType} type",
@@ -111,32 +112,47 @@
     "func-signature-placeholder": "Function signature"
   },
   "date-form": {
-    "create-title": "Enter Date and Time",
-    "year-title": "Year",
-    "month-title": "Month",
-    "date-title": "Day",
-    "hour-title": "Hour",
-    "minute-title": "Minute",
-    "second-title": "Second",
+    "input-title": "Enter Date and Time",
+    "year-label": "Year",
+    "month-label": "Month",
+    "date-label": "Day",
+    "hour-label": "Hour",
+    "minute-label": "Minute",
+    "second-label": "Second",
+    "year-placeholder": "Year",
+    "month-placeholder": "Month",
+    "date-placeholder": "Day",
+    "hour-placeholder": "Hour",
+    "minute-placeholder": "Minute",
+    "second-placeholder": "Second",
     "output-title": "Output",
-    "seconds-title": "Seconds",
-    "milliseconds-title": "Milliseconds",
-    "timestamp-seconds-title": "Seconds"
+    "seconds-label": "Seconds",
+    "milliseconds-label": "Milliseconds"
+  },
+  "unit-converter-form": {
+    "input-title": "Unit converter"
   },
   "number-converter-form": {
-    "binary-title": "Binary",
-    "octal-title": "Octal",
-    "decimal-title": "Decimal",
-    "hexadecimal-title": "Hexadecimal"
+    "input-title": "Number converter",
+    "binary-label": "Binary",
+    "octal-label": "Octal",
+    "decimal-label": "Decimal",
+    "hexadecimal-label": "Hexadecimal",
+    "binary-placeholder": "Binary",
+    "octal-placeholder": "Octal",
+    "decimal-placeholder": "Decimal",
+    "hexadecimal-placeholder": "Hexadecimal"
   },
   "timestamp-form": {
-    "create-title": "Enter Timestamp",
-    "timestamp-title": "Timestamp in seconds",
-    "format-title": "Format",
-    "gmt-title": "GMT",
-    "seconds-title": "Seconds",
-    "time-zone-title": "Your time zone",
-    "relative-time-title": "Relative",
+    "input-title": "Enter Timestamp",
+    "timestamp-label": "Timestamp in seconds",
+    "timestamp-placeholder": "Timestamp in seconds",
+    "format-label": "Format",
+    "format-value": "Seconds",
+    "gmt-label": "GMT",
+    "seconds-label": "Seconds",
+    "time-zone-label": "Your time zone",
+    "relative-time-label": "Relative",
     "output-title": "Output"
   },
   "hash-function-form": {
@@ -146,23 +162,27 @@
     "select-option-hex": "Hex",
     "text-title": "Input data",
     "output-title": "Output",
-    "decoded-hash-label": "Decoded Hash",
-    "decoded-hash-placeholder": "Decoded Hash"
+    "decoded-hash-label": "Decoded Hash"
   },
   "create-address-form": {
-    "create-title": "Create",
-    "account-address-title": "Deployer account address",
-    "account-nonce-title": "Deployer account nonce",
-    "contract-address-title": "Contract address",
-    "result-title": "Result"
+    "input-title": "Create",
+    "account-address-label": "Deployer account address",
+    "account-nonce-label": "Deployer account nonce",
+    "account-address-placeholder": "Deployer account address",
+    "account-nonce-placeholder": "Deployer account nonce",
+    "output-title": "Result",
+    "contract-address-label": "Contract address"
   },
   "create2-address-form": {
-    "create-title": "Create2",
-    "account-address-title": "Deployer account address",
-    "contract-code-title": "Contract init code",
-    "salt-title": "Salt",
-    "contract-address-title": "Contract address",
-    "result-title": "Result"
+    "input-title": "Create2",
+    "account-address-label": "Deployer account address",
+    "contract-code-label": "Contract init code",
+    "salt-label": "Salt",
+    "account-address-placeholder": "Deployer account address",
+    "contract-code-placeholder": "Contract init code",
+    "salt-placeholder": "Salt",
+    "output-title": "Result",
+    "contract-address-label": "Contract address"
   },
   "errors": {
     "default": "Something went wrong",

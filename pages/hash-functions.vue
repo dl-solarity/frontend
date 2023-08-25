@@ -2,7 +2,7 @@
   <div class="hash-functions-page">
     <page-title :title="$t('hash-functions-page.main-title')" />
     <div class="block">
-      <tabs v-model="currentTab" :tabs="TABS_LIST" />
+      <app-tabs v-model="currentTab" :tabs="TABS_LIST" />
       <div class="content">
         <template v-for="tab in TABS_LIST" :key="tab.id">
           <hash-function-form
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Tabs, PageTitle } from '#components'
+import { AppTabs, PageTitle } from '#components'
 import { HashFunctionForm } from '@/forms'
 import { sha256, ripemd160, keccak256 } from '@/helpers'
 import { type Tab, type HashFunction } from '@/types'

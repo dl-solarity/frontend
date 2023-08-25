@@ -1,5 +1,6 @@
 import {
   helpers,
+  numeric as _numeric,
   required as _required,
   email as _email,
   minLength as _minLength,
@@ -19,9 +20,9 @@ import { isAddress, isBytesLike } from 'ethers'
 
 const HASH_REGEX = /^0x[a-fA-F0-9]{64}$/
 const HEX_REGEX = /^0x[a-fA-F0-9]*$/
-const HEXADECIMAL_REGEX = /(^[a-fA-F0-9]*$)|(^-[a-fA-F0-9]+$)/
-const BINARY_REGEX = /(^[0-1]*$)|(^-[0-1]+$)/
-const OCTAL_REGEX = /(^[0-7]*$)|(^-[0-7]+$)/
+const HEXADECIMAL_REGEX = /^0x[a-fA-F0-9]+$/
+const BINARY_REGEX = /^0b[01]+$/
+const OCTAL_REGEX = /^0o?[0-7]+$/
 const CONTRACT_FUNC_NAME_REGEXP = /^[a-zA-Z_][a-zA-Z0-9_]*$/
 
 const { t } = i18n.global
@@ -30,6 +31,8 @@ const messagePath = ({ $validator }: MessageProps) =>
   `validations.field-error_${$validator}`
 
 const withI18nMessage = createI18nMessage({ t, messagePath })
+
+export const numeric = <ValidationRule>withI18nMessage(_numeric)
 
 export const required = <ValidationRule>withI18nMessage(_required)
 

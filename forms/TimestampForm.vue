@@ -1,50 +1,41 @@
 <template>
   <form class="timestamp-form">
-    <div class="timestamp-form__create">
-      <h3 class="timestamp-form__create-title">
-        {{ $t('timestamp-form.create-title') }}
-      </h3>
-      <div class="timestamp-form__create-fields">
+    <div class="timestamp-form__input">
+      <h3>{{ $t('timestamp-form.input-title') }}</h3>
+      <div class="timestamp-form__input-fields">
         <input-field
           v-model="form.timestamp"
           type="number"
-          :label="$t('timestamp-form.timestamp-title')"
+          :label="$t('timestamp-form.timestamp-label')"
+          :placeholder="$t('timestamp-form.timestamp-placeholder')"
           :error-message="getFieldErrorMessage('timestamp')"
           @blur="touchField('timestamp')"
         />
       </div>
     </div>
     <div class="timestamp-form__output">
-      <h3 class="timestamp-form__output-title">
-        {{ $t('timestamp-form.output-title') }}
-      </h3>
-      <div class="timestamp-form__output-content">
-        <div
-          v-for="(item, index) in timeList"
-          :key="index"
-          class="timestamp-form__output-content-item"
-        >
-          <p class="timestamp-form__output-content-item-title">
-            {{ item.title }}
+      <h3>{{ $t('timestamp-form.output-title') }}</h3>
+      <div v-for="(item, idx) in outputItems" :key="`${item.label}-${idx}`">
+        <p class="timestamp-form__output-item-label">
+          {{ item.label }}
+        </p>
+        <app-copy :value="item.value">
+          <p class="timestamp-form__output-item-value">
+            {{ item.value || '–' }}
           </p>
-          <copy :value="item.format">
-            <p class="timestamp-form__output-content-item-value">
-              {{ item.format || '–' }}
-            </p>
-          </copy>
-        </div>
+        </app-copy>
       </div>
     </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed } from 'vue'
-import { Time } from '@distributedlab/tools'
-import { required, integer, minValue, maxLength } from '@/helpers'
-import { InputField } from '@/fields'
-import { Copy } from '#components'
+import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
+import { InputField } from '@/fields'
+import { integer, maxLength, minValue, required } from '@/helpers'
+import { Time } from '@distributedlab/tools'
+import { computed, reactive } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
@@ -67,22 +58,22 @@ const { isFieldsValid, getFieldErrorMessage, touchField } = useFormValidation(
 
 const time = computed(() => new Time(Number(form.timestamp)))
 const isValidTime = computed(() => time.value.isValid && isFieldsValid.value)
-const timeList = computed(() => [
+const outputItems = computed(() => [
   {
-    title: t('timestamp-form.format-title'),
-    format: t('timestamp-form.seconds-title'),
+    label: t('timestamp-form.format-label'),
+    value: t('timestamp-form.format-value'),
   },
   {
-    title: t('timestamp-form.gmt-title'),
-    format: isValidTime.value ? time.value.toDate().toUTCString() : '',
+    label: t('timestamp-form.gmt-label'),
+    value: isValidTime.value ? time.value.toDate().toUTCString() : '',
   },
   {
-    title: t('timestamp-form.time-zone-title'),
-    format: isValidTime.value ? time.value.toDate().toString() : '',
+    label: t('timestamp-form.time-zone-label'),
+    value: isValidTime.value ? time.value.toDate().toString() : '',
   },
   {
-    title: t('timestamp-form.relative-time-title'),
-    format: isValidTime.value ? time.value.toNow : '',
+    label: t('timestamp-form.relative-time-label'),
+    value: isValidTime.value ? time.value.toNow : '',
   },
 ])
 </script>
@@ -94,41 +85,27 @@ const timeList = computed(() => [
 }
 
 .timestamp-form__output,
-.timestamp-form__create {
+.timestamp-form__input {
   display: grid;
   gap: toRem(20);
 }
 
-.timestamp-form__create {
+.timestamp-form__input {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
-.timestamp-form__create-fields {
+.timestamp-form__input-fields {
   display: flex;
   flex-direction: column;
   gap: toRem(16);
 }
 
-.timestamp-form__output-content {
-  display: grid;
-  gap: toRem(32);
+.timestamp-form__output-item-label {
+  @include field-label;
 }
 
-.timestamp-form__output-content-item {
-  display: grid;
-  gap: toRem(4);
-}
-
-.timestamp-form__output-content-item-title {
-  color: var(--text-primary-main);
-  line-height: 1.4;
-}
-
-.timestamp-form__output-content-item-value {
-  font-size: toRem(18);
-  line-height: 1.4;
-
+.timestamp-form__output-item-value {
   @include text-ellipsis;
 }
 </style>

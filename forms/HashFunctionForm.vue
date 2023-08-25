@@ -18,25 +18,25 @@
     </div>
     <div class="hash-function-form__output">
       <h3>{{ $t('hash-function-form.output-title') }}</h3>
-      <input-field
-        readonly
-        :model-value="decodedHash"
-        :label="$t('hash-function-form.decoded-hash-label')"
-        :placeholder="$t('hash-function-form.decoded-hash-placeholder')"
-      >
-        <template #nodeRight>
-          <copy :value="decodedHash" />
-        </template>
-      </input-field>
+      <div>
+        <p class="hash-function-form__output-item-label">
+          {{ $t('hash-function-form.decoded-hash-label') }}
+        </p>
+        <app-copy :value="decodedHash">
+          <p class="hash-function-form__output-item-value">
+            {{ decodedHash || '-' }}
+          </p>
+        </app-copy>
+      </div>
     </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { Copy } from '#components'
+import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
-import { InputField, SelectField, TextareaField } from '@/fields'
-import { required, hex, minLength, ErrorHandler } from '@/helpers'
+import { SelectField, TextareaField } from '@/fields'
+import { hex, minLength, required, ErrorHandler } from '@/helpers'
 import { type DecodeType, type HashFunction } from '@/types'
 import { reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -101,5 +101,13 @@ watch(form, () => {
 .hash-function-form__input {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--border-primary-main);
+}
+
+.hash-function-form__output-item-label {
+  @include field-label;
+}
+
+.hash-function-form__output-item-value {
+  @include text-ellipsis;
 }
 </style>

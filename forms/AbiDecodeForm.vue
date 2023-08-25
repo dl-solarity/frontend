@@ -25,7 +25,7 @@
       <loader v-if="isDecoding" />
       <template v-else>
         <div v-if="errorMessage" class="abi-decode-form__msg-wrp">
-          <icon
+          <app-icon
             :class="['abi-decode-form__icon', 'abi-decode-form__icon--error']"
             :name="$icons.exclamationCircle"
           />
@@ -42,7 +42,7 @@
             readonly
           />
           <div v-if="warningMessage" class="abi-decode-form__msg-wrp">
-            <icon
+            <app-icon
               :class="[
                 'abi-decode-form__icon',
                 'abi-decode-form__icon--warning',
@@ -140,7 +140,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppButton, Icon, Loader } from '#components'
+import { AppButton, AppIcon, Loader } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import { errors } from '@/errors'

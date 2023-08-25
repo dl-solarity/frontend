@@ -38,7 +38,7 @@
               </span>
             </template>
           </template>
-          <icon
+          <app-icon
             class="select-field__select-head-indicator"
             :name="$icons.arrowDropDown"
           />
@@ -93,7 +93,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from '#components'
+import { AppIcon } from '#components'
 import { FieldOption } from '@/types'
 import { onClickOutside } from '@vueuse/core'
 import { computed, onMounted, ref, useAttrs, watch } from 'vue'
