@@ -47,7 +47,7 @@
                 'abi-decode-form__icon',
                 'abi-decode-form__icon--warning',
               ]"
-              :name="$icons.exclamationCircle"
+              :name="$icons.exclamationTriangle"
             />
             <p
               :class="['abi-decode-form__msg', 'abi-decode-form__msg--warning']"

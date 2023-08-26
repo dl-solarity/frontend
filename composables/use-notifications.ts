@@ -1,12 +1,9 @@
+import { AppNotification } from '#components'
 import { ICON_NAMES } from '@/enums'
+import { CommonNotificationTypes, NotificationObjectPayload } from '@/types'
 import isObject from 'lodash/isObject'
 import { TYPE, useToast } from 'vue-toastification'
-
-import { DefaultToast } from '#components'
 import { i18n } from '~/plugins/localization'
-import { CommonNotificationTypes, NotificationObjectPayload } from '@/types'
-
-const MINUTE = 60 * 1000
 
 export const useNotifications = () => {
   const toast = useToast()
@@ -21,18 +18,18 @@ export const useNotifications = () => {
     [TYPE.DEFAULT]: t('notification.default-title-default'),
   }
   const defaultMessages = {
-    [TYPE.DEFAULT]: t('notification.default-message-default'),
-    [TYPE.INFO]: t('notification.default-message-info'),
     [TYPE.SUCCESS]: t('notification.default-message-success'),
     [TYPE.ERROR]: t('notification.default-message-error'),
     [TYPE.WARNING]: t('notification.default-message-warning'),
+    [TYPE.INFO]: t('notification.default-message-info'),
+    [TYPE.DEFAULT]: t('notification.default-message-default'),
   }
   const defaultIconNames = {
-    [TYPE.DEFAULT]: ICON_NAMES.exclamationCircle,
-    [TYPE.INFO]: ICON_NAMES.exclamationCircle,
     [TYPE.SUCCESS]: ICON_NAMES.checkCircle,
     [TYPE.ERROR]: ICON_NAMES.exclamationCircle,
-    [TYPE.WARNING]: ICON_NAMES.shieldExclamation,
+    [TYPE.WARNING]: ICON_NAMES.exclamationTriangle,
+    [TYPE.INFO]: ICON_NAMES.exclamationCircle,
+    [TYPE.DEFAULT]: ICON_NAMES.exclamationCircle,
   }
 
   const showToast = (
@@ -64,7 +61,7 @@ export const useNotifications = () => {
 
     return toast(
       {
-        component: DefaultToast,
+        component: AppNotification,
         props: {
           ...(title && { title }),
           message,
@@ -80,9 +77,9 @@ export const useNotifications = () => {
           error: TYPE.ERROR,
           warning: TYPE.WARNING,
         }[messageType],
-        toastClassName: 'default-toast',
-        timeout: MINUTE / 2,
+        timeout: 30000,
         closeOnClick: false,
+        closeButton: false,
       },
     )
   }

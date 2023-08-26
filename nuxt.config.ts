@@ -44,13 +44,7 @@ export default defineNuxtConfig({
 
         {
           rel: 'preload',
-          href: '/branding/fonts/Roboto/Roboto-Regular.ttf',
-          as: 'font',
-          crossorigin: 'anonymous',
-        },
-        {
-          rel: 'preload',
-          href: '/branding/fonts/Roboto/Roboto-Bold.ttf',
+          href: '/branding/fonts/Inter/Inter-VariableFont_slnt,wght.ttf',
           as: 'font',
           crossorigin: 'anonymous',
         },
@@ -64,7 +58,6 @@ export default defineNuxtConfig({
         },
 
         { href: '/noscript/style.css', type: 'text/css', rel: 'stylesheet' },
-        { href: '/init-loader/style.css', type: 'text/css', rel: 'stylesheet' },
       ],
 
       noscript: [

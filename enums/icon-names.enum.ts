@@ -13,11 +13,11 @@ export enum ICON_NAMES {
   download = 'download',
   duplicate = 'duplicate',
   exclamationCircle = 'exclamation-circle',
+  exclamationTriangle = 'exclamation-triangle',
   hashtag = 'hashtag',
   locationMarker = 'location-marker',
   plus = 'plus',
   refresh = 'refresh',
-  shieldExclamation = 'shield-exclamation',
   xCircle = 'x-circle',
   x = 'x',
 }
