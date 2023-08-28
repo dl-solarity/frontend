@@ -57,21 +57,21 @@
               />
             </template>
             <template v-else-if="valueOptions?.length">
-              <button
-                :class="[
-                  'select-field__select-dropdown-item',
-                  {
-                    'select-field__select-dropdown-item--active':
-                      modelValue === option.value,
-                  },
-                ]"
-                type="button"
+              <app-button
                 v-for="(option, idx) in valueOptions"
                 :key="`${idx}-${option.value}`"
+                class="select-field__select-dropdown-item"
+                :class="{
+                  'select-field__select-dropdown-item--active':
+                    modelValue === option.value,
+                }"
+                scheme="none"
+                color="none"
+                modification="none"
                 @click="select(option.value)"
               >
                 {{ option.title }}
-              </button>
+              </app-button>
             </template>
           </div>
         </transition>
@@ -93,7 +93,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppIcon } from '#components'
+import { AppButton, AppIcon } from '#components'
 import { FieldOption } from '@/types'
 import { onClickOutside } from '@vueuse/core'
 import { computed, onMounted, ref, useAttrs, watch } from 'vue'
@@ -102,7 +102,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string | number
+    modelValue: FieldOption['value']
     valueOptions?: FieldOption[]
     label?: string
     placeholder?: string
@@ -386,20 +386,20 @@ $z-local-index: 2;
 }
 
 .select-field__select-dropdown-item {
-  @include field-text;
-
-  text-align: left;
+  font-family: var(--field-text-font-family);
+  font-size: var(--field-text-font-size);
+  font-weight: var(--field-text-font-weight);
+  line-height: var(--field-text-line-height);
+  letter-spacing: var(--field-text-letter-spacing);
+  justify-content: start;
   width: 100%;
   padding: var(--field-padding);
-  background: var(--field-bg-primary);
-
-  &:not([disabled]):not(.select-field__select-dropdown-item--active):hover {
-    background: var(--background-primary-main);
-  }
 
   &--active {
-    background: var(--primary-main);
-    color: var(--text-primary-invert-main);
+    --app-button-bg: var(--app-button-bg-focused);
+    --app-button-bg-hover: var(--app-button-bg-focused);
+    --app-button-text: var(--app-button-text-focused);
+    --app-button-text-hover: var(--app-button-text-focused);
   }
 }
 
