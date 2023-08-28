@@ -1,42 +1,23 @@
 <template>
-  <div class="spinner" />
+  <div class="spinner">
+    <client-only>
+      <vue3-lottie
+        class="spinner__inner"
+        :animation-data="animationData"
+        loop
+      />
+    </client-only>
+  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'spinner',
-})
+<script lang="ts" setup>
+import animationData from '@/assets/loader.json'
+import { Vue3Lottie } from 'vue3-lottie'
 </script>
 
 <style lang="scss" scoped>
-.spinner {
-  display: inline-block;
+.spinner__inner {
   width: toRem(80);
   height: toRem(80);
-}
-
-.spinner:after {
-  content: ' ';
-  display: block;
-  width: toRem(64);
-  height: toRem(64);
-  margin: toRem(8);
-  border-radius: 50%;
-  border: toRem(6) solid var(--border-primary-main);
-  border-color: var(--border-primary-main) transparent
-    var(--border-primary-main) transparent;
-  animation: spinner 1.2s linear infinite;
-}
-
-@keyframes spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>

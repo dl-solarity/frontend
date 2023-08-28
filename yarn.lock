@@ -4342,6 +4342,11 @@ loglevel@^1.8.0:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.1.tgz#5c621f83d5b48c54ae93b6156353f555963377b4"
   integrity sha512-tCRIJM51SHjAayKwC+QAg8hT8vg6z7GSgLJKGvzuPb1Wc+hLzqtuVLxp6/HzSPOozuK+8ErAhy7U/sVzw8Dgfg==
 
+lottie-web@5.12.2:
+  version "5.12.2"
+  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.12.2.tgz#579ca9fe6d3fd9e352571edd3c0be162492f68e5"
+  integrity sha512-uvhvYPC8kGPjXT3MyKMrL3JitEAmDMp30lVkuq/590Mw9ok6pWcFCwXJveo0t5uqYw1UREQHofD+jVpdjBv8wg==
+
 lru-cache@^10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.0.0.tgz#b9e2a6a72a129d81ab317202d93c7691df727e61"
@@ -6975,6 +6980,14 @@ vue-toastification@^2.0.0-rc.5:
   version "2.0.0-rc.5"
   resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-2.0.0-rc.5.tgz#92798604d806ae473cfb76ed776fae294280f8f8"
   integrity sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==
+
+vue3-lottie@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/vue3-lottie/-/vue3-lottie-3.1.0.tgz#39e2a595a83a7401f3308dfc923b28b0bb91a214"
+  integrity sha512-dS6/cjEuAoN/CWYqthPjGVVaeW5jRVB1yGEcFQbBcbDfCeMlVhC7pzn0Qatdz7gasOUIvZcJCmhfUe681GwhSg==
+  dependencies:
+    lodash-es "^4.17.21"
+    lottie-web "5.12.2"
 
 vue@^3.3.4:
   version "3.3.4"
