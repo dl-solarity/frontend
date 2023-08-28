@@ -76,31 +76,33 @@
         :label="$t('abi-encode-form.func-signature-label')"
         :placeholder="$t('abi-encode-form.func-signature-placeholder')"
         readonly
-      />
+      >
+        <template #nodeRight>
+          <app-copy :value="funcSignature" />
+        </template>
+      </input-field>
       <textarea-field
         :model-value="abiEncoding"
         :label="$t('abi-encode-form.abi-encoding-label')"
         :placeholder="$t('abi-encode-form.abi-encoding-placeholder')"
         readonly
-      />
-      <app-button
-        v-if="abiEncoding"
-        :text="$t('abi-encode-form.abi-encoding-copy-btn')"
-        @click="copyToClipboard(abiEncoding)"
-      />
+      >
+        <template #nodeRight>
+          <app-copy :value="abiEncoding" />
+        </template>
+      </textarea-field>
     </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { AppButton } from '#components'
+import { AppButton, AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import { InputField, SelectField, TextareaField } from '@/fields'
 import {
   ErrorHandler,
   contractFuncName,
-  copyToClipboard,
   createFunctionSignature,
   ethereumBaseType,
   ethereumBaseTypeValue,

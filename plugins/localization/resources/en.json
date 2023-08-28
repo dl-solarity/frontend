@@ -107,7 +107,6 @@
     "output-title": "Encoded data",
     "abi-encoding-label": "Abi encoding",
     "abi-encoding-placeholder": "Abi encoding",
-    "abi-encoding-copy-btn": "Copy encoding",
     "func-signature-label": "Function signature",
     "func-signature-placeholder": "Function signature"
   },

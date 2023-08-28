@@ -9,6 +9,7 @@
     </label>
     <div class="textarea-field__textarea-wrp">
       <textarea
+        ref="textarea"
         class="textarea-field__textarea"
         :id="`textarea-field--${uid}`"
         v-bind="$attrs"
@@ -56,6 +57,7 @@
 
 <script lang="ts" setup>
 import { AppIcon } from '#components'
+import { useTextareaAutosize } from '@vueuse/core'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, useAttrs, useSlots } from 'vue'
 
@@ -64,7 +66,7 @@ type SCHEMES = 'primary'
 const props = withDefaults(
   defineProps<{
     scheme?: SCHEMES
-    modelValue: string | number
+    modelValue: string
     label?: string
     placeholder?: string
     errorMessage?: string
@@ -136,6 +138,13 @@ const setHeightCSSVar = (element: Element) => {
     `${element.scrollHeight}px`,
   )
 }
+
+const { textarea, input } = useTextareaAutosize()
+
+watch(
+  () => props.modelValue,
+  newValue => (input.value = newValue),
+)
 </script>
 
 <style lang="scss" scoped>
@@ -161,6 +170,7 @@ $z-index-side-nodes: 1;
 .textarea-field__textarea {
   resize: none;
   min-height: toRem(130);
+  max-height: toRem(390);
 
   & + .textarea-field__focus-indicator {
     pointer-events: none;
