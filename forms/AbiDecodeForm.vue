@@ -22,7 +22,7 @@
       v-if="isDecoding || errorMessage || form.args.length"
       class="abi-decode-form__output"
     >
-      <loader v-if="isDecoding" />
+      <app-loader v-if="isDecoding" />
       <template v-else>
         <div v-if="errorMessage" class="abi-decode-form__msg-wrp">
           <app-icon
@@ -140,7 +140,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppButton, AppIcon, Loader } from '#components'
+import { AppButton, AppIcon, AppLoader } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import { errors } from '@/errors'

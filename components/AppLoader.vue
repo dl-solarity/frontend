@@ -1,8 +1,8 @@
 <template>
-  <div class="spinner">
+  <div class="app-loader">
     <client-only>
       <vue3-lottie
-        class="spinner__inner"
+        class="app-loader__inner"
         :animation-data="animationData"
         loop
       />
@@ -16,8 +16,8 @@ import { Vue3Lottie } from 'vue3-lottie'
 </script>
 
 <style lang="scss" scoped>
-.spinner__inner {
-  width: toRem(80);
-  height: toRem(80);
+.app-loader__inner {
+  width: toRem(96);
+  height: toRem(32);
 }
 </style>
