@@ -101,6 +101,10 @@ export default defineNuxtConfig({
 
   modules: ['@intlify/nuxt3', '@pinia/nuxt', '@vueuse/nuxt'],
 
+  intlify: {
+    localeDir: 'plugins/localization/resources',
+  },
+
   build: {
     transpile: [
       'vue-toastification',

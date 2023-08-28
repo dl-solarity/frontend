@@ -427,7 +427,7 @@ const onFormChange = async () => {
     else form.args = form.args.map(arg => ({ ...arg, value: '' }))
 
     errorMessage.value = getErrorMessage(error)
-    ErrorHandler.process(error)
+    ErrorHandler.processWithoutFeedback(error)
   }
 
   _formStateJsonString = JSON.stringify(form)
