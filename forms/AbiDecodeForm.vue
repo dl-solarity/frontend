@@ -61,13 +61,13 @@
               :key="arg.id"
               class="abi-decode-form__arg"
             >
-              <select-field
+              <autocomplete-field
                 v-model="arg.type"
                 modification="dropup"
                 :readonly="form.decodeMode === DECODE_MODES.auto"
                 :label="$t('abi-decode-form.arg-type-label')"
                 :placeholder="$t('abi-decode-form.arg-type-placeholder')"
-                :value-options="
+                :options="
                   Object.values(ETHEREUM_TYPES).map(v => ({
                     value: v,
                     title: v,
@@ -153,10 +153,10 @@ import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import { errors } from '@/errors'
 import {
+  AutocompleteField,
   CheckboxField,
   InputField,
   RadioButtonField,
-  SelectField,
   TextareaField,
 } from '@/fields'
 import {
