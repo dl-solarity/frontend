@@ -14,6 +14,7 @@
       <input
         ref="inputEl"
         class="input-field__input"
+        spellcheck="false"
         :id="`input-field--${uid}`"
         v-bind="$attrs"
         v-on="listeners"
