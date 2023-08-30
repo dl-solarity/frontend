@@ -302,7 +302,7 @@ const decodeValues = (
     const values = AbiCoder.defaultAbiCoder().decode(...params)
 
     // values is a Proxy with a get trap, checking access is required
-    for (const idx of values) values[idx]
+    for (const value in values) value
 
     return values
   } catch {
