@@ -7,6 +7,14 @@ export function checkIsAddress(value: unknown): boolean {
   return isAddress(value)
 }
 
+export function checkIsAddressArrayJsonString(value: unknown): boolean {
+  try {
+    return JSON.parse(value as string).every(checkIsAddress)
+  } catch {
+    return false
+  }
+}
+
 export function checkIsBigInt(value: unknown): value is bigint {
   return typeof value === 'bigint'
 }
@@ -45,6 +53,14 @@ export function checkIsEthereumType(value: unknown): value is ETHEREUM_TYPES {
 
 export function checkIsString(value: unknown): value is string {
   return typeof value === 'string'
+}
+
+export function checkIsStringArrayJsonString(value: unknown): boolean {
+  try {
+    return JSON.parse(value as string).every(checkIsString)
+  } catch {
+    return false
+  }
 }
 
 export function checkIsUintLike(value: unknown): boolean {

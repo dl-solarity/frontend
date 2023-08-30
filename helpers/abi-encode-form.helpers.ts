@@ -2,12 +2,14 @@ import { ETHEREUM_TYPES } from '@/enums'
 import {
   checkBytesAmount,
   checkIsAddress,
+  checkIsAddressArrayJsonString,
   checkIsBooleanArrayJsonString,
   checkIsBooleanString,
   checkIsBytesLike,
   checkIsBytesLikeArrayJsonString,
   checkIsEthereumType,
   checkIsString,
+  checkIsStringArrayJsonString,
   checkIsUintLike,
   checkIsUnitLikeArrayJsonString,
   checkUintIsWithinRange,
@@ -47,6 +49,8 @@ export function ethereumBaseTypeValue(): ValidationRule {
       switch (_baseType) {
         case ETHEREUM_TYPES.address:
           return checkIsAddress(arg.value)
+        case ETHEREUM_TYPES.addressArray:
+          return checkIsAddressArrayJsonString(arg.value)
         case ETHEREUM_TYPES.bool:
           return checkIsBooleanString(arg.value)
         case ETHEREUM_TYPES.boolArray:
@@ -57,6 +61,8 @@ export function ethereumBaseTypeValue(): ValidationRule {
           return checkIsBytesLikeArrayJsonString(arg.value)
         case ETHEREUM_TYPES.string:
           return checkIsString(arg.value)
+        case ETHEREUM_TYPES.stringArray:
+          return checkIsStringArrayJsonString(arg.value)
         case ETHEREUM_TYPES.tuple:
           try {
             return Boolean(
@@ -81,8 +87,10 @@ export function ethereumBaseTypeValue(): ValidationRule {
       switch (true) {
         // if you need custom message then set case of ethereum type here
         case _arg.type === ETHEREUM_TYPES.address:
+        case _arg.type === ETHEREUM_TYPES.addressArray:
         case _arg.type === ETHEREUM_TYPES.bool:
         case _arg.type === ETHEREUM_TYPES.boolArray:
+        case _arg.type === ETHEREUM_TYPES.stringArray:
         case _arg.type === ETHEREUM_TYPES.tuple:
           return t(
             `validations.field-error_ethereumBaseTypeValue--${_arg.type.replace(
@@ -90,6 +98,7 @@ export function ethereumBaseTypeValue(): ValidationRule {
               'Array',
             )}`,
           )
+
         case _baseType === ETHEREUM_TYPES.bytes:
         case _baseType === ETHEREUM_TYPES.bytesArray:
         case _baseType === ETHEREUM_TYPES.uint:
