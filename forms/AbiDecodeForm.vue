@@ -99,7 +99,11 @@
                   v-model="arg.value"
                   readonly
                   :placeholder="$t('abi-decode-form.arg-value-placeholder')"
-                />
+                >
+                  <template #nodeRight>
+                    <app-copy :value="arg.value" />
+                  </template>
+                </input-field>
               </div>
               <input-field
                 v-else
@@ -109,7 +113,11 @@
                 :label="$t('abi-decode-form.arg-value-label')"
                 :placeholder="$t('abi-decode-form.arg-value-placeholder')"
                 @clear="removeArg(arg.id)"
-              />
+              >
+                <template #nodeRight>
+                  <app-copy :value="arg.value" />
+                </template>
+              </input-field>
             </div>
           </div>
         </template>
@@ -140,7 +148,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppButton, AppIcon, AppLoader } from '#components'
+import { AppButton, AppCopy, AppIcon, AppLoader } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import { errors } from '@/errors'
