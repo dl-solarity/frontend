@@ -124,7 +124,12 @@ export function withinSizeOfEthereumType(): ValidationRule {
     $validator: (_, arg: AbiEncodeForm.FuncArg) => {
       _baseType = arg.type.replace(/\d+/, '')
 
-      if (_baseType === arg.type) return true
+      const isUintBaseType = [
+        ETHEREUM_TYPES.uint,
+        ETHEREUM_TYPES.uintArray,
+      ].includes(_baseType as ETHEREUM_TYPES)
+
+      if (_baseType === arg.type && !isUintBaseType) return true
 
       const isArray = arg.type.includes('[]')
       const matchArray = arg.type.match(/\d+/)
@@ -137,7 +142,10 @@ export function withinSizeOfEthereumType(): ValidationRule {
               case ETHEREUM_TYPES.bytesArray:
                 return checkBytesAmount(v as BytesLike, sizeOfType)
               case ETHEREUM_TYPES.uintArray:
-                return checkUintIsWithinRange(v as BigNumber.Value, sizeOfType)
+                return checkUintIsWithinRange(
+                  v as BigNumber.Value,
+                  sizeOfType || 256,
+                )
               default:
                 return true
             }
@@ -151,7 +159,7 @@ export function withinSizeOfEthereumType(): ValidationRule {
         case ETHEREUM_TYPES.bytes:
           return checkBytesAmount(arg.value, sizeOfType)
         case ETHEREUM_TYPES.uint:
-          return checkUintIsWithinRange(arg.value, sizeOfType)
+          return checkUintIsWithinRange(arg.value, sizeOfType || 256)
         default:
           return true
       }

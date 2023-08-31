@@ -67,12 +67,7 @@
                 :readonly="form.decodeMode === DECODE_MODES.auto"
                 :label="$t('abi-decode-form.arg-type-label')"
                 :placeholder="$t('abi-decode-form.arg-type-placeholder')"
-                :options="
-                  Object.values(ETHEREUM_TYPES).map(v => ({
-                    value: v,
-                    title: v,
-                  }))
-                "
+                :options="TYPE_OPTIONS"
                 :error-message="getFieldErrorMessage(`args[${idx}].type`)"
                 @blur="touchField('args')"
               />
@@ -174,7 +169,7 @@ import { type ArrayElement, type FieldOption } from '@/types'
 import { fetcher } from '@distributedlab/fetcher'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
 import { AbiCoder, FunctionFragment, ParamType } from 'ethers'
-import { debounce } from 'lodash-es'
+import { debounce, without } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -195,6 +190,15 @@ enum DECODE_MODES {
   auto = 'auto',
   manual = 'manual',
 }
+
+const TYPE_OPTIONS: FieldOption[] = without(
+  Object.values(ETHEREUM_TYPES),
+  ETHEREUM_TYPES.uint,
+  ETHEREUM_TYPES.uintArray,
+).map(v => ({
+  value: v,
+  title: v,
+}))
 
 defineProps<{
   title: string

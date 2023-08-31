@@ -64,6 +64,8 @@ export function checkIsStringArrayJsonString(value: unknown): boolean {
 }
 
 export function checkIsUintLike(value: unknown): boolean {
+  if (typeof value === 'string' && value.includes('e')) return false
+
   const bigNumber = BigNumber(value as BigNumber.Value)
   return bigNumber.isPositive() && bigNumber.isFinite()
 }

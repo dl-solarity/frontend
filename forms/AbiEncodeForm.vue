@@ -19,9 +19,7 @@
             v-model="arg.type"
             :label="$t('abi-encode-form.arg-type-label')"
             :placeholder="$t('abi-encode-form.arg-type-placeholder')"
-            :options="
-              Object.values(ETHEREUM_TYPES).map(v => ({ value: v, title: v }))
-            "
+            :options="TYPE_OPTIONS"
             :error-message="getFieldErrorMessage(`args[${idx}].type`)"
             @blur="touchField(`args[${idx}].type`)"
           />
@@ -111,10 +109,20 @@ import {
   required,
   withinSizeOfEthereumType,
 } from '@/helpers'
-import { type AbiEncodeForm } from '@/types'
+import { type AbiEncodeForm, type FieldOption } from '@/types'
 import { Interface, ParamType } from 'ethers'
+import { without } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, watch } from 'vue'
+
+const TYPE_OPTIONS: FieldOption[] = without(
+  Object.values(ETHEREUM_TYPES),
+  ETHEREUM_TYPES.uint,
+  ETHEREUM_TYPES.uintArray,
+).map(v => ({
+  value: v,
+  title: v,
+}))
 
 defineProps<{
   title: string
