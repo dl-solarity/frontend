@@ -296,13 +296,13 @@ const fetchFuncSignature = async (selector: string): Promise<string> => {
 }
 
 const decodeValues = (
-  ...params: Parameters<AbiCoder['decode']>
+  ...[types, data, loose]: Parameters<AbiCoder['decode']>
 ): ReturnType<AbiCoder['decode']> => {
   try {
-    const values = AbiCoder.defaultAbiCoder().decode(...params)
+    const values = AbiCoder.defaultAbiCoder().decode(types, data, loose)
 
-    // values is a Proxy with a get trap, checking access is required
-    for (const value in values) value
+    // values is a Proxy with trap of a getting, access check required
+    for (const idx in types) values[idx]
 
     return values
   } catch {
