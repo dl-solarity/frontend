@@ -37,9 +37,7 @@
               :error-message="getFieldErrorMessage(`args[${idx}].subtype`)"
               @blur="touchField(`args[${idx}].subtype`)"
               @clear="removeArg(arg.id)"
-              @update:model-value="
-                newValue => onArgSubtypeUpdate(newValue as string, idx)
-              "
+              @update:model-value="onArgSubtypeUpdate($event as string, idx)"
             />
             <input-field
               v-model="arg.value"
