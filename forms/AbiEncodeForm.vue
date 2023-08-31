@@ -15,11 +15,11 @@
           :key="arg.id"
           class="abi-encode-form__arg"
         >
-          <select-field
+          <autocomplete-field
             v-model="arg.type"
             :label="$t('abi-encode-form.arg-type-label')"
             :placeholder="$t('abi-encode-form.arg-type-placeholder')"
-            :value-options="
+            :options="
               Object.values(ETHEREUM_TYPES).map(v => ({ value: v, title: v }))
             "
             :error-message="getFieldErrorMessage(`args[${idx}].type`)"
@@ -99,7 +99,7 @@
 import { AppButton, AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
-import { InputField, SelectField, TextareaField } from '@/fields'
+import { AutocompleteField, InputField, TextareaField } from '@/fields'
 import {
   ErrorHandler,
   contractFuncName,
