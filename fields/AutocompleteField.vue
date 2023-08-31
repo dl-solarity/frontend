@@ -130,8 +130,10 @@ const inputListeners = computed(() => ({
         event.preventDefault()
         break
       case 'Enter':
-        emit('update:model-value', options.value[navOptionIdx.value].value)
-        isDropMenuOpen.value = false
+        if (isDropMenuOpen.value) {
+          emit('update:model-value', options.value[navOptionIdx.value].value)
+          isDropMenuOpen.value = false
+        } else isDropMenuOpen.value = true
         event.preventDefault()
     }
   },
