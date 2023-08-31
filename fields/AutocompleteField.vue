@@ -110,6 +110,9 @@ const inputListeners = computed(() => ({
       isDropMenuOpen.value = true
     }
   },
+  blur() {
+    isDropMenuOpen.value = false
+  },
   input(event: Event) {
     filterTitle.value = (event.target as HTMLInputElement).value
     navOptionIdx.value = 0

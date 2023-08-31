@@ -80,7 +80,7 @@
   "abi-decode-form": {
     "abi-encoding-label": "Abi encoding",
     "abi-encoding-placeholder": "Abi encoding",
-    "has-func-selector-label": "Assume first four bytes are function selector",
+    "has-func-selector-label": "Function selector",
     "decode-mode-option-title--auto": "Automatically determine the best parameter types",
     "decode-mode-option-title--manual": "Manually specify parameter types",
     "output-title": "Decoded data",

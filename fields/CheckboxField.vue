@@ -2,7 +2,7 @@
   <label
     class="checkbox-field"
     :class="{
-      'checkbox-field--disabled': disabled,
+      'checkbox-field--disabled': isDisabled,
       'checkbox-field--checked': modelValue,
     }"
   >
@@ -13,15 +13,8 @@
       :checked="modelValue"
       :name="$attrs.name || label"
       :value="value"
-      :disabled="disabled"
       @change="onChange"
     />
-
-    <span class="checkbox-field__frame-wrp" aria-hidden="true">
-      <span class="checkbox-field__frame">
-        <app-icon class="checkbox-field__frame-icon" :name="$icons.check" />
-      </span>
-    </span>
 
     <span class="checkbox-field__label">
       {{ label }}
@@ -29,64 +22,46 @@
   </label>
 </template>
 
-<script lang="ts">
-import { AppIcon } from '#components'
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed, useAttrs } from 'vue'
 
-enum EVENTS {
-  updateModelValue = 'update:model-value',
+const emit = defineEmits<{
+  (event: 'update:model-value', value: boolean): void
+}>()
+
+withDefaults(
+  defineProps<{
+    modelValue: boolean
+    label?: string
+    value?: string | number
+  }>(),
+  {
+    label: '',
+    value: '',
+  },
+)
+
+const attrs = useAttrs()
+
+const isDisabled = computed(() =>
+  ['', 'disabled', true].includes(attrs.disabled as string | boolean),
+)
+
+const onChange = (event: Event) => {
+  emit('update:model-value', (event.target as HTMLInputElement).checked)
 }
-
-export default defineComponent({
-  name: 'checkbox-field',
-  components: { AppIcon },
-  props: {
-    modelValue: { type: Boolean, default: false },
-    value: { type: [String, Number], default: '' },
-    label: { type: String, default: '' },
-    disabled: { type: Boolean, default: false },
-  },
-  emits: Object.values(EVENTS),
-  setup(props, { emit }) {
-    const onChange = (event: Event) => {
-      const target = event.target as HTMLInputElement
-
-      emit(EVENTS.updateModelValue, target.checked)
-    }
-
-    return {
-      onChange,
-    }
-  },
-})
 </script>
 
 <style lang="scss" scoped>
 .checkbox-field {
   cursor: pointer;
-  display: grid;
-  align-items: center;
-  grid-template-columns: toRem(18) 1fr;
-  grid-gap: toRem(8);
-  min-height: toRem(22);
-  padding-left: toRem(2);
   max-width: max-content;
+  padding: toRem(4);
+  border-radius: var(--border-radius-main);
+  background: var(--background-primary-dark);
 
   &--disabled {
     cursor: not-allowed;
-
-    .checkbox-field__frame-wrp {
-      border-color: var(--disable-primary-main);
-    }
-
-    .checkbox-field__label {
-      color: var(--disable-primary-main);
-    }
-
-    &.checkbox-field--checked .checkbox-field__frame-wrp {
-      border-color: var(--disable-primary-main);
-      background-color: var(--disable-primary-main);
-    }
   }
 }
 
@@ -103,55 +78,32 @@ export default defineComponent({
   overflow: hidden;
 }
 
-.checkbox-field__frame-wrp {
-  overflow: hidden;
-  width: toRem(18);
-  height: toRem(18);
-  transition: var(--field-transition-duration);
-  transition-property: border-color, background-color;
-  border-radius: toRem(3);
-  border: toRem(2) solid var(--text-primary-light);
-
-  .checkbox-field--checked & {
-    border-color: var(--primary-main);
-    background: var(--primary-main);
-  }
-
-  .checkbox-field:not(.checkbox-field--disabled):hover & {
-    border-color: var(--text-primary-main);
-  }
-
-  .checkbox-field--checked:not(.checkbox-field--disabled):hover & {
-    border-color: var(--primary-light);
-    background: var(--primary-light);
-  }
-}
-
-.checkbox-field__frame {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.checkbox-field__frame-icon {
-  width: toRem(10);
-  height: toRem(10);
-  color: var(--background-primary-main);
-  transition: opacity var(--field-transition-duration);
-  opacity: 0;
-
-  .checkbox-field--checked & {
-    opacity: 1;
-  }
-}
-
 .checkbox-field__label {
-  display: flex;
-  align-items: center;
-  user-select: none;
+  display: block;
+  padding: toRem(8) toRem(16);
+  transition: var(--field-transition-duration) ease;
+  transition-property: background-color, color;
+  border-radius: inherit;
+  color: var(--text-primary-main);
+  font-family: var(--field-text-font-family);
+  font-size: var(--field-text-font-size);
+  font-weight: var(--field-text-font-weight);
+  line-height: var(--field-text-line-height);
+  letter-spacing: var(--field-text-letter-spacing);
 
-  @include field-text;
+  .checkbox-field--checked &,
+  .checkbox-field:not([disabled]):focus &,
+  .checkbox-field:not([disabled]):active & {
+    background: var(--background-primary-light);
+    color: var(--primary-main);
+  }
+
+  .checkbox-field--disabled & {
+    color: var(--disable-primary-main);
+  }
+
+  .checkbox-field:not([disabled]):not(:focus):not(:active):hover & {
+    background: var(--background-primary-light);
+  }
 }
 </style>
