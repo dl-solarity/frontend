@@ -12,6 +12,7 @@
         <input
           class="autocomplete-field__input"
           v-bind="$attrs"
+          :id="`autocomplete-field--${uid}`"
           :value="filterTitle ?? modelTitle"
           :placeholder="placeholder"
           v-on="inputListeners"
@@ -23,6 +24,7 @@
       </div>
       <drop-menu
         v-model:is-open="isDropMenuOpen"
+        v-model:nav-option-idx="navOptionIdx"
         :model-value="modelValue"
         :options="options"
         @update:model-value="emit('update:model-value', $event)"
@@ -78,6 +80,7 @@ const attrs = useAttrs()
 const autocompleteFieldElement = ref<HTMLDivElement | null>(null)
 const isDropMenuOpen = ref(false)
 const filterTitle = ref<string | undefined>(undefined)
+const navOptionIdx = ref<number>(0)
 
 const isDisabled = computed(() =>
   ['', 'disabled', true].includes(attrs.disabled as string | boolean),
@@ -97,6 +100,11 @@ const autocompleteFieldClasses = computed(() => ({
 }))
 
 const inputListeners = computed(() => ({
+  click() {
+    if (!isDisabled.value && !isReadonly.value) {
+      isDropMenuOpen.value = true
+    }
+  },
   focus() {
     if (!isDisabled.value && !isReadonly.value) {
       isDropMenuOpen.value = true
@@ -104,6 +112,30 @@ const inputListeners = computed(() => ({
   },
   input(event: Event) {
     filterTitle.value = (event.target as HTMLInputElement).value
+    navOptionIdx.value = 0
+  },
+  keydown(event: KeyboardEvent) {
+    if (!options.value.length) return
+
+    const lastOptionIdx = options.value.length - 1
+    switch (event.key) {
+      case 'ArrowUp':
+        if (navOptionIdx.value > 0) --navOptionIdx.value
+        else navOptionIdx.value = lastOptionIdx
+        event.preventDefault()
+        break
+      case 'ArrowDown':
+        if (navOptionIdx.value < lastOptionIdx) ++navOptionIdx.value
+        else navOptionIdx.value = 0
+        event.preventDefault()
+        break
+      case 'Enter':
+        if (isDropMenuOpen.value) {
+          emit('update:model-value', options.value[navOptionIdx.value].value)
+          isDropMenuOpen.value = false
+        } else isDropMenuOpen.value = true
+        event.preventDefault()
+    }
   },
 }))
 
@@ -118,7 +150,7 @@ const options = computed<typeof props.options>(() =>
 const modelTitle = computed<string>(
   () =>
     props.options.find(option => option.value === props.modelValue)?.title ||
-    '',
+    props.modelValue,
 )
 
 const setHeightCSSVar = (element: Element) => {
@@ -186,11 +218,12 @@ onMounted(() => {
     border-color: var(--field-error);
   }
 
-  &:not([disabled]):focus {
+  &:not([disabled]):focus,
+  &:not([disabled]):active {
     border-color: var(--field-border-focus);
   }
 
-  &:not([disabled]):not(:focus):hover {
+  &:not([disabled]):not(:focus):not(:active):hover {
     .autocomplete-field:not(.autocomplete-field--error) & {
       border-color: var(--field-border-hover);
     }

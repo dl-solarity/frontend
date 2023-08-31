@@ -1,5 +1,6 @@
 export enum ETHEREUM_TYPES {
   address = 'address',
+  addressArray = 'address[]',
   bool = 'bool',
   boolArray = 'bool[]',
   bytes = 'bytes',
@@ -69,6 +70,7 @@ export enum ETHEREUM_TYPES {
   bytes32 = 'bytes32',
   bytes32Array = 'bytes32[]',
   string = 'string',
+  stringArray = 'string[]',
   tuple = 'tuple()',
   uint = 'uint',
   uintArray = 'uint[]',
