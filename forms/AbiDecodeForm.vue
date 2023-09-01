@@ -1,21 +1,25 @@
 <template>
   <form class="abi-decode-form">
     <div class="abi-decode-form__input">
-      <h3>{{ title }}</h3>
+      <div class="abi-decode-form__title-wrp">
+        <h3 class="abi-decode-form__title">
+          {{ title }}
+        </h3>
+        <checkbox-field
+          v-model="form.hasFuncSelector"
+          :label="$t('abi-decode-form.has-func-selector-label')"
+        />
+        <radio-button-field
+          v-model="form.decodeMode"
+          :options="decodeModeOptions"
+        />
+      </div>
       <textarea-field
         v-model="form.abiEncoding"
         :label="$t('abi-decode-form.abi-encoding-label')"
         :placeholder="$t('abi-decode-form.abi-encoding-placeholder')"
         :error-message="getFieldErrorMessage('abiEncoding')"
         @blur="touchField('abiEncoding')"
-      />
-      <checkbox-field
-        v-model="form.hasFuncSelector"
-        :label="$t('abi-decode-form.has-func-selector-label')"
-      />
-      <radio-button-field
-        v-model="form.decodeMode"
-        :options="decodeModeOptions"
       />
     </div>
     <div
@@ -455,6 +459,16 @@ watch([form, isFieldsValid], debounce(onFormChange, 500))
 .abi-decode-form__input {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--border-primary-main);
+}
+
+.abi-decode-form__title-wrp {
+  display: flex;
+  align-items: center;
+  gap: toRem(8);
+}
+
+.abi-decode-form__title {
+  margin-right: auto;
 }
 
 .abi-decode-form__args_wrp {
