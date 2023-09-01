@@ -1,21 +1,17 @@
 <template>
   <label
     class="checkbox-field"
-    :class="{
-      'checkbox-field--disabled': isDisabled,
-      'checkbox-field--checked': modelValue,
-    }"
+    :class="{ 'checkbox-field--checked': modelValue }"
   >
     <input
       v-bind="$attrs"
       class="checkbox-field__input"
       type="checkbox"
       :checked="modelValue"
-      :name="$attrs.name || label"
+      :name="$attrs.name as string || label"
       :value="value"
       @change="onChange"
     />
-
     <span class="checkbox-field__label">
       {{ label }}
     </span>
@@ -23,8 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useAttrs } from 'vue'
-
 const emit = defineEmits<{
   (event: 'update:model-value', value: boolean): void
 }>()
@@ -41,12 +35,6 @@ withDefaults(
   },
 )
 
-const attrs = useAttrs()
-
-const isDisabled = computed(() =>
-  ['', 'disabled', true].includes(attrs.disabled as string | boolean),
-)
-
 const onChange = (event: Event) => {
   emit('update:model-value', (event.target as HTMLInputElement).checked)
 }
@@ -54,13 +42,15 @@ const onChange = (event: Event) => {
 
 <style lang="scss" scoped>
 .checkbox-field {
+  display: block;
   cursor: pointer;
+  user-select: none;
   max-width: max-content;
   padding: toRem(4);
   border-radius: var(--border-radius-main);
   background: var(--background-primary-dark);
 
-  &--disabled {
+  &[disabled] {
     cursor: not-allowed;
   }
 }
@@ -98,7 +88,7 @@ const onChange = (event: Event) => {
     color: var(--primary-main);
   }
 
-  .checkbox-field--disabled & {
+  .checkbox-field[disabled] & {
     color: var(--disable-primary-main);
   }
 

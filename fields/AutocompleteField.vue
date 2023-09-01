@@ -25,6 +25,7 @@
       <drop-menu
         v-model:is-open="isDropMenuOpen"
         v-model:nav-option-idx="navOptionIdx"
+        tabindex="-1"
         :model-value="modelValue"
         :options="options"
         @update:model-value="emit('update:model-value', $event)"
