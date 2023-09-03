@@ -15,6 +15,7 @@
           :id="`autocomplete-field--${uid}`"
           :value="filterTitle ?? modelTitle"
           :placeholder="placeholder"
+          :disabled="isDisabled || isReadonly"
           v-on="inputListeners"
         />
         <app-icon
@@ -94,7 +95,7 @@ const isReadonly = computed(() =>
 const autocompleteFieldClasses = computed(() => ({
   'autocomplete-field': true,
   'autocomplete-field--open': isDropMenuOpen.value,
-  'autocomplete-field--filled': props.modelValue,
+  'autocomplete-field--filled': props.modelValue || filterTitle.value,
   'autocomplete-field--disabled': isDisabled.value,
   'autocomplete-field--readonly': isReadonly.value,
   'autocomplete-field--error': props.errorMessage,
@@ -204,10 +205,10 @@ onMounted(() => {
 
   .autocomplete-field--disabled &,
   .autocomplete-field--readonly & {
-    color: var(--disable-primary-main);
+    opacity: 0;
   }
 
-  .autocomplete-field--filled & {
+  .autocomplete-field--filled:not([disabled]) & {
     color: var(--field-text);
   }
 

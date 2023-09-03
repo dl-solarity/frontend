@@ -109,6 +109,7 @@
   --field-text-line-height: #{toRem(22)};
   --field-text-letter-spacing: 0;
   --field-text: var(--text-primary-light);
+  --field-text-readonly: var(--text-primary-main);
   --field-placeholder: var(--text-primary-main);
   --field-placeholder-readonly: var(--disable-primary-main);
 

@@ -12,6 +12,7 @@ import {
 } from '@vuelidate/validators'
 import { ValidationRule } from '@vuelidate/core'
 import { createI18nMessage, MessageProps } from '@vuelidate/validators'
+import { ConstructorFragment, FunctionFragment } from 'ethers'
 import { get } from 'lodash-es'
 import { Ref } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -67,6 +68,25 @@ export const integer = <ValidationRule>withI18nMessage(_integer)
 export const json = <ValidationRule>withI18nMessage(value => {
   try {
     return Boolean(JSON.parse(value))
+  } catch {
+    return false
+  }
+})
+
+export const functionSignature = <ValidationRule>withI18nMessage(value => {
+  try {
+    const fragment = value?.startsWith('constructor')
+      ? ConstructorFragment.from(value)
+      : FunctionFragment.from(value)
+
+    const types = fragment.inputs.map(paramType =>
+      paramType.format().replaceAll('(', 'tuple('),
+    )
+
+    const name =
+      fragment instanceof FunctionFragment ? fragment.name : 'constructor'
+
+    return value === `${name}(${types.join(',')})`
   } catch {
     return false
   }
