@@ -157,7 +157,6 @@
   },
   "hash-function-form": {
     "input-title": "{type} function",
-    "type-title": "Select type",
     "select-option-text": "Text",
     "select-option-hex": "Hex",
     "text-title": "Input data",

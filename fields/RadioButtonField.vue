@@ -54,6 +54,7 @@ const emit = defineEmits<{
   user-select: none;
   border-radius: inherit;
   flex: 1;
+  min-width: toRem(120);
 
   .radio-button-field[disabled] & {
     cursor: not-allowed;

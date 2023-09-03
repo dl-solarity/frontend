@@ -1,14 +1,12 @@
 <template>
   <form class="hash-function-form">
     <div class="hash-function-form__input">
-      <h3>{{ $t('hash-function-form.input-title', { type: title }) }}</h3>
-      <select-field
-        v-model="form.type"
-        :label="$t('hash-function-form.type-title')"
-        :value-options="decodeTitles"
-        :error-message="getFieldErrorMessage('type')"
-        @blur="touchField('type')"
-      />
+      <div class="hash-function-form__title-wrp">
+        <h3 class="hash-function-form__title">
+          {{ $t('hash-function-form.input-title', { type: title }) }}
+        </h3>
+        <radio-button-field v-model="form.type" :options="decodeOptions" />
+      </div>
       <textarea-field
         v-model="form.text"
         :label="$t('hash-function-form.text-title')"
@@ -35,9 +33,9 @@
 <script lang="ts" setup>
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
-import { SelectField, TextareaField } from '@/fields'
+import { RadioButtonField, TextareaField } from '@/fields'
 import { hex, minLength, required, ErrorHandler } from '@/helpers'
-import { type DecodeType, type HashFunction } from '@/types'
+import { type DecodeType, type FieldOption, type HashFunction } from '@/types'
 import { reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 
@@ -48,14 +46,14 @@ const props = defineProps<{
 
 const { t } = i18n.global
 
-const decodeTitles = computed(() => [
+const decodeOptions = computed<FieldOption[]>(() => [
   { title: t('hash-function-form.select-option-text'), value: 'text' },
   { title: t('hash-function-form.select-option-hex'), value: 'hex' },
 ])
 
 const decodedHash = ref('')
 const form = reactive({
-  type: decodeTitles.value[0].value as DecodeType,
+  type: decodeOptions.value[0].value as DecodeType,
   text: '',
 })
 
@@ -101,6 +99,16 @@ watch(form, () => {
 .hash-function-form__input {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--border-primary-main);
+}
+
+.hash-function-form__title-wrp {
+  display: flex;
+  align-items: center;
+  gap: toRem(8);
+}
+
+.hash-function-form__title {
+  margin-right: auto;
 }
 
 .hash-function-form__output-item-label {
