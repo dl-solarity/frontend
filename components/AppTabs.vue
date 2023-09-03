@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs">
+  <div class="app-tabs">
     <app-button
       v-for="tab in tabs"
       :key="tab.id"
@@ -8,8 +8,8 @@
       color="secondary"
       scheme="none"
       modification="none"
-      class="tabs__btn"
-      :class="{ 'tabs__btn--active': modelValue.id === tab.id }"
+      class="app-tabs__btn"
+      :class="{ 'app-tabs__btn--active': modelValue.id === tab.id }"
       @click="updateTab(tab)"
     />
   </div>
@@ -34,7 +34,7 @@ const updateTab = (tab: Tab) => {
 </script>
 
 <style lang="scss" scoped>
-.tabs {
+.app-tabs {
   display: grid;
   grid-auto-columns: min-content;
   grid-auto-flow: column;
@@ -42,27 +42,27 @@ const updateTab = (tab: Tab) => {
   overflow-y: hidden;
   border-radius: var(--border-radius-main) var(--border-radius-main) 0 0;
   background: var(--background-primary-light);
-}
 
-.tabs__btn {
-  grid-auto-flow: row;
-  justify-items: center;
-  padding: toRem(16) toRem(32);
-  --app-button-bg-focused: var(--primary-main);
-  --app-button-bg-active: var(--primary-main);
-  --app-button-text-hover: var(--primary-main);
-  --app-button-text-focused: var(--text-primary-invert-main);
-  --app-button-text-active: var(--text-primary-invert-main);
-
-  &--active {
-    --app-button-bg: var(--primary-main);
-    --app-button-bg-hover: var(--primary-main);
+  .app-tabs__btn {
+    grid-auto-flow: row;
+    justify-items: center;
+    padding: toRem(16) toRem(32);
     --app-button-bg-focused: var(--primary-main);
     --app-button-bg-active: var(--primary-main);
-    --app-button-text: var(--text-primary-invert-main);
-    --app-button-text-hover: var(--text-primary-invert-main);
+    --app-button-text-hover: var(--primary-main);
     --app-button-text-focused: var(--text-primary-invert-main);
     --app-button-text-active: var(--text-primary-invert-main);
+
+    &--active {
+      --app-button-bg: var(--primary-main);
+      --app-button-bg-hover: var(--primary-main);
+      --app-button-bg-focused: var(--primary-main);
+      --app-button-bg-active: var(--primary-main);
+      --app-button-text: var(--text-primary-invert-main);
+      --app-button-text-hover: var(--text-primary-invert-main);
+      --app-button-text-focused: var(--text-primary-invert-main);
+      --app-button-text-active: var(--text-primary-invert-main);
+    }
   }
 }
 </style>
