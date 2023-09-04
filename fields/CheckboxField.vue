@@ -80,6 +80,7 @@ const onChange = (event: Event) => {
   font-weight: var(--field-text-font-weight);
   line-height: var(--field-text-line-height);
   letter-spacing: var(--field-text-letter-spacing);
+  min-width: max-content;
 
   .checkbox-field--checked &,
   .checkbox-field:not([disabled]):focus &,

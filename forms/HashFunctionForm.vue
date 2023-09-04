@@ -104,11 +104,13 @@ watch(form, () => {
 .hash-function-form__title-wrp {
   display: flex;
   align-items: center;
-  gap: toRem(8);
+  gap: inherit;
+  flex-wrap: wrap;
 }
 
 .hash-function-form__title {
   margin-right: auto;
+  min-width: max-content;
 }
 
 .hash-function-form__output-item-label {

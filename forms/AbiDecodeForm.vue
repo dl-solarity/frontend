@@ -5,14 +5,16 @@
         <h3 class="abi-decode-form__title">
           {{ title }}
         </h3>
-        <checkbox-field
-          v-model="form.hasFuncSelector"
-          :label="$t('abi-decode-form.has-func-selector-label')"
-        />
-        <radio-button-field
-          v-model="form.decodeMode"
-          :options="decodeModeOptions"
-        />
+        <div class="abi-decode-form__options-wrp">
+          <checkbox-field
+            v-model="form.hasFuncSelector"
+            :label="$t('abi-decode-form.has-func-selector-label')"
+          />
+          <radio-button-field
+            v-model="form.decodeMode"
+            :options="decodeModeOptions"
+          />
+        </div>
       </div>
       <textarea-field
         v-model="form.abiEncoding"
@@ -412,11 +414,20 @@ watch(() => form, onFormChange, { deep: true })
 .abi-decode-form__title-wrp {
   display: flex;
   align-items: center;
-  gap: toRem(8);
+  gap: inherit;
+  flex-wrap: wrap;
 }
 
 .abi-decode-form__title {
   margin-right: auto;
+  min-width: max-content;
+}
+
+.abi-decode-form__options-wrp {
+  display: flex;
+  align-items: center;
+  gap: inherit;
+  flex-wrap: wrap;
 }
 
 .abi-decode-form__args_wrp {
