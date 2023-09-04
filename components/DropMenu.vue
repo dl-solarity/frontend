@@ -16,7 +16,6 @@
           scheme="none"
           color="none"
           modification="none"
-          tabindex="-1"
           @click="select(option.value)"
           @pointermove="emit('update:nav-option-idx', idx)"
         >

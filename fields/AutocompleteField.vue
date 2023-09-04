@@ -26,7 +26,6 @@
       <drop-menu
         v-model:is-open="isDropMenuOpen"
         v-model:nav-option-idx="navOptionIdx"
-        tabindex="-1"
         :model-value="modelValue"
         :options="options"
         @update:model-value="emit('update:model-value', $event)"
@@ -106,14 +105,6 @@ const inputListeners = computed(() => ({
     if (!isDisabled.value && !isReadonly.value) {
       isDropMenuOpen.value = true
     }
-  },
-  focus() {
-    if (!isDisabled.value && !isReadonly.value) {
-      isDropMenuOpen.value = true
-    }
-  },
-  blur() {
-    isDropMenuOpen.value = false
   },
   input(event: Event) {
     filterTitle.value = (event.target as HTMLInputElement).value
