@@ -78,6 +78,7 @@ watch(form, () => {
     contractAddress.value = ''
     return
   }
+
   try {
     contractAddress.value = getCreate2Address(
       form.accountAddress,
