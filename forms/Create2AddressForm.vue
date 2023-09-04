@@ -11,11 +11,11 @@
           @blur="touchField('accountAddress')"
         />
         <input-field
-          v-model="form.contractCode"
+          v-model="form.contractInitCode"
           :label="$t('create2-address-form.contract-code-label')"
           :placeholder="$t('create2-address-form.contract-code-placeholder')"
-          :error-message="getFieldErrorMessage('contractCode')"
-          @blur="touchField('contractCode')"
+          :error-message="getFieldErrorMessage('contractInitCode')"
+          @blur="touchField('contractInitCode')"
         />
         <input-field
           v-model="form.salt"
@@ -46,14 +46,21 @@
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { InputField } from '@/fields'
-import { ErrorHandler, address, hash, required } from '@/helpers'
+import {
+  ErrorHandler,
+  address,
+  checkIsHexadecimal,
+  hexadecimal,
+  keccak256,
+  required,
+} from '@/helpers'
 import { getCreate2Address } from 'ethers'
 import { reactive, ref, watch } from 'vue'
 
 const contractAddress = ref('')
 const form = reactive({
   accountAddress: '',
-  contractCode: '',
+  contractInitCode: '',
   salt: '',
 })
 
@@ -61,8 +68,8 @@ const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   {
     accountAddress: { required, address },
-    contractCode: { required, hash },
-    salt: { required, hash },
+    contractInitCode: { required, hexadecimal },
+    salt: { required },
   },
 )
 
@@ -71,11 +78,12 @@ watch(form, () => {
     contractAddress.value = ''
     return
   }
+
   try {
     contractAddress.value = getCreate2Address(
       form.accountAddress,
-      form.salt,
-      form.contractCode,
+      keccak256(form.salt, checkIsHexadecimal(form.salt) ? 'hex' : 'text'),
+      keccak256(form.contractInitCode, 'hex'),
     )
   } catch (error) {
     contractAddress.value = ''

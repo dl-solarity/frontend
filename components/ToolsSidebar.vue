@@ -191,6 +191,7 @@ $aside-max-width: toRem(280);
 .tools-sidebar__nav-link {
   justify-content: start;
   width: 100%;
+  transition: none;
 }
 
 .tools-sidebar__close-button {

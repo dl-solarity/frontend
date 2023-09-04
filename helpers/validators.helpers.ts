@@ -40,7 +40,7 @@ export const required = <ValidationRule>withI18nMessage(_required)
 export const email = <ValidationRule>withI18nMessage(_email)
 
 export const address = <ValidationRule>(
-  withI18nMessage(value => isAddress(value))
+  withI18nMessage(value => isAddress(value) && value.startsWith('0x'))
 )
 
 export const hash = <ValidationRule>withI18nMessage(helpers.regex(HASH_REGEX))

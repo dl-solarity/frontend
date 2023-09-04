@@ -34,7 +34,7 @@
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { RadioButtonField, TextareaField } from '@/fields'
-import { hex, minLength, required, ErrorHandler } from '@/helpers'
+import { ErrorHandler, hexadecimal, required } from '@/helpers'
 import { type DecodeType, type FieldOption, type HashFunction } from '@/types'
 import { reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -60,9 +60,7 @@ const form = reactive({
 const rules = computed(() => ({
   type: { required },
   text: {
-    ...(form.type === 'hex'
-      ? { required, hex, minLength: minLength(3) }
-      : { required }),
+    ...(form.type === 'hex' ? { required, hexadecimal } : { required }),
   },
 }))
 const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
@@ -79,7 +77,7 @@ watch(form, () => {
     decodedHash.value = props.decode(form.text, form.type)
   } catch (error) {
     decodedHash.value = ''
-    ErrorHandler.processWithoutFeedback(error)
+    ErrorHandler.process(error)
   }
 })
 </script>

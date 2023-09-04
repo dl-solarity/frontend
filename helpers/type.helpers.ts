@@ -51,6 +51,10 @@ export function checkIsEthereumType(value: unknown): value is ETHEREUM_TYPES {
   return Object.values(ETHEREUM_TYPES).includes(value as ETHEREUM_TYPES)
 }
 
+export function checkIsHexadecimal(value: unknown): boolean {
+  return typeof value === 'string' && /^0x[a-fA-F0-9]+$/.test(value)
+}
+
 export function checkIsString(value: unknown): value is string {
   return typeof value === 'string'
 }

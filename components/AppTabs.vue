@@ -47,6 +47,7 @@ const updateTab = (tab: Tab) => {
     grid-auto-flow: row;
     justify-items: center;
     padding: toRem(16) toRem(32);
+    transition: none;
     --app-button-bg-focused: var(--primary-main);
     --app-button-bg-active: var(--primary-main);
     --app-button-text-hover: var(--primary-main);
