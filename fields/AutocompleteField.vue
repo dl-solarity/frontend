@@ -12,6 +12,7 @@
         <input
           class="autocomplete-field__input"
           v-bind="$attrs"
+          :aria-expanded="isDropMenuOpen"
           :id="`autocomplete-field--${uid}`"
           :value="filterTitle ?? modelTitle"
           :placeholder="placeholder"
