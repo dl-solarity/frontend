@@ -54,6 +54,11 @@ $media-breakpoints: (
   letter-spacing: var(--field-text-letter-spacing);
   color: var(--field-text);
   -webkit-text-fill-color: var(--field-text);
+
+  &:disabled {
+    color: var(--field-text-readonly);
+    -webkit-text-fill-color: var(--field-text-readonly);
+  }
 }
 
 @mixin field-placeholder {
