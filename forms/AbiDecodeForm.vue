@@ -426,7 +426,7 @@ watch(() => form, onFormChange, { deep: true })
 .abi-decode-form__options-wrp {
   display: flex;
   align-items: center;
-  gap: inherit;
+  gap: toRem(8);
   flex-wrap: wrap;
 }
 
