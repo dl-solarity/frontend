@@ -46,7 +46,14 @@
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { InputField } from '@/fields'
-import { ErrorHandler, address, hash, keccak256, required } from '@/helpers'
+import {
+  ErrorHandler,
+  address,
+  checkIsHexadecimal,
+  hexadecimal,
+  keccak256,
+  required,
+} from '@/helpers'
 import { getCreate2Address } from 'ethers'
 import { reactive, ref, watch } from 'vue'
 
@@ -61,8 +68,8 @@ const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   {
     accountAddress: { required, address },
-    contractInitCode: { required, hash },
-    salt: { required, hash },
+    contractInitCode: { required, hexadecimal },
+    salt: { required },
   },
 )
 
@@ -74,7 +81,7 @@ watch(form, () => {
   try {
     contractAddress.value = getCreate2Address(
       form.accountAddress,
-      form.salt,
+      keccak256(form.salt, checkIsHexadecimal(form.salt) ? 'hex' : 'text'),
       keccak256(form.contractInitCode, 'hex'),
     )
   } catch (error) {
