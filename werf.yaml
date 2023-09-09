@@ -13,16 +13,16 @@ git:
       install:
         - package.json
         - yarn.lock
-      setup: 
+      setup:
         - "**/*"
-shell: 
+shell:
   beforeInstall:
     - apk --no-cache --update --virtual build-dependencies add python3 make g++
-  install: 
+  install:
     - cd /frontend
     #- yarn autoclean --init
     #- yarn autoclean --force
     - yarn install
   setup:
     - cd /frontend
-    - yarn build
+    - yarn generate
