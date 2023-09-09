@@ -1,25 +1,7 @@
 <template>
-  <form class="date-form">
+  <form class="date-form" @submit.prevent>
     <div class="date-form__input">
-      <div class="date-form__input-head">
-        <h3>{{ $t('date-form.input-title') }}</h3>
-        <datepicker
-          v-model="calendarDate"
-          dark
-          enable-seconds
-          :min-date="new Date(0)"
-          position="right"
-          @update:model-value="setDate(calendarDate)"
-        >
-          <template #dp-input>
-            <app-button
-              color="secondary"
-              modification="text"
-              :icon-left="$icons.calendar"
-            />
-          </template>
-        </datepicker>
-      </div>
+      <h3>{{ $t('date-form.input-title') }}</h3>
       <div class="date-form__input-fields">
         <input-field
           v-for="(_, name) in form"
@@ -31,6 +13,10 @@
           @blur="touchField(name)"
         />
       </div>
+      <datetime-field
+        :model-value="calendarDate"
+        @update:model-value="setDate($event)"
+      />
     </div>
     <div class="date-form__output">
       <h3>{{ $t('date-form.output-title') }}</h3>
@@ -49,17 +35,16 @@
 </template>
 
 <script lang="ts" setup>
-import { AppButton, AppCopy } from '#components'
+import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
-import { InputField } from '@/fields'
+import { DatetimeField, InputField } from '@/fields'
 import { ErrorHandler, integer, maxValue, minValue, required } from '@/helpers'
 import { Time } from '@distributedlab/tools'
-import Datepicker from '@vuepic/vue-datepicker'
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
-const calendarDate = ref('')
+const calendarDate = ref(new Time().timestamp)
 const maxDayInMonth = ref(31)
 const currentDate = ref<Date | null>(null)
 
@@ -131,7 +116,7 @@ watch(form, () => {
 
   if (!isFormValid()) {
     currentDate.value = null
-    calendarDate.value = ''
+    calendarDate.value = new Time().timestamp
     return
   }
 
@@ -144,15 +129,15 @@ watch(form, () => {
       +form.minute,
       +form.second,
     )
-    calendarDate.value = currentDate.value.toString()
+    calendarDate.value = currentDate.value.getTime() / 1000
   } catch (error) {
     currentDate.value = null
-    calendarDate.value = ''
+    calendarDate.value = new Time().timestamp
     ErrorHandler.processWithoutFeedback(error)
   }
 })
 
-const setDate = (date: Date | string) => {
+const setDate = (date: Date | number | string) => {
   const time = new Time(date)
   form.year = time.dayjs.year().toString()
   form.month = (time.dayjs.month() + 1).toString()
@@ -191,13 +176,6 @@ onMounted(() => {
 .date-form__input {
   padding-bottom: toRem(40);
   border-bottom: toRem(1) solid var(--border-primary-main);
-}
-
-.date-form__input-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: toRem(16);
 }
 
 .date-form__input-fields {
