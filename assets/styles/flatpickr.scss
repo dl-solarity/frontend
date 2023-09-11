@@ -24,11 +24,11 @@ $z-index-arrow: 1;
 }
 
 .flatpickr-prev-month svg {
-  transform: rotate(90deg);
+  transform: rotate(90deg) scale(1.6);
 }
 
 .flatpickr-next-month svg {
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) scale(1.6);
 }
 
 .flatpickr-prev-month,
@@ -44,8 +44,8 @@ $z-index-arrow: 1;
   svg {
     position: relative;
     color: var(--text-primary-invert-main);
-    width: toRem(30);
-    height: toRem(30);
+    width: toRem(18);
+    height: toRem(18);
     transition: color var(--field-transition-duration) ease;
   }
 
