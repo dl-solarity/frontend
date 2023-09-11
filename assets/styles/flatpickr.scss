@@ -3,17 +3,9 @@ $z-index-arrow: 1;
 
 .flatpickr-calendar {
   display: grid;
-  position: absolute;
-  top: 110%;
-  right: 0;
   background: var(--field-bg-primary);
   border-radius: var(--border-radius-main);
   overflow: hidden;
-  animation: drop-item var(--field-transition-duration);
-
-  &:not(.open) {
-    display: none;
-  }
 
   @include drop-item-shadow;
 }
@@ -287,15 +279,4 @@ $z-index-arrow: 1;
 .flatpickr-time-separator {
   user-select: none;
   align-self: center;
-}
-
-@keyframes drop-item {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  to {
-    opacity: 1;
-  }
 }

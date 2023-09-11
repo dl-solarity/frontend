@@ -1,13 +1,30 @@
 <template>
-  <div class="datetime-field">
-    <button ref="element" v-bind="$attrs" class="datetime-field__btn">
-      <app-icon class="datetime-field__icon" :name="$icons.calendar" />
-    </button>
+  <div ref="dataFieldElement" class="datetime-field">
+    <div class="datetime-field__wrp">
+      <button
+        ref="btnElement"
+        v-bind="$attrs"
+        class="datetime-field__btn"
+        :aria-expanded="isOpen"
+        @click="isOpen = !isOpen"
+      >
+        <app-icon class="datetime-field__icon" :name="$icons.calendar" />
+      </button>
+
+      <transition name="drop-item">
+        <div
+          v-show="isOpen"
+          ref="flatpickrWrpElement"
+          class="datetime-field__flatpickr-wrp"
+        />
+      </transition>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { AppIcon } from '#components'
+import { onClickOutside } from '@vueuse/core'
 import { default as createFlatpickr } from 'flatpickr'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import type { Instance as FlatpickrInstance } from 'flatpickr/dist/types/instance'
@@ -23,23 +40,35 @@ const props = defineProps<{
   modelValue: number
 }>()
 
-const element = ref<HTMLInputElement | null>(null)
+const dataFieldElement = ref<HTMLDivElement | null>(null)
+const btnElement = ref<HTMLInputElement | null>(null)
+const flatpickrWrpElement = ref<HTMLDivElement | null>(null)
 const flatpickrInstance = ref<FlatpickrInstance | null>(null)
+const isOpen = ref(false)
 
 onMounted(() => {
-  if (!element.value) return
+  if (
+    !dataFieldElement.value ||
+    !btnElement.value ||
+    !flatpickrWrpElement.value
+  )
+    return
 
   const options: Options = {
     enableTime: true,
     enableSeconds: true,
     time_24hr: true,
+
+    /** Date object with less than this min date works incorrectly */
     minDate: new Date('05/02/1924'),
+
     defaultHour: 0,
     locale: { firstDayOfWeek: 1 },
     monthSelectorType: 'static',
     minuteIncrement: 1,
     defaultDate: props.modelValue * 1000,
-    static: true,
+    clickOpens: false,
+    appendTo: flatpickrWrpElement.value,
     prevArrow: arrowIconHTML,
     nextArrow: arrowIconHTML,
     onChange: dates => {
@@ -48,7 +77,9 @@ onMounted(() => {
     },
   }
 
-  flatpickrInstance.value = createFlatpickr(element.value, options)
+  flatpickrInstance.value = createFlatpickr(btnElement.value, options)
+
+  onClickOutside(dataFieldElement, () => (isOpen.value = false))
 })
 
 onBeforeUnmount(() => {
@@ -66,9 +97,15 @@ watch(
 <style lang="scss">
 @import 'assets/styles/flatpickr';
 
+$z-index-btn: 1;
+
 .datetime-field {
   border-radius: var(--border-radius-main);
   background: var(--background-primary-dark);
+}
+
+.datetime-field__wrp {
+  position: relative;
 }
 
 .datetime-field__icon {
@@ -77,6 +114,8 @@ watch(
 }
 
 .datetime-field__btn {
+  position: relative;
+  z-index: $z-index-btn;
   display: flex;
   justify-content: center;
   border-radius: inherit;
@@ -100,6 +139,33 @@ watch(
       background: var(--background-primary-light);
       color: var(--primary-main);
     }
+  }
+}
+
+.datetime-field__flatpickr-wrp {
+  position: absolute;
+  top: 110%;
+  right: 0;
+}
+
+.drop-item {
+  &-enter-active {
+    animation: drop-item var(--field-transition-duration) ease;
+  }
+
+  &-leave-active {
+    animation: drop-item var(--field-transition-duration) ease reverse;
+  }
+}
+
+@keyframes drop-item {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
   }
 }
 </style>
