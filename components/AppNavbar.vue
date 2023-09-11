@@ -62,11 +62,12 @@ onUnmounted(() => {
   background: transparent;
   border-bottom: var(--border-primary-main);
   transition: var(--field-transition-duration) ease;
-  transition-property: background-color, box-shadow;
+  transition-property: background-color, border-color;
+  border-bottom: toRem(1) solid transparent;
 
   &--dark {
     background: var(--background-primary-main);
-    box-shadow: 0 toRem(2) toRem(4) var(--background-primary-dark);
+    border-color: var(--background-primary-light);
   }
 }
 
