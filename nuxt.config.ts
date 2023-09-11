@@ -16,7 +16,7 @@ const lifecycle = process.env.npm_lifecycle_event
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'DLSL',
+      title: 'Solarity',
       meta: [
         { charset: 'utf-8' },
         { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
@@ -27,9 +27,9 @@ export default defineNuxtConfig({
           content:
             'width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0',
         },
-        { hid: 'description', name: 'description', content: 'DLSL' },
-        { property: 'og:title', content: 'DLSL' },
-        { property: 'og:description', content: 'DLSL' },
+        { hid: 'description', name: 'description', content: 'Solarity' },
+        { property: 'og:title', content: 'Solarity' },
+        { property: 'og:description', content: 'Solarity' },
         { property: 'og:image', content: '/branding/logo.png' },
         { property: 'og:locale', content: 'en_GB' },
         { property: 'og:type', content: 'website' },
