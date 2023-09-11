@@ -66,7 +66,6 @@
       />
     </div>
     <div class="abi-encode-form__output">
-      <h3>{{ $t('abi-encode-form.output-title') }}</h3>
       <input-field
         :model-value="funcSignature"
         :label="$t('abi-encode-form.func-signature-label')"
@@ -237,11 +236,6 @@ abiEncoding.value = encodeAbi([], [])
 .abi-encode-form__input {
   display: grid;
   gap: toRem(20);
-}
-
-.abi-encode-form__input {
-  padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--border-primary-main);
 }
 
 .abi-encode-form__args_wrp {
