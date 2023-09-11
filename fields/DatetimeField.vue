@@ -106,6 +106,7 @@ $z-index-btn: 1;
 
 .datetime-field__wrp {
   position: relative;
+  padding: toRem(4);
 }
 
 .datetime-field__icon {
@@ -118,7 +119,7 @@ $z-index-btn: 1;
   z-index: $z-index-btn;
   display: flex;
   justify-content: center;
-  border-radius: inherit;
+  border-radius: var(--border-radius-main);
   color: var(--text-primary-main);
   padding: toRem(8) toRem(16);
   transition: var(--field-transition-duration);

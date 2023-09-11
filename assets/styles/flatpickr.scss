@@ -10,13 +10,6 @@ $z-index-arrow: 1;
   @include drop-item-shadow;
 }
 
-.flatpickr-wrapper {
-  position: relative;
-  border-radius: inherit;
-  padding: toRem(4);
-  width: 100%;
-}
-
 .flatpickr-months {
   display: flex;
   align-items: center;
