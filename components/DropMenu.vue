@@ -1,5 +1,5 @@
 <template>
-  <transition name="drop-menu">
+  <transition name="drop-item">
     <div v-if="isOpen" class="drop-menu" ref="dropMenuElement">
       <template v-if="$slots.default">
         <slot :drop-menu="{ select, close }" />
@@ -96,17 +96,9 @@ $z-local-index: 1;
   max-height: 500%;
   z-index: $z-local-index;
   background: var(--field-bg-primary);
-  box-shadow: 0 toRem(1) toRem(2) rgba(var(--black-rgb), 0.3),
-    0 toRem(2) toRem(6) toRem(2) rgba(var(--black-rgb), 0.15);
   border-radius: var(--border-radius-main);
 
-  &-enter-active {
-    animation: drop-menu var(--field-transition-duration);
-  }
-
-  &-leave-active {
-    animation: drop-menu var(--field-transition-duration) reverse;
-  }
+  @include drop-item-shadow;
 }
 
 .drop-menu__option {
@@ -138,14 +130,5 @@ $z-local-index: 1;
   }
 }
 
-@keyframes drop-menu {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  to {
-    opacity: 1;
-  }
-}
+@include drop-item-transition;
 </style>
