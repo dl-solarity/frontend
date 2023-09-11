@@ -44,9 +44,8 @@ $z-index-arrow: 1;
   svg {
     position: relative;
     color: var(--text-primary-invert-main);
-    width: toRem(18);
-    height: toRem(18);
-    scale: 1.6;
+    width: toRem(30);
+    height: toRem(30);
     transition: color var(--field-transition-duration) ease;
   }
 
