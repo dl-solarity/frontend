@@ -148,24 +148,5 @@ $z-index-btn: 1;
   right: 0;
 }
 
-.drop-item {
-  &-enter-active {
-    animation: drop-item var(--field-transition-duration) ease;
-  }
-
-  &-leave-active {
-    animation: drop-item var(--field-transition-duration) ease reverse;
-  }
-}
-
-@keyframes drop-item {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  to {
-    opacity: 1;
-  }
-}
+@include drop-item-transition;
 </style>
