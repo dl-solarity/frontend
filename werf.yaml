@@ -1,11 +1,8 @@
 configVersion: 1
 project: "web-client"
 ---
-image: web
+image: builder
 from: node:16-alpine
-docker:
-  WORKDIR: /frontend
-  ENTRYPOINT: ["yarn", "dev"]
 git:
   - add: /
     to: /frontend
@@ -26,3 +23,14 @@ shell:
   setup:
     - cd /frontend
     - yarn generate
+---
+image: web
+from: nginx:alpine
+git:
+  - add: /nginx.conf
+    to: /etc/nginx/nginx.conf
+import:
+  - image: builder
+    add: /frontend/.output/public
+    to: /usr/share/nginx/html
+    after: setup
