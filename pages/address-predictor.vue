@@ -2,14 +2,9 @@
   <div class="address-predictor-page">
     <page-title :title="$t('address-predictor-page.main-title')" />
     <div class="block">
-      <app-tabs v-model="currentTab" :tabs="tabsList" />
+      <app-tabs :tabs="tabsList" />
       <div class="content">
-        <create-address-form
-          v-show="currentTab.id === TABS_IDS.createAddressForm"
-        />
-        <create2-address-form
-          v-show="currentTab.id === TABS_IDS.create2AddressForm"
-        />
+        <nuxt-page keepalive />
       </div>
     </div>
   </div>
@@ -17,14 +12,15 @@
 
 <script lang="ts" setup>
 import { AppTabs, PageTitle } from '#components'
-import { CreateAddressForm, Create2AddressForm } from '@/forms'
-import { type Tab } from '@/types'
-import { ref, computed } from 'vue'
 import { definePageMeta } from '#imports'
+import { ROUTE_PATH } from '@/constants'
+import { type Tab } from '@/types'
+import { computed } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
+  redirect: ROUTE_PATH.addressPredicatorCreate,
 })
 
 enum TABS_IDS {
@@ -37,13 +33,14 @@ const tabsList = computed<Tab[]>(() => [
   {
     title: t('address-predictor-page.create-address-form-tab'),
     id: TABS_IDS.createAddressForm,
+    route: ROUTE_PATH.addressPredicatorCreate,
   },
   {
     title: t('address-predictor-page.create2-address-form-tab'),
     id: TABS_IDS.create2AddressForm,
+    route: ROUTE_PATH.addressPredicatorCreate2,
   },
 ])
-const currentTab = ref<Tab>(tabsList.value[0])
 </script>
 
 <style lang="scss" scoped>

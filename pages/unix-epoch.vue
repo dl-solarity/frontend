@@ -2,10 +2,9 @@
   <div class="unix-epoch-page">
     <page-title :title="$t('unix-epoch-page.main-title')" />
     <div class="block">
-      <app-tabs v-model="currentTab" :tabs="tabsList" />
+      <app-tabs :tabs="tabsList" />
       <div class="content">
-        <date-form v-show="currentTab.id === TABS_IDS.date" />
-        <timestamp-form v-show="currentTab.id === TABS_IDS.timestamp" />
+        <nuxt-page keepalive />
       </div>
     </div>
   </div>
@@ -13,14 +12,15 @@
 
 <script lang="ts" setup>
 import { AppTabs, PageTitle } from '#components'
-import { DateForm, TimestampForm } from '@/forms'
-import { type Tab } from '@/types'
-import { ref, computed } from 'vue'
 import { definePageMeta } from '#imports'
+import { ROUTE_PATH } from '@/constants'
+import { type Tab } from '@/types'
+import { computed } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
+  redirect: ROUTE_PATH.unixEpochDate,
 })
 
 enum TABS_IDS {
@@ -33,13 +33,14 @@ const tabsList = computed<Tab[]>(() => [
   {
     title: t('unix-epoch-page.date-form-tab'),
     id: TABS_IDS.date,
+    route: ROUTE_PATH.unixEpochDate,
   },
   {
     title: t('unix-epoch-page.timestamp-form-tab'),
     id: TABS_IDS.timestamp,
+    route: ROUTE_PATH.unixEpochTimestamp,
   },
 ])
-const currentTab = ref<Tab>(tabsList.value[0])
 </script>
 
 <style lang="scss" scoped>

@@ -79,6 +79,7 @@
     "timestamp-form-tab": "Timestamp"
   },
   "abi-decode-form": {
+    "input-title": "Decoder",
     "abi-encoding-label": "Abi encoding",
     "abi-encoding-placeholder": "Abi encoding",
     "has-func-selector-label": "Function selector",
@@ -96,6 +97,7 @@
     "func-is-guessed-warning": "The function signature has guessed"
   },
   "abi-encode-form": {
+    "input-title": "Encoder",
     "func-name-label": "Function name",
     "func-name-placeholder": "Enter function name",
     "arg-value-label": "Value",

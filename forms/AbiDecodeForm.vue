@@ -3,7 +3,7 @@
     <div class="abi-decode-form__input">
       <div class="abi-decode-form__title-wrp">
         <h3 class="abi-decode-form__title">
-          {{ title }}
+          {{ $t('abi-decode-form.input-title') }}
         </h3>
         <div class="abi-decode-form__options-wrp">
           <checkbox-field
@@ -176,10 +176,6 @@ const TYPE_OPTIONS: FieldOption[] = without(
   value: v,
   title: v,
 }))
-
-defineProps<{
-  title: string
-}>()
 
 const DEFAULT_FUNCTION_NAME = 'function'
 const { t } = i18n.global

@@ -35,4 +35,5 @@ export type HashFunction = (str: string, type: 'text' | 'hex') => string
 export type Tab = {
   title: string
   id: string
+  route?: string
 }
