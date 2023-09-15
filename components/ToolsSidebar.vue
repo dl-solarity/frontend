@@ -164,7 +164,7 @@ $aside-max-width: toRem(280);
   width: 100%;
   height: $aside-height;
   max-width: $aside-max-width;
-  padding: toRem(24);
+  padding: toRem(24) var(--app-padding-right) toRem(24) var(--app-padding-left);
   background: var(--background-primary-main);
 
   @include respond-to(medium) {
