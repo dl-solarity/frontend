@@ -26,19 +26,22 @@ const { t } = i18n.global
 const audits: Audit[] = [
   {
     imgSrc: '/img/audits/tornado-proposal.png',
-    fileLink: 'https://github.com/dl-solidity-library/docs',
+    fileLink:
+      'https://github.com/dl-solarity/audits/raw/3b1014e3580691f62eea2e22be096ce34a868542/TornadoCash/TornadoCash_diversification_proposal.pdf',
     fileSize: t('audits-page.audits-card-1-file-size'),
     title: t('audits-page.audits-card-1-title'),
   },
   {
     imgSrc: '/img/audits/pollendao-reaudit.png',
-    fileLink: 'https://github.com/dl-solidity-library/docs',
+    fileLink:
+      'https://github.com/dl-solarity/audits/raw/3b1014e3580691f62eea2e22be096ce34a868542/PollenDAO/PollenDAO.pdf',
     fileSize: t('audits-page.audits-card-3-file-size'),
     title: t('audits-page.audits-card-3-title'),
   },
   {
     imgSrc: '/img/audits/nft-reaudit.png',
-    fileLink: 'https://github.com/dl-solidity-library/docs',
+    fileLink:
+      'https://github.com/dl-solarity/audits/raw/3b1014e3580691f62eea2e22be096ce34a868542/NFTxCards/NFTxCards.pdf',
     fileSize: t('audits-page.audits-card-2-file-size'),
     title: t('audits-page.audits-card-2-title'),
   },

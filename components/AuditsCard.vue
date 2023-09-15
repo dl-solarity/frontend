@@ -5,15 +5,14 @@
       <div class="audits-card__title-wrp">
         <h3>{{ audit.title }}</h3>
         <div class="audits-card__circle" />
-        <p class="audits-card__title">
-          {{ audit.fileSize }}
-        </p>
+        <h3>{{ audit.fileSize }}</h3>
       </div>
       <app-button
         class="audits-card__btn"
         color="none"
         scheme="flat"
         modification="border-circle"
+        download
         :text="audit.btnText || $t('audits-card.download-btn')"
         :icon-right="$icons.download"
         :href="audit.fileLink"
@@ -45,6 +44,7 @@ defineProps<{
   aspect-ratio: 600 / 318;
   width: 100%;
   object-fit: cover;
+  border-radius: inherit;
 }
 
 .audits-card__content {
