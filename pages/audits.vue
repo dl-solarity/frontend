@@ -29,21 +29,18 @@ const audits: Audit[] = [
     fileLink: 'https://github.com/dl-solidity-library/docs',
     fileSize: t('audits-page.audits-card-1-file-size'),
     title: t('audits-page.audits-card-1-title'),
-    description: t('audits-page.audits-card-1-description'),
   },
   {
     imgSrc: '/img/audits/pollendao-reaudit.png',
     fileLink: 'https://github.com/dl-solidity-library/docs',
     fileSize: t('audits-page.audits-card-3-file-size'),
     title: t('audits-page.audits-card-3-title'),
-    description: t('audits-page.audits-card-3-description'),
   },
   {
     imgSrc: '/img/audits/nft-reaudit.png',
     fileLink: 'https://github.com/dl-solidity-library/docs',
     fileSize: t('audits-page.audits-card-2-file-size'),
     title: t('audits-page.audits-card-2-title'),
-    description: t('audits-page.audits-card-2-description'),
   },
 ]
 </script>

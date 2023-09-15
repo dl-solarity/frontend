@@ -220,15 +220,12 @@
   },
   "audits-page": {
     "main-title": "Audits",
+    "secondary-title": "The list of our public Solidity audits",
     "audits-card-1-title": "TornadoCash",
     "audits-card-1-file-size": "14.6 MB",
-    "audits-card-1-description": "Eros nibh leo viverra sed felis egestas integer diam pharetra. Sagittis congue bibendum nullam facilisi et.",
     "audits-card-2-title": "NFTxCards",
     "audits-card-2-file-size": "11.5 MB",
-    "audits-card-2-description": "Cursus aliquet quam netus urna leo sollicitudin massa morbi. A augue amet urna at.",
     "audits-card-3-title": "PollenDAO",
-    "audits-card-3-file-size": "10.3 MB",
-    "audits-card-3-description": "Eros nibh leo viverra sed felis egestas integer diam pharetra. Sagittis congue bibendum nullam facilisi et.",
-    "secondary-title": "Morbi auctor pellentesque orci ut lectus erat nullam malesuada consequat. Tellus porttitor eleifend morbi vitae blandit proin augue nisl id."
+    "audits-card-3-file-size": "10.3 MB"
   }
 }

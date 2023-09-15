@@ -9,9 +9,6 @@
           {{ audit.fileSize }}
         </p>
       </div>
-      <p class="audits-card__description">
-        {{ audit.description }}
-      </p>
       <app-button
         class="audits-card__btn"
         color="none"
@@ -52,19 +49,17 @@ defineProps<{
 
 .audits-card__content {
   display: flex;
-  flex-direction: column;
+  gap: toRem(12);
+
+  @include respond-to(xsmall) {
+    flex-direction: column;
+  }
 }
 
 .audits-card__title-wrp {
   display: flex;
   align-items: center;
   gap: toRem(8);
-}
-
-.audits-card__description {
-  margin-top: toRem(12);
-  margin-bottom: toRem(24);
-  color: var(--text-primary-main);
 }
 
 .audits-card__circle {
@@ -75,6 +70,6 @@ defineProps<{
 }
 
 .audits-card__btn {
-  align-self: end;
+  margin-left: auto;
 }
 </style>

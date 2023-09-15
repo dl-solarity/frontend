@@ -19,7 +19,6 @@ export interface Audit {
   imgSrc: string
   fileSize: string
   fileLink: string
-  description: string
   btnText?: string
 }
 
