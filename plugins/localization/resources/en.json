@@ -206,13 +206,13 @@
   },
   "projects-info": {
     "documentation-title": "Documentation",
-    "documentation-message":  "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiu",
+    "documentation-message":  "Coming soon",
     "audits-title": "Audits",
-    "audits-message":  "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiu",
+    "audits-message":  "The list of our public Solidity audits",
     "github-title": "GitHub",
-    "github-message":  "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiu",
+    "github-message":  "Check out the repos and contribute. We would love that!",
     "solidity-tools-title": "Solidity tools",
-    "solidity-tools-message": "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiu",
+    "solidity-tools-message": "Everything you need for a daily Solidity research and development",
     "visit-btn": "Visit"
   },
   "audits-card": {
