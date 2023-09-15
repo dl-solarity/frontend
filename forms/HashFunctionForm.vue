@@ -51,28 +51,30 @@ const decodeOptions = computed<FieldOption[]>(() => [
   { title: t('hash-function-form.select-option-hex'), value: 'hex' },
 ])
 
-const decodedHash = ref('')
 const form = reactive({
   type: decodeOptions.value[0].value as DecodeType,
   text: '',
 })
-
 const rules = computed(() => ({
   type: { required },
   text: {
-    ...(form.type === 'hex' ? { required, hexadecimal } : { required }),
+    ...(form.type === 'hex' && { required, hexadecimal }),
   },
 }))
+
 const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   rules,
 )
+
+const decodedHash = ref(props.decode(form.text, form.type))
 
 watch(form, () => {
   if (!isFormValid()) {
     decodedHash.value = ''
     return
   }
+
   try {
     decodedHash.value = props.decode(form.text, form.type)
   } catch (error) {
