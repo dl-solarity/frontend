@@ -1,7 +1,7 @@
 <template>
   <form class="abi-encode-form" @submit.prevent>
     <div class="abi-encode-form__input">
-      <h3>{{ title }}</h3>
+      <h3>{{ $t('abi-encode-form.input-title') }}</h3>
       <input-field
         v-model="form.funcName"
         :label="$t('abi-encode-form.func-name-label')"
@@ -120,10 +120,6 @@ const TYPE_OPTIONS: FieldOption[] = without(
   value: v,
   title: v,
 }))
-
-defineProps<{
-  title: string
-}>()
 
 const abiEncoding = ref('')
 const funcSignature = ref('')

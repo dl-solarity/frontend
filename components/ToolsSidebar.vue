@@ -71,7 +71,7 @@ const navLinks = computed(() => [
   {
     title: t('tools-sidebar.hash-functions-title'),
     icon: ICON_NAMES.hashtag,
-    route: ROUTE_PATH.hashFunctions,
+    route: ROUTE_PATH.hashFunction,
   },
   {
     title: t('tools-sidebar.converter-title'),

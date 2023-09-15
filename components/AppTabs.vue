@@ -5,11 +5,12 @@
       :key="tab.id"
       :text="tab.title"
       :icon-left="$icons.cube"
+      :route="tab.route"
       color="secondary"
       scheme="none"
       modification="none"
       class="app-tabs__btn"
-      :class="{ 'app-tabs__btn--active': modelValue.id === tab.id }"
+      :class="{ 'app-tabs__btn--active': modelValue?.id === tab.id }"
       @click="updateTab(tab)"
     />
   </div>
@@ -20,7 +21,7 @@ import { AppButton } from '#components'
 import { Tab } from '@/types'
 
 defineProps<{
-  modelValue: Tab
+  modelValue?: Tab
   tabs: Tab[]
 }>()
 
@@ -54,6 +55,7 @@ const updateTab = (tab: Tab) => {
     --app-button-text-focused: var(--text-primary-invert-main);
     --app-button-text-active: var(--text-primary-invert-main);
 
+    &.router-link-active,
     &--active {
       --app-button-bg: var(--primary-main);
       --app-button-bg-hover: var(--primary-main);

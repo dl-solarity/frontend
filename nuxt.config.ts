@@ -1,5 +1,5 @@
-import { defineNuxtConfig } from 'nuxt/config'
 import { IntlifyModuleOptions } from '@intlify/nuxt3'
+import { defineNuxtConfig } from 'nuxt/config'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 import path from 'path'
@@ -148,5 +148,8 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'node-server',
+    prerender: {
+      failOnError: false,
+    },
   },
 })

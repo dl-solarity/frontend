@@ -8,9 +8,7 @@ import {
 } from 'ethers'
 import { type HashFunction } from '@/types'
 
-export function keccak256(
-  ...[str, type]: Parameters<HashFunction>
-): ReturnType<HashFunction> {
+export const keccak256: HashFunction = (str, type) => {
   const dataHexString = _keccak256(
     type === 'text' ? toUtf8Bytes(str) : toBeHex(str),
   )
@@ -18,9 +16,7 @@ export function keccak256(
   return hexlify(dataHexString)
 }
 
-export function sha256(
-  ...[str, type]: Parameters<HashFunction>
-): ReturnType<HashFunction> {
+export const sha256: HashFunction = (str, type) => {
   const dataHexString = _sha256(
     type === 'text' ? toUtf8Bytes(str) : toBeHex(str),
   )
@@ -28,9 +24,7 @@ export function sha256(
   return hexlify(dataHexString)
 }
 
-export function ripemd160(
-  ...[str, type]: Parameters<HashFunction>
-): ReturnType<HashFunction> {
+export const ripemd160: HashFunction = (str, type) => {
   const dataHexString = _ripemd160(
     type === 'text' ? toUtf8Bytes(str) : toBeHex(str),
   )
