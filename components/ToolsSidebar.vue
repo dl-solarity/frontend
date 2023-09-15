@@ -32,17 +32,6 @@
             </li>
           </ul>
         </nav>
-
-        <div class="tools-sidebar__footer">
-          <app-button
-            v-for="(footerLink, index) in footerLinks"
-            :key="`${footerLink.text}-${index}`"
-            :text="footerLink.text"
-            :href="footerLink.href"
-            color="secondary"
-            modification="text"
-          />
-        </div>
       </aside>
     </div>
   </transition>
@@ -55,7 +44,6 @@ import { AppLogo, AppButton } from '#components'
 import { bus, BUS_EVENTS } from '@/helpers'
 import { useWindowSize } from '@vueuse/core'
 import { WINDOW_BREAKPOINTS, ICON_NAMES } from '@/enums'
-import { config } from '@/config'
 import { ROUTE_PATH } from '@/constants'
 import { i18n } from '~/plugins/localization'
 
@@ -89,17 +77,6 @@ const navLinks = computed(() => [
     route: ROUTE_PATH.addressPredicator,
   },
 ])
-
-const footerLinks = [
-  {
-    text: t('tools-sidebar.company-link-text'),
-    href: config.COMPANY_URL,
-  },
-  {
-    text: t('tools-sidebar.github-link-text'),
-    href: config.GITHUB_URL,
-  },
-]
 
 const { width: windowWidth } = useWindowSize()
 const sidebarElement = ref<HTMLElement | null>(null)
@@ -179,7 +156,7 @@ $aside-max-width: toRem(280);
 .tools-sidebar__header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: toRem(64);
+  margin-bottom: toRem(96);
 }
 
 .tools-sidebar__nav-links-list {
@@ -200,14 +177,6 @@ $aside-max-width: toRem(280);
   @include respond-to(xsmall) {
     display: grid;
   }
-}
-
-.tools-sidebar__footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: auto;
-  gap: toRem(12) toRem(24);
 }
 
 .tools-sidebar__transition-enter-active {
