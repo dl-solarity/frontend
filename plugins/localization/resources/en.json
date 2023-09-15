@@ -201,14 +201,8 @@
     "link-text": "Link"
   },
   "stats-preview": {
-    "main-title": "Ut gravida lacinia urna pellentesque vestibulum ipsum",
-    "secondary-title": "Fermentum vestibulum sed sem elit phasellus senectus fermentum tortor. Tortor orci in consectetur pretiuxs",
-    "stats-card-1-title": "100+",
-    "stats-card-1-message": "Amet sed odio",
-    "stats-card-2-title": "35",
-    "stats-card-2-message": "imperdiet quis",
-    "stats-card-3-title": "8",
-    "stats-card-3-message": "In sagittis porta"
+    "main-title": "Solarity - your open source Solidity ecosystem",
+    "secondary-title": "Developed and maintained by Distributed Lab"
   },
   "projects-info": {
     "documentation-title": "Documentation",
