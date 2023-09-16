@@ -7,6 +7,7 @@
           v-for="(_, key) in form"
           :key="key"
           v-model="form[key]"
+          type="number"
           :label="$t(`date-form.${key}-label`)"
           :placeholder="$t(`date-form.${key}-placeholder`)"
           :error-message="getFieldErrorMessage(key)"
