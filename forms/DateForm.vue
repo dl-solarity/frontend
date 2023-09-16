@@ -4,13 +4,13 @@
       <h3>{{ $t('date-form.input-title') }}</h3>
       <div class="date-form__input-fields">
         <input-field
-          v-for="(_, name) in form"
-          :key="name"
-          v-model="form[name]"
-          :label="$t(`date-form.${name}-label`)"
-          :placeholder="$t(`date-form.${name}-placeholder`)"
-          :error-message="getFieldErrorMessage(name)"
-          @blur="touchField(name)"
+          v-for="(_, key) in form"
+          :key="key"
+          v-model="form[key]"
+          :label="$t(`date-form.${key}-label`)"
+          :placeholder="$t(`date-form.${key}-placeholder`)"
+          :error-message="getFieldErrorMessage(key)"
+          @blur="touchField(key)"
         />
       </div>
       <datetime-field
@@ -20,7 +20,7 @@
     </div>
     <div class="date-form__output">
       <h3>{{ $t('date-form.output-title') }}</h3>
-      <div v-for="(item, idx) in outputItems" :key="`${item.label}-${idx}`">
+      <div v-for="(item, idx) in outputItems" :key="idx">
         <p class="date-form__output-item-label">
           {{ item.label }}
         </p>
@@ -51,7 +51,7 @@ const currentDate = ref<Date | null>(null)
 const form = reactive({
   year: '',
   month: '',
-  date: '',
+  day: '',
   hour: '',
   minute: '',
   second: '',
@@ -61,16 +61,19 @@ const rules = computed(() => ({
   year: {
     required,
     integer,
-    minValue: minValue(1970),
+    minValue: minValue(1924),
     maxValue: maxValue(10000),
   },
   month: {
     required,
     integer,
-    minValue: minValue(1),
+    minValue: {
+      /** Date object with month of 1924 before May works incorrectly */
+      ...(form.year === '1924' ? minValue(5) : minValue(1)),
+    },
     maxValue: maxValue(12),
   },
-  date: {
+  day: {
     required,
     integer,
     minValue: minValue(1),
@@ -124,7 +127,7 @@ watch(form, () => {
     currentDate.value = new Date(
       +form.year,
       +form.month - 1,
-      +form.date,
+      +form.day,
       +form.hour,
       +form.minute,
       +form.second,
@@ -141,7 +144,7 @@ const setDate = (date: Date | number | string) => {
   const time = new Time(date)
   form.year = time.dayjs.year().toString()
   form.month = (time.dayjs.month() + 1).toString()
-  form.date = time.dayjs.date().toString()
+  form.day = time.dayjs.date().toString()
   form.hour = time.dayjs.hour().toString()
   form.minute = time.dayjs.minute().toString()
   form.second = time.dayjs.second().toString()
