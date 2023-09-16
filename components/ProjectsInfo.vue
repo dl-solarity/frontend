@@ -41,7 +41,7 @@ const cards = [
   {
     title: t('projects-info.solidity-tools-title'),
     message: t('projects-info.solidity-tools-message'),
-    route: ROUTE_PATH.abi,
+    route: ROUTE_PATH.abiEncoder,
     btnText: t('projects-info.visit-btn'),
   },
 ]
