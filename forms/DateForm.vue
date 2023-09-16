@@ -14,8 +14,8 @@
         />
       </div>
       <datetime-field
-        :model-value="calendarDate"
-        @update:model-value="setDate($event)"
+        :model-value="datetimeFieldTimestamp"
+        @update:model-value="setForm($event)"
       />
     </div>
     <div class="date-form__output">
@@ -38,15 +38,12 @@
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { DatetimeField, InputField } from '@/fields'
-import { ErrorHandler, integer, maxValue, minValue, required } from '@/helpers'
-import { Time } from '@distributedlab/tools'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { integer, maxValue, minValue, required } from '@/helpers'
+import { Time, type TimeDate } from '@distributedlab/tools'
+import { computed, reactive } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
-const calendarDate = ref(new Time().timestamp)
-const maxDayInMonth = ref(31)
-const currentDate = ref<Date | null>(null)
 
 const form = reactive({
   year: '',
@@ -55,6 +52,14 @@ const form = reactive({
   hour: '',
   minute: '',
   second: '',
+})
+
+const maxDayInMonth = computed<number>(() => {
+  const year = Number(form.year)
+  const month = Number(form.month) - 1
+
+  if (!year && !month) return 31
+  return new Time(new Date(year, month)).dayjs.daysInMonth()
 })
 
 const rules = computed(() => ({
@@ -94,74 +99,52 @@ const rules = computed(() => ({
   },
 }))
 
-const { isFormValid, getFieldErrorMessage, touchField, isFieldsValid } =
-  useFormValidation(form, rules)
+const { getFieldErrorMessage, isFormValid, touchField } = useFormValidation(
+  form,
+  rules,
+)
+
+const setForm = (date?: TimeDate) => {
+  const time = new Time(date)
+  form.year = String(time.get('year'))
+  form.month = String(time.get('month') + 1)
+  form.day = String(time.get('date'))
+  form.hour = String(time.get('hour'))
+  form.minute = String(time.get('minute'))
+  form.second = String(time.get('second'))
+}
+
+setForm()
+
+const localTime = computed<Time | null>(() => {
+  if (!isFormValid()) return null
+
+  const date = new Date(
+    Number(form.year),
+    Number(form.month) - 1,
+    Number(form.day),
+    Number(form.hour),
+    Number(form.minute),
+    Number(form.second),
+  )
+
+  return new Time(date)
+})
+
+const datetimeFieldTimestamp = computed<number>(
+  () => localTime.value?.timestamp || new Time().timestamp,
+)
 
 const outputItems = computed(() => [
   {
     label: t('date-form.seconds-label'),
-    value:
-      isFieldsValid.value && currentDate.value
-        ? new Time(currentDate.value).timestamp.toString()
-        : '',
+    value: localTime.value?.utc(true).timestamp.toString() || '',
   },
   {
     label: t('date-form.milliseconds-label'),
-    value:
-      isFieldsValid.value && currentDate.value
-        ? new Time(currentDate.value).ms.toString()
-        : '',
+    value: localTime.value?.utc(true).ms.toString() || '',
   },
 ])
-
-watch(form, () => {
-  setMaxDays()
-
-  if (!isFormValid()) {
-    currentDate.value = null
-    calendarDate.value = new Time().timestamp
-    return
-  }
-
-  try {
-    currentDate.value = new Date(
-      +form.year,
-      +form.month - 1,
-      +form.day,
-      +form.hour,
-      +form.minute,
-      +form.second,
-    )
-    calendarDate.value = currentDate.value.getTime() / 1000
-  } catch (error) {
-    currentDate.value = null
-    calendarDate.value = new Time().timestamp
-    ErrorHandler.processWithoutFeedback(error)
-  }
-})
-
-const setDate = (date: Date | number | string) => {
-  const time = new Time(date)
-  form.year = time.dayjs.year().toString()
-  form.month = (time.dayjs.month() + 1).toString()
-  form.day = time.dayjs.date().toString()
-  form.hour = time.dayjs.hour().toString()
-  form.minute = time.dayjs.minute().toString()
-  form.second = time.dayjs.second().toString()
-}
-
-const setMaxDays = () => {
-  if (getFieldErrorMessage('year') || getFieldErrorMessage('month')) return
-  maxDayInMonth.value = new Time(
-    new Date(+form.year, +form.month - 1),
-  ).dayjs.daysInMonth()
-}
-
-onMounted(() => {
-  const time = new Time()
-  currentDate.value = time.toDate()
-  setDate(currentDate.value)
-})
 </script>
 
 <style lang="scss" scoped>
