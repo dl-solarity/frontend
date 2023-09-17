@@ -11,18 +11,16 @@
           @blur="touchField('accountAddress')"
         />
         <input-field
+          v-model="form.salt"
+          :label="$t('create2-address-form.salt-label')"
+          :placeholder="$t('create2-address-form.salt-placeholder')"
+        />
+        <textarea-field
           v-model="form.contractInitCode"
           :label="$t('create2-address-form.contract-code-label')"
           :placeholder="$t('create2-address-form.contract-code-placeholder')"
           :error-message="getFieldErrorMessage('contractInitCode')"
           @blur="touchField('contractInitCode')"
-        />
-        <input-field
-          v-model="form.salt"
-          :label="$t('create2-address-form.salt-label')"
-          :placeholder="$t('create2-address-form.salt-placeholder')"
-          :error-message="getFieldErrorMessage('salt')"
-          @blur="touchField('salt')"
         />
       </div>
     </div>
@@ -45,7 +43,7 @@
 <script lang="ts" setup>
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
-import { InputField } from '@/fields'
+import { InputField, TextareaField } from '@/fields'
 import {
   ErrorHandler,
   address,
@@ -60,8 +58,8 @@ import { reactive, ref, watch } from 'vue'
 const contractAddress = ref('')
 const form = reactive({
   accountAddress: '',
-  contractInitCode: '',
   salt: '',
+  contractInitCode: '',
 })
 
 const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
@@ -69,7 +67,6 @@ const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   {
     accountAddress: { required, address },
     contractInitCode: { required, hexadecimal },
-    salt: { required },
   },
 )
 

@@ -3,13 +3,11 @@
     <app-logo />
     <nav class="app-navbar__nav">
       <app-button
-        v-for="(link, index) in links"
-        :key="`${link}-${index}`"
-        :text="link.text"
-        :href="link.href"
+        :text="$t('app-navbar.link-text')"
+        :href="config.COMPANY_URL"
         color="none"
-        size="large"
         modification="text"
+        size="large"
       />
     </nav>
   </div>
@@ -17,26 +15,13 @@
 
 <script lang="ts" setup>
 import { AppLogo, AppButton } from '#components'
+import { config } from '@/config'
 import { onUnmounted, ref, onMounted } from 'vue'
-import { i18n } from '~/plugins/localization'
 
-const { t } = i18n.global
 const isDarkenBg = ref(false)
 
-// TODO: Rename text and change links
-const links = [
-  {
-    text: t('app-navbar.link-text'),
-    href: 'https://github.com/dl-solidity-library/',
-  },
-  {
-    text: t('app-navbar.link-text'),
-    href: 'https://github.com/dl-solidity-library/',
-  },
-]
-
 const toggleColorHeader = () => {
-  isDarkenBg.value = window.pageYOffset >= 1
+  isDarkenBg.value = window.scrollY >= 1
 }
 
 onMounted(() => {
