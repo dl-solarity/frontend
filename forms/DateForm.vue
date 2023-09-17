@@ -16,7 +16,7 @@
       </div>
       <datetime-field
         :model-value="datetimeFieldTimestamp"
-        @update:model-value="setForm($event)"
+        @update:model-value="setForm(new Time($event))"
       />
     </div>
     <div class="date-form__output">
@@ -40,7 +40,7 @@ import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { DatetimeField, InputField } from '@/fields'
 import { integer, maxValue, minValue, required } from '@/helpers'
-import { Time, type TimeDate } from '@distributedlab/tools'
+import { Time } from '@distributedlab/tools'
 import { computed, reactive } from 'vue'
 import { i18n } from '~/plugins/localization'
 
@@ -105,8 +105,7 @@ const { getFieldErrorMessage, isFormValid, touchField } = useFormValidation(
   rules,
 )
 
-const setForm = (date?: TimeDate) => {
-  const time = new Time(date)
+const setForm = (time: Time) => {
   form.year = String(time.get('year'))
   form.month = String(time.get('month') + 1)
   form.day = String(time.get('date'))
@@ -115,7 +114,7 @@ const setForm = (date?: TimeDate) => {
   form.second = String(time.get('second'))
 }
 
-setForm()
+setForm(new Time().utc())
 
 const localTime = computed<Time | null>(() => {
   if (!isFormValid()) return null
