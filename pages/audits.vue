@@ -9,7 +9,7 @@
     <div class="audits-page__list">
       <audits-card
         v-for="(audit, idx) in audits"
-        :key="`${audit.title}-${idx}`"
+        :key="idx"
         :audit="audit"
       />
     </div>
