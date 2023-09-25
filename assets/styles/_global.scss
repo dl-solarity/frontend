@@ -38,24 +38,8 @@ textarea {
     background: var(--disable-primary-dark);
   }
 
-  &:read-only::-webkit-input-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only::-moz-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only:-moz-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only:-ms-input-placeholder {
-    @include field-placeholder-readonly;
-  }
-
-  &:read-only::placeholder {
-    @include field-placeholder-readonly;
+  &:focus {
+    outline: none;
   }
 
   &::-webkit-input-placeholder {
@@ -78,15 +62,33 @@ textarea {
     @include field-placeholder;
   }
 
-  &:focus {
-    outline: none;
+  &:read-only::-webkit-input-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only::-moz-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only:-moz-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only:-ms-input-placeholder {
+    @include field-placeholder-readonly;
+  }
+
+  &:read-only::placeholder {
+    @include field-placeholder-readonly;
   }
 
   @include field-border;
+
   @include field-text;
 }
 
-button, a {
+button,
+a {
   cursor: pointer;
 }
 
@@ -130,7 +132,6 @@ h3 {
 .fade-leave-active {
   animation: fade-in 0.25s reverse;
 }
-
 
 @keyframes fade-in {
   0% {

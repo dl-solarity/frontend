@@ -35,7 +35,7 @@ defineProps<{
 </script>
 
 <style lang="scss">
-@import 'vue-toastification/src/scss/index.scss';
+@import 'vue-toastification/src/scss/index';
 
 .Vue-Toastification__toast {
   padding: toRem(24) toRem(70) toRem(24) toRem(24);

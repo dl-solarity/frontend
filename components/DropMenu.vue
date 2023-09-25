@@ -88,7 +88,6 @@ $z-local-index: 1;
 .drop-menu {
   position: absolute;
   top: 110%;
-
   display: flex;
   flex-direction: column;
   overflow: hidden auto;

@@ -282,16 +282,6 @@ $z-index-side-nodes: 1;
   z-index: $z-index-side-nodes;
 }
 
-.input-field__clear-btn {
-  display: block;
-
-  &:not([disabled]):hover {
-    .input-field__icon:not(.input-field__icon--error) {
-      color: var(--primary-main);
-    }
-  }
-}
-
 .input-field__icon {
   max-width: toRem(24);
   max-height: toRem(24);
@@ -304,6 +294,16 @@ $z-index-side-nodes: 1;
 
   &--error {
     color: var(--field-error);
+  }
+}
+
+.input-field__clear-btn {
+  display: block;
+
+  &:not([disabled]):hover {
+    .input-field__icon:not(.input-field__icon--error) {
+      color: var(--primary-main);
+    }
   }
 }
 

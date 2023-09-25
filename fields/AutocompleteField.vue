@@ -200,14 +200,15 @@ onMounted(() => {
     opacity: 0;
   }
 
-  .autocomplete-field--filled:not([disabled]) & {
-    color: var(--field-text);
-  }
-
   .autocomplete-field--open & {
     transform: translateY(-50%) rotate(180deg);
   }
+
+  .autocomplete-field--filled:not([disabled]) & {
+    color: var(--field-text);
+  }
 }
+
 .autocomplete-field__input {
   width: 100%;
 

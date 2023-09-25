@@ -298,6 +298,7 @@ const buttonType = computed<ButtonType>(
     --app-button-flat-text-active: var(--primary-main);
 
     --app-button-flat-border: #{toRem(1)} solid var(--border-primary-light);
+    /* stylelint-disable-next-line */
     --app-button-flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
     --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-main);
     --app-button-flat-border-active: #{toRem(1)} solid var(--primary-main);
@@ -330,6 +331,7 @@ const buttonType = computed<ButtonType>(
     --app-button-flat-text-active: var(--primary-main);
 
     --app-button-flat-border: #{toRem(1)} solid var(--border-primary-light);
+    /* stylelint-disable-next-line */
     --app-button-flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
     --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-main);
     --app-button-flat-border-active: #{toRem(1)} solid var(--primary-main);

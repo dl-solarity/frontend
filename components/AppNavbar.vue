@@ -34,18 +34,19 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+$z-index: 100;
+
 .app-navbar {
   position: fixed;
   left: 0;
   top: 0;
   width: 100vw;
-  z-index: 100;
+  z-index: $z-index;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: toRem(24) var(--app-padding-right) toRem(24) var(--app-padding-left);
   background: transparent;
-  border-bottom: var(--border-primary-main);
   transition: var(--field-transition-duration) ease;
   transition-property: background-color, border-color;
   border-bottom: toRem(1) solid transparent;

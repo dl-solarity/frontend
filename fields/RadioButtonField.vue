@@ -88,15 +88,19 @@ const emit = defineEmits<{
   letter-spacing: var(--field-text-letter-spacing);
   text-align: center;
 
-  .radio-button-field__option--checked &,
-  .radio-button-field:not([disabled]) .radio-button-field__option:focus &,
-  .radio-button-field:not([disabled]) .radio-button-field__option:active & {
+  .radio-button-field__option--checked & {
     background: var(--background-primary-light);
     color: var(--primary-main);
   }
 
   .radio-button-field[disabled] & {
     color: var(--disable-primary-main);
+  }
+
+  .radio-button-field:not([disabled]) .radio-button-field__option:focus &,
+  .radio-button-field:not([disabled]) .radio-button-field__option:active & {
+    background: var(--background-primary-light);
+    color: var(--primary-main);
   }
 
   .radio-button-field__option:not(:focus):not(:active):hover & {
