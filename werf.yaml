@@ -22,6 +22,7 @@ shell:
     - yarn install
   setup:
     - cd /frontend
+    - cat .env
     - yarn generate
 ---
 image: web
