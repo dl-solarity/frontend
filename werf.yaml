@@ -22,6 +22,7 @@ shell:
     - yarn install
   setup:
     - cd /frontend
+    - ls -a
     - cat .env
     - yarn generate
 ---
