@@ -1,37 +1,28 @@
 <template>
   <div class="projects-info-card">
-    <h3>{{ props.title }}</h3>
+    <h3>{{ card.title }}</h3>
     <p class="projects-info-card__message">
-      {{ props.message }}
+      {{ card.message }}
     </p>
     <app-button
       color="none"
       scheme="flat"
       modification="border-circle"
-      :text="btnText"
+      :text="card.btnText"
       :icon-right="$icons.arrowRightUp"
-      :route="props.route"
-      :href="props.href"
+      :route="card.route"
+      :href="card.href"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { AppButton } from '#components'
+import { ProjectInfoCard } from '@/types'
 
-const props = withDefaults(
-  defineProps<{
-    title: string
-    message: string
-    btnText: string
-    href?: string
-    route?: string
-  }>(),
-  {
-    href: '',
-    route: '',
-  },
-)
+defineProps<{
+  card: ProjectInfoCard
+}>()
 </script>
 
 <style scoped lang="scss">
