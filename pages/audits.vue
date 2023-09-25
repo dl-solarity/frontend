@@ -7,11 +7,7 @@
       </p>
     </div>
     <div class="audits-page__list">
-      <audits-card
-        v-for="(audit, idx) in audits"
-        :key="idx"
-        :audit="audit"
-      />
+      <audits-card v-for="(audit, idx) in audits" :key="idx" :audit="audit" />
     </div>
   </div>
 </template>

@@ -16,7 +16,7 @@
         v-on="listeners"
         :value="modelValue"
         :placeholder="placeholder"
-        :tabindex="isDisabled || isReadonly ? -1 : ($attrs.tabindex as number)"
+        :tabindex="tabIndex"
         :disabled="isDisabled || isReadonly"
       />
       <div
@@ -99,6 +99,10 @@ const isDisabled = computed(() =>
 
 const isReadonly = computed(() =>
   ['', 'readonly', true].includes(attrs.readonly as string | boolean),
+)
+
+const tabIndex = computed<number>(() =>
+  isDisabled.value || isReadonly.value ? -1 : Number(attrs.tabindex),
 )
 
 const hasRightNode = computed<boolean>(() =>
