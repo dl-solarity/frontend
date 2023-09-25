@@ -1,3 +1,7 @@
+<template>
+  <div class="error" />
+</template>
+
 <script lang="ts" setup>
 import { navigateTo } from '#imports'
 import { ROUTE_PATH } from '@/constants'

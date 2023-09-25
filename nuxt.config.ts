@@ -1,5 +1,6 @@
 import { IntlifyModuleOptions } from '@intlify/nuxt3'
 import { defineNuxtConfig } from 'nuxt/config'
+import checker from 'vite-plugin-checker'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 import path from 'path'
@@ -125,6 +126,19 @@ export default defineNuxtConfig({
       createSvgIconsPlugin({
         iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
         symbolId: '[name]',
+      }),
+      checker({
+        overlay: {
+          initialIsOpen: false,
+        },
+        vueTsc: true,
+        typescript: true,
+        eslint: {
+          lintCommand: 'eslint "./**/*.{vue,js,ts}" --cache --max-warnings=0',
+        },
+        stylelint: {
+          lintCommand: 'stylelint "./**/*.{vue,scss,css}" --max-warnings=0',
+        },
       }),
     ],
     css: {
