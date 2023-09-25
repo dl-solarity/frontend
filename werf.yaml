@@ -22,9 +22,7 @@ shell:
     - yarn install
   setup:
     - cd /frontend
-    - ls -a
-    - cat .env
-    - yarn generate
+    - yarn generate --dotenv .env.stage
 ---
 image: web
 from: nginx:alpine
