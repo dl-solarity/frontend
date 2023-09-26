@@ -31,6 +31,14 @@ export type FieldOption = {
 
 export type HashFunction = (str: string, type: 'text' | 'hex') => string
 
+export type ProjectInfoCard = {
+  title: string
+  message: string
+  btnText: string
+  href?: string
+  route?: string
+}
+
 export type Tab = {
   title: string
   id: string

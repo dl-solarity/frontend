@@ -109,7 +109,7 @@ $media-breakpoints: (
 
 @mixin drop-item-shadow {
   box-shadow: 0 toRem(1) toRem(2) rgba(var(--black-rgb), 0.3),
-  0 toRem(2) toRem(6) toRem(2) rgba(var(--black-rgb), 0.15);
+    0 toRem(2) toRem(6) toRem(2) rgba(var(--black-rgb), 0.15);
 }
 
 @mixin scrollbar {

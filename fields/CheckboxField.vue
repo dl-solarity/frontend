@@ -82,15 +82,19 @@ const onChange = (event: Event) => {
   letter-spacing: var(--field-text-letter-spacing);
   min-width: max-content;
 
-  .checkbox-field--checked &,
-  .checkbox-field:not([disabled]):focus &,
-  .checkbox-field:not([disabled]):active & {
+  .checkbox-field--checked & {
     background: var(--background-primary-light);
     color: var(--primary-main);
   }
 
   .checkbox-field[disabled] & {
     color: var(--disable-primary-main);
+  }
+
+  .checkbox-field:not([disabled]):focus &,
+  .checkbox-field:not([disabled]):active & {
+    background: var(--background-primary-light);
+    color: var(--primary-main);
   }
 
   .checkbox-field:not([disabled]):not(:focus):not(:active):hover & {

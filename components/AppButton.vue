@@ -288,6 +288,8 @@ const buttonType = computed<ButtonType>(
   }
 
   &--secondary {
+    $flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
+
     --app-button-flat-bg-hover: var(--background-primary-main);
     --app-button-flat-bg-focused: var(--background-primary-main);
     --app-button-flat-bg-active: var(--background-primary-main);
@@ -298,7 +300,7 @@ const buttonType = computed<ButtonType>(
     --app-button-flat-text-active: var(--primary-main);
 
     --app-button-flat-border: #{toRem(1)} solid var(--border-primary-light);
-    --app-button-flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
+    --app-button-flat-border-hover: #{$flat-border-hover};
     --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-main);
     --app-button-flat-border-active: #{toRem(1)} solid var(--primary-main);
 
@@ -320,6 +322,8 @@ const buttonType = computed<ButtonType>(
   }
 
   &--none {
+    $flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
+
     --app-button-flat-bg-hover: var(--background-primary-main);
     --app-button-flat-bg-focused: var(--background-primary-main);
     --app-button-flat-bg-active: var(--background-primary-main);
@@ -330,7 +334,7 @@ const buttonType = computed<ButtonType>(
     --app-button-flat-text-active: var(--primary-main);
 
     --app-button-flat-border: #{toRem(1)} solid var(--border-primary-light);
-    --app-button-flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
+    --app-button-flat-border-hover: #{$flat-border-hover};
     --app-button-flat-border-focused: #{toRem(1)} solid var(--primary-main);
     --app-button-flat-border-active: #{toRem(1)} solid var(--primary-main);
 

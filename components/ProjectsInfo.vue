@@ -1,14 +1,6 @@
 <template>
   <div class="projects-info layout-wrapper">
-    <projects-info-card
-      v-for="(card, idx) in cards"
-      :key="idx"
-      :title="card.title"
-      :message="card.message"
-      :btn-text="card.btnText"
-      :href="card.href"
-      :route="card.route"
-    />
+    <projects-info-card v-for="(card, idx) in cards" :key="idx" :card="card" />
   </div>
 </template>
 
@@ -16,33 +8,34 @@
 import ProjectsInfoCard from './ProjectsInfoCard.vue'
 import { config } from '@/config'
 import { ROUTE_PATH } from '@/constants'
+import { ProjectInfoCard } from '@/types'
 import { i18n } from '~/plugins/localization'
 
 const { t } = i18n.global
-const cards = [
+const cards: ProjectInfoCard[] = [
   {
     title: t('projects-info.documentation-title'),
     message: t('projects-info.documentation-message'),
-    href: config.DOCUMENTATION_URL,
     btnText: t('projects-info.visit-btn'),
+    href: config.DOCUMENTATION_URL,
   },
   {
     title: t('projects-info.audits-title'),
     message: t('projects-info.audits-message'),
-    route: ROUTE_PATH.audits,
     btnText: t('projects-info.visit-btn'),
+    route: ROUTE_PATH.audits,
   },
   {
     title: t('projects-info.github-title'),
     message: t('projects-info.github-message'),
-    href: config.GITHUB_URL,
     btnText: t('projects-info.visit-btn'),
+    href: config.GITHUB_URL,
   },
   {
     title: t('projects-info.solidity-tools-title'),
     message: t('projects-info.solidity-tools-message'),
-    route: ROUTE_PATH.abiEncoder,
     btnText: t('projects-info.visit-btn'),
+    route: ROUTE_PATH.abiEncoder,
   },
 ]
 </script>

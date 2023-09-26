@@ -7,10 +7,10 @@
 </template>
 
 <style lang="scss" scoped>
+/* stylelint-disable-next-line */
 body,
 #__nuxt {
   background: var(--background-primary-main);
-
   color: var(--text-primary-light);
 }
 
@@ -20,7 +20,6 @@ body,
   flex-direction: column;
   min-height: vh(100);
   background: var(--background-primary-main);
-
   color: var(--text-primary-light);
 }
 

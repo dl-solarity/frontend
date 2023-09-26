@@ -31,7 +31,7 @@
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { InputField } from '@/fields'
-import { integer, maxValue, minValue, required } from '@/helpers'
+import { capitalize, integer, maxValue, minValue, required } from '@/helpers'
 import { Time } from '@distributedlab/tools'
 import { computed, reactive } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -67,19 +67,19 @@ const time = computed<Time | null>(() =>
 const outputItems = computed(() => [
   {
     label: t('timestamp-form.format-label'),
-    value: t('timestamp-form.format-value'),
+    value: capitalize(t('timestamp-form.format-value')),
   },
   {
     label: t('timestamp-form.gmt-label'),
-    value: time.value ? time.value.toDate().toUTCString() : '',
+    value: time.value ? capitalize(time.value.toDate().toUTCString()) : '',
   },
   {
     label: t('timestamp-form.time-zone-label'),
-    value: time.value ? time.value.toDate().toString() : '',
+    value: time.value ? capitalize(time.value.toDate().toString()) : '',
   },
   {
     label: t('timestamp-form.relative-time-label'),
-    value: time.value ? time.value.fromNow : '',
+    value: time.value ? capitalize(time.value.fromNow) : '',
   },
 ])
 </script>
