@@ -165,13 +165,13 @@ $aside-max-width: toRem(280);
   row-gap: toRem(8);
 }
 
-.tools-sidebar__nav-link {
+.tools-sidebar .tools-sidebar__nav-link {
   justify-content: start;
   width: 100%;
   transition: none;
 }
 
-.tools-sidebar__close-button {
+.tools-sidebar .tools-sidebar__close-button {
   display: none;
 
   @include respond-to(xsmall) {
