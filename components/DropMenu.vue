@@ -100,7 +100,7 @@ $z-local-index: 1;
   @include drop-item-shadow;
 }
 
-.drop-menu__option {
+.drop-menu .drop-menu__option {
   font-family: var(--field-text-font-family);
   font-size: var(--field-text-font-size);
   font-weight: var(--field-text-font-weight);

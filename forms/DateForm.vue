@@ -16,7 +16,7 @@
       </div>
       <datetime-field
         :model-value="datetimeFieldTimestamp"
-        @update:model-value="setForm(new Time($event))"
+        @update:model-value="onUpdateDatetimeFieldTimestamp"
       />
     </div>
     <div class="date-form__output">
@@ -134,6 +134,10 @@ const localTime = computed<Time | null>(() => {
 const datetimeFieldTimestamp = computed<number>(
   () => localTime.value?.timestamp || new Time().timestamp,
 )
+
+const onUpdateDatetimeFieldTimestamp = (timestamp: number) => {
+  setForm(new Time(timestamp))
+}
 
 const outputItems = computed(() => [
   {
