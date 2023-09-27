@@ -42,7 +42,7 @@ defineProps<{
   }
 }
 
-.page-title__sidebar-button {
+.page-title .page-title__sidebar-button {
   display: none;
 
   @include respond-to(medium) {

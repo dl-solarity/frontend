@@ -27,7 +27,10 @@ export default defineNuxtConfig({
           content:
             'width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0',
         },
-        { hid: 'description', name: 'description', content: 'Solarity' },
+        {
+          name: 'description',
+          content: 'Solarity - your open source Solidity ecosystem',
+        },
         { property: 'og:title', content: 'Solarity' },
         {
           property: 'og:description',
