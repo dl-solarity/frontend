@@ -60,11 +60,6 @@ const close = () => {
   emit('update:is-open', false)
 }
 
-watch(
-  () => props.modelValue,
-  () => emit('update:is-open', false),
-)
-
 watch(dropMenuElement, () => {
   const modelValueIdx = props.options.findIndex(
     option => option.value === props.modelValue,
