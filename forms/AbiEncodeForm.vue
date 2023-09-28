@@ -39,17 +39,19 @@
               @clear="removeArg(arg.id)"
               @update:model-value="onArgSubtypeUpdate($event as string, idx)"
             />
-            <input-field
+            <textarea-field
               v-model="arg.value"
+              size="small"
               :placeholder="$t('abi-encode-form.arg-value-placeholder')"
               :error-message="getFieldErrorMessage(`args[${idx}].value`)"
               @blur="touchField(`args[${idx}].value`)"
             />
           </div>
-          <input-field
+          <textarea-field
             v-else
             v-model="arg.value"
             is-clearable
+            size="small"
             :label="$t('abi-encode-form.arg-value-label')"
             :placeholder="$t('abi-encode-form.arg-value-placeholder')"
             :error-message="getFieldErrorMessage(`args[${idx}].value`)"

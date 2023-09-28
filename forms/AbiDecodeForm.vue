@@ -85,19 +85,21 @@
                     $t('abi-decode-form.arg-subtype-placeholder--tuple')
                   "
                 />
-                <input-field
+                <textarea-field
                   v-model="funcArg.value"
+                  size="small"
                   readonly
                   :placeholder="$t('abi-decode-form.arg-value-placeholder')"
                 >
                   <template #nodeRight>
                     <app-copy :value="funcArg.value" />
                   </template>
-                </input-field>
+                </textarea-field>
               </div>
-              <input-field
+              <textarea-field
                 v-else
                 v-model="funcArg.value"
+                size="small"
                 readonly
                 :label="$t('abi-decode-form.arg-value-label')"
                 :placeholder="$t('abi-decode-form.arg-value-placeholder')"
@@ -105,7 +107,7 @@
                 <template #nodeRight>
                   <app-copy :value="funcArg.value" />
                 </template>
-              </input-field>
+              </textarea-field>
             </div>
           </div>
         </template>
