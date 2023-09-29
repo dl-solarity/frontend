@@ -12,6 +12,7 @@
         ref="textareaElement"
         class="textarea-field__textarea"
         :id="`textarea-field--${uid}`"
+        spellcheck="false"
         v-bind="$attrs"
         v-on="listeners"
         :value="modelValue"
