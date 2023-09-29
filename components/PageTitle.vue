@@ -36,10 +36,6 @@ defineProps<{
 
 .page-title__title {
   @include text-ellipsis;
-
-  @include respond-to(small) {
-    font-size: toRem(32);
-  }
 }
 
 .page-title .page-title__sidebar-button {
