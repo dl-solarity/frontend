@@ -65,7 +65,7 @@ const updateTab = (tab: Tab) => {
       --app-button-text-active: var(--text-primary-invert-main);
     }
 
-    @include respond-to(small) {
+    @include respond-to(medium) {
       width: 100%;
 
       :deep(.icon) {

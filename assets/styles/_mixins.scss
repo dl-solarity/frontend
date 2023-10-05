@@ -129,6 +129,16 @@ $media-breakpoints: (
   }
 }
 
+@mixin solidity-tools-page-base {
+  display: flex;
+  flex-direction: column;
+  gap: toRem(32);
+
+  @include respond-to(medium) {
+    gap: toRem(16);
+  }
+}
+
 @mixin page-msg {
   max-width: toRem(420);
   width: 100%;

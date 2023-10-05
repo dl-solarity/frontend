@@ -101,6 +101,11 @@ a {
   @include p-16-regular;
 }
 
+main {
+  margin-top: var(--app-height-header);
+  padding: var(--app-padding);
+}
+
 h1 {
   font-family: var(--app-font-family-main);
   font-size: toRem(56);
@@ -116,7 +121,7 @@ h2 {
   line-height: toRem(48);
   letter-spacing: 0;
 
-  @include respond-to(small) {
+  @include respond-to(medium) {
     font-size: toRem(26);
     line-height: toRem(32);
   }
@@ -129,7 +134,7 @@ h3 {
   line-height: toRem(32);
   letter-spacing: 0;
 
-  @include respond-to(small) {
+  @include respond-to(medium) {
     font-size: toRem(20);
     line-height: toRem(28);
   }
@@ -153,11 +158,6 @@ h3 {
   }
 }
 
-.layout-wrapper {
-  max-width: toRem(1800);
-  margin: 0 auto;
-}
-
 .block {
   display: flex;
   flex-direction: column;
@@ -172,4 +172,18 @@ h3 {
   padding: toRem(40);
   height: 100%;
   flex-direction: column;
+
+  @include respond-to(medium) {
+    padding: toRem(24) toRem(16) toRem(16) toRem(24);
+  }
+}
+
+.form-input,
+.form-output {
+  display: grid;
+  grid-gap: toRem(20);
+
+  @include respond-to(medium) {
+    grid-gap: toRem(24) toRem(16);
+  }
 }
