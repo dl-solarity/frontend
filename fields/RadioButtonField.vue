@@ -46,7 +46,7 @@ const emit = defineEmits<{
   padding: toRem(4);
   background: var(--background-primary-dark);
   border-radius: var(--border-radius-main);
-  max-width: max-content;
+  min-width: max-content;
 }
 
 .radio-button-field__option {

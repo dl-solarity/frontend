@@ -1,6 +1,6 @@
 <template>
   <div class="unix-epoch-page">
-    <page-title :title="$t('unix-epoch-page.main-title')" />
+    <h2>{{ $t('unix-epoch-page.main-title') }}</h2>
     <div class="block">
       <app-tabs :tabs="tabsList" />
       <div class="content">
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppTabs, PageTitle } from '#components'
+import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
 import { ROUTE_PATH } from '@/constants'
 import { type Tab } from '@/types'
@@ -45,8 +45,6 @@ const tabsList = computed<Tab[]>(() => [
 
 <style lang="scss" scoped>
 .unix-epoch-page {
-  display: flex;
-  flex-direction: column;
-  gap: toRem(32);
+  @include solidity-tools-page-base;
 }
 </style>

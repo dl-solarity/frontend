@@ -1,15 +1,13 @@
 <template>
-  <div class="audits-page">
-    <div class="audits-page__title">
-      <h2>{{ $t('audits-page.main-title') }}</h2>
-      <p class="audits-page__title-secondary">
-        {{ $t('audits-page.secondary-title') }}
-      </p>
-    </div>
+  <main class="audits-page">
+    <h2>{{ $t('audits-page.main-title') }}</h2>
+    <p class="audits-page__title-secondary">
+      {{ $t('audits-page.secondary-title') }}
+    </p>
     <div class="audits-page__list">
       <audits-card v-for="(audit, idx) in audits" :key="idx" :audit="audit" />
     </div>
-  </div>
+  </main>
 </template>
 
 <script lang="ts" setup>
@@ -46,18 +44,17 @@ const audits: Audit[] = [
 
 <style lang="scss" scoped>
 .audits-page {
-  padding: var(--app-padding);
-  padding-top: toRem(130);
-  max-width: toRem(1800);
-  margin: 0 auto;
-}
+  padding-right: toRem(80);
+  padding-left: toRem(80);
 
-.audits-page__title {
-  display: grid;
-  gap: toRem(16);
+  @include respond-to(medium) {
+    padding-right: var(--app-padding-right);
+    padding-left: var(--app-padding-left);
+  }
 }
 
 .audits-page__title-secondary {
+  margin-top: toRem(16);
   color: var(--text-primary-main);
 }
 
@@ -65,11 +62,11 @@ const audits: Audit[] = [
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: toRem(24);
-  margin-top: toRem(40);
-  margin-bottom: toRem(110);
+  margin-top: toRem(24);
 
   @include respond-to(medium) {
     grid-template-columns: 1fr;
+    gap: toRem(16);
   }
 }
 </style>

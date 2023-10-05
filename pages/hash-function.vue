@@ -1,6 +1,6 @@
 <template>
   <div class="hash-functions-page">
-    <page-title :title="$t('hash-functions-page.main-title')" />
+    <h2>{{ $t('hash-functions-page.main-title') }}</h2>
     <div class="block">
       <app-tabs :tabs="TABS_LIST" />
       <div class="content">
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppTabs, PageTitle } from '#components'
+import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
 import { ROUTE_PATH } from '@/constants'
 import { type Tab } from '@/types'
@@ -48,8 +48,6 @@ const TABS_LIST: Tab[] = [
 
 <style lang="scss" scoped>
 .hash-functions-page {
-  display: flex;
-  flex-direction: column;
-  gap: toRem(32);
+  @include solidity-tools-page-base;
 }
 </style>

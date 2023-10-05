@@ -211,6 +211,7 @@ onMounted(() => {
 
 .autocomplete-field__input {
   width: 100%;
+  padding-right: toRem(54);
 
   .autocomplete-field--error & {
     border-color: var(--field-error);
