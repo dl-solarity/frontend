@@ -9,7 +9,7 @@
       <aside class="tools-sidebar__aside">
         <app-logo class="tools-sidebar__logo" />
 
-        <nav>
+        <nav class="tools-sidebar__nav">
           <ul class="tools-sidebar__nav-links-list">
             <li v-for="navLink in navLinks" :key="navLink.title">
               <app-button
@@ -121,7 +121,8 @@ $aside-max-width: toRem(280);
   width: 100%;
   height: $aside-height;
   max-width: $aside-max-width;
-  padding: toRem(24) var(--app-padding-right) toRem(24) var(--app-padding-left);
+  padding: 0 var(--app-padding-right) var(--app-padding-bottom)
+    var(--app-padding-left);
   background: var(--background-primary-main);
 
   @include respond-to(xsmall) {
@@ -130,8 +131,18 @@ $aside-max-width: toRem(280);
 }
 
 .tools-sidebar .tools-sidebar__logo {
+  height: var(--app-height-header);
+
   @include respond-to(medium) {
     display: none;
+  }
+}
+
+.tools-sidebar__nav {
+  margin-top: toRem(48);
+
+  @include respond-to(medium) {
+    margin-top: toRem(76);
   }
 }
 
@@ -147,20 +158,13 @@ $aside-max-width: toRem(280);
   transition: none;
 }
 
-.tools-sidebar .tools-sidebar__close-button {
-  display: none;
-
-  @include respond-to(xsmall) {
-    display: grid;
-  }
-}
-
 .tools-sidebar__transition-enter-active {
-  animation: fade-unroll-right 0.2s ease-in-out;
+  animation: fade-unroll-right var(--field-transition-duration) ease-in-out;
 }
 
 .tools-sidebar__transition-leave-active {
-  animation: fade-unroll-right 0.2s ease-in-out reverse;
+  animation: fade-unroll-right var(--field-transition-duration) ease-in-out
+    reverse;
 }
 
 @keyframes fade-unroll-right {

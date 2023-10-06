@@ -161,7 +161,6 @@ h3 {
 .block {
   display: flex;
   flex-direction: column;
-  min-height: toRem(400);
   width: 100%;
   border-radius: var(--border-radius-main);
   background: var(--background-primary-main);
@@ -174,16 +173,6 @@ h3 {
   flex-direction: column;
 
   @include respond-to(medium) {
-    padding: toRem(24) toRem(16) toRem(16) toRem(24);
-  }
-}
-
-.form-input,
-.form-output {
-  display: grid;
-  grid-gap: toRem(20);
-
-  @include respond-to(medium) {
-    grid-gap: toRem(24) toRem(16);
+    padding: toRem(24) toRem(16) toRem(24) toRem(16);
   }
 }

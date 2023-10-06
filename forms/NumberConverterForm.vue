@@ -77,12 +77,10 @@ formatInputs('10', 'decimal')
 
 <style lang="scss" scoped>
 .number-converter-form {
-  display: grid;
-  gap: toRem(40);
+  @include solidity-tools-form;
 }
 
 .number-converter-form__input {
-  display: grid;
-  gap: toRem(20);
+  @include solidity-tools-form-part;
 }
 </style>

@@ -139,6 +139,29 @@ $media-breakpoints: (
   }
 }
 
+@mixin solidity-tools-form {
+  display: grid;
+  grid-gap: toRem(40);
+
+  @include respond-to(medium) {
+    grid-gap: toRem(24);
+  }
+}
+
+@mixin solidity-tools-form-part {
+  display: grid;
+  grid-gap: toRem(20);
+
+  @include respond-to(medium) {
+    grid-gap: toRem(16) toRem(24);
+  }
+}
+
+@mixin solidity-tools-form-divider {
+  height: toRem(1);
+  background: var(--border-primary-main);
+}
+
 @mixin page-msg {
   max-width: toRem(420);
   width: 100%;

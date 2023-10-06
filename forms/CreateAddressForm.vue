@@ -19,6 +19,7 @@
         />
       </div>
     </div>
+    <div class="create-address-form__divider" />
     <div class="create-address-form__output">
       <h3>{{ $t('create-address-form.output-title') }}</h3>
       <div>
@@ -76,19 +77,16 @@ watch(form, () => {
 
 <style lang="scss" scoped>
 .create-address-form {
-  display: grid;
-  gap: toRem(40);
+  @include solidity-tools-form;
 }
 
 .create-address-form__output,
 .create-address-form__input {
-  display: grid;
-  gap: toRem(20);
+  @include solidity-tools-form-part;
 }
 
-.create-address-form__input {
-  padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--border-primary-main);
+.create-address-form__divider {
+  @include solidity-tools-form-divider;
 }
 
 .create-address-form__input-fields {
