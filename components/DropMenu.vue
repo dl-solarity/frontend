@@ -87,7 +87,7 @@ watch([() => props.navOptionIdx, dropMenuWrpElement], () => {
 </script>
 
 <style lang="scss" scoped>
-$z-local-index: 1;
+$z-local-index: 10;
 
 .drop-menu {
   position: absolute;
