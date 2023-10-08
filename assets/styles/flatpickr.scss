@@ -16,6 +16,10 @@ $z-index-arrow: 1;
   background: var(--primary-main);
   padding: var(--field-padding-top) var(--field-padding-right)
     toRem(8) var(--field-padding-left);
+
+  @include respond-to(small) {
+    padding: toRem(8) toRem(4) toRem(4);
+  }
 }
 
 .flatpickr-month {
@@ -169,6 +173,10 @@ $z-index-arrow: 1;
 .dayContainer {
   padding: toRem(8) var(--field-padding-right)
     toRem(8) var(--field-padding-left);
+
+  @include respond-to(small) {
+    padding: toRem(4);
+  }
 }
 
 .flatpickr-weekdaycontainer {
@@ -258,6 +266,10 @@ $z-index-arrow: 1;
         border-top-color: var(--primary-light);
       }
     }
+  }
+
+  @include respond-to(small) {
+    margin: 0 toRem(4) toRem(4);
   }
 }
 

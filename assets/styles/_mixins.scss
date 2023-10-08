@@ -97,7 +97,6 @@ $media-breakpoints: (
   letter-spacing: var(--field-error-letter-spacing);
   color: var(--field-error);
   margin-top: var(--field-error-margin-top);
-  padding-left: var(--field-padding-left);
   transition: var(--field-transition-duration) ease;
   transition-property: opacity, color, font-size, transform;
 }

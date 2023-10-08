@@ -110,7 +110,7 @@ $aside-max-width: toRem(280);
     position: fixed;
     min-width: 100%;
     max-width: 100%;
-    background: rgba(var(--black-rgb), 0.5);
+    background: var(--backdrop-modal);
   }
 }
 
@@ -124,6 +124,7 @@ $aside-max-width: toRem(280);
   padding: 0 var(--app-padding-right) var(--app-padding-bottom)
     var(--app-padding-left);
   background: var(--background-primary-main);
+  overflow-y: auto;
 
   @include respond-to(xsmall) {
     max-width: 100%;
@@ -132,6 +133,7 @@ $aside-max-width: toRem(280);
 
 .tools-sidebar .tools-sidebar__logo {
   height: var(--app-height-header);
+  flex-shrink: 0;
 
   @include respond-to(medium) {
     display: none;

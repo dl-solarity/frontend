@@ -1,19 +1,22 @@
-import { debounce } from 'lodash-es'
-import { onBeforeUnmount } from 'vue'
+import { WINDOW_BREAKPOINTS } from '@/enums'
+import { computed, type ComputedRef } from 'vue'
 
-export const useViewportSizes = (): { assignVhCssVariable(): void } => {
+export interface IUseViewportSizes {
+  isSmallBreakpoint: ComputedRef<boolean>
+  assignVhCssVariable: () => void
+}
+
+export const useViewportSizes = (): IUseViewportSizes => {
+  const { width } = useWindowSize()
+
+  const isSmallBreakpoint = computed(
+    () => width.value < WINDOW_BREAKPOINTS.small,
+  )
+
   const assignVhCssVariable = () => {
     const vh = (window.innerHeight * 0.01).toFixed(5)
     document.documentElement.style.setProperty('--vh', `${vh}px`)
   }
 
-  const assignVhCssVariableDebounced = debounce(assignVhCssVariable, 300)
-
-  window.addEventListener('resize', assignVhCssVariableDebounced)
-
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', assignVhCssVariableDebounced)
-  })
-
-  return { assignVhCssVariable }
+  return { isSmallBreakpoint, assignVhCssVariable }
 }

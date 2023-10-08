@@ -56,6 +56,9 @@
   --border-primary-main: #{$border-primary-main};
   --border-primary-dark: #{$border-primary-dark};
 
+  /* common colors */
+  --backdrop-modal: #{$backdrop-modal};
+
   /* border radii */
   --border-radius-main: #{toRem(8)};
 

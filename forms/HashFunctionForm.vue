@@ -105,7 +105,7 @@ watch(form, () => {
 
 .hash-function-form__title-wrp {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: inherit;
   flex-wrap: wrap;
 }
