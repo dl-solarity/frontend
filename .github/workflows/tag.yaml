@@ -31,3 +31,19 @@ jobs:
         run: |
           . $(werf ci-env github --as-file) 
           werf export web --tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_REF_NAME
+  prod-deploy:
+    name: Deploy on prod
+    needs: converge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run echo
+        run: |
+          echo "Tag was created - deploying on prod"
+          echo tag = $GITHUB_REF_NAME
+      - name: ConfigCreate
+        run: |
+          mkdir ~/.kube/
+          echo "${{ secrets.KUBECONFIG }}" > config
+          mv config ~/.kube/
+          ls ~/.kube/
+          kubectl set image deployment/solarity-prod-webclient  webclient=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_REF_NAME -n prod
