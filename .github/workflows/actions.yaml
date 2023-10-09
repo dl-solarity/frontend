@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - '**'
+      - 'ci-auto-deploy'
 
 jobs:
   converge:
@@ -32,14 +32,16 @@ jobs:
           . $(werf ci-env github --as-file) 
           echo "${{ secrets.STAGE_ENV }}" > .env.stage
           werf export web --tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA --dev
-  prod-deploy:
-    name: Deploy on prod
-    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+  stage-deploy:
+    name: Deploy on stage
     needs: converge
     runs-on: ubuntu-latest
     steps:
-      - name: Run echo
+      - name: ConfigCreate
         run: |
-          echo "See tag, deploy on prod"
-          echo tag = $GITHUB_REF_NAME	
+          mkdir ~/.kube/
+          echo "${{ secrets.KUBECONFIG }}" > config
+          mv config ~/.kube/
+          ls ~/.kube/
+          kubectl set image deployment/solarity-stage-webclient  webclient=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA -n stage	
     
