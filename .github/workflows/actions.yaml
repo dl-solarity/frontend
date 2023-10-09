@@ -32,3 +32,14 @@ jobs:
           . $(werf ci-env github --as-file) 
           echo "${{ secrets.STAGE_ENV }}" > .env.stage
           werf export web --tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA --dev
+  prod-deploy:
+    name: Deploy on prod
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    needs: converge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run echo
+        run: |
+          echo "See tag, deploy on prod"
+          echo tag = $GITHUB_REF_NAME	
+    
