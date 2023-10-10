@@ -63,6 +63,7 @@ defineProps<{
   grid-auto-flow: column;
   align-items: center;
   grid-gap: toRem(8);
+  max-width: max-content;
 }
 
 .audits-card__title {
