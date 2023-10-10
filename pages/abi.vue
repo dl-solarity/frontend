@@ -1,9 +1,9 @@
 <template>
   <div class="abi-page">
     <h2>{{ $t('abi-page.main-title') }}</h2>
-    <div class="block">
+    <div>
       <app-tabs :tabs="tabsList" />
-      <div class="content">
+      <div class="abi-page__content">
         <nuxt-page keepalive />
       </div>
     </div>
@@ -46,5 +46,9 @@ const tabsList = computed<Tab[]>(() => [
 <style lang="scss" scoped>
 .abi-page {
   @include solidity-tools-page-base;
+}
+
+.abi-page__content {
+  @include solidity-tools-page-content;
 }
 </style>

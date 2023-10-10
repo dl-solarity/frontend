@@ -1,9 +1,9 @@
 <template>
   <div class="converter-page">
     <h2>{{ $t('converter-page.main-title') }}</h2>
-    <div class="block">
+    <div>
       <app-tabs :tabs="tabsList" />
-      <div class="content">
+      <div class="converter-page__content">
         <nuxt-page keepalive />
       </div>
     </div>
@@ -46,5 +46,9 @@ const tabsList = computed<Tab[]>(() => [
 <style lang="scss" scoped>
 .converter-page {
   @include solidity-tools-page-base;
+}
+
+.converter-page__content {
+  @include solidity-tools-page-content;
 }
 </style>

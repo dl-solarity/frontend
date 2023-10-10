@@ -1,9 +1,9 @@
 <template>
   <div class="unix-epoch-page">
     <h2>{{ $t('unix-epoch-page.main-title') }}</h2>
-    <div class="block">
+    <div>
       <app-tabs :tabs="tabsList" />
-      <div class="content">
+      <div class="unix-epoch-page__content">
         <nuxt-page keepalive />
       </div>
     </div>
@@ -46,5 +46,12 @@ const tabsList = computed<Tab[]>(() => [
 <style lang="scss" scoped>
 .unix-epoch-page {
   @include solidity-tools-page-base;
+}
+
+.unix-epoch-page__content {
+  // to avoid a UI bug on scroll when calendar is opening
+  margin-bottom: toRem(104);
+
+  @include solidity-tools-page-content;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <div class="address-predictor-page">
     <h2>{{ $t('address-predictor-page.main-title') }}</h2>
-    <div class="block">
+    <div>
       <app-tabs :tabs="tabsList" />
-      <div class="content">
+      <div class="address-predictor-page__content">
         <nuxt-page keepalive />
       </div>
     </div>
@@ -46,5 +46,9 @@ const tabsList = computed<Tab[]>(() => [
 <style lang="scss" scoped>
 .address-predictor-page {
   @include solidity-tools-page-base;
+}
+
+.address-predictor-page__content {
+  @include solidity-tools-page-content;
 }
 </style>

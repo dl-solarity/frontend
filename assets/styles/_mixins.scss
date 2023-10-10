@@ -138,6 +138,18 @@ $media-breakpoints: (
   }
 }
 
+@mixin solidity-tools-page-content {
+  display: flex;
+  flex-direction: column;
+  padding: toRem(40);
+  border-radius: 0 0 var(--border-radius-main) var(--border-radius-main);
+  background: var(--background-primary-main);
+
+  @include respond-to(medium) {
+    padding: toRem(24) toRem(16) toRem(24) toRem(16);
+  }
+}
+
 @mixin solidity-tools-form {
   display: grid;
   grid-gap: toRem(40);

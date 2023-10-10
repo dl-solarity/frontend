@@ -1,9 +1,9 @@
 <template>
   <div class="hash-functions-page">
     <h2>{{ $t('hash-functions-page.main-title') }}</h2>
-    <div class="block">
+    <div>
       <app-tabs :tabs="TABS_LIST" />
-      <div class="content">
+      <div class="hash-functions-page__content">
         <nuxt-page keepalive />
       </div>
     </div>
@@ -49,5 +49,9 @@ const TABS_LIST: Tab[] = [
 <style lang="scss" scoped>
 .hash-functions-page {
   @include solidity-tools-page-base;
+}
+
+.hash-functions-page__content {
+  @include solidity-tools-page-content;
 }
 </style>
