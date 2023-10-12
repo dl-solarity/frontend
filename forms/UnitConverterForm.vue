@@ -70,12 +70,10 @@ formatInputs('1', 'ether')
 
 <style lang="scss" scoped>
 .unit-converter-form {
-  display: grid;
-  gap: toRem(40);
+  @include solidity-tools-form;
 }
 
 .unit-converter-form__input {
-  display: grid;
-  gap: toRem(20);
+  @include solidity-tools-form-part;
 }
 </style>

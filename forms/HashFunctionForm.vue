@@ -5,7 +5,11 @@
         <h3 class="hash-function-form__title">
           {{ $t('hash-function-form.input-title', { type: title }) }}
         </h3>
-        <radio-button-field v-model="form.type" :options="decodeOptions" />
+        <radio-button-field
+          v-model="form.type"
+          class="hash-function-form__radio-button-field"
+          :options="decodeOptions"
+        />
       </div>
       <textarea-field
         v-model="form.text"
@@ -14,6 +18,7 @@
         @blur="touchField('text')"
       />
     </div>
+    <div class="hash-function-form__divider" />
     <div class="hash-function-form__output">
       <h3>{{ $t('hash-function-form.output-title') }}</h3>
       <div>
@@ -86,24 +91,21 @@ watch(form, () => {
 
 <style lang="scss" scoped>
 .hash-function-form {
-  display: grid;
-  gap: toRem(40);
+  @include solidity-tools-form;
 }
 
 .hash-function-form__output,
 .hash-function-form__input {
-  display: grid;
-  gap: toRem(20);
+  @include solidity-tools-form-part;
 }
 
-.hash-function-form__input {
-  padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--border-primary-main);
+.hash-function-form__divider {
+  @include solidity-tools-form-divider;
 }
 
 .hash-function-form__title-wrp {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: inherit;
   flex-wrap: wrap;
 }
@@ -111,6 +113,12 @@ watch(form, () => {
 .hash-function-form__title {
   margin-right: auto;
   min-width: max-content;
+}
+
+.hash-function-form .hash-function-form__radio-button-field {
+  @include respond-to(small) {
+    width: 100%;
+  }
 }
 
 .hash-function-form__output-item-label {

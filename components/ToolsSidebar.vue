@@ -1,24 +1,15 @@
 <template>
   <transition name="tools-sidebar__transition">
     <div
-      v-show="isSidebarShown"
+      v-show="isShown || !isLessThanMediumScreen"
       ref="sidebarElement"
       class="tools-sidebar"
       @click="onSidebarClick"
     >
       <aside class="tools-sidebar__aside">
-        <div class="tools-sidebar__header">
-          <app-logo />
-          <app-button
-            class="tools-sidebar__close-button"
-            color="secondary"
-            modification="text"
-            :icon-left="$icons.x"
-            @click="toggleSidebar"
-          />
-        </div>
+        <app-logo class="tools-sidebar__logo" />
 
-        <nav>
+        <nav class="tools-sidebar__nav">
           <ul class="tools-sidebar__nav-links-list">
             <li v-for="navLink in navLinks" :key="navLink.title">
               <app-button
@@ -38,16 +29,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from '#app'
-import { AppLogo, AppButton } from '#components'
-import { bus, BUS_EVENTS } from '@/helpers'
-import { useWindowSize } from '@vueuse/core'
-import { WINDOW_BREAKPOINTS, ICON_NAMES } from '@/enums'
+import { AppButton, AppLogo } from '#components'
 import { ROUTE_PATH } from '@/constants'
+import { ICON_NAMES, WINDOW_BREAKPOINTS } from '@/enums'
+import { useWindowSize } from '@vueuse/core'
+import { computed, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 
+const emit = defineEmits<{ (event: 'update:is-shown', value: boolean): void }>()
+
+defineProps<{ isShown: boolean }>()
+
 const route = useRoute()
+
 const { t } = i18n.global
 
 const navLinks = computed(() => [
@@ -80,22 +75,13 @@ const navLinks = computed(() => [
 
 const { width: windowWidth } = useWindowSize()
 const sidebarElement = ref<HTMLElement | null>(null)
-const isVisible = ref(false)
 
 const isLessThanMediumScreen = computed(
-  () => windowWidth.value <= WINDOW_BREAKPOINTS.medium,
+  () => windowWidth.value < WINDOW_BREAKPOINTS.medium,
 )
-
-const isSidebarShown = computed(
-  () => !isLessThanMediumScreen.value || isVisible.value,
-)
-
-const toggleSidebar = () => {
-  isVisible.value = !isVisible.value
-}
 
 const closeSidebar = () => {
-  isVisible.value = false
+  emit('update:is-shown', false)
 }
 
 const onSidebarClick = (event: Event) => {
@@ -103,12 +89,6 @@ const onSidebarClick = (event: Event) => {
     closeSidebar()
   }
 }
-
-bus.on(BUS_EVENTS.toggleSidebar, toggleSidebar)
-
-onBeforeUnmount(() => {
-  bus.off(BUS_EVENTS.toggleSidebar, toggleSidebar)
-})
 
 // eslint-disable-next-line
 // @ts-ignore
@@ -130,7 +110,7 @@ $aside-max-width: toRem(280);
     position: fixed;
     min-width: 100%;
     max-width: 100%;
-    background: rgba(var(--black-rgb), 0.5);
+    background: var(--backdrop-modal);
   }
 }
 
@@ -141,22 +121,31 @@ $aside-max-width: toRem(280);
   width: 100%;
   height: $aside-height;
   max-width: $aside-max-width;
-  padding: toRem(24) var(--app-padding-right) toRem(24) var(--app-padding-left);
+  padding: 0 var(--app-padding-right) var(--app-padding-bottom)
+    var(--app-padding-left);
   background: var(--background-primary-main);
-
-  @include respond-to(medium) {
-    padding: toRem(24);
-  }
+  overflow-y: auto;
 
   @include respond-to(xsmall) {
     max-width: 100%;
   }
 }
 
-.tools-sidebar__header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: toRem(96);
+.tools-sidebar .tools-sidebar__logo {
+  height: var(--app-height-header);
+  flex-shrink: 0;
+
+  @include respond-to(medium) {
+    display: none;
+  }
+}
+
+.tools-sidebar__nav {
+  margin-top: toRem(48);
+
+  @include respond-to(medium) {
+    margin-top: toRem(76);
+  }
 }
 
 .tools-sidebar__nav-links-list {
@@ -171,20 +160,13 @@ $aside-max-width: toRem(280);
   transition: none;
 }
 
-.tools-sidebar .tools-sidebar__close-button {
-  display: none;
-
-  @include respond-to(xsmall) {
-    display: grid;
-  }
-}
-
 .tools-sidebar__transition-enter-active {
-  animation: fade-unroll-right 0.2s ease-in-out;
+  animation: fade-unroll-right var(--field-transition-duration) ease-in-out;
 }
 
 .tools-sidebar__transition-leave-active {
-  animation: fade-unroll-right 0.2s ease-in-out reverse;
+  animation: fade-unroll-right var(--field-transition-duration) ease-in-out
+    reverse;
 }
 
 @keyframes fade-unroll-right {

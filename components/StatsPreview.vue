@@ -21,11 +21,12 @@
   background-size: 100% 100%;
   width: 100%;
   min-height: vh(100);
-  padding: toRem(96) toRem(80);
+  padding: calc(var(--app-height-header) + var(--app-padding-top)) toRem(80)
+    var(--app-padding-bottom);
 
-  @include respond-to(tablet) {
-    padding: var(--app-padding);
-    padding-top: toRem(100);
+  @include respond-to(medium) {
+    padding-right: var(--app-padding-right);
+    padding-left: var(--app-padding-left);
   }
 }
 

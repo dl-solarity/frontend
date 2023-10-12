@@ -1,5 +1,9 @@
 <template>
-  <div ref="dataFieldElement" class="datetime-field">
+  <div
+    ref="dataFieldElement"
+    class="datetime-field"
+    :class="{ 'datetime-field--open': isOpen }"
+  >
     <div class="datetime-field__wrp">
       <button
         ref="btnElement"
@@ -11,22 +15,37 @@
         <app-icon class="datetime-field__icon" :name="$icons.calendar" />
       </button>
 
-      <transition name="drop-item">
-        <div
-          v-show="isOpen"
-          ref="flatpickrWrpElement"
-          class="datetime-field__flatpickr-wrp"
-        />
-      </transition>
+      <template v-if="isSmallBreakpoint">
+        <app-modal
+          :is-shown="isOpen"
+          :is-close-by-click-outside="false"
+          :is-resettable="false"
+        >
+          <div
+            ref="flatpickrWrpElement"
+            class="datetime-field__flatpickr-wrp"
+          />
+        </app-modal>
+      </template>
+      <template v-else>
+        <transition name="drop-item" @after-enter="scrollToFlatpickr">
+          <div
+            v-show="isOpen"
+            ref="flatpickrWrpElement"
+            class="datetime-field__flatpickr-wrp"
+          />
+        </transition>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { AppIcon } from '#components'
+import { AppIcon, AppModal } from '#components'
+import { useViewportSizes } from '@/composables'
 import { onClickOutside } from '@vueuse/core'
 import { default as createFlatpickr } from 'flatpickr'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import type { Instance as FlatpickrInstance } from 'flatpickr/dist/types/instance'
 import type { Options } from 'flatpickr/dist/types/options'
 import arrowIconHTML from '@/assets/icons/arrow-drop-down-icon.svg?raw'
@@ -40,24 +59,30 @@ const props = defineProps<{
   modelValue: number
 }>()
 
+const { isSmallBreakpoint } = useViewportSizes()
+
 const dataFieldElement = ref<HTMLDivElement | null>(null)
 const btnElement = ref<HTMLInputElement | null>(null)
 const flatpickrWrpElement = ref<HTMLDivElement | null>(null)
 const flatpickrInstance = ref<FlatpickrInstance | null>(null)
 const isOpen = ref(false)
 
-onMounted(() => {
+let _unsubscribeFromClickOutside: (() => void) | undefined
+const initFlatpickr = (): void => {
   if (
     !dataFieldElement.value ||
     !btnElement.value ||
     !flatpickrWrpElement.value
-  )
+  ) {
+    flatpickrInstance.value?.destroy()
     return
+  }
 
   const options: Options = {
     enableTime: true,
     enableSeconds: true,
     time_24hr: true,
+    disableMobile: true,
 
     /** Date object with less than this min date works incorrectly */
     minDate: new Date('05/02/1924'),
@@ -79,19 +104,36 @@ onMounted(() => {
 
   flatpickrInstance.value = createFlatpickr(btnElement.value, options)
 
-  onClickOutside(dataFieldElement, () => (isOpen.value = false))
-})
+  nextTick(() => {
+    if (!flatpickrWrpElement.value) return
 
-onBeforeUnmount(() => {
-  flatpickrInstance.value?.destroy()
-})
+    _unsubscribeFromClickOutside?.()
+    _unsubscribeFromClickOutside = onClickOutside(
+      flatpickrWrpElement.value.children[0] as HTMLDivElement,
+      () => {
+        isOpen.value = false
+      },
+      { ignore: [btnElement] },
+    )
+  })
+}
 
-watch(
-  () => props.modelValue,
-  newValue => {
-    flatpickrInstance.value?.setDate(newValue.toString(), false, 'U')
-  },
-)
+const updateFlatpickrDate = (timestamp: number): void => {
+  flatpickrInstance.value?.setDate(timestamp.toString(), false, 'U')
+}
+
+const scrollToFlatpickr = (): void => {
+  if (isOpen.value && flatpickrWrpElement.value) {
+    flatpickrWrpElement.value.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    })
+  }
+}
+
+watch(() => props.modelValue, updateFlatpickrDate)
+
+watch([dataFieldElement, btnElement, flatpickrWrpElement], initFlatpickr)
 </script>
 
 <style lang="scss">
@@ -135,6 +177,7 @@ $z-index-btn: 1;
       background: var(--background-primary-light);
     }
 
+    .datetime-field--open &,
     &:focus,
     &:active {
       background: var(--background-primary-light);
@@ -147,6 +190,11 @@ $z-index-btn: 1;
   position: absolute;
   top: 110%;
   right: 0;
+  padding-bottom: var(--app-padding-bottom);
+
+  @include respond-to(small) {
+    position: static;
+  }
 }
 
 @include drop-item-transition;

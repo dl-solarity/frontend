@@ -9,9 +9,10 @@
     </label>
     <div class="textarea-field__textarea-wrp">
       <textarea
-        ref="textarea"
+        ref="textareaElement"
         class="textarea-field__textarea"
         :id="`textarea-field--${uid}`"
+        spellcheck="false"
         v-bind="$attrs"
         v-on="listeners"
         :value="modelValue"
@@ -57,16 +58,17 @@
 
 <script lang="ts" setup>
 import { AppIcon } from '#components'
-import { useTextareaAutosize } from '@vueuse/core'
 import { v4 as uuidv4 } from 'uuid'
-import { computed, useAttrs, useSlots } from 'vue'
+import { computed, nextTick, onMounted, useAttrs, useSlots, watch } from 'vue'
 
 type SCHEMES = 'primary'
+type SIZES = 'default' | 'small'
 
 const props = withDefaults(
   defineProps<{
-    scheme?: SCHEMES
     modelValue: string
+    scheme?: SCHEMES
+    size?: SIZES
     label?: string
     placeholder?: string
     errorMessage?: string
@@ -75,6 +77,7 @@ const props = withDefaults(
   }>(),
   {
     scheme: 'primary',
+    size: 'default',
     label: '',
     placeholder: ' ',
     errorMessage: '',
@@ -92,6 +95,7 @@ const attrs = useAttrs()
 const slots = useSlots()
 
 const uid = uuidv4()
+const textareaElement = ref<HTMLTextAreaElement | null>(null)
 
 const isDisabled = computed(() =>
   ['', 'disabled', true].includes(attrs.disabled as string | boolean),
@@ -112,24 +116,32 @@ const hasRightNode = computed<boolean>(() =>
 const listeners = computed(() => ({
   input: (event: Event) => {
     const eventTarget = event.target as HTMLTextAreaElement
-
-    if (props.modelValue === eventTarget.value) return
-
     emit('update:modelValue', eventTarget.value)
   },
 }))
 
-const textareaClasses = computed(() =>
-  [
-    'textarea-field',
-    ...(hasRightNode.value ? ['textarea-field--node-right'] : []),
-    ...(isDisabled.value ? ['textarea-field--disabled'] : []),
-    ...(isReadonly.value ? ['textarea-field--readonly'] : []),
-    ...(props.errorMessage ? ['textarea-field--error'] : []),
-    ...(props.modelValue ? ['textarea-field--filled'] : []),
-    `textarea-field--${props.scheme}`,
-  ].join(' '),
-)
+const textareaClasses = computed(() => [
+  'textarea-field',
+  ...(hasRightNode.value ? ['textarea-field--node-right'] : []),
+  ...(isDisabled.value ? ['textarea-field--disabled'] : []),
+  ...(isReadonly.value ? ['textarea-field--readonly'] : []),
+  ...(props.errorMessage ? ['textarea-field--error'] : []),
+  ...(props.modelValue ? ['textarea-field--filled'] : []),
+  `textarea-field--size-${props.size}`,
+  `textarea-field--${props.scheme}`,
+])
+
+const resizeTextarea = () => {
+  if (!textareaElement.value) throw new Error('textareaElement unavailable')
+
+  const offset =
+    textareaElement.value.offsetHeight - textareaElement.value.clientHeight
+
+  textareaElement.value.style.height = '1px'
+  textareaElement.value.style.height = `${
+    textareaElement.value.scrollHeight + offset
+  }px`
+}
 
 const clear = () => {
   emit('update:modelValue', '')
@@ -143,12 +155,12 @@ const setHeightCSSVar = (element: Element) => {
   )
 }
 
-const { textarea, input } = useTextareaAutosize()
-
 watch(
   () => props.modelValue,
-  newValue => (input.value = newValue),
+  () => nextTick(resizeTextarea),
 )
+
+onMounted(resizeTextarea)
 </script>
 
 <style lang="scss" scoped>
@@ -173,8 +185,17 @@ $z-index-side-nodes: 1;
 
 .textarea-field__textarea {
   resize: none;
-  min-height: toRem(130);
-  max-height: toRem(390);
+  height: 0;
+
+  .textarea-field--size-default & {
+    min-height: toRem(130);
+    max-height: toRem(390);
+  }
+
+  .textarea-field--size-small & {
+    min-height: toRem(48);
+    max-height: toRem(144);
+  }
 
   & + .textarea-field__focus-indicator {
     pointer-events: none;

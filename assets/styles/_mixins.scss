@@ -97,7 +97,6 @@ $media-breakpoints: (
   letter-spacing: var(--field-error-letter-spacing);
   color: var(--field-error);
   margin-top: var(--field-error-margin-top);
-  padding-left: var(--field-padding-left);
   transition: var(--field-transition-duration) ease;
   transition-property: opacity, color, font-size, transform;
 }
@@ -127,6 +126,51 @@ $media-breakpoints: (
     background-clip: padding-box;
     border-radius: toRem(100);
   }
+}
+
+@mixin solidity-tools-page-base {
+  display: flex;
+  flex-direction: column;
+  gap: toRem(32);
+
+  @include respond-to(medium) {
+    gap: toRem(24);
+  }
+}
+
+@mixin solidity-tools-page-content {
+  display: flex;
+  flex-direction: column;
+  padding: toRem(40);
+  border-radius: 0 0 var(--border-radius-main) var(--border-radius-main);
+  background: var(--background-primary-main);
+
+  @include respond-to(medium) {
+    padding: toRem(24) toRem(16) toRem(24) toRem(16);
+  }
+}
+
+@mixin solidity-tools-form {
+  display: grid;
+  grid-gap: toRem(40);
+
+  @include respond-to(medium) {
+    grid-gap: toRem(24);
+  }
+}
+
+@mixin solidity-tools-form-part {
+  display: grid;
+  grid-gap: toRem(20);
+
+  @include respond-to(medium) {
+    grid-gap: toRem(16) toRem(24);
+  }
+}
+
+@mixin solidity-tools-form-divider {
+  height: toRem(1);
+  background: var(--border-primary-main);
 }
 
 @mixin page-msg {

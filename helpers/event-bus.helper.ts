@@ -16,7 +16,6 @@ export type DefaultBusEventMap = {
   [BUS_EVENTS.warning]: string | NotificationObjectPayload
   [BUS_EVENTS.info]: string | NotificationObjectPayload
   [BUS_EVENTS.default]: string | NotificationObjectPayload
-  [BUS_EVENTS.toggleSidebar]: unknown
 }
 
 export const bus = new EventEmitter<DefaultBusEventMap>()

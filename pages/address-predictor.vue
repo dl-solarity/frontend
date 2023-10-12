@@ -1,9 +1,9 @@
 <template>
   <div class="address-predictor-page">
-    <page-title :title="$t('address-predictor-page.main-title')" />
-    <div class="block">
+    <h2>{{ $t('address-predictor-page.main-title') }}</h2>
+    <div>
       <app-tabs :tabs="tabsList" />
-      <div class="content">
+      <div class="address-predictor-page__content">
         <nuxt-page keepalive />
       </div>
     </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppTabs, PageTitle } from '#components'
+import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
 import { ROUTE_PATH } from '@/constants'
 import { type Tab } from '@/types'
@@ -45,8 +45,10 @@ const tabsList = computed<Tab[]>(() => [
 
 <style lang="scss" scoped>
 .address-predictor-page {
-  display: flex;
-  flex-direction: column;
-  gap: toRem(32);
+  @include solidity-tools-page-base;
+}
+
+.address-predictor-page__content {
+  @include solidity-tools-page-content;
 }
 </style>

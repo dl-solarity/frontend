@@ -39,17 +39,19 @@
               @clear="removeArg(arg.id)"
               @update:model-value="onArgSubtypeUpdate($event as string, idx)"
             />
-            <input-field
+            <textarea-field
               v-model="arg.value"
+              size="small"
               :placeholder="$t('abi-encode-form.arg-value-placeholder')"
               :error-message="getFieldErrorMessage(`args[${idx}].value`)"
               @blur="touchField(`args[${idx}].value`)"
             />
           </div>
-          <input-field
+          <textarea-field
             v-else
             v-model="arg.value"
             is-clearable
+            size="small"
             :label="$t('abi-encode-form.arg-value-label')"
             :placeholder="$t('abi-encode-form.arg-value-placeholder')"
             :error-message="getFieldErrorMessage(`args[${idx}].value`)"
@@ -225,31 +227,31 @@ abiEncoding.value = encodeAbi([], [])
 <style lang="scss" scoped>
 .abi-encode-form {
   display: grid;
-  gap: toRem(40);
+  grid-gap: toRem(32);
+
+  @include respond-to(medium) {
+    grid-gap: toRem(24);
+  }
 }
 
 .abi-encode-form__output,
 .abi-encode-form__input {
-  display: grid;
-  gap: toRem(20);
+  @include solidity-tools-form-part;
 }
 
 .abi-encode-form__args_wrp {
   display: grid;
-  grid-gap: toRem(16);
-
-  @include respond-to(small) {
-    grid-gap: toRem(48);
-  }
+  grid-gap: inherit;
 }
 
 .abi-encode-form__arg {
   display: grid;
+  grid-template-columns: minmax(toRem(150), 20%) 1fr;
   grid-gap: toRem(16);
-  grid-template-columns: minmax(toRem(140), 20%) 1fr;
 
   @include respond-to(small) {
     grid-template-columns: auto;
+    grid-gap: toRem(8);
   }
 }
 

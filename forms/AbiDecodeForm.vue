@@ -8,10 +8,12 @@
         <div class="abi-decode-form__options-wrp">
           <checkbox-field
             v-model="form.hasFuncSelector"
+            class="abi-decode-form__checkbox-field"
             :label="$t('abi-decode-form.has-func-selector-label')"
           />
           <radio-button-field
             v-model="form.decodeMode"
+            class="abi-decode-form__radio-button-field"
             :options="decodeModeOptions"
           />
         </div>
@@ -59,7 +61,7 @@
               {{ warningMessage }}
             </p>
           </div>
-          <div class="abi-decode-form__args_wrp">
+          <div v-if="funcArgs.length" class="abi-decode-form__args_wrp">
             <div
               v-for="funcArg in funcArgs"
               :key="funcArg.id"
@@ -85,19 +87,21 @@
                     $t('abi-decode-form.arg-subtype-placeholder--tuple')
                   "
                 />
-                <input-field
+                <textarea-field
                   v-model="funcArg.value"
+                  size="small"
                   readonly
                   :placeholder="$t('abi-decode-form.arg-value-placeholder')"
                 >
                   <template #nodeRight>
                     <app-copy :value="funcArg.value" />
                   </template>
-                </input-field>
+                </textarea-field>
               </div>
-              <input-field
+              <textarea-field
                 v-else
                 v-model="funcArg.value"
+                size="small"
                 readonly
                 :label="$t('abi-decode-form.arg-value-label')"
                 :placeholder="$t('abi-decode-form.arg-value-placeholder')"
@@ -105,7 +109,7 @@
                 <template #nodeRight>
                   <app-copy :value="funcArg.value" />
                 </template>
-              </input-field>
+              </textarea-field>
             </div>
           </div>
         </template>
@@ -398,18 +402,21 @@ watch(() => form, onFormChange, { deep: true })
 <style lang="scss" scoped>
 .abi-decode-form {
   display: grid;
-  gap: toRem(32);
+  grid-gap: toRem(32);
+
+  @include respond-to(medium) {
+    grid-gap: toRem(24);
+  }
 }
 
 .abi-decode-form__output,
 .abi-decode-form__input {
-  display: grid;
-  gap: toRem(20);
+  @include solidity-tools-form-part;
 }
 
 .abi-decode-form__title-wrp {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: inherit;
   flex-wrap: wrap;
 }
@@ -423,25 +430,33 @@ watch(() => form, onFormChange, { deep: true })
   display: flex;
   align-items: center;
   gap: toRem(8);
-  flex-wrap: wrap;
+
+  @include respond-to(small) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.abi-decode-form .abi-decode-form__checkbox-field,
+.abi-decode-form .abi-decode-form__radio-button-field {
+  @include respond-to(small) {
+    width: 100%;
+  }
 }
 
 .abi-decode-form__args_wrp {
   display: grid;
-  grid-gap: toRem(16);
-
-  @include respond-to(small) {
-    grid-gap: toRem(48);
-  }
+  grid-gap: inherit;
 }
 
 .abi-decode-form__arg {
   display: grid;
+  grid-template-columns: minmax(toRem(150), 20%) 1fr;
   grid-gap: toRem(16);
-  grid-template-columns: minmax(toRem(140), 20%) 1fr;
 
   @include respond-to(small) {
     grid-template-columns: auto;
+    grid-gap: toRem(8);
   }
 }
 

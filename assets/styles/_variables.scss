@@ -56,6 +56,9 @@
   --border-primary-main: #{$border-primary-main};
   --border-primary-dark: #{$border-primary-dark};
 
+  /* common colors */
+  --backdrop-modal: #{$backdrop-modal};
+
   /* border radii */
   --border-radius-main: #{toRem(8)};
 
@@ -66,19 +69,14 @@
   --app-padding-left: #{toRem(32)};
   --app-padding-top: #{toRem(48)};
   --app-padding-bottom: #{toRem(48)};
+  --app-height-header: #{toRem(80)};
 
-  @include respond-to(xmedium) {
-    --app-padding-right: #{toRem(24)};
-    --app-padding-left: #{toRem(24)};
-    --app-padding-top: #{toRem(32)};
-    --app-padding-bottom: #{toRem(32)};
-  }
-
-  @include respond-to(small) {
-    --app-padding-right: #{toRem(12)};
-    --app-padding-left: #{toRem(12)};
+  @include respond-to(medium) {
+    --app-padding-right: #{toRem(16)};
+    --app-padding-left: #{toRem(16)};
     --app-padding-top: #{toRem(24)};
     --app-padding-bottom: #{toRem(24)};
+    --app-height-header: #{toRem(70)};
   }
 
   --app-padding:

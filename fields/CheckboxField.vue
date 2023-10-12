@@ -45,7 +45,7 @@ const onChange = (event: Event) => {
   display: block;
   cursor: pointer;
   user-select: none;
-  max-width: max-content;
+  min-width: max-content;
   padding: toRem(4);
   border-radius: var(--border-radius-main);
   background: var(--background-primary-dark);
@@ -81,6 +81,7 @@ const onChange = (event: Event) => {
   line-height: var(--field-text-line-height);
   letter-spacing: var(--field-text-letter-spacing);
   min-width: max-content;
+  text-align: center;
 
   .checkbox-field--checked & {
     background: var(--background-primary-light);

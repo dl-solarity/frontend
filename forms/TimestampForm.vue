@@ -11,6 +11,7 @@
         @blur="touchField('timestamp')"
       />
     </div>
+    <div class="timestamp-form__divider" />
     <div class="timestamp-form__output">
       <h3>{{ $t('timestamp-form.output-title') }}</h3>
       <div v-for="(item, idx) in outputItems" :key="idx">
@@ -86,19 +87,16 @@ const outputItems = computed(() => [
 
 <style lang="scss" scoped>
 .timestamp-form {
-  display: grid;
-  gap: toRem(40);
+  @include solidity-tools-form;
 }
 
 .timestamp-form__output,
 .timestamp-form__input {
-  display: grid;
-  gap: toRem(20);
+  @include solidity-tools-form-part;
 }
 
-.timestamp-form__input {
-  padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--border-primary-main);
+.timestamp-form__divider {
+  @include solidity-tools-form-divider;
 }
 
 .timestamp-form__output-item-label {

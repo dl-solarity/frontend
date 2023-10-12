@@ -11,7 +11,12 @@
   display: flex;
   gap: toRem(24);
   padding: toRem(24) toRem(80);
-  border-top: toRem(1) solid var(--background-primary-light);
+  box-shadow: 0 toRem(-1) var(--background-primary-light);
+
+  @include respond-to(medium) {
+    padding: toRem(16) var(--app-padding-right) toRem(16)
+      var(--app-padding-left);
+  }
 }
 
 .app-footer__item {

@@ -36,9 +36,7 @@ const updateTab = (tab: Tab) => {
 
 <style lang="scss" scoped>
 .app-tabs {
-  display: grid;
-  grid-auto-columns: min-content;
-  grid-auto-flow: column;
+  display: flex;
   overflow-x: scroll;
   overflow-y: hidden;
   border-radius: var(--border-radius-main) var(--border-radius-main) 0 0;
@@ -65,6 +63,14 @@ const updateTab = (tab: Tab) => {
       --app-button-text-hover: var(--text-primary-invert-main);
       --app-button-text-focused: var(--text-primary-invert-main);
       --app-button-text-active: var(--text-primary-invert-main);
+    }
+
+    @include respond-to(medium) {
+      width: 100%;
+
+      :deep(.icon) {
+        display: none;
+      }
     }
   }
 }

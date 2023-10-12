@@ -3,7 +3,9 @@
     <img :src="audit.imgSrc" class="audits-card__img" alt="audit-image" />
     <div class="audits-card__content">
       <div class="audits-card__title-wrp">
-        <h3>{{ audit.title }}</h3>
+        <h3 class="audits-card__title">
+          {{ audit.title }}
+        </h3>
         <div class="audits-card__circle" />
         <h3>{{ audit.fileSize }}</h3>
       </div>
@@ -49,7 +51,7 @@ defineProps<{
 
 .audits-card__content {
   display: flex;
-  gap: toRem(12);
+  gap: toRem(16);
 
   @include respond-to(xsmall) {
     flex-direction: column;
@@ -57,9 +59,15 @@ defineProps<{
 }
 
 .audits-card__title-wrp {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
   align-items: center;
-  gap: toRem(8);
+  grid-gap: toRem(8);
+  max-width: max-content;
+}
+
+.audits-card__title {
+  @include text-ellipsis;
 }
 
 .audits-card__circle {

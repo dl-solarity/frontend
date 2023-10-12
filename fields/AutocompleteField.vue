@@ -60,7 +60,7 @@ const emit = defineEmits<{
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string
+    modelValue: FieldOption['value']
     options: FieldOption[]
     label?: string
     placeholder?: string
@@ -108,8 +108,11 @@ const inputListeners = computed(() => ({
     }
   },
   input(event: Event) {
+    if (!isDropMenuOpen.value) isDropMenuOpen.value = true
     filterTitle.value = (event.target as HTMLInputElement).value
     navOptionIdx.value = 0
+    if (options.value.length && filterTitle.value === options.value[0].title)
+      emit('update:model-value', options.value[0].value)
   },
   keydown(event: KeyboardEvent) {
     if (!options.value.length) return
@@ -144,10 +147,10 @@ const options = computed<typeof props.options>(() =>
     : props.options,
 )
 
-const modelTitle = computed<string>(
+const modelTitle = computed<FieldOption['title']>(
   () =>
     props.options.find(option => option.value === props.modelValue)?.title ||
-    props.modelValue,
+    String(props.modelValue),
 )
 
 const setHeightCSSVar = (element: Element) => {
@@ -157,10 +160,7 @@ const setHeightCSSVar = (element: Element) => {
   )
 }
 
-watch(
-  [() => props.modelValue, isDropMenuOpen],
-  () => (filterTitle.value = undefined),
-)
+watch(isDropMenuOpen, () => (filterTitle.value = undefined))
 
 onMounted(() => {
   if (autocompleteFieldElement.value)
@@ -211,6 +211,7 @@ onMounted(() => {
 
 .autocomplete-field__input {
   width: 100%;
+  padding-right: toRem(54);
 
   .autocomplete-field--error & {
     border-color: var(--field-error);

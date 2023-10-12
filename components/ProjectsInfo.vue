@@ -1,5 +1,5 @@
 <template>
-  <div class="projects-info layout-wrapper">
+  <div class="projects-info">
     <projects-info-card v-for="(card, idx) in cards" :key="idx" :card="card" />
   </div>
 </template>
@@ -45,12 +45,13 @@ const cards: ProjectInfoCard[] = [
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: toRem(24);
-  padding: toRem(104) toRem(96) toRem(62);
+  padding: var(--app-padding-top) toRem(96) var(--app-padding-bottom);
 
-  @include respond-to(tablet) {
+  @include respond-to(medium) {
     grid-template-columns: 1fr;
-    padding: var(--app-padding);
-    padding-top: toRem(50);
+    gap: toRem(8);
+    padding-right: var(--app-padding-right);
+    padding-left: var(--app-padding-left);
   }
 }
 </style>

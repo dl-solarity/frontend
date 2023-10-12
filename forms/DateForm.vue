@@ -16,9 +16,10 @@
       </div>
       <datetime-field
         :model-value="datetimeFieldTimestamp"
-        @update:model-value="setForm(new Time($event))"
+        @update:model-value="onUpdateDatetimeFieldTimestamp"
       />
     </div>
+    <div class="date-form__divider" />
     <div class="date-form__output">
       <h3>{{ $t('date-form.output-title') }}</h3>
       <div v-for="(item, idx) in outputItems" :key="idx">
@@ -135,6 +136,10 @@ const datetimeFieldTimestamp = computed<number>(
   () => localTime.value?.timestamp || new Time().timestamp,
 )
 
+const onUpdateDatetimeFieldTimestamp = (timestamp: number) => {
+  setForm(new Time(timestamp))
+}
+
 const outputItems = computed(() => [
   {
     label: t('date-form.seconds-label'),
@@ -149,19 +154,16 @@ const outputItems = computed(() => [
 
 <style lang="scss" scoped>
 .date-form {
-  display: grid;
-  gap: toRem(40);
+  @include solidity-tools-form;
 }
 
 .date-form__output,
 .date-form__input {
-  display: grid;
-  gap: toRem(20);
+  @include solidity-tools-form-part;
 }
 
-.date-form__input {
-  padding-bottom: toRem(40);
-  border-bottom: toRem(1) solid var(--border-primary-main);
+.date-form__divider {
+  @include solidity-tools-form-divider;
 }
 
 .date-form__input-fields {
