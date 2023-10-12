@@ -24,12 +24,18 @@ definePageMeta({
 })
 
 enum TABS_IDS {
+  commonAddressesForm = 'common-addresses-form',
   createAddressForm = 'create-address-form',
   create2AddressForm = 'create2-address-form',
 }
 
 const { t } = i18n.global
 const tabsList = computed<Tab[]>(() => [
+  {
+    title: t('address-utils-page.common-addresses-form-tab'),
+    id: TABS_IDS.commonAddressesForm,
+    route: ROUTE_PATH.addressUtilsCommonAddresses,
+  },
   {
     title: t('address-utils-page.create-address-form-tab'),
     id: TABS_IDS.createAddressForm,

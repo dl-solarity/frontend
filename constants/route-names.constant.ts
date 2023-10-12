@@ -15,6 +15,7 @@ export const ROUTE_PATH = {
   hashFunctionSha256: '/hash-function/sha256',
   hashFunctionRipemd160: '/hash-function/ripemd160',
   addressUtils: '/address-utils',
+  addressUtilsCommonAddresses: '/address-utils/common-addresses',
   addressUtilsCreate: '/address-utils/create',
   addressUtilsCreate2: '/address-utils/create2',
 }
