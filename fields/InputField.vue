@@ -271,6 +271,8 @@ $z-index-side-nodes: 1;
   color: inherit;
   max-height: 100%;
   z-index: $z-index-side-nodes;
+  display: flex;
+  gap: toRem(8);
 }
 
 .input-field__node-right-wrp {
@@ -280,6 +282,8 @@ $z-index-side-nodes: 1;
   transform: translateY(-50%);
   color: inherit;
   z-index: $z-index-side-nodes;
+  display: flex;
+  gap: toRem(8);
 }
 
 .input-field__icon {

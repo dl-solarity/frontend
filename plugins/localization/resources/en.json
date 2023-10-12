@@ -115,7 +115,8 @@
     "input-title": "Common addresses",
     "zeroAddress-label": "Zero Address",
     "allFsAddress-label": "All Fs Address",
-    "allEsAddress-label": "All Es Address"
+    "allEsAddress-label": "All Es Address",
+    "randomAddress-label": "Random address"
   },
   "date-form": {
     "input-title": "Enter Date and Time",
