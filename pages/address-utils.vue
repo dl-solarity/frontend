@@ -20,7 +20,7 @@ import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
-  redirect: ROUTE_PATH.addressUtilsCreate,
+  redirect: ROUTE_PATH.addressUtilsCommonAddresses,
 })
 
 enum TABS_IDS {

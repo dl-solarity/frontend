@@ -111,6 +111,12 @@
     "func-signature-label": "Function signature",
     "func-signature-placeholder": "Function signature"
   },
+  "common-addresses-form": {
+    "input-title": "Common addresses",
+    "zeroAddress-label": "Zero Address",
+    "allFsAddress-label": "All Fs Address",
+    "allEsAddress-label": "All Es Address"
+  },
   "date-form": {
     "input-title": "Enter Date and Time",
     "year-label": "Year",
