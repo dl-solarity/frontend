@@ -14,7 +14,7 @@ export const ROUTE_PATH = {
   hashFunctionKeccak256: '/hash-function/keccak256',
   hashFunctionSha256: '/hash-function/sha256',
   hashFunctionRipemd160: '/hash-function/ripemd160',
-  addressPredicator: '/address-predictor',
-  addressPredicatorCreate: '/address-predictor/create',
-  addressPredicatorCreate2: '/address-predictor/create2',
+  addressUtils: '/address-utils',
+  addressUtilsCreate: '/address-utils/create',
+  addressUtilsCreate2: '/address-utils/create2',
 }

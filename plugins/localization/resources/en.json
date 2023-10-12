@@ -51,15 +51,15 @@
     "hash-functions-title": "Hash functions",
     "converter-title": "Converter",
     "unix-epoch-title": "Unix epoch",
-    "address-predictor-title": "Address predictor"
+    "address-utils-title": "Address utils"
   },
   "abi-page": {
     "main-title": "ABI Encoder/Decoder",
     "encoder-tab": "Encoder",
     "decoder-tab": "Decoder"
   },
-  "address-predictor-page": {
-    "main-title": "Address predictor",
+  "address-utils-page": {
+    "main-title": "Address utils",
     "create-address-form-tab": "Create",
     "create2-address-form-tab": "Create2"
   },
