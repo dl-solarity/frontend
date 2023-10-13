@@ -1,9 +1,9 @@
 <template>
-  <div class="address-predictor-page">
-    <h2>{{ $t('address-predictor-page.main-title') }}</h2>
+  <div class="address-utils-page">
+    <h2>{{ $t('address-utils-page.main-title') }}</h2>
     <div>
       <app-tabs :tabs="tabsList" />
-      <div class="address-predictor-page__content">
+      <div class="address-utils-page__content">
         <nuxt-page keepalive />
       </div>
     </div>
@@ -20,10 +20,11 @@ import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
-  redirect: ROUTE_PATH.addressPredicatorCreate,
+  redirect: ROUTE_PATH.addressUtilsCommonAddresses,
 })
 
 enum TABS_IDS {
+  commonAddressesForm = 'common-addresses-form',
   createAddressForm = 'create-address-form',
   create2AddressForm = 'create2-address-form',
 }
@@ -31,24 +32,29 @@ enum TABS_IDS {
 const { t } = i18n.global
 const tabsList = computed<Tab[]>(() => [
   {
-    title: t('address-predictor-page.create-address-form-tab'),
-    id: TABS_IDS.createAddressForm,
-    route: ROUTE_PATH.addressPredicatorCreate,
+    title: t('address-utils-page.common-addresses-form-tab'),
+    id: TABS_IDS.commonAddressesForm,
+    route: ROUTE_PATH.addressUtilsCommonAddresses,
   },
   {
-    title: t('address-predictor-page.create2-address-form-tab'),
+    title: t('address-utils-page.create-address-form-tab'),
+    id: TABS_IDS.createAddressForm,
+    route: ROUTE_PATH.addressUtilsCreate,
+  },
+  {
+    title: t('address-utils-page.create2-address-form-tab'),
     id: TABS_IDS.create2AddressForm,
-    route: ROUTE_PATH.addressPredicatorCreate2,
+    route: ROUTE_PATH.addressUtilsCreate2,
   },
 ])
 </script>
 
 <style lang="scss" scoped>
-.address-predictor-page {
+.address-utils-page {
   @include solidity-tools-page-base;
 }
 
-.address-predictor-page__content {
+.address-utils-page__content {
   @include solidity-tools-page-content;
 }
 </style>

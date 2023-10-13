@@ -67,9 +67,9 @@ const navLinks = computed(() => [
     route: ROUTE_PATH.unixEpoch,
   },
   {
-    title: t('tools-sidebar.address-predictor-title'),
+    title: t('tools-sidebar.address-utils-title'),
     icon: ICON_NAMES.locationMarker,
-    route: ROUTE_PATH.addressPredicator,
+    route: ROUTE_PATH.addressUtils,
   },
 ])
 
