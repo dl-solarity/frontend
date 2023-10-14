@@ -2,9 +2,7 @@
   <form class="abi-decode-form">
     <div class="abi-decode-form__input">
       <div class="abi-decode-form__title-wrp">
-        <h3 class="abi-decode-form__title">
-          {{ $t('abi-decode-form.input-title') }}
-        </h3>
+        <h3>{{ $t('abi-decode-form.input-title') }}</h3>
         <div class="abi-decode-form__options-wrp">
           <checkbox-field
             v-model="form.hasFuncSelector"
@@ -308,6 +306,7 @@ const decodeAbi = async (data: string): Promise<DecodedData> => {
 
         const funcSignature = createFunctionSignature(
           paramTypes as unknown as ParamType[],
+          'constructor',
         )
 
         updateSafelyFuncSignature(funcSignature)
@@ -417,13 +416,9 @@ watch(() => form, onFormChange, { deep: true })
 .abi-decode-form__title-wrp {
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
   gap: inherit;
   flex-wrap: wrap;
-}
-
-.abi-decode-form__title {
-  margin-right: auto;
-  min-width: max-content;
 }
 
 .abi-decode-form__options-wrp {

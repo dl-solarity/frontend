@@ -97,8 +97,10 @@
   },
   "abi-encode-form": {
     "input-title": "Encoder",
+    "encode-mode-option-title--standard": "Standard",
+    "encode-mode-option-title--packed": "Packed",
     "func-name-label": "Function name",
-    "func-name-placeholder": "Enter function name",
+    "func-name-placeholder": "Function name",
     "arg-value-label": "Value",
     "arg-value-placeholder": "Enter value",
     "arg-type-label": "Type",

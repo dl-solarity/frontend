@@ -1,13 +1,24 @@
 <template>
   <form class="abi-encode-form" @submit.prevent>
     <div class="abi-encode-form__input">
-      <h3>{{ $t('abi-encode-form.input-title') }}</h3>
+      <div class="abi-encode-form__title-wrp">
+        <h3>{{ $t('abi-encode-form.input-title') }}</h3>
+        <radio-button-field
+          v-model="form.encodeMode"
+          class="abi-encode-form__radio-button-field"
+          :options="ENCODE_MODE_OPTIONS"
+        />
+      </div>
       <input-field
-        v-model="form.funcName"
+        :model-value="
+          form.encodeMode === ENCODE_MODES.standard ? form.funcName : ''
+        "
+        :readonly="form.encodeMode === ENCODE_MODES.packed"
         :label="$t('abi-encode-form.func-name-label')"
         :placeholder="$t('abi-encode-form.func-name-placeholder')"
         :error-message="getFieldErrorMessage('funcName')"
         @blur="touchField('funcName')"
+        @update:model-value="form.funcName = $event as string"
       />
       <div v-if="form.args.length" class="abi-encode-form__args_wrp">
         <div
@@ -96,7 +107,12 @@
 import { AppButton, AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
-import { AutocompleteField, InputField, TextareaField } from '@/fields'
+import {
+  AutocompleteField,
+  InputField,
+  RadioButtonField,
+  TextareaField,
+} from '@/fields'
 import {
   ErrorHandler,
   contractFuncName,
@@ -109,10 +125,18 @@ import {
   withinSizeOfEthereumType,
 } from '@/helpers'
 import { type AbiEncodeForm, type FieldOption } from '@/types'
-import { Interface, ParamType } from 'ethers'
+import { Interface, ParamType, solidityPacked } from 'ethers'
 import { without } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, watch } from 'vue'
+import { i18n } from '~/plugins/localization'
+
+enum ENCODE_MODES {
+  standard = 'standard',
+  packed = 'packed',
+}
+
+const { t } = i18n.global
 
 const TYPE_OPTIONS: FieldOption[] = without(
   Object.values(ETHEREUM_TYPES),
@@ -123,6 +147,17 @@ const TYPE_OPTIONS: FieldOption[] = without(
   title: v,
 }))
 
+const ENCODE_MODE_OPTIONS = [
+  {
+    value: ENCODE_MODES.standard,
+    title: t('abi-encode-form.encode-mode-option-title--standard'),
+  },
+  {
+    value: ENCODE_MODES.packed,
+    title: t('abi-encode-form.encode-mode-option-title--packed'),
+  },
+]
+
 const abiEncoding = ref('')
 const funcSignature = ref('')
 
@@ -132,6 +167,7 @@ const resetOutput = () => {
 }
 
 const form = reactive({
+  encodeMode: ENCODE_MODES.standard,
   funcName: '',
   args: [] as AbiEncodeForm.FuncArg[],
 })
@@ -184,6 +220,10 @@ const onArgSubtypeUpdate = (
 }
 
 const encodeAbi = (types: string[], values: unknown[]): string => {
+  if (form.encodeMode === ENCODE_MODES.packed) {
+    return solidityPacked(types, values)
+  }
+
   if (!form.funcName) {
     const iface = new Interface([`constructor(${types.join(', ')})`])
     return iface.encodeDeploy(values)
@@ -192,6 +232,7 @@ const encodeAbi = (types: string[], values: unknown[]): string => {
   const iface = new Interface([
     `function ${form.funcName}(${types.join(', ')})`,
   ])
+
   return iface.encodeFunctionData(form.funcName, values)
 }
 
@@ -209,8 +250,11 @@ const onFormChange = () => {
 
     funcSignature.value = createFunctionSignature(
       types.map(type => ParamType.from(type)),
-      form.funcName,
+      form.encodeMode === ENCODE_MODES.standard
+        ? form.funcName || 'constructor'
+        : '',
     )
+
     abiEncoding.value = encodeAbi(types, values)
   } catch (error) {
     resetOutput()
@@ -220,7 +264,7 @@ const onFormChange = () => {
 
 watch(form, onFormChange)
 
-funcSignature.value = createFunctionSignature([])
+funcSignature.value = createFunctionSignature([], 'constructor')
 abiEncoding.value = encodeAbi([], [])
 </script>
 
@@ -237,6 +281,20 @@ abiEncoding.value = encodeAbi([], [])
 .abi-encode-form__output,
 .abi-encode-form__input {
   @include solidity-tools-form-part;
+}
+
+.abi-encode-form__title-wrp {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: inherit;
+  flex-wrap: wrap;
+}
+
+.abi-encode-form .abi-encode-form__radio-button-field {
+  @include respond-to(small) {
+    width: 100%;
+  }
 }
 
 .abi-encode-form__args_wrp {
