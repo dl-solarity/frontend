@@ -38,7 +38,7 @@ const form = reactive({
   zeroAddress: '0x0000000000000000000000000000000000000000',
   allFsAddress: '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF',
   allEsAddress: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-  randomAddress: '',
+  randomAddress: generateRandomAddress(),
 })
 
 onMounted(() => {
