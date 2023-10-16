@@ -8,7 +8,5 @@ export function createFunctionSignature(
     paramType.type.replaceAll('tuple(', '(').replaceAll('(', 'tuple('),
   )
 
-  return name
-    ? `${name}(${types.join(',')})`
-    : `constructor(${types.join(',')})`
+  return name ? `${name}(${types.join(',')})` : `(${types.join(',')})`
 }
