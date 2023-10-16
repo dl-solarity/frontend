@@ -172,7 +172,9 @@ const form = reactive({
   args: [] as AbiEncodeForm.FuncArg[],
 })
 const rules = computed(() => ({
-  funcName: { contractFuncName },
+  funcName: {
+    ...(form.encodeMode === ENCODE_MODES.standard && { contractFuncName }),
+  },
   args: {
     ...form.args.reduce(
       (acc, arg, idx) => ({
