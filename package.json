@@ -2,6 +2,9 @@
   "name": "solidity-landing",
   "version": "1.0.0-rc.0",
   "private": true,
+  "gitHooks": {
+    "pre-commit": "yarn lint"
+  },
   "scripts": {
     "dev": "nuxt dev -o",
     "nuxt-build": "nuxt build",
