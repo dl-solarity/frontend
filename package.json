@@ -2,6 +2,9 @@
   "name": "solidity-landing",
   "version": "1.0.0-rc.0",
   "private": true,
+  "gitHooks": {
+    "pre-commit": "yarn lint"
+  },
   "scripts": {
     "dev": "nuxt dev -o",
     "nuxt-build": "nuxt build",
@@ -50,7 +53,8 @@
     "typescript": "^4.8.2",
     "unplugin-vue-components": "^0.22.4",
     "vite-plugin-svg-icons": "^2.0.1",
-    "vue-eslint-parser": "^9.0.3"
+    "vue-eslint-parser": "^9.0.3",
+    "yorkie": "^2.0.0"
   },
   "dependencies": {
     "@distributedlab/fetcher": "^1.0.0-rc.6",

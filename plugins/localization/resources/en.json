@@ -134,7 +134,7 @@
     "hour-placeholder": "Hour",
     "minute-placeholder": "Minute",
     "second-placeholder": "Second",
-    "output-title": "Output",
+    "output-title": "Output (UTC)",
     "seconds-label": "Seconds",
     "milliseconds-label": "Milliseconds"
   },

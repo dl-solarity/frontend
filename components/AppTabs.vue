@@ -68,6 +68,7 @@ const updateTab = (tab: Tab) => {
     @include respond-to(medium) {
       width: 100%;
 
+      // stylelint-disable-next-line selector-pseudo-class-no-unknown
       :deep(.icon) {
         display: none;
       }

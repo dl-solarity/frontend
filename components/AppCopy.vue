@@ -1,9 +1,9 @@
 <template>
-  <div class="copy">
+  <div class="app-copy">
     <slot />
     <button v-if="String(props.value)" type="button" @click="handleCopy">
       <app-icon
-        class="copy__icon"
+        class="app-copy__icon"
         :name="isCopied ? $icons.clipboardCheck : $icons.duplicate"
       />
     </button>
@@ -28,23 +28,16 @@ const handleCopy = async () => {
 </script>
 
 <style lang="scss" scoped>
-.copy {
+.app-copy {
   display: grid;
   grid-auto-flow: column;
   gap: toRem(8);
-  font: inherit;
-  color: inherit;
-  border: none;
-  background: none;
-  overflow: hidden;
   max-width: max-content;
 }
 
-.copy__icon {
-  width: 1.2em;
-  height: 1.2em;
-  min-width: toRem(16);
-  min-height: toRem(16);
+.app-copy__icon {
+  width: toRem(16);
+  height: toRem(16);
   color: var(--primary-main);
 }
 </style>

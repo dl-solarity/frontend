@@ -103,8 +103,8 @@ $gap-burger-btn-line: toRem(8);
 
 .app-navbar__burger-btn-line {
   &,
-  &::before,
-  &::after {
+  &:before,
+  &:after {
     display: block;
     position: absolute;
     width: 100%;
