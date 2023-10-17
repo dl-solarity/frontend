@@ -1,6 +1,6 @@
 <template>
   <div class="input-field" :class="inputClasses">
-    <label v-if="label" class="input-field__label" :for="`input-field--${uid}`">
+    <label v-if="label" class="input-field__label" :for="uid">
       {{ label }}
     </label>
     <div class="input-field__input-wrp">
@@ -15,7 +15,7 @@
         ref="inputEl"
         class="input-field__input"
         spellcheck="false"
-        :id="`input-field--${uid}`"
+        :id="uid"
         v-bind="$attrs"
         v-on="listeners"
         :value="modelValue"
@@ -71,6 +71,7 @@ const props = withDefaults(
   defineProps<{
     scheme?: 'primary'
     modelValue: string | number
+    uid?: string
     label?: string
     placeholder?: string
     type?: 'text' | 'number'
@@ -81,6 +82,7 @@ const props = withDefaults(
   {
     scheme: 'primary',
     type: 'text',
+    uid: '',
     label: '',
     placeholder: ' ',
     errorMessage: '',
@@ -98,11 +100,11 @@ const attrs = useAttrs()
 
 const slots = useSlots()
 
-const uid = uuidv4()
-
 const inputEl = ref<HTMLInputElement>()
 const nodeLeftWrp = ref<HTMLDivElement>()
 const nodeRightWrp = ref<HTMLDivElement>()
+
+const uid = computed<string>(() => props.uid || `input-field--${uuidv4()}`)
 
 const isNumberType = computed(() => props.type === 'number')
 
