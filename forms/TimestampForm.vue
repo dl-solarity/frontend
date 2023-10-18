@@ -67,10 +67,6 @@ const time = computed<Time | null>(() =>
 
 const outputItems = computed(() => [
   {
-    label: t('timestamp-form.format-label'),
-    value: capitalize(t('timestamp-form.format-value')),
-  },
-  {
     label: t('timestamp-form.gmt-label'),
     value: time.value ? capitalize(time.value.toDate().toUTCString()) : '',
   },

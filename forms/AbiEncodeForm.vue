@@ -91,8 +91,10 @@
       </input-field>
       <textarea-field
         :model-value="abiEncoding"
-        :label="$t('abi-encode-form.abi-encoding-label')"
-        :placeholder="$t('abi-encode-form.abi-encoding-placeholder')"
+        :label="$t(`abi-encode-form.encoding-label--${form.encodeMode}`)"
+        :placeholder="
+          $t(`abi-encode-form.encoding-placeholder--${form.encodeMode}`)
+        "
         readonly
       >
         <template #nodeRight>

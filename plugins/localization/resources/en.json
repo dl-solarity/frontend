@@ -108,17 +108,19 @@
     "arg-subtype-label": "Value",
     "arg-subtype-placeholder--tuple": "Enter type, e.g. tuple(address, tuple(uint256))",
     "add-arg-btn": "Add argument",
-    "abi-encoding-label": "Abi encoding",
-    "abi-encoding-placeholder": "Abi encoding",
+    "encoding-label--standard": "Abi encoding",
+    "encoding-label--packed": "Packed encoding",
+    "encoding-placeholder--standard": "Abi encoding",
+    "encoding-placeholder--packed": "Packed encoding",
     "func-signature-label": "Function signature",
     "func-signature-placeholder": "Function signature"
   },
   "common-addresses-form": {
     "input-title": "Common addresses",
-    "zeroAddress-label": "Zero Address",
-    "allFsAddress-label": "All Fs Address",
-    "allEsAddress-label": "All Es Address",
-    "randomAddress-label": "Random Address"
+    "zeroAddress-label": "Zero address",
+    "allFsAddress-label": "All Fs address",
+    "allEsAddress-label": "All Es address",
+    "randomAddress-label": "Random address"
   },
   "date-form": {
     "input-title": "Enter Date and Time",
@@ -156,10 +158,7 @@
     "input-title": "Enter Timestamp",
     "timestamp-label": "Timestamp in seconds",
     "timestamp-placeholder": "Timestamp in seconds",
-    "format-label": "Format",
-    "format-value": "Seconds",
     "gmt-label": "GMT",
-    "seconds-label": "Seconds",
     "time-zone-label": "Your time zone",
     "relative-time-label": "Relative",
     "output-title": "Output"

@@ -213,7 +213,7 @@ const decodeModeOptions = computed<FieldOption[]>(() => [
 const form = reactive({
   abiEncoding: '',
   funcSignature: '',
-  hasFuncSelector: false,
+  hasFuncSelector: true,
   decodeMode: decodeModeOptions.value[0].value,
 })
 const rules = computed(() => ({
