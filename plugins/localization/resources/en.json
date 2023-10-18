@@ -156,10 +156,7 @@
     "input-title": "Enter Timestamp",
     "timestamp-label": "Timestamp in seconds",
     "timestamp-placeholder": "Timestamp in seconds",
-    "format-label": "Format",
-    "format-value": "Seconds",
     "gmt-label": "GMT",
-    "seconds-label": "Seconds",
     "time-zone-label": "Your time zone",
     "relative-time-label": "Relative",
     "output-title": "Output"
