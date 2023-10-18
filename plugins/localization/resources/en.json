@@ -108,8 +108,10 @@
     "arg-subtype-label": "Value",
     "arg-subtype-placeholder--tuple": "Enter type, e.g. tuple(address, tuple(uint256))",
     "add-arg-btn": "Add argument",
-    "abi-encoding-label": "Abi encoding",
-    "abi-encoding-placeholder": "Abi encoding",
+    "encoding-label--standard": "Abi encoding",
+    "encoding-label--packed": "Packed encoding",
+    "encoding-placeholder--standard": "Abi encoding",
+    "encoding-placeholder--packed": "Packed encoding",
     "func-signature-label": "Function signature",
     "func-signature-placeholder": "Function signature"
   },
