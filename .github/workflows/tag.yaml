@@ -29,8 +29,9 @@ jobs:
           echo $GITHUB_REF_NAME
       - name: Run Build
         run: |
-          . $(werf ci-env github --as-file) 
-          werf export web --tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_REF_NAME
+          . $(werf ci-env github --as-file)
+          echo "${{ secrets.PROD_ENV }}" > .env.deploy
+          werf export web --tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_REF_NAME --dev
   prod-deploy:
     name: Deploy on prod
     needs: converge
