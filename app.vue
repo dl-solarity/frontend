@@ -13,9 +13,10 @@ import 'virtual:svg-icons-register'
 
 const { assignVhCssVariable } = useViewportSizes()
 
-const assignVhCssVariableDebounced = debounce(assignVhCssVariable, 300)
+const assignVhCssVariableDebounced = debounce(assignVhCssVariable, 200)
 
 onMounted(() => {
+  assignVhCssVariable()
   window.addEventListener('resize', assignVhCssVariableDebounced)
 })
 
