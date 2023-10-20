@@ -28,6 +28,7 @@ const onClick = () => {
 .app-logo__img {
   max-width: toRem(32);
   max-height: toRem(32);
+  margin-left: toRem(-8);
 }
 
 .app-logo__title {
