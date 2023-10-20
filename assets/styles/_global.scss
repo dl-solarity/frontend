@@ -107,17 +107,17 @@ main {
 }
 
 h1 {
-  font-family: var(--app-font-family-main);
+  font-family: var(--app-font-family-secondary);
   font-size: toRem(56);
-  font-weight: 500;
+  font-weight: 400;
   line-height: toRem(72);
   letter-spacing: 0;
 }
 
 h2 {
-  font-family: var(--app-font-family-main);
+  font-family: var(--app-font-family-secondary);
   font-size: toRem(40);
-  font-weight: 500;
+  font-weight: 400;
   line-height: toRem(48);
   letter-spacing: 0;
 
@@ -128,9 +128,9 @@ h2 {
 }
 
 h3 {
-  font-family: var(--app-font-family-main);
+  font-family: var(--app-font-family-secondary);
   font-size: toRem(24);
-  font-weight: 500;
+  font-weight: 400;
   line-height: toRem(32);
   letter-spacing: 0;
 
