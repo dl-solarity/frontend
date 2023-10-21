@@ -12,20 +12,14 @@
       <slot name="error" :error="error" /><!--THERE IS A SLOT HERE-->
     </template>
     <template v-else>
-      <img
-        v-bind="$attrs"
-        class="app-image__image"
-        :alt="imageOpts.alt"
-        :src="imageOpts.src"
-      />
+      <img v-bind="$attrs" class="app-image__img" :alt="alt" :src="src" />
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { AppLoader } from '#components'
-import { useImage } from '@/composables'
-import { UseImageOptions } from '@/types'
+import { useImage } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{
@@ -38,17 +32,7 @@ const props = withDefaults(
   },
 )
 
-const imageOpts = reactive<UseImageOptions>({
-  src: props.src,
-  alt: props.alt,
-})
-
-const { error, isLoading } = useImage(imageOpts)
-
-watch(
-  () => props.src,
-  newSrc => newSrc && (imageOpts.src = newSrc),
-)
+const { error, isLoading } = useImage(props)
 </script>
 
 <style lang="scss" scoped>
@@ -64,7 +48,7 @@ watch(
   margin: auto;
 }
 
-.app-image__image {
+.app-image__img {
   all: inherit;
 }
 </style>
