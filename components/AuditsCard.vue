@@ -1,6 +1,6 @@
 <template>
   <div class="audits-card">
-    <img :src="audit.imgSrc" class="audits-card__img" alt="audit-image" />
+    <app-image :src="audit.imgSrc" class="audits-card__img" alt="audit-image" />
     <div class="audits-card__content">
       <div class="audits-card__title-wrp">
         <h3 class="audits-card__title">
@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts" setup>
+import { AppImage } from '#components'
 import { Audit } from '@/types'
 
 defineProps<{
@@ -42,7 +43,6 @@ defineProps<{
 }
 
 .audits-card__img {
-  display: block;
   aspect-ratio: 600 / 318;
   width: 100%;
   object-fit: cover;
