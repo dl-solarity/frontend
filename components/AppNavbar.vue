@@ -13,6 +13,7 @@
     </button>
     <nav v-else class="app-navbar__nav">
       <app-button
+        class="app-navbar__nav-link"
         :text="$t('app-navbar.link-text')"
         :href="config.COMPANY_URL"
         color="none"
@@ -90,6 +91,10 @@ $gap-burger-btn-line: toRem(8);
 .app-navbar__nav {
   display: flex;
   gap: toRem(12);
+}
+
+.app-navbar .app-navbar__nav-link {
+  font-family: var(--app-font-family-secondary);
 }
 
 .app-navbar__burger-btn {
