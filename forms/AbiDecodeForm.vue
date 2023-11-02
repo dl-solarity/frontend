@@ -340,8 +340,9 @@ const decodeAbi = async (data: string): Promise<DecodedData> => {
 
 const formatValue = (value: ArrayElement<DecodedData['values']>): string => {
   if (value instanceof Array) {
-    const values = value.map(v => (checkIsBigInt(v) ? v.toString() : v))
-    return JSON.stringify(values)
+    return JSON.stringify(value, (_, value) =>
+      checkIsBigInt(value) ? value.toString() : value,
+    )
   }
 
   return String(value)
