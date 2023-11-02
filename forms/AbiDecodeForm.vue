@@ -139,6 +139,7 @@ import {
   checkIsBigInt,
   copyToClipboard,
   createFunctionSignature,
+  formatArgSubtype,
   functionSignature,
   getErrorMessage,
   parseFuncArgToValueOfEncode,
@@ -189,10 +190,6 @@ const warningMessage = ref('')
 
 const isDecoding = ref(false)
 const isDecoded = ref(false)
-
-const formatArgSubtype = (subtype: FuncArg['subtype']) => {
-  return subtype.startsWith('(') ? `tuple${subtype}` : subtype
-}
 
 const copyDecodedValues = () => {
   const values = funcArgs.value.map(parseFuncArgToValueOfEncode)
