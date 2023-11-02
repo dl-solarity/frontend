@@ -139,6 +139,7 @@ import {
   checkIsBigInt,
   copyToClipboard,
   createFunctionSignature,
+  formatArgSubtype,
   functionSignature,
   getErrorMessage,
   parseFuncArgToValueOfEncode,
@@ -189,10 +190,6 @@ const warningMessage = ref('')
 
 const isDecoding = ref(false)
 const isDecoded = ref(false)
-
-const formatArgSubtype = (subtype: FuncArg['subtype']) => {
-  return subtype.startsWith('(') ? `tuple${subtype}` : subtype
-}
 
 const copyDecodedValues = () => {
   const values = funcArgs.value.map(parseFuncArgToValueOfEncode)
@@ -340,8 +337,9 @@ const decodeAbi = async (data: string): Promise<DecodedData> => {
 
 const formatValue = (value: ArrayElement<DecodedData['values']>): string => {
   if (value instanceof Array) {
-    const values = value.map(v => (checkIsBigInt(v) ? v.toString() : v))
-    return JSON.stringify(values)
+    return JSON.stringify(value, (_, value) =>
+      checkIsBigInt(value) ? value.toString() : value,
+    )
   }
 
   return String(value)

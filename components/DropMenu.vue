@@ -108,7 +108,7 @@ $z-local-index: 10;
   background: var(--field-bg-primary);
 }
 
-.drop-menu__option {
+.drop-menu .drop-menu__option {
   font-family: var(--field-text-font-family);
   font-size: var(--field-text-font-size);
   font-weight: var(--field-text-font-weight);

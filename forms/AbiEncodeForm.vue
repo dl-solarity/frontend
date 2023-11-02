@@ -121,12 +121,13 @@ import {
   createFunctionSignature,
   ethereumBaseType,
   ethereumBaseTypeValue,
+  formatArgSubtype,
   json,
   parseFuncArgToValueOfEncode,
   required,
   withinSizeOfEthereumType,
 } from '@/helpers'
-import { type AbiEncodeForm, type FieldOption } from '@/types'
+import { type AbiForm, type FieldOption } from '@/types'
 import { Interface, ParamType, solidityPacked } from 'ethers'
 import { without } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
@@ -171,7 +172,7 @@ const resetOutput = () => {
 const form = reactive({
   encodeMode: ENCODE_MODES.standard,
   funcName: '',
-  args: [] as AbiEncodeForm.FuncArg[],
+  args: [] as AbiForm.FuncArg[],
 })
 const rules = computed(() => ({
   funcName: {
@@ -209,15 +210,12 @@ const { getFieldErrorMessage, isFormValid, touchField } = useFormValidation(
 
 const addArg = () =>
   form.args.push({ id: uuidv4(), type: '', subtype: '', value: '' })
-const removeArg = (id: AbiEncodeForm.FuncArg['id']) => {
+const removeArg = (id: AbiForm.FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
 
-const formatArgSubtype = (subtype: AbiEncodeForm.FuncArg['subtype']) => {
-  return subtype.startsWith('(') ? `tuple${subtype}` : subtype
-}
 const onArgSubtypeUpdate = (
-  newValue: AbiEncodeForm.FuncArg['subtype'],
+  newValue: AbiForm.FuncArg['subtype'],
   argIdx: number,
 ) => {
   form.args[argIdx].subtype = formatArgSubtype(newValue)

@@ -1,4 +1,4 @@
-export * from './abi-encode-form.helpers'
+export * from './abi-form.helpers'
 export * from './error-handler.helper'
 export * from './errors.helpers'
 export * from './ethereum.helpers'

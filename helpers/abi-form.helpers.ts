@@ -14,7 +14,7 @@ import {
   checkIsUnitLikeArrayJsonString,
   checkUintIsWithinRange,
 } from '@/helpers'
-import { type AbiEncodeForm, type BytesLike } from '@/types'
+import { type AbiForm, type BytesLike } from '@/types'
 import { ValidationRule } from '@vuelidate/core'
 import { type BigNumber } from 'bignumber.js'
 import { AbiCoder, ParamType } from 'ethers'
@@ -38,11 +38,11 @@ export const ethereumBaseType = (baseType: string): ValidationRule => {
 }
 
 export function ethereumBaseTypeValue(): ValidationRule {
-  let _arg: AbiEncodeForm.FuncArg
+  let _arg: AbiForm.FuncArg
   let _baseType: string
 
   return {
-    $validator: (_, arg: AbiEncodeForm.FuncArg) => {
+    $validator: (_, arg: AbiForm.FuncArg) => {
       _arg = arg
       _baseType = arg.type.replace(/\d+/, '')
 
@@ -121,7 +121,7 @@ export function withinSizeOfEthereumType(): ValidationRule {
   let _baseType: string
 
   return {
-    $validator: (_, arg: AbiEncodeForm.FuncArg) => {
+    $validator: (_, arg: AbiForm.FuncArg) => {
       _baseType = arg.type.replace(/\d+/, '')
 
       const isUintBaseType = [
@@ -175,9 +175,7 @@ export function withinSizeOfEthereumType(): ValidationRule {
   }
 }
 
-export const parseFuncArgToValueOfEncode = (
-  arg: AbiEncodeForm.FuncArg,
-): unknown => {
+export const parseFuncArgToValueOfEncode = (arg: AbiForm.FuncArg): unknown => {
   if (!checkIsEthereumType(arg.type)) throw new Error('unknown ethereum type')
 
   const isArrayType = arg.type.includes('[]')
@@ -191,4 +189,8 @@ export const parseFuncArgToValueOfEncode = (
     default:
       return arg.value
   }
+}
+
+export const formatArgSubtype = (subtype: AbiForm.FuncArg['subtype']) => {
+  return subtype.replaceAll('tuple(', '(').replaceAll('(', 'tuple(')
 }
