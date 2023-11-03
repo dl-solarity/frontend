@@ -59,7 +59,15 @@
 <script lang="ts" setup>
 import { AppIcon } from '#components'
 import { v4 as uuidv4 } from 'uuid'
-import { computed, nextTick, onMounted, useAttrs, useSlots, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  useAttrs,
+  useSlots,
+  watch,
+} from 'vue'
 
 type SCHEMES = 'primary'
 type SIZES = 'default' | 'small'
@@ -96,6 +104,7 @@ const slots = useSlots()
 
 const uid = uuidv4()
 const textareaElement = ref<HTMLTextAreaElement | null>(null)
+const nodeRightWrp = ref<HTMLDivElement | null>(null)
 
 const isDisabled = computed(() =>
   ['', 'disabled', true].includes(attrs.disabled as string | boolean),
@@ -161,6 +170,20 @@ watch(
 )
 
 onMounted(resizeTextarea)
+
+const OFFSET_WIDTH = 19
+onMounted(() => {
+  if (!textareaElement.value) return
+
+  if (slots?.nodeRight && nodeRightWrp.value) {
+    textareaElement.value?.style.setProperty(
+      'padding-right',
+      `calc(${
+        nodeRightWrp.value?.offsetWidth || OFFSET_WIDTH
+      }px + var(--field-padding-right) * 2)`,
+    )
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -251,6 +274,8 @@ $z-index-side-nodes: 1;
   transform: translateY(-50%);
   color: inherit;
   z-index: $z-index-side-nodes;
+  display: flex;
+  gap: toRem(8);
 }
 
 .textarea-field__icon {

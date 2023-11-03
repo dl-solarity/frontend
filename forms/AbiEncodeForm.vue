@@ -34,11 +34,9 @@
             :error-message="getFieldErrorMessage(`args[${idx}].type`)"
             @blur="touchField(`args[${idx}].type`)"
           />
-          <div
-            v-if="arg.type === ETHEREUM_TYPES.tuple"
-            class="abi-encode-form__tuple"
-          >
+          <div class="abi-encode-form__value-wrp">
             <input-field
+              v-if="arg.type === ETHEREUM_TYPES.tuple"
               :model-value="arg.subtype"
               is-clearable
               :label="$t('abi-encode-form.arg-subtype-label')"
@@ -53,22 +51,43 @@
             <textarea-field
               v-model="arg.value"
               size="small"
+              :label="
+                arg.type !== ETHEREUM_TYPES.tuple
+                  ? $t('abi-encode-form.arg-subtype-label')
+                  : ''
+              "
               :placeholder="$t('abi-encode-form.arg-value-placeholder')"
               :error-message="getFieldErrorMessage(`args[${idx}].value`)"
               @blur="touchField(`args[${idx}].value`)"
-            />
+            >
+              <template v-if="arg.type !== ETHEREUM_TYPES.tuple" #nodeRight>
+                <button
+                  class="abi-encode-form__field-btn"
+                  :class="{ 'abi-encode-form__field-btn--filled': arg.value }"
+                  :disabled="!arg.type"
+                  @click="arg.value = getDefaultValueOfType(arg.type)"
+                >
+                  <app-icon
+                    :class="[
+                      'abi-encode-form__field-btn-icon',
+                      'abi-encode-form__field-btn-icon--refresh',
+                    ]"
+                    :name="$icons.refresh"
+                  />
+                </button>
+                <button
+                  class="abi-encode-form__field-btn"
+                  :class="{ 'abi-encode-form__field-btn--filled': arg.value }"
+                  @click="removeArg(arg.id)"
+                >
+                  <app-icon
+                    class="abi-encode-form__field-btn-icon"
+                    :name="$icons.x"
+                  />
+                </button>
+              </template>
+            </textarea-field>
           </div>
-          <textarea-field
-            v-else
-            v-model="arg.value"
-            is-clearable
-            size="small"
-            :label="$t('abi-encode-form.arg-value-label')"
-            :placeholder="$t('abi-encode-form.arg-value-placeholder')"
-            :error-message="getFieldErrorMessage(`args[${idx}].value`)"
-            @blur="touchField(`args[${idx}].value`)"
-            @clear="removeArg(arg.id)"
-          />
         </div>
       </div>
       <app-button
@@ -106,7 +125,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AppButton, AppCopy } from '#components'
+import { AppButton, AppCopy, AppIcon } from '#components'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import {
@@ -122,6 +141,7 @@ import {
   ethereumBaseType,
   ethereumBaseTypeValue,
   formatArgSubtype,
+  getDefaultValueOfType,
   json,
   parseFuncArgToValueOfEncode,
   required,
@@ -315,8 +335,40 @@ abiEncoding.value = encodeAbi([], [])
   }
 }
 
-.abi-encode-form__tuple {
+.abi-encode-form__value-wrp {
   display: grid;
   grid-gap: toRem(16);
+}
+
+.abi-encode-form__field-btn {
+  color: var(--field-placeholder);
+  transition: color var(--field-transition-duration) ease;
+
+  &--filled {
+    color: var(--field-text);
+  }
+
+  &:disabled {
+    color: var(--disable-primary-main);
+  }
+
+  &:not([disabled]):hover {
+    color: var(--primary-light);
+  }
+
+  &:not([disabled]):focus,
+  &:not([disabled]):active {
+    color: var(--primary-main);
+  }
+}
+
+.abi-encode-form .abi-encode-form__field-btn-icon {
+  height: toRem(24);
+  width: toRem(24);
+
+  &--refresh {
+    height: toRem(18);
+    width: toRem(18);
+  }
 }
 </style>

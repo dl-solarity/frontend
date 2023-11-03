@@ -194,3 +194,34 @@ export const parseFuncArgToValueOfEncode = (arg: AbiForm.FuncArg): unknown => {
 export const formatArgSubtype = (subtype: AbiForm.FuncArg['subtype']) => {
   return subtype.replaceAll('tuple(', '(').replaceAll('(', 'tuple(')
 }
+
+export const getDefaultValueOfType = (
+  type: AbiForm.FuncArg['type'],
+): string => {
+  const baseType = type.replace(/\d+/, '')
+  const matchArray = type.match(/\d+/)
+  const sizeOfType = matchArray?.length ? Number(matchArray[0]) : 0
+
+  switch (baseType) {
+    case ETHEREUM_TYPES.address:
+      return '0x0000000000000000000000000000000000000000'
+    case ETHEREUM_TYPES.addressArray:
+      return '["0x0000000000000000000000000000000000000000"]'
+    case ETHEREUM_TYPES.bool:
+      return 'false'
+    case ETHEREUM_TYPES.boolArray:
+      return '[false]'
+    case ETHEREUM_TYPES.bytes:
+      return sizeOfType ? '0x'.concat('00'.repeat(sizeOfType)) : '0x00'
+    case ETHEREUM_TYPES.bytesArray:
+      return sizeOfType ? `["0x${'00'.repeat(sizeOfType)}"]` : '["0x00"]'
+    case ETHEREUM_TYPES.stringArray:
+      return '[""]'
+    case ETHEREUM_TYPES.uint:
+      return sizeOfType.toString()
+    case ETHEREUM_TYPES.uintArray:
+      return `["${sizeOfType}"]`
+    default:
+      return ''
+  }
+}
