@@ -322,14 +322,14 @@ const buttonType = computed<ButtonType>(
   }
 
   &--none {
-    $flat-border-hover: #{toRem(1)} solid var(--border-primary-light);
+    $flat-border-hover: #{toRem(1)} solid var(--primary-light);
 
     --app-button-flat-bg-hover: var(--background-primary-main);
     --app-button-flat-bg-focused: var(--background-primary-main);
     --app-button-flat-bg-active: var(--background-primary-main);
 
     --app-button-flat-text: var(--text-primary-light);
-    --app-button-flat-text-hover: var(--text-primary-light);
+    --app-button-flat-text-hover: var(--primary-light);
     --app-button-flat-text-focused: var(--primary-main);
     --app-button-flat-text-active: var(--primary-main);
 
@@ -349,9 +349,9 @@ const buttonType = computed<ButtonType>(
 
     &.app-button--text {
       --app-button-text: var(--text-primary-light);
-      --app-button-text-hover: var(--primary-main);
-      --app-button-text-focused: var(--primary-light);
-      --app-button-text-active: var(--primary-light);
+      --app-button-text-hover: var(--primary-light);
+      --app-button-text-focused: var(--primary-main);
+      --app-button-text-active: var(--primary-main);
     }
   }
 
