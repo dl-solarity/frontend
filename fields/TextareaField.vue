@@ -237,7 +237,7 @@ $z-index-side-nodes: 1;
       height: toRem(2);
       width: 0;
       background: var(--primary-main);
-      transition: width calc(var(--field-transition-duration) + 0.3s);
+      transition: width calc(var(--transition-duration-fast) + 0.3s);
 
       .textarea-field--error & {
         background: var(--field-error);
@@ -282,7 +282,7 @@ $z-index-side-nodes: 1;
   max-width: toRem(24);
   max-height: toRem(24);
   color: var(--field-placeholder);
-  transition: color var(--field-transition-duration);
+  transition: color var(--transition-duration-fast);
 
   .textarea-field--filled &:not(.textarea-field__icon--error) {
     color: var(--field-text);
@@ -313,11 +313,11 @@ $z-index-side-nodes: 1;
 }
 
 .textarea-field__err-msg-transition-enter-active {
-  animation: fade-down var(--field-transition-duration);
+  animation: fade-down var(--transition-duration-fast);
 }
 
 .textarea-field__err-msg-transition-leave-active {
-  animation: fade-down var(--field-transition-duration) reverse;
+  animation: fade-down var(--transition-duration-fast) reverse;
 }
 
 @keyframes fade-down {

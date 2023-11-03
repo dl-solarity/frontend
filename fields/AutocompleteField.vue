@@ -193,7 +193,7 @@ onMounted(() => {
   width: toRem(22);
   height: toRem(22);
   color: var(--field-placeholder);
-  transition: var(--field-transition-duration) ease-in-out;
+  transition: var(--transition-duration-fast) ease-in-out;
 
   .autocomplete-field--disabled &,
   .autocomplete-field--readonly & {
@@ -240,11 +240,11 @@ onMounted(() => {
 
 .autocomplete-field__err-msg {
   &-enter-active {
-    animation: fade-down var(--field-transition-duration);
+    animation: fade-down var(--transition-duration-fast);
   }
 
   &-leave-active {
-    animation: fade-down var(--field-transition-duration) reverse;
+    animation: fade-down var(--transition-duration-fast) reverse;
   }
 }
 

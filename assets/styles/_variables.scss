@@ -127,8 +127,8 @@
   --field-border-focus: var(--primary-main);
   --field-border-radius: #{toRem(8)};
 
-  /* transition duration */
-  --field-transition-duration: 0.2s;
+  /* transition */
+  --transition-duration-fast: 0.2s;
 
   /* paddings */
   --field-padding-top: #{toRem(12)};

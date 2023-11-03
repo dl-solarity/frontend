@@ -292,7 +292,7 @@ $z-index-side-nodes: 1;
   max-width: toRem(24);
   max-height: toRem(24);
   color: var(--field-placeholder);
-  transition: color var(--field-transition-duration);
+  transition: color var(--transition-duration-fast);
 
   .input-field--filled &:not(.input-field__icon--error) {
     color: var(--field-text);
@@ -323,11 +323,11 @@ $z-index-side-nodes: 1;
 }
 
 .input-field__err-msg-transition-enter-active {
-  animation: fade-down var(--field-transition-duration);
+  animation: fade-down var(--transition-duration-fast);
 }
 
 .input-field__err-msg-transition-leave-active {
-  animation: fade-down var(--field-transition-duration) reverse;
+  animation: fade-down var(--transition-duration-fast) reverse;
 }
 
 @keyframes fade-down {

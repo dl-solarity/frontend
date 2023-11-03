@@ -50,7 +50,7 @@ $z-index-arrow: 1;
     color: var(--text-primary-invert-main);
     width: toRem(18);
     height: toRem(18);
-    transition: color var(--field-transition-duration) ease;
+    transition: color var(--transition-duration-fast) ease;
   }
 
   &:hover {
@@ -108,7 +108,7 @@ $z-index-arrow: 1;
   padding: 0 toRem(4) 0 toRem(4);
   height: 50%;
   cursor: pointer;
-  transition: opacity var(--field-transition-duration) ease;
+  transition: opacity var(--transition-duration-fast) ease;
 
   &:after {
     display: block;
@@ -116,7 +116,7 @@ $z-index-arrow: 1;
     position: absolute;
     border-left: toRem(4) solid transparent;
     border-right: toRem(4) solid transparent;
-    transition: border-color var(--field-transition-duration) ease;
+    transition: border-color var(--transition-duration-fast) ease;
   }
 }
 

@@ -21,7 +21,7 @@
   background-size: 100% 100%;
   width: 100%;
   min-height: vh(100);
-  transition: min-height var(--field-transition-duration);
+  transition: min-height var(--transition-duration-fast);
   padding: calc(var(--app-height-header) + var(--app-padding-top)) toRem(80)
     var(--app-padding-bottom);
 

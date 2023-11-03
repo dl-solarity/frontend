@@ -29,7 +29,7 @@ textarea {
   padding: var(--field-padding);
   background: var(--field-bg-primary);
   box-shadow: inset 0 0 0 toRem(50) var(--field-bg-primary);
-  transition: var(--field-transition-duration) ease;
+  transition: var(--transition-duration-fast) ease;
   transition-property: color, box-shadow, border-color, background-color;
 
   &:disabled,

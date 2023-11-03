@@ -164,7 +164,7 @@ $z-index-btn: 1;
   border-radius: var(--border-radius-main);
   color: var(--text-primary-main);
   padding: toRem(8) toRem(16);
-  transition: var(--field-transition-duration);
+  transition: var(--transition-duration-fast);
   transition-property: background-color, color;
   width: 100%;
 

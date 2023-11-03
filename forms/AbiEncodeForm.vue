@@ -342,7 +342,7 @@ abiEncoding.value = encodeAbi([], [])
 
 .abi-encode-form__field-btn {
   color: var(--field-placeholder);
-  transition: color var(--field-transition-duration) ease;
+  transition: color var(--transition-duration-fast) ease;
 
   &--filled {
     color: var(--field-text);

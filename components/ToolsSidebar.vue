@@ -161,11 +161,11 @@ $aside-max-width: toRem(280);
 }
 
 .tools-sidebar__transition-enter-active {
-  animation: fade-unroll-right var(--field-transition-duration) ease-in-out;
+  animation: fade-unroll-right var(--transition-duration-fast) ease-in-out;
 }
 
 .tools-sidebar__transition-leave-active {
-  animation: fade-unroll-right var(--field-transition-duration) ease-in-out
+  animation: fade-unroll-right var(--transition-duration-fast) ease-in-out
     reverse;
 }
 

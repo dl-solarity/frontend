@@ -79,7 +79,7 @@ $gap-burger-btn-line: toRem(8);
   padding: 0 var(--app-padding-right) 0 var(--app-padding-left);
   height: var(--app-height-header);
   background: transparent;
-  transition: var(--field-transition-duration) ease;
+  transition: var(--transition-duration-fast) ease;
   transition-property: background-color, box-shadow;
 
   &--dark {
@@ -117,7 +117,7 @@ $gap-burger-btn-line: toRem(8);
     height: $height-burger-btn-line;
     background-color: var(--primary-light);
     border-radius: var(--border-primary-main);
-    transition: var(--field-transition-duration);
+    transition: var(--transition-duration-fast);
   }
 
   .app-navbar__burger-btn--active & {
