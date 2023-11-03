@@ -77,7 +77,7 @@ const emit = defineEmits<{
 .radio-button-field__label {
   display: block;
   padding: toRem(8) toRem(16);
-  transition: var(--field-transition-duration) ease;
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
   transition-property: background-color, color;
   border-radius: inherit;
   color: var(--text-primary-main);

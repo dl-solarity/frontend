@@ -42,7 +42,7 @@ $media-breakpoints: (
   letter-spacing: var(--field-label-letter-spacing);
   color: var(--field-label);
   margin-bottom: var(--field-label-margin-bottom);
-  transition: var(--field-transition-duration) ease;
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
   max-width: max-content;
 }
 
@@ -70,7 +70,7 @@ $media-breakpoints: (
   color: var(--field-placeholder);
   -webkit-text-fill-color: var(--field-placeholder);
   fill: var(--field-placeholder);
-  transition: var(--field-transition-duration) ease;
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
   transition-property: opacity, color;
   opacity: 1;
 }
@@ -84,7 +84,7 @@ $media-breakpoints: (
   color: var(--field-placeholder-readonly);
   -webkit-text-fill-color: var(--field-placeholder-readonly);
   fill: var(--field-placeholder-readonly);
-  transition: var(--field-transition-duration) ease;
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
   transition-property: opacity, color;
   opacity: 1;
 }
@@ -97,7 +97,7 @@ $media-breakpoints: (
   letter-spacing: var(--field-error-letter-spacing);
   color: var(--field-error);
   margin-top: var(--field-error-margin-top);
-  transition: var(--field-transition-duration) ease;
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
   transition-property: opacity, color, font-size, transform;
 }
 
@@ -238,11 +238,18 @@ $media-breakpoints: (
 @mixin drop-item-transition {
   .drop-item {
     &-enter-active {
-      animation: drop-item var(--field-transition-duration) ease;
+      animation:
+        drop-item
+        var(--transition-duration-fast)
+        var(--transition-timing-default);
     }
 
     &-leave-active {
-      animation: drop-item var(--field-transition-duration) ease reverse;
+      animation:
+        drop-item
+        var(--transition-duration-fast)
+        var(--transition-timing-default)
+        reverse;
     }
   }
 

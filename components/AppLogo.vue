@@ -23,6 +23,18 @@ const onClick = () => {
 .app-logo {
   display: flex;
   align-items: center;
+  max-width: max-content;
+  transition: color var(--transition-duration-fast)
+    var(--transition-timing-default);
+
+  &:hover {
+    color: var(--primary-light);
+  }
+
+  &:focus,
+  &:active {
+    color: var(--primary-main);
+  }
 }
 
 .app-logo__img {
