@@ -71,7 +71,9 @@ $z-index: 1300;
 
   &-enter-active,
   &-leave-active {
-    transition: var(--transition-duration-fast) ease-in-out;
+    $timing: var(--transition-timing-default);
+
+    transition: var(--transition-duration-fast) $timing;
     transition-property: opacity, transform;
   }
 

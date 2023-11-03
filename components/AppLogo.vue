@@ -24,7 +24,8 @@ const onClick = () => {
   display: flex;
   align-items: center;
   max-width: max-content;
-  transition: color var(--transition-duration-fast) ease;
+  transition: color var(--transition-duration-fast)
+    var(--transition-timing-default);
 
   &:hover {
     color: var(--primary-light);

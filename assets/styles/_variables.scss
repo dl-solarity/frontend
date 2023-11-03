@@ -129,6 +129,7 @@
 
   /* transition */
   --transition-duration-fast: 0.2s;
+  --transition-timing-default: cubic-bezier(0.08, 0.52, 0.52, 1);
 
   /* paddings */
   --field-padding-top: #{toRem(12)};

@@ -144,7 +144,8 @@ const buttonType = computed<ButtonType>(
   grid: auto / auto-flow max-content;
   align-items: center;
   justify-content: center;
-  transition: all var(--button-transition-duration) ease-in;
+  transition: all var(--button-transition-duration)
+    var(--transition-timing-default);
   border: var(--app-button-border);
   background-color: var(--app-button-bg);
   color: var(--app-button-text);
@@ -160,7 +161,7 @@ const buttonType = computed<ButtonType>(
 
   &:not([disabled]):hover {
     text-decoration: none;
-    transition-timing-function: ease-out;
+    transition-timing-function: var(--transition-timing-default);
     color: var(--app-button-text-hover);
     background-color: var(--app-button-bg-hover);
     border: var(--app-button-border-hover);
@@ -170,14 +171,14 @@ const buttonType = computed<ButtonType>(
   &:not([disabled]):focus {
     text-decoration: none;
     color: var(--app-button-text-focused);
-    transition-timing-function: ease-out;
+    transition-timing-function: var(--transition-timing-default);
     background-color: var(--app-button-bg-focused);
     border: var(--app-button-border-focused);
   }
 
   &:not([disabled]):active {
     text-decoration: none;
-    transition-timing-function: ease-out;
+    transition-timing-function: var(--transition-timing-default);
     color: var(--app-button-text-active);
     background-color: var(--app-button-bg-active);
     border: var(--app-button-border-active);

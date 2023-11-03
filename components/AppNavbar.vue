@@ -79,7 +79,7 @@ $gap-burger-btn-line: toRem(8);
   padding: 0 var(--app-padding-right) 0 var(--app-padding-left);
   height: var(--app-height-header);
   background: transparent;
-  transition: var(--transition-duration-fast) ease;
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
   transition-property: background-color, box-shadow;
 
   &--dark {

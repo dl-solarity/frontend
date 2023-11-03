@@ -193,7 +193,7 @@ onMounted(() => {
   width: toRem(22);
   height: toRem(22);
   color: var(--field-placeholder);
-  transition: var(--transition-duration-fast) ease-in-out;
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
 
   .autocomplete-field--disabled &,
   .autocomplete-field--readonly & {
