@@ -38,7 +38,6 @@
             <input-field
               v-if="arg.type === ETHEREUM_TYPES.tuple"
               :model-value="arg.subtype"
-              is-clearable
               :label="$t('abi-encode-form.arg-subtype-label')"
               :placeholder="
                 $t('abi-encode-form.arg-subtype-placeholder--tuple')
@@ -47,20 +46,46 @@
               @blur="touchField(`args[${idx}].subtype`)"
               @clear="removeArg(arg.id)"
               @update:model-value="onArgSubtypeUpdate($event as string, idx)"
-            />
+            >
+              <template #nodeRight>
+                <button
+                  class="abi-encode-form__field-btn"
+                  :class="{ 'abi-encode-form__field-btn--filled': arg.subtype }"
+                  @click="arg.subtype = getDefaultSubtypeOfType(arg.type)"
+                >
+                  <app-icon
+                    :class="[
+                      'abi-encode-form__field-btn-icon',
+                      'abi-encode-form__field-btn-icon--refresh',
+                    ]"
+                    :name="$icons.refresh"
+                  />
+                </button>
+                <button
+                  class="abi-encode-form__field-btn"
+                  :class="{ 'abi-encode-form__field-btn--filled': arg.subtype }"
+                  @click="removeArg(arg.id)"
+                >
+                  <app-icon
+                    class="abi-encode-form__field-btn-icon"
+                    :name="$icons.x"
+                  />
+                </button>
+              </template>
+            </input-field>
             <textarea-field
               v-model="arg.value"
               size="small"
               :label="
                 arg.type !== ETHEREUM_TYPES.tuple
-                  ? $t('abi-encode-form.arg-subtype-label')
+                  ? $t('abi-encode-form.arg-value-label')
                   : ''
               "
               :placeholder="$t('abi-encode-form.arg-value-placeholder')"
               :error-message="getFieldErrorMessage(`args[${idx}].value`)"
               @blur="touchField(`args[${idx}].value`)"
             >
-              <template v-if="arg.type !== ETHEREUM_TYPES.tuple" #nodeRight>
+              <template #nodeRight>
                 <button
                   class="abi-encode-form__field-btn"
                   :class="{ 'abi-encode-form__field-btn--filled': arg.value }"
@@ -76,6 +101,7 @@
                   />
                 </button>
                 <button
+                  v-if="arg.type !== ETHEREUM_TYPES.tuple"
                   class="abi-encode-form__field-btn"
                   :class="{ 'abi-encode-form__field-btn--filled': arg.value }"
                   @click="removeArg(arg.id)"
@@ -141,6 +167,7 @@ import {
   ethereumBaseType,
   ethereumBaseTypeValue,
   formatArgSubtype,
+  getDefaultSubtypeOfType,
   getDefaultValueOfType,
   json,
   parseFuncArgToValueOfEncode,

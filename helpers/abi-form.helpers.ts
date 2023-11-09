@@ -195,6 +195,16 @@ export const formatArgSubtype = (subtype: AbiForm.FuncArg['subtype']) => {
   return subtype.replaceAll('tuple(', '(').replaceAll('(', 'tuple(')
 }
 
+export const getDefaultSubtypeOfType = (
+  type: AbiForm.FuncArg['type'],
+): string => {
+  if (type === ETHEREUM_TYPES.tuple) {
+    return 'tuple()'
+  }
+
+  return ''
+}
+
 export const getDefaultValueOfType = (
   type: AbiForm.FuncArg['type'],
 ): string => {
@@ -212,6 +222,8 @@ export const getDefaultValueOfType = (
       return 'false'
     case ETHEREUM_TYPES.bytes:
       return sizeOfType ? '0x'.concat('00'.repeat(sizeOfType)) : '0x'
+    case ETHEREUM_TYPES.tuple:
+      return '[]'
     case ETHEREUM_TYPES.uint:
       return '0'
     default:
