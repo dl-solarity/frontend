@@ -14,6 +14,7 @@ export enum ICON_NAMES {
   exclamationCircle = 'exclamation-circle',
   exclamationTriangle = 'exclamation-triangle',
   hashtag = 'hashtag',
+  keyboard = 'keyboard',
   locationMarker = 'location-marker',
   plus = 'plus',
   refresh = 'refresh',
