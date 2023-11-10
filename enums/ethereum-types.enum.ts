@@ -72,6 +72,7 @@ export enum ETHEREUM_TYPES {
   string = 'string',
   stringArray = 'string[]',
   tuple = 'tuple()',
+  tupleArray = 'tuple()[]',
   uint = 'uint',
   uintArray = 'uint[]',
   uint8 = 'uint8',
