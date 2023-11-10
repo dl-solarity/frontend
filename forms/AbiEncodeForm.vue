@@ -54,11 +54,8 @@
                   @click="arg.subtype = getDefaultSubtypeOfType(arg.type)"
                 >
                   <app-icon
-                    :class="[
-                      'abi-encode-form__field-btn-icon',
-                      'abi-encode-form__field-btn-icon--refresh',
-                    ]"
-                    :name="$icons.refresh"
+                    class="abi-encode-form__field-btn-icon"
+                    :name="$icons.keyboard"
                   />
                 </button>
                 <button
@@ -67,7 +64,10 @@
                   @click="removeArg(arg.id)"
                 >
                   <app-icon
-                    class="abi-encode-form__field-btn-icon"
+                    :class="[
+                      'abi-encode-form__field-btn-icon',
+                      'abi-encode-form__field-btn-icon--x-mark',
+                    ]"
                     :name="$icons.x"
                   />
                 </button>
@@ -93,11 +93,8 @@
                   @click="arg.value = getDefaultValueOfType(arg.type)"
                 >
                   <app-icon
-                    :class="[
-                      'abi-encode-form__field-btn-icon',
-                      'abi-encode-form__field-btn-icon--refresh',
-                    ]"
-                    :name="$icons.refresh"
+                    class="abi-encode-form__field-btn-icon"
+                    :name="$icons.keyboard"
                   />
                 </button>
                 <button
@@ -107,7 +104,10 @@
                   @click="removeArg(arg.id)"
                 >
                   <app-icon
-                    class="abi-encode-form__field-btn-icon"
+                    :class="[
+                      'abi-encode-form__field-btn-icon',
+                      'abi-encode-form__field-btn-icon--x-mark',
+                    ]"
                     :name="$icons.x"
                   />
                 </button>
@@ -393,10 +393,10 @@ abiEncoding.value = encodeAbi([], [])
 .abi-encode-form .abi-encode-form__field-btn-icon {
   height: toRem(24);
   width: toRem(24);
+  margin-right: toRem(-1);
 
-  &--refresh {
-    height: toRem(18);
-    width: toRem(18);
+  &--x-mark {
+    margin-right: toRem(-5);
   }
 }
 </style>

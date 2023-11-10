@@ -87,11 +87,6 @@ textarea {
   @include field-text;
 }
 
-button,
-a {
-  cursor: pointer;
-}
-
 body,
 span,
 p,
@@ -99,6 +94,15 @@ a {
   color: var(--text-primary-light);
 
   @include p-16-regular;
+}
+
+button,
+a {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 main {
