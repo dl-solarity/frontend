@@ -113,6 +113,7 @@ export function ethereumBaseTypeValue(): ValidationRule {
         case _arg.type === ETHEREUM_TYPES.boolArray:
         case _arg.type === ETHEREUM_TYPES.stringArray:
         case _arg.type === ETHEREUM_TYPES.tuple:
+        case _arg.type === ETHEREUM_TYPES.tupleArray:
           return t(
             `validations.field-error_ethereumBaseTypeValue--${_arg.type.replace(
               '[]',
@@ -132,7 +133,7 @@ export function ethereumBaseTypeValue(): ValidationRule {
             { type: _baseType.replace('[]', '') },
           )
         default:
-          return ''
+          return t('validations.field-error_ethereumBaseTypeValue')
       }
     },
   }
