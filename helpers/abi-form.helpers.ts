@@ -37,6 +37,26 @@ export const ethereumBaseType = (baseType: string): ValidationRule => {
   }
 }
 
+export const ethereumTupleArrayType: ValidationRule = {
+  $validator: (value: string) => {
+    try {
+      const paramType = ParamType.from(value)
+
+      const openingSquareBracketCount = value.split('[').length - 1
+      const closingSquareBracketCount = value.split(']').length - 1
+
+      return (
+        paramType.type.startsWith('tuple') &&
+        paramType.type.endsWith(')[]') &&
+        openingSquareBracketCount === closingSquareBracketCount
+      )
+    } catch {
+      return false
+    }
+  },
+  $message: t('validations.field-error_ethereumTupleArrayType'),
+}
+
 export function ethereumBaseTypeValue(): ValidationRule {
   let _arg: AbiForm.FuncArg
   let _baseType: string
@@ -64,6 +84,7 @@ export function ethereumBaseTypeValue(): ValidationRule {
         case ETHEREUM_TYPES.stringArray:
           return checkIsStringArrayJsonString(arg.value)
         case ETHEREUM_TYPES.tuple:
+        case ETHEREUM_TYPES.tupleArray:
           try {
             return Boolean(
               abiCoder.encode(
@@ -91,13 +112,16 @@ export function ethereumBaseTypeValue(): ValidationRule {
         case _arg.type === ETHEREUM_TYPES.bool:
         case _arg.type === ETHEREUM_TYPES.boolArray:
         case _arg.type === ETHEREUM_TYPES.stringArray:
-        case _arg.type === ETHEREUM_TYPES.tuple:
           return t(
             `validations.field-error_ethereumBaseTypeValue--${_arg.type.replace(
               '[]',
               'Array',
             )}`,
           )
+        case _arg.type === ETHEREUM_TYPES.tuple:
+          return t('validations.field-error_ethereumBaseTypeValue--tuple')
+        case _arg.type === ETHEREUM_TYPES.tupleArray:
+          return t('validations.field-error_ethereumBaseTypeValue--tupleArray')
 
         case _baseType === ETHEREUM_TYPES.bytes:
         case _baseType === ETHEREUM_TYPES.bytesArray:
@@ -111,7 +135,7 @@ export function ethereumBaseTypeValue(): ValidationRule {
             { type: _baseType.replace('[]', '') },
           )
         default:
-          return ''
+          return t('validations.field-error_ethereumBaseTypeValue')
       }
     },
   }
@@ -183,6 +207,7 @@ export const parseFuncArgToValueOfEncode = (arg: AbiForm.FuncArg): unknown => {
   switch (true) {
     case isArrayType:
     case arg.type === ETHEREUM_TYPES.tuple:
+    case arg.type === ETHEREUM_TYPES.tupleArray:
       return JSON.parse(arg.value as string)
     case arg.type === ETHEREUM_TYPES.bool:
       return arg.value === 'true'
@@ -198,11 +223,14 @@ export const formatArgSubtype = (subtype: AbiForm.FuncArg['subtype']) => {
 export const getDefaultSubtypeOfType = (
   type: AbiForm.FuncArg['type'],
 ): string => {
-  if (type === ETHEREUM_TYPES.tuple) {
-    return 'tuple()'
+  switch (type) {
+    case ETHEREUM_TYPES.tuple:
+      return 'tuple()'
+    case ETHEREUM_TYPES.tupleArray:
+      return 'tuple()[]'
+    default:
+      return ''
   }
-
-  return ''
 }
 
 export const getDefaultValueOfType = (

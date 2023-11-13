@@ -36,11 +36,17 @@
           />
           <div class="abi-encode-form__value-wrp">
             <input-field
-              v-if="arg.type === ETHEREUM_TYPES.tuple"
+              v-if="LIST_OF_TYPES_WITH_SUBTYPE.includes(arg.type)"
               :model-value="arg.subtype"
               :label="$t('abi-encode-form.arg-subtype-label')"
               :placeholder="
-                $t('abi-encode-form.arg-subtype-placeholder--tuple')
+                $t(
+                  `abi-encode-form.arg-subtype-placeholder--${
+                    arg.type === ETHEREUM_TYPES.tupleArray
+                      ? 'tupleArray'
+                      : 'tuple'
+                  }`,
+                )
               "
               :error-message="getFieldErrorMessage(`args[${idx}].subtype`)"
               @blur="touchField(`args[${idx}].subtype`)"
@@ -77,7 +83,7 @@
               v-model="arg.value"
               size="small"
               :label="
-                arg.type !== ETHEREUM_TYPES.tuple
+                !LIST_OF_TYPES_WITH_SUBTYPE.includes(arg.type)
                   ? $t('abi-encode-form.arg-value-label')
                   : ''
               "
@@ -98,7 +104,7 @@
                   />
                 </button>
                 <button
-                  v-if="arg.type !== ETHEREUM_TYPES.tuple"
+                  v-if="!LIST_OF_TYPES_WITH_SUBTYPE.includes(arg.type)"
                   class="abi-encode-form__field-btn"
                   :class="{ 'abi-encode-form__field-btn--filled': arg.value }"
                   @click="removeArg(arg.id)"
@@ -166,6 +172,7 @@ import {
   createFunctionSignature,
   ethereumBaseType,
   ethereumBaseTypeValue,
+  ethereumTupleArrayType,
   formatArgSubtype,
   getDefaultSubtypeOfType,
   getDefaultValueOfType,
@@ -208,6 +215,11 @@ const ENCODE_MODE_OPTIONS = [
   },
 ]
 
+const LIST_OF_TYPES_WITH_SUBTYPE: Array<AbiForm.FuncArg['type']> = [
+  ETHEREUM_TYPES.tuple,
+  ETHEREUM_TYPES.tupleArray,
+]
+
 const abiEncoding = ref('')
 const funcSignature = ref('')
 
@@ -232,14 +244,17 @@ const rules = computed(() => ({
         [idx]: {
           type: { required },
           subtype: {
+            ...(LIST_OF_TYPES_WITH_SUBTYPE.includes(arg.type) && { required }),
             ...(arg.type === ETHEREUM_TYPES.tuple && {
-              required,
               ethereumBaseType: ethereumBaseType('tuple'),
+            }),
+            ...(arg.type === ETHEREUM_TYPES.tupleArray && {
+              ethereumTupleArrayType,
             }),
           },
           value: {
             ...(arg.type !== ETHEREUM_TYPES.string && { required }),
-            ...(arg.type === ETHEREUM_TYPES.tuple && { json }),
+            ...(LIST_OF_TYPES_WITH_SUBTYPE.includes(arg.type) && { json }),
             ethereumBaseTypeValue: ethereumBaseTypeValue(),
             withinSizeOfEthereumType: withinSizeOfEthereumType(),
           },
@@ -293,7 +308,7 @@ const onFormChange = () => {
 
   try {
     const types = form.args.map(arg =>
-      arg.type === ETHEREUM_TYPES.tuple ? arg.subtype : arg.type,
+      LIST_OF_TYPES_WITH_SUBTYPE.includes(arg.type) ? arg.subtype : arg.type,
     )
     const values = form.args.map(parseFuncArgToValueOfEncode)
 
