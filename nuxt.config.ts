@@ -57,6 +57,13 @@ export default defineNuxtConfig({
         },
 
         {
+          rel: 'preload',
+          href: '/branding/fonts/Righteous/Righteous-Regular.ttf',
+          as: 'font',
+          crossorigin: 'anonymous',
+        },
+
+        {
           as: 'style',
           rel: 'stylesheet preload',
           type: 'text/css',
