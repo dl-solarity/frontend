@@ -112,10 +112,15 @@ main {
 
 h1 {
   font-family: var(--app-font-family-secondary);
-  font-size: toRem(56);
+  font-size: toRem(64);
   font-weight: 400;
-  line-height: toRem(72);
+  line-height: toRem(78);
   letter-spacing: 0;
+
+  @include respond-to(medium) {
+    font-size: toRem(40);
+    line-height: toRem(48);
+  }
 }
 
 h2 {

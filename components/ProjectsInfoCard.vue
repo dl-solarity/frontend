@@ -29,7 +29,7 @@ defineProps<{
 .projects-info-card {
   padding: toRem(32);
   border-radius: var(--border-radius-main);
-  background: var(--background-primary-light);
+  background: var(--background-primary-dark);
 }
 
 .projects-info-card__message {
