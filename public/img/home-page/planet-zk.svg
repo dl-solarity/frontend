@@ -1,0 +1,19 @@
+<svg width="134" height="134" viewBox="0 0 134 134" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_910_2100)">
+<ellipse cx="66.9018" cy="66.8895" rx="67.4188" ry="65.3711" transform="rotate(-135.252 66.9018 66.8895)" fill="url(#paint0_radial_910_2100)"/>
+<g style="mix-blend-mode:overlay" opacity="0.6">
+<path d="M65.0781 79H47.7344L57.2969 61.0781H47.7344V56.5938H65.0781L55.5469 74.5156H65.0781V79ZM72.3438 79H67.8594V56.5938H72.3438V67.7969L80.6875 56.5938H85.7812L78.7031 66.0469L85.7812 79H80.6875L75.7656 69.9375L72.3438 74.5156V79Z" fill="#FCFCFC"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_910_2100" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(29.1754 66.3108) rotate(2.01794) scale(103.088 105.626)">
+<stop stop-color="#351C35"/>
+<stop offset="0.0001" stop-color="#220F21"/>
+<stop offset="0.601387" stop-color="#431C41"/>
+<stop offset="1" stop-color="#FFD4FD"/>
+</radialGradient>
+<clipPath id="clip0_910_2100">
+<rect width="134" height="134" fill="white"/>
+</clipPath>
+</defs>
+</svg>
