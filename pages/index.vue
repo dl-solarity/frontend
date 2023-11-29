@@ -47,6 +47,7 @@ $z-custom: 1;
   z-index: $z-custom;
 
   @include respond-to(small) {
+    aspect-ratio: 375 / 964;
     background-image: url('/img/home-page/bg-small.png');
   }
 }
@@ -63,12 +64,22 @@ $z-custom: 1;
   border-radius: 50%;
   user-select: none;
 
-  // sizes and positions for background image with aspect-ratio 1512/1830
+  /*
+    sizes and positions for background image
+    with aspect-ratio 1512/1830 (for small 375/964)
+  */
+
   // planet-ethereum
   &:nth-child(1) {
     height: 30.9836%; // 567px on 1830px height
     top: 29.7267%; // 544px on 1830px height
     left: 63.8888%; // 966px on 1512px width
+
+    @include respond-to(small) {
+      height: 26.9709%; // 260px on 964px height
+      top: 43.5684%; // 420px on 964px height
+      left: 53.3333%; // 200px on 375px width
+    }
   }
 
   // planet-zk
@@ -76,6 +87,12 @@ $z-custom: 1;
     height: 7.3224%; // 134px on 1830px height
     top: 55.5191%; // 1016px on 1830px height
     left: 54.1666%; // 819px on 512px width
+
+    @include respond-to(small) {
+      height: 5.9128%; // 57px on 964px height
+      top: 64.419%; // 621px on 964px height
+      left: 39.7333%; // 149px on 964px height
+    }
   }
 
   // planet-hardhat
@@ -83,6 +100,12 @@ $z-custom: 1;
     height: 12.6229%; // 231px on 1830px height
     top: 35.4644%; // 649px on 1830px height
     left: 20.701%; // 313px on 1512px width
+
+    @include respond-to(small) {
+      height: 12.0331%; // 116px on 964px height
+      top: 42.5311%; // 410px on 964px height
+      left: -2.4%; // -9px pn 375px width
+    }
   }
 
   // planet-symbol
@@ -90,6 +113,12 @@ $z-custom: 1;
     height: 8.0874%; // 148px on 1830px height
     top: 25.9016%; // 474px on 1830px height
     left: 41.9973%; // 635px on 1512px width
+
+    @include respond-to(small) {
+      height: 7.8838%; // 76px on 964px height
+      top: 35.0622%; // 338px on 964px height
+      left: 37.3333%; // 140px on 375px width
+    }
   }
 
   // planet-v
@@ -97,6 +126,12 @@ $z-custom: 1;
     height: 4.8633%; // 89px on 1830px height
     top: 20.601%; // 377px on 1830px height
     left: 88.7566%; // 1342px on 1512px width
+
+    @include respond-to(small) {
+      height: 5.7053%; // 55px on 964px height
+      top: 35.0622%; // 338px on 964px height
+      left: 78.9333%; // 296px on 375px width
+    }
   }
 
   &:hover {
