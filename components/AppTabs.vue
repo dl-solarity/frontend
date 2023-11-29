@@ -37,7 +37,7 @@ const updateTab = (tab: Tab) => {
 <style lang="scss" scoped>
 .app-tabs {
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   border-radius: var(--border-radius-main) var(--border-radius-main) 0 0;
   background: var(--background-primary-light);
