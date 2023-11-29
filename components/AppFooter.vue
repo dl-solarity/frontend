@@ -7,7 +7,11 @@
 </template>
 
 <style lang="scss" scoped>
+$z-index: 100;
+
 .app-footer {
+  position: relative;
+  z-index: $z-index;
   display: flex;
   gap: toRem(24);
   padding: toRem(24) toRem(80);

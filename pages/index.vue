@@ -10,10 +10,8 @@
         />
       </div>
     </div>
-    <div class="home-page__content">
-      <stats-preview />
-      <projects-info />
-    </div>
+    <stats-preview />
+    <projects-info />
   </main>
 </template>
 
@@ -59,9 +57,10 @@ $z-custom: 1;
 
 .home-page__planet {
   position: absolute;
-  transition: transform 0.5s;
+  transition: transform var(--transition-duration-medium)
+    var(--transition-timing-default);
   border-radius: 50%;
-  overflow: hidden !important;
+  user-select: none;
 
   // planet-ethereum
   &:nth-child(1) {
@@ -101,10 +100,5 @@ $z-custom: 1;
   &:hover {
     transform: scale(1.06);
   }
-}
-
-.home-page__content {
-  position: relative;
-  z-index: $z-custom;
 }
 </style>

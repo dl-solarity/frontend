@@ -111,13 +111,15 @@ $gap-burger-btn-line: toRem(8);
   &,
   &:before,
   &:after {
+    $timing: var(--transition-timing-default);
+
     display: block;
     position: absolute;
     width: 100%;
     height: $height-burger-btn-line;
     background-color: var(--primary-light);
     border-radius: var(--border-primary-main);
-    transition: var(--transition-duration-fast);
+    transition: var(--transition-duration-fast) $timing;
   }
 
   .app-navbar__burger-btn--active & {

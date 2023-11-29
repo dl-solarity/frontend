@@ -17,14 +17,14 @@
 </template>
 
 <style lang="scss" scoped>
+$z-index: 2;
+
 .stats-preview {
+  aspect-ratio: 1512 / 1126;
   display: flex;
   gap: toRem(60);
   width: 100%;
-  min-height: vh(100);
-  transition: min-height var(--transition-duration-fast);
-  padding: calc(var(--app-height-header) + var(--app-padding-top)) toRem(96)
-    var(--app-padding-bottom);
+  padding: var(--app-padding-top) toRem(96) 0;
 
   @include respond-to(medium) {
     padding-right: var(--app-padding-right);
@@ -47,6 +47,8 @@
 }
 
 .stats-preview__header-main-title {
+  position: relative;
+  z-index: $z-index;
   display: inline;
 
   &:first-child {
@@ -55,6 +57,9 @@
 }
 
 .stats-preview__header-secondary-title {
+  position: relative;
+  z-index: $z-index;
+  width: max-content;
   max-width: toRem(440);
 }
 </style>
