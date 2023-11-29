@@ -63,18 +63,19 @@ $z-custom: 1;
   border-radius: 50%;
   user-select: none;
 
+  // sizes and positions for background image with aspect-ratio 1512/1830
   // planet-ethereum
   &:nth-child(1) {
-    height: 34.5355%; // 632px on 1830px height
-    top: 28.5245%; // 522px on 1830px height
-    right: -4.365%; // 66px on 1512px vw
+    height: 30.9836%; // 567px on 1830px height
+    top: 29.7267%; // 544px on 1830px height
+    left: 63.8888%; // 966px on 1512px width
   }
 
   // planet-zk
   &:nth-child(2) {
     height: 7.3224%; // 134px on 1830px height
     top: 55.5191%; // 1016px on 1830px height
-    left: 54.1666%; // 819px on 512px vw
+    left: 54.1666%; // 819px on 512px width
   }
 
   // planet-hardhat
