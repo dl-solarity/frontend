@@ -15,6 +15,7 @@ $z-index: 100;
   display: flex;
   gap: toRem(24);
   padding: toRem(24) toRem(80);
+  background: var(--background-primary-main);
   box-shadow: 0 toRem(-1) var(--background-primary-light);
 
   @include respond-to(medium) {

@@ -34,6 +34,7 @@ $z-custom: 1;
   position: relative;
   margin-top: 0;
   padding: var(--app-height-header) 0 0;
+  overflow: hidden;
 }
 
 .home-page__background {
