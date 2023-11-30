@@ -121,10 +121,12 @@ $aside-max-width: toRem(280);
   width: 100%;
   height: $aside-height;
   max-width: $aside-max-width;
-  padding: 0 var(--app-padding-right) var(--app-padding-bottom)
-    var(--app-padding-left);
   background: var(--background-primary-main);
   overflow-y: auto;
+  padding: 0 var(--app-padding-right) var(--app-padding-bottom)
+    var(--app-padding-left);
+  transition: height var(--transition-duration-medium)
+    var(--transition-timing-default);
 
   @include respond-to(xsmall) {
     max-width: 100%;

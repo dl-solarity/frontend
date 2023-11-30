@@ -21,6 +21,8 @@ body,
   min-height: vh(100);
   background: var(--background-primary-main);
   color: var(--text-primary-light);
+  transition: min-height var(--transition-duration-medium)
+    var(--transition-timing-default);
 }
 
 .default__footer {
