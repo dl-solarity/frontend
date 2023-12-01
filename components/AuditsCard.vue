@@ -34,7 +34,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .audits-card {
-  background: var(--background-primary-light);
+  background: var(--background-primary-dark);
   padding: toRem(24);
   display: flex;
   flex-direction: column;
