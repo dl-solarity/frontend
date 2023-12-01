@@ -2,12 +2,19 @@
   <main class="home-page">
     <div class="home-page__background">
       <div class="home-page__background-wrp">
-        <object
-          v-for="url in PLANET_URLS"
-          :key="url"
+        <a
+          v-for="(planet, key) in planets"
+          :key="key"
+          :href="planet.href"
           class="home-page__planet"
-          :data="url"
-        />
+          rel="noreferrer noopener"
+        >
+          <img
+            class="home-page__planet-img"
+            :src="planet.imgSrc"
+            :alt="`planet-${planet.name}`"
+          />
+        </a>
       </div>
     </div>
     <stats-preview />
@@ -18,13 +25,39 @@
 <script lang="ts" setup>
 import { StatsPreview, ProjectsInfo } from '#components'
 
-enum PLANET_URLS {
-  ethereum = '/img/home-page/planet-ethereum.svg',
-  zk = '/img/home-page/planet-zk.svg',
-  hardhat = '/img/home-page/planet-hardhat.svg',
-  symbol = '/img/home-page/planet-symbol.svg',
-  v = '/img/home-page/planet-v.svg',
+type PLANET = {
+  name: string
+  imgSrc: string
+  href: string
 }
+
+const planets: PLANET[] = [
+  {
+    name: 'solidity',
+    imgSrc: '/img/home-page/planet-solidity.svg',
+    href: 'https://soliditylang.org/',
+  },
+  {
+    name: 'zk',
+    imgSrc: '/img/home-page/planet-zk.svg',
+    href: 'https://docs.circom.io/',
+  },
+  {
+    name: 'hardhat',
+    imgSrc: '/img/home-page/planet-hardhat.svg',
+    href: 'https://hardhat.org/',
+  },
+  {
+    name: 'graph',
+    imgSrc: '/img/home-page/planet-graph.svg',
+    href: 'https://thegraph.com/',
+  },
+  {
+    name: 'viper',
+    imgSrc: '/img/home-page/planet-viper.svg',
+    href: 'https://docs.vyperlang.org/',
+  },
+]
 </script>
 
 <style lang="scss" scoped>
@@ -59,17 +92,18 @@ $z-custom: 1;
 
 .home-page__planet {
   position: absolute;
+  display: block;
   transition: transform var(--transition-duration-medium)
     var(--transition-timing-default);
   border-radius: 50%;
-  user-select: none;
+  overflow: hidden;
 
   /*
     sizes and positions for background image
     with aspect-ratio 1512/1830 (for small 375/964)
   */
 
-  // planet-ethereum
+  // planet-solidity
   &:nth-child(1) {
     height: 30.9836%; // 567px on 1830px height
     top: 29.7267%; // 544px on 1830px height
@@ -108,7 +142,7 @@ $z-custom: 1;
     }
   }
 
-  // planet-symbol
+  // planet-graph
   &:nth-child(4) {
     height: 8.0874%; // 148px on 1830px height
     top: 25.9016%; // 474px on 1830px height
@@ -121,7 +155,7 @@ $z-custom: 1;
     }
   }
 
-  // planet-v
+  // planet-viper
   &:nth-child(5) {
     height: 4.8633%; // 89px on 1830px height
     top: 20.601%; // 377px on 1830px height
@@ -137,5 +171,9 @@ $z-custom: 1;
   &:hover {
     transform: scale(1.06);
   }
+}
+
+.home-page__planet-img {
+  height: 100%;
 }
 </style>
