@@ -286,6 +286,13 @@ const buttonType = computed<ButtonType>(
     --app-button-none-text-hover: var(--primary-main);
     --app-button-none-text-focused: var(--primary-light);
     --app-button-none-text-active: var(--primary-light);
+
+    &.app-button--text {
+      --app-button-text: var(--primary-main);
+      --app-button-text-hover: var(--primary-light);
+      --app-button-text-focused: var(--primary-dark);
+      --app-button-text-active: var(--primary-dark);
+    }
   }
 
   &--secondary {
@@ -391,6 +398,12 @@ const buttonType = computed<ButtonType>(
 
     display: inline;
     padding: 0;
+
+    &:not([disabled]):hover,
+    &:not([disabled]):focus,
+    &:not([disabled]):active {
+      text-decoration: underline;
+    }
   }
 
   .app-button__icon-left,

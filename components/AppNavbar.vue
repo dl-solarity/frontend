@@ -96,6 +96,12 @@ $gap-burger-btn-line: toRem(8);
 .app-navbar .app-navbar__nav-link {
   font-family: var(--app-font-family-secondary);
   font-weight: 400;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus,
+  &:not([disabled]):active {
+    text-decoration: none;
+  }
 }
 
 .app-navbar__burger-btn {

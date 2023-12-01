@@ -16,12 +16,29 @@
       <p class="stats-preview__header-secondary-title">
         {{ $t('stats-preview.secondary-title') }}
       </p>
+      <div class="stats-preview__btn-wrp">
+        <app-button
+          class="stats-preview__btn"
+          :text="$t('stats-preview.tools-link-text')"
+          :route="ROUTE_PATH.abiEncoder"
+        />
+        <app-button
+          class="stats-preview__btn"
+          modification="text"
+          :text="$t('stats-preview.docs-link-text')"
+          :href="config.DOCUMENTATION_URL"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { AppButton } from '#components'
 import { useViewportSizes } from '@/composables'
+import { config } from '@/config'
+import { ROUTE_PATH } from '@/constants'
+
 const { isSmallBreakpoint } = useViewportSizes()
 </script>
 
@@ -91,6 +108,27 @@ $z-index: 2;
 
   @include respond-to(small) {
     font-size: toRem(14);
+  }
+}
+
+.stats-preview__btn-wrp {
+  display: flex;
+  gap: toRem(24);
+  margin-top: toRem(8);
+}
+
+.stats-preview__btn {
+  position: relative;
+  z-index: $z-index;
+  display: grid;
+  min-width: toRem(210);
+
+  @include respond-to(medium) {
+    min-width: toRem(170);
+  }
+
+  @include respond-to(small) {
+    min-width: toRem(120);
   }
 }
 </style>
