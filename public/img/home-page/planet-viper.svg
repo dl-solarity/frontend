@@ -1,0 +1,30 @@
+<svg width="94" height="89" viewBox="0 0 94 89" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_912_2107)">
+<path d="M5.68265 64.7536C-6.37582 43.0686 2.18389 16.4211 24.8005 5.23277C47.4179 -5.95472 75.5282 2.55437 87.5866 24.2394C99.6459 45.9236 91.0871 72.5719 68.4696 83.7594C45.8531 94.9477 17.742 86.4378 5.68265 64.7536Z" fill="url(#paint0_radial_912_2107)"/>
+<g opacity="0.15">
+<path d="M29.8782 38.6213L24.0044 28.7427L35.752 28.7427L29.8782 38.6213Z" fill="white" fill-opacity="0.3"/>
+<path d="M65.1213 38.6213L59.2475 28.7427L70.9951 28.7427L65.1213 38.6213Z" fill="white" fill-opacity="0.3"/>
+<path d="M59.2473 28.7427L53.3735 38.6213L65.1211 38.6213L59.2473 28.7427Z" fill="white" fill-opacity="0.5"/>
+<path d="M47.5002 28.7427L41.6265 38.6213L53.374 38.6213L47.5002 28.7427Z" fill="white" fill-opacity="0.5"/>
+<path d="M35.7522 28.7427L29.8784 38.6213L41.626 38.6213L35.7522 28.7427Z" fill="white" fill-opacity="0.5"/>
+<path d="M59.2473 48.5L53.3735 38.6214L65.1211 38.6214L59.2473 48.5Z" fill="white" fill-opacity="0.5"/>
+<path d="M53.3743 38.6213L47.5005 48.5L59.248 48.5L53.3743 38.6213Z" fill="white" fill-opacity="0.8"/>
+<path d="M53.3743 58.3787L47.5005 48.5L59.248 48.5L53.3743 58.3787Z" fill="white" fill-opacity="0.8"/>
+<path d="M47.5002 48.5L41.6265 58.3786L53.374 58.3786L47.5002 48.5Z" fill="white"/>
+<path d="M47.5002 68.2573L41.6265 58.3787L53.374 58.3787L47.5002 68.2573Z" fill="white"/>
+<path d="M41.6262 38.6213L35.7524 48.5L47.5 48.5L41.6262 38.6213Z" fill="white" fill-opacity="0.8"/>
+<path d="M41.6262 58.3787L35.7524 48.5L47.5 48.5L41.6262 58.3787Z" fill="white" fill-opacity="0.8"/>
+<path d="M47.5002 48.5L41.6265 38.6214L53.374 38.6214L47.5002 48.5Z" fill="white" fill-opacity="0.5"/>
+<path d="M35.7522 48.5L29.8784 38.6214L41.626 38.6214L35.7522 48.5Z" fill="white" fill-opacity="0.5"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_912_2107" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(110.398 71.3131) rotate(-163.025) scale(125.152 119.26)">
+<stop offset="0.473925" stop-color="#190F2E"/>
+<stop offset="0.945943" stop-color="#7D4087"/>
+</radialGradient>
+<clipPath id="clip0_912_2107">
+<rect width="94" height="89" fill="white" transform="matrix(1 0 0 -1 0 89)"/>
+</clipPath>
+</defs>
+</svg>

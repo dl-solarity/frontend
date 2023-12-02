@@ -292,7 +292,8 @@ $z-index-side-nodes: 1;
   max-width: toRem(24);
   max-height: toRem(24);
   color: var(--field-placeholder);
-  transition: color var(--transition-duration-fast);
+  transition: color var(--transition-duration-fast)
+    var(--transition-timing-default);
 
   .input-field--filled &:not(.input-field__icon--error) {
     color: var(--field-text);
@@ -323,11 +324,13 @@ $z-index-side-nodes: 1;
 }
 
 .input-field__err-msg-transition-enter-active {
-  animation: fade-down var(--transition-duration-fast);
+  animation: fade-down var(--transition-duration-fast)
+    var(--transition-timing-default);
 }
 
 .input-field__err-msg-transition-leave-active {
-  animation: fade-down var(--transition-duration-fast) reverse;
+  animation: fade-down var(--transition-duration-fast)
+    var(--transition-timing-default) reverse;
 }
 
 @keyframes fade-down {

@@ -1,48 +1,134 @@
 <template>
   <div class="stats-preview">
     <div class="stats-preview__header">
-      <h1 class="stats-preview__header-main-title">
-        {{ $t('stats-preview.main-title') }}
-      </h1>
+      <div class="stats-preview__header-main-title-wrp">
+        <h1 class="stats-preview__header-main-title">
+          {{ $t('stats-preview.main-title-part-1') }}
+        </h1>
+        <h1 class="stats-preview__header-main-title">
+          {{
+            !isSmallBreakpoint
+              ? $t('stats-preview.main-title-part-2')
+              : $t('stats-preview.main-title-part-2--short')
+          }}
+        </h1>
+      </div>
       <p class="stats-preview__header-secondary-title">
         {{ $t('stats-preview.secondary-title') }}
       </p>
+      <div class="stats-preview__btn-wrp">
+        <app-button
+          class="stats-preview__btn"
+          :text="$t('stats-preview.tools-link-text')"
+          :route="ROUTE_PATH.abiEncoder"
+        />
+        <app-button
+          class="stats-preview__btn"
+          modification="text"
+          :text="$t('stats-preview.docs-link-text')"
+          :href="config.DOCUMENTATION_URL"
+        />
+      </div>
     </div>
   </div>
 </template>
 
+<script lang="ts" setup>
+import { AppButton } from '#components'
+import { useViewportSizes } from '@/composables'
+import { config } from '@/config'
+import { ROUTE_PATH } from '@/constants'
+
+const { isSmallBreakpoint } = useViewportSizes()
+</script>
+
 <style lang="scss" scoped>
+$z-index: 2;
+
 .stats-preview {
+  aspect-ratio: 1512 / 1126;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   gap: toRem(60);
-  background-image: url('/branding/bg.png');
-  background-size: 100% 100%;
   width: 100%;
-  min-height: vh(100);
-  transition: min-height var(--transition-duration-fast);
-  padding: calc(var(--app-height-header) + var(--app-padding-top)) toRem(80)
-    var(--app-padding-bottom);
+  padding: var(--app-padding-top) toRem(96) 0;
 
   @include respond-to(medium) {
     padding-right: var(--app-padding-right);
     padding-left: var(--app-padding-left);
+  }
+
+  @include respond-to(small) {
+    aspect-ratio: 375 / 658;
   }
 }
 
 .stats-preview__header {
   display: flex;
   flex-direction: column;
-  gap: toRem(24);
+  gap: toRem(16);
+
+  @include respond-to(medium) {
+    gap: toRem(8);
+  }
+}
+
+.stats-preview__header-main-title-wrp {
+  max-width: toRem(1024);
+
+  @include respond-to(medium) {
+    max-width: toRem(600);
+  }
 }
 
 .stats-preview__header-main-title {
-  max-width: toRem(800);
+  position: relative;
+  z-index: $z-index;
+  display: inline;
+
+  &:first-child {
+    color: var(--primary-main);
+  }
+
+  &:last-child {
+    @include respond-to(small) {
+      font-size: toRem(38);
+      max-width: toRem(375);
+    }
+  }
+
+  @include respond-to(small) {
+    display: block;
+  }
 }
 
 .stats-preview__header-secondary-title {
-  max-width: toRem(440);
-  color: var(--text-primary-main);
+  position: relative;
+  z-index: $z-index;
+  max-width: max-content;
+
+  @include respond-to(small) {
+    font-size: toRem(14);
+  }
+}
+
+.stats-preview__btn-wrp {
+  display: flex;
+  gap: toRem(24);
+  margin-top: toRem(8);
+}
+
+.stats-preview__btn {
+  position: relative;
+  z-index: $z-index;
+  display: grid;
+  min-width: toRem(210);
+
+  @include respond-to(medium) {
+    min-width: toRem(170);
+  }
+
+  @include respond-to(small) {
+    min-width: toRem(120);
+  }
 }
 </style>

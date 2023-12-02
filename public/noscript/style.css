@@ -22,7 +22,7 @@
 }
 
 .noscript__enable-support {
-  transition: color var(--transition-duration-fast);
+  transition: color var(--transition-duration-fast) var(--transition-timing-default);
   color: var(--primary-main);
 }
 
@@ -53,5 +53,5 @@
 
 .noscript__image {
   display: block;
-  transition: transform var(--transition-duration-fast);
+  transition: transform var(--transition-duration-fast) var(--transition-timing-default);
 }

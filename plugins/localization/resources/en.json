@@ -212,8 +212,12 @@
     "link-text": "Distributed Lab"
   },
   "stats-preview": {
-    "main-title": "Solarity - your open source Solidity ecosystem",
-    "secondary-title": "Developed and maintained by Distributed Lab"
+    "main-title-part-1": "Solarity",
+    "main-title-part-2": " - your open source Solidity ecosystem",
+    "main-title-part-2--short": "your open source Solidity ecosystem",
+    "secondary-title": "Developed and maintained by Distributed Lab",
+    "tools-link-text": "Tools",
+    "docs-link-text": "Learn more"
   },
   "projects-info": {
     "documentation-title": "Documentation",

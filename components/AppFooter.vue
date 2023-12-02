@@ -7,10 +7,15 @@
 </template>
 
 <style lang="scss" scoped>
+$z-index: 100;
+
 .app-footer {
+  position: relative;
+  z-index: $z-index;
   display: flex;
   gap: toRem(24);
   padding: toRem(24) toRem(80);
+  background: var(--background-primary-main);
   box-shadow: 0 toRem(-1) var(--background-primary-light);
 
   @include respond-to(medium) {

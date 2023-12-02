@@ -240,11 +240,13 @@ onMounted(() => {
 
 .autocomplete-field__err-msg {
   &-enter-active {
-    animation: fade-down var(--transition-duration-fast);
+    animation: fade-down var(--transition-duration-fast)
+      var(--transition-timing-default);
   }
 
   &-leave-active {
-    animation: fade-down var(--transition-duration-fast) reverse;
+    animation: fade-down var(--transition-duration-fast)
+      var(--transition-timing-default) reverse;
   }
 }
 

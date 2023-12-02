@@ -14,6 +14,8 @@
   --background-primary-main: #{$background-primary-main};
   --background-primary-dark: #{$background-primary-dark};
 
+  --background-secondary-main: #{$background-secondary-main};
+
   /* status colors */
   --success-light: #{$success-light};
   --success-main: #{$success-main};
@@ -69,7 +71,7 @@
   --app-padding-right: #{toRem(32)};
   --app-padding-left: #{toRem(32)};
   --app-padding-top: #{toRem(48)};
-  --app-padding-bottom: #{toRem(48)};
+  --app-padding-bottom: #{toRem(72)};
   --app-height-header: #{toRem(80)};
 
   @include respond-to(medium) {
@@ -129,6 +131,7 @@
 
   /* transition */
   --transition-duration-fast: 0.2s;
+  --transition-duration-medium: 0.5s;
   --transition-timing-default: cubic-bezier(0.08, 0.52, 0.52, 1);
 
   /* paddings */

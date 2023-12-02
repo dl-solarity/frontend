@@ -68,6 +68,8 @@ $z-index: 1300;
   background: var(--backdrop-modal);
   overflow-y: auto;
   padding: var(--app-padding);
+  transition: height var(--transition-duration-medium)
+    var(--transition-timing-default);
 
   &-enter-active,
   &-leave-active {

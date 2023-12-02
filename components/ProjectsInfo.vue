@@ -41,11 +41,15 @@ const cards: ProjectInfoCard[] = [
 </script>
 
 <style lang="scss" scoped>
+$z-index: 2;
+
 .projects-info {
+  position: relative;
+  z-index: $z-index;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: toRem(24);
-  padding: var(--app-padding-top) toRem(96) var(--app-padding-bottom);
+  padding: 0 toRem(96) var(--app-padding-bottom);
 
   @include respond-to(medium) {
     grid-template-columns: 1fr;
