@@ -3,7 +3,6 @@
     <app-navbar
       class="solidity-tools__app-navbar"
       has-burger-menu
-      is-static-dark
       :is-active-burger-menu="isAsideShown"
       @burger-menu-click="isAsideShown = !isAsideShown"
     />

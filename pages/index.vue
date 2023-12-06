@@ -67,6 +67,7 @@ $z-custom: 1;
   margin-top: 0;
   padding: var(--app-height-header) 0 0;
   overflow: hidden;
+  background: var(--background-primary-main);
 }
 
 .home-page__background {
