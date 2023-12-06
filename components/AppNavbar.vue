@@ -1,5 +1,5 @@
 <template>
-  <div class="app-navbar" :class="{ 'app-navbar--dark': isDark }">
+  <div class="app-navbar">
     <app-logo />
     <button
       v-if="hasBurgerMenu"
@@ -27,39 +27,21 @@
 <script lang="ts" setup>
 import { AppLogo, AppButton } from '#components'
 import { config } from '@/config'
-import { onUnmounted, ref, onMounted } from 'vue'
 
 const emit = defineEmits<{
   (event: 'burger-menu-click'): void
 }>()
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
-    isStaticDark?: boolean
     hasBurgerMenu?: boolean
     isActiveBurgerMenu?: boolean
   }>(),
   {
-    isStaticDark: false,
     hasBurgerMenu: false,
     isActiveBurgerMenu: false,
   },
 )
-
-const _isDark = ref(false)
-const toggleColorHeader = () => {
-  _isDark.value = window.scrollY >= 1
-}
-
-const isDark = computed(() => props.isStaticDark || _isDark.value)
-
-onMounted(() => {
-  window.addEventListener('scroll', toggleColorHeader)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', toggleColorHeader)
-})
 </script>
 
 <style lang="scss" scoped>
@@ -78,14 +60,10 @@ $gap-burger-btn-line: toRem(8);
   justify-content: space-between;
   padding: 0 var(--app-padding-right) 0 var(--app-padding-left);
   height: var(--app-height-header);
-  background: transparent;
+  background: var(--background-primary-dark);
+  box-shadow: 0 toRem(1) var(--background-primary-light);
   transition: var(--transition-duration-fast) var(--transition-timing-default);
   transition-property: background-color, box-shadow;
-
-  &--dark {
-    background: var(--background-primary-main);
-    box-shadow: 0 toRem(1) var(--background-primary-light);
-  }
 }
 
 .app-navbar__nav {

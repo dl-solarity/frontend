@@ -209,6 +209,7 @@ $z-index-side-nodes: 1;
 .textarea-field__textarea {
   resize: none;
   height: 0;
+  width: 100%;
 
   .textarea-field--size-default & {
     min-height: toRem(130);

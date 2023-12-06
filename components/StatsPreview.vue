@@ -94,6 +94,12 @@ $z-index: 2;
       font-size: toRem(38);
       max-width: toRem(375);
     }
+
+    @include respond-to(xsmall) {
+      font-size: toRem(26);
+      line-height: toRem(42);
+      max-width: toRem(250);
+    }
   }
 
   @include respond-to(small) {
@@ -109,12 +115,20 @@ $z-index: 2;
   @include respond-to(small) {
     font-size: toRem(14);
   }
+
+  @include respond-to(xsmall) {
+    max-width: toRem(250);
+  }
 }
 
 .stats-preview__btn-wrp {
   display: flex;
   gap: toRem(24);
   margin-top: toRem(8);
+
+  @include respond-to(xsmall) {
+    flex-direction: column;
+  }
 }
 
 .stats-preview__btn {

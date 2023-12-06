@@ -19,7 +19,7 @@ body,
   display: flex;
   flex-direction: column;
   min-height: vh(100);
-  background: var(--background-primary-main);
+  background: var(--background-primary-dark);
   color: var(--text-primary-light);
   transition: min-height var(--transition-duration-medium)
     var(--transition-timing-default);
