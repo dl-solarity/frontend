@@ -143,13 +143,13 @@ h2 {
 
 h3 {
   font-family: var(--app-font-family-secondary);
-  font-size: toRem(24);
   font-weight: 400;
-  line-height: toRem(32);
+  font-size: toRem(32);
+  line-height: toRem(40);
   letter-spacing: 0;
 
   @include respond-to(medium) {
-    font-size: toRem(20);
-    line-height: toRem(28);
+    font-size: toRem(24);
+    line-height: toRem(32);
   }
 }

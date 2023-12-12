@@ -46,19 +46,18 @@ const { isSmallBreakpoint } = useViewportSizes()
 $z-index: 2;
 
 .stats-preview {
-  aspect-ratio: 1512 / 1126;
+  aspect-ratio: 1512 / 1200;
   display: flex;
   gap: toRem(60);
   width: 100%;
-  padding: var(--app-padding-top) toRem(96) 0;
+  padding: toRem(90) toRem(96) 0;
 
   @include respond-to(medium) {
-    padding-right: var(--app-padding-right);
-    padding-left: var(--app-padding-left);
+    padding: toRem(32) var(--app-padding-right) 0 var(--app-padding-left);
   }
 
   @include respond-to(small) {
-    aspect-ratio: 375 / 658;
+    aspect-ratio: 375 / 752;
   }
 }
 

@@ -17,6 +17,24 @@
       </a>
     </div>
     <stats-preview />
+    <div class="home-page__scroll-panel">
+      <a
+        v-for="protocol in protocols"
+        :key="protocol.name"
+        :href="protocol.href"
+        class="home-page__protocol"
+        rel="noreferrer noopener"
+        target="_blank"
+      >
+        <img
+          class="home-page__protocol-img"
+          :src="protocol.imgSrc"
+          :alt="protocol.name"
+        />
+        <!-- eslint-disable-next-line vue-i18n/no-raw-text -->
+        {{ 'protocol' }}
+      </a>
+    </div>
     <projects-info />
   </main>
 </template>
@@ -24,13 +42,19 @@
 <script lang="ts" setup>
 import { StatsPreview, ProjectsInfo } from '#components'
 
-type PLANET = {
+type Planet = {
   name: string
   imgSrc: string
   href: string
 }
 
-const planets: PLANET[] = [
+type Protocol = {
+  name: string
+  imgSrc: string
+  href: string
+}
+
+const planets: Planet[] = [
   {
     name: 'solidity',
     imgSrc: '/img/home-page/planet-solidity.svg',
@@ -57,10 +81,28 @@ const planets: PLANET[] = [
     href: 'https://docs.vyperlang.org/',
   },
 ]
+
+const protocols: Protocol[] = [
+  {
+    name: 'q',
+    imgSrc: '/img/home-page/q-logo.svg',
+    href: 'https://q.org/',
+  },
+  {
+    name: 'dexe',
+    imgSrc: '/img/home-page/dexe-logo.svg',
+    href: 'https://dexe.network/',
+  },
+  {
+    name: 'rarimo',
+    imgSrc: '/img/home-page/rarimo-logo.svg',
+    href: 'https://rarimo.com/',
+  },
+]
 </script>
 
 <style lang="scss" scoped>
-$z-custom: 1;
+$z-index: 1;
 
 .home-page {
   position: relative;
@@ -77,7 +119,7 @@ $z-custom: 1;
   background-image: url('/img/home-page/bg.png');
   background-size: 100% auto;
   background-repeat: no-repeat;
-  z-index: $z-custom;
+  z-index: $z-index;
 
   @include respond-to(small) {
     aspect-ratio: 375 / 964;
@@ -172,5 +214,93 @@ $z-custom: 1;
 .home-page__planet-img {
   display: block;
   width: 100%;
+}
+
+.home-page__scroll-panel {
+  $background-color: rgba(#ffffff, 0.01);
+
+  position: relative;
+  z-index: $z-index;
+  margin: 0 toRem(96) 0;
+  overflow: scroll;
+  display: flex;
+  background-color: $background-color;
+  border: toRem(2) solid transparent;
+  border-radius: var(--border-radius-main);
+  border-image-slice: 1;
+  border-image-source: linear-gradient(
+    -45deg,
+    var(--primary-main),
+    transparent 12%,
+    transparent 88%,
+    var(--primary-main)
+  );
+
+  @include respond-to(xmedium) {
+    border-image-source: linear-gradient(
+      -45deg,
+      var(--primary-main),
+      transparent 14%,
+      transparent 86%,
+      var(--primary-main)
+    );
+  }
+
+  @include respond-to(medium) {
+    margin: 0 var(--app-padding-left) 0 var(--app-padding-right);
+  }
+
+  @include respond-to(small) {
+    border-image-source: linear-gradient(
+      -45deg,
+      var(--primary-main),
+      transparent 26%,
+      transparent 74%,
+      var(--primary-main)
+    );
+  }
+}
+
+.home-page__protocol {
+  flex: 1;
+  font-family: var(--app-font-family-main);
+  font-size: toRem(24);
+  font-weight: 500;
+  line-height: toRem(32);
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: toRem(8);
+  color: var(--text-primary-main);
+  padding: toRem(24) toRem(36);
+  min-width: max-content;
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
+
+  &:not([disabled]):hover {
+    color: var(--primary-light);
+    background: var(--background-primary-main);
+  }
+
+  &:not([disabled]):focus,
+  &:not([disabled]):active {
+    color: var(--primary-main);
+    background: var(--background-primary-main);
+  }
+
+  @include respond-to(medium) {
+    font-size: toRem(16);
+    line-height: toRem(24);
+    gap: toRem(4);
+    padding: toRem(16) toRem(24);
+  }
+}
+
+.home-page__protocol-img {
+  height: toRem(40);
+
+  @include respond-to(medium) {
+    height: toRem(24);
+  }
 }
 </style>

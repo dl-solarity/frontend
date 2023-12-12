@@ -49,13 +49,13 @@ $z-index: 2;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: toRem(24);
-  padding: 0 toRem(96) var(--app-padding-bottom);
+  padding: toRem(120) toRem(96) var(--app-padding-bottom);
 
   @include respond-to(medium) {
     grid-template-columns: 1fr;
     gap: toRem(8);
-    padding-right: var(--app-padding-right);
-    padding-left: var(--app-padding-left);
+    padding: toRem(64) var(--app-padding-right) var(--app-padding-bottom)
+      var(--app-padding-left);
   }
 }
 </style>
