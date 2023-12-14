@@ -17,30 +17,31 @@
       </a>
     </div>
     <stats-preview />
-    <div class="home-page__scroll-panel">
-      <a
-        v-for="protocol in protocols"
-        :key="protocol.name"
-        :href="protocol.href"
-        class="home-page__protocol"
-        rel="noreferrer noopener"
-        target="_blank"
-      >
-        <img
-          class="home-page__protocol-img"
-          :src="protocol.imgSrc"
-          :alt="protocol.name"
-        />
-        <!-- eslint-disable-next-line vue-i18n/no-raw-text -->
-        {{ 'protocol' }}
-      </a>
-    </div>
+    <app-swiper
+      class="home-page__protocols-swiper"
+      :items="[...protocols, ...protocols]"
+      :swiper-params="protocolsSwiperParams"
+    >
+      <template #default="{ item: protocol }">
+        <a
+          :href="protocol.href"
+          class="home-page__protocol"
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          <svg class="home-page__protocol-logo">
+            <use :href="protocol.logoSrc" />
+          </svg>
+        </a>
+      </template>
+    </app-swiper>
     <projects-info />
   </main>
 </template>
 
 <script lang="ts" setup>
 import { StatsPreview, ProjectsInfo } from '#components'
+import { WINDOW_BREAKPOINTS } from '@/enums'
 
 type Planet = {
   name: string
@@ -50,7 +51,7 @@ type Planet = {
 
 type Protocol = {
   name: string
-  imgSrc: string
+  logoSrc: string
   href: string
 }
 
@@ -76,8 +77,8 @@ const planets: Planet[] = [
     href: 'https://thegraph.com/',
   },
   {
-    name: 'viper',
-    imgSrc: '/img/home-page/planet-viper.svg',
+    name: 'vyper',
+    imgSrc: '/img/home-page/planet-vyper.svg',
     href: 'https://docs.vyperlang.org/',
   },
 ]
@@ -85,20 +86,43 @@ const planets: Planet[] = [
 const protocols: Protocol[] = [
   {
     name: 'q',
-    imgSrc: '/img/home-page/q-logo.svg',
+    logoSrc: '/img/home-page/q-logo.svg#q-logo',
     href: 'https://q.org/',
   },
   {
     name: 'dexe',
-    imgSrc: '/img/home-page/dexe-logo.svg',
+    logoSrc: '/img/home-page/dexe-logo.svg#dexe-logo',
     href: 'https://dexe.network/',
   },
   {
     name: 'rarimo',
-    imgSrc: '/img/home-page/rarimo-logo.svg',
+    logoSrc: '/img/home-page/rarimo-logo.svg#rarimo-logo',
     href: 'https://rarimo.com/',
   },
+  {
+    name: 'tokene',
+    logoSrc: '/img/home-page/tokene-logo.svg#tokene-logo',
+    href: 'https://tokene.io/',
+  },
 ]
+
+const protocolsSwiperParams = {
+  modules: [SwiperAutoplay],
+  loop: true,
+  spaceBetween: 8,
+  slidesPerView: 'auto',
+  speed: 4000,
+  autoplay: {
+    delay: 0,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+  breakpoints: {
+    [WINDOW_BREAKPOINTS.medium]: {
+      spaceBetween: 24,
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -216,48 +240,11 @@ $z-index: 1;
   width: 100%;
 }
 
-.home-page__scroll-panel {
-  $background-color: rgba(#ffffff, 0.01);
+.home-page .home-page__protocols-swiper {
+  --swiper-wrapper-transition-timing-function: linear;
 
-  position: relative;
-  z-index: $z-index;
-  margin: 0 toRem(96) 0;
-  overflow: scroll;
-  display: flex;
-  background-color: $background-color;
-  border: toRem(2) solid transparent;
-  border-radius: var(--border-radius-main);
-  border-image-slice: 1;
-  border-image-source: linear-gradient(
-    -45deg,
-    var(--primary-main),
-    transparent 12%,
-    transparent 88%,
-    var(--primary-main)
-  );
-
-  @include respond-to(xmedium) {
-    border-image-source: linear-gradient(
-      -45deg,
-      var(--primary-main),
-      transparent 14%,
-      transparent 86%,
-      var(--primary-main)
-    );
-  }
-
-  @include respond-to(medium) {
-    margin: 0 var(--app-padding-left) 0 var(--app-padding-right);
-  }
-
-  @include respond-to(small) {
-    border-image-source: linear-gradient(
-      -45deg,
-      var(--primary-main),
-      transparent 26%,
-      transparent 74%,
-      var(--primary-main)
-    );
+  :deep(.app-swiper__slide) {
+    max-width: max-content;
   }
 }
 
@@ -272,20 +259,21 @@ $z-index: 1;
   align-items: center;
   justify-content: center;
   gap: toRem(8);
-  color: var(--text-primary-main);
+  color: var(--text-primary-light);
   padding: toRem(24) toRem(36);
-  min-width: max-content;
+  border-radius: var(--border-radius-main);
   transition: var(--transition-duration-fast) var(--transition-timing-default);
+  width: toRem(400);
 
   &:not([disabled]):hover {
     color: var(--primary-light);
-    background: var(--background-primary-main);
+    background: var(--background-primary-dark);
   }
 
   &:not([disabled]):focus,
   &:not([disabled]):active {
     color: var(--primary-main);
-    background: var(--background-primary-main);
+    background: var(--background-primary-dark);
   }
 
   @include respond-to(medium) {
@@ -293,14 +281,19 @@ $z-index: 1;
     line-height: toRem(24);
     gap: toRem(4);
     padding: toRem(16) toRem(24);
+    width: toRem(300);
+  }
+
+  @include respond-to(small) {
+    width: toRem(200);
   }
 }
 
-.home-page__protocol-img {
+.home-page__protocol-logo {
   height: toRem(40);
 
   @include respond-to(medium) {
-    height: toRem(24);
+    height: toRem(32);
   }
 }
 </style>

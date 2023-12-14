@@ -57,7 +57,7 @@ $z-index: 2;
   }
 
   @include respond-to(small) {
-    aspect-ratio: 375 / 752;
+    aspect-ratio: 375 / 680;
   }
 }
 

@@ -1,14 +1,7 @@
-import { IntlifyModuleOptions } from '@intlify/nuxt3'
 import { defineNuxtConfig } from 'nuxt/config'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 import path from 'path'
-
-declare module '@nuxt/schema' {
-  interface NuxtConfig {
-    intlify?: IntlifyModuleOptions
-  }
-}
 
 const lifecycle = process.env.npm_lifecycle_event
 
@@ -113,11 +106,7 @@ export default defineNuxtConfig({
 
   css: ['@/assets/styles/app.scss'],
 
-  modules: ['@intlify/nuxt3', '@pinia/nuxt', '@vueuse/nuxt'],
-
-  intlify: {
-    localeDir: 'plugins/localization/resources',
-  },
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-swiper'],
 
   build: {
     transpile: [

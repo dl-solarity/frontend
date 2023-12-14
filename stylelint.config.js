@@ -297,7 +297,10 @@ module.exports = {
         },
       },
     ],
-    'selector-pseudo-class-no-unknown': [true, { severity: 'warning' }],
+    'selector-pseudo-class-no-unknown': [
+      true,
+      { severity: 'warning', ignorePseudoClasses: ['deep'] },
+    ],
     'selector-pseudo-element-no-unknown': [true, { severity: 'warning' }],
     'no-duplicate-selectors': [true, { severity: 'warning' }],
     'no-descending-specificity': [true, { severity: 'warning' }],

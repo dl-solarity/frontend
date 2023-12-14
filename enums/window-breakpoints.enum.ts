@@ -1,5 +1,5 @@
 export enum WINDOW_BREAKPOINTS {
-  xSmall = 480,
+  xSmall = 375,
   small = 600,
   tablet = 868,
   medium = 1024,
