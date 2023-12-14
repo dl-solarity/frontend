@@ -243,6 +243,16 @@ $z-index: 1;
 .home-page .home-page__protocols-swiper {
   --swiper-wrapper-transition-timing-function: linear;
 
+  position: relative;
+  z-index: $z-index;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000000 20%,
+    #000000 80%,
+    transparent
+  );
+
   :deep(.app-swiper__slide) {
     max-width: max-content;
   }
