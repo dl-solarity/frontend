@@ -259,16 +259,7 @@ $z-index: 1;
 }
 
 .home-page__protocol {
-  flex: 1;
-  font-family: var(--app-font-family-main);
-  font-size: toRem(24);
-  font-weight: 500;
-  line-height: toRem(32);
-  letter-spacing: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: toRem(8);
+  display: block;
   color: var(--text-primary-light);
   padding: toRem(24) toRem(36);
   border-radius: var(--border-radius-main);
@@ -287,9 +278,6 @@ $z-index: 1;
   }
 
   @include respond-to(medium) {
-    font-size: toRem(16);
-    line-height: toRem(24);
-    gap: toRem(4);
     padding: toRem(16) toRem(24);
     width: toRem(300);
   }
