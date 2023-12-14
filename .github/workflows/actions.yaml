@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - '**'
+      - 'master'
 
 jobs:
   converge:
@@ -32,16 +32,16 @@ jobs:
           . $(werf ci-env github --as-file) 
           echo "${{ secrets.STAGE_ENV }}" > .env.deploy
           werf export web --tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA --dev
-  # stage-deploy:
-  #   name: Deploy on stage
-  #   needs: converge
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: ConfigCreate
-  #       run: |
-  #         mkdir ~/.kube/
-  #         echo "${{ secrets.KUBECONFIG }}" > config
-  #         mv config ~/.kube/
-  #         ls ~/.kube/
-  #         kubectl set image deployment/solarity-stage-webclient  webclient=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA -n stage	
+  stage-deploy:
+    name: Deploy on stage
+    needs: converge
+    runs-on: ubuntu-latest
+    steps:
+      - name: ConfigCreate
+        run: |
+          mkdir ~/.kube/
+          echo "${{ secrets.KUBECONFIG }}" > config
+          mv config ~/.kube/
+          ls ~/.kube/
+          kubectl set image deployment/solarity-stage-webclient  webclient=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA -n stage	
     
