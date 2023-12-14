@@ -1,6 +1,6 @@
 <svg width="100%" height="100%" viewBox="0 0 139 40" fill="none" xmlns="http://www.w3.org/2000/svg" id="dexe-logo">
 <mask id="mask0_2204_15358" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="13" y="8" width="113" height="24">
-<path d="M125.216 8H13V31.2727H125.216V8Z" fill="currentColor"/>
+<path d="M125.216 8H13V31.2727H125.216V8Z" fill="white"/>
 </mask>
 <g mask="url(#mask0_2204_15358)">
 <path d="M29.1585 20.5038C29.1527 19.7919 29.4154 19.104 29.8942 18.5776C30.3729 18.0513 31.0323 17.7252 31.7407 17.6646H43.5889L39.7408 20.2312H33.2914C32.8756 20.2329 32.4773 20.399 32.1833 20.6934C31.8894 20.9878 31.7234 21.3866 31.7218 21.803V28.2228L29.1901 31.2711L29.1585 20.5038Z" fill="currentColor"/>
