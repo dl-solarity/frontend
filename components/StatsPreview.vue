@@ -46,7 +46,7 @@ const { isSmallBreakpoint } = useViewportSizes()
 $z-index: 2;
 
 .stats-preview {
-  aspect-ratio: 1512 / 1200;
+  aspect-ratio: 1512 / 1150;
   display: flex;
   gap: toRem(60);
   width: 100%;
@@ -57,7 +57,7 @@ $z-index: 2;
   }
 
   @include respond-to(small) {
-    aspect-ratio: 375 / 680;
+    aspect-ratio: 375 / 660;
   }
 }
 
