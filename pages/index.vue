@@ -17,20 +17,45 @@
       </a>
     </div>
     <stats-preview />
+    <app-swiper
+      class="home-page__protocols-swiper"
+      :items="[...protocols, ...protocols]"
+      :swiper-params="protocolsSwiperParams"
+    >
+      <template #default="{ item: protocol }">
+        <a
+          :href="protocol.href"
+          class="home-page__protocol"
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          <svg class="home-page__protocol-logo">
+            <use :href="protocol.logoSrc" />
+          </svg>
+        </a>
+      </template>
+    </app-swiper>
     <projects-info />
   </main>
 </template>
 
 <script lang="ts" setup>
 import { StatsPreview, ProjectsInfo } from '#components'
+import { WINDOW_BREAKPOINTS } from '@/enums'
 
-type PLANET = {
+type Planet = {
   name: string
   imgSrc: string
   href: string
 }
 
-const planets: PLANET[] = [
+type Protocol = {
+  name: string
+  logoSrc: string
+  href: string
+}
+
+const planets: Planet[] = [
   {
     name: 'solidity',
     imgSrc: '/img/home-page/planet-solidity.svg',
@@ -52,15 +77,56 @@ const planets: PLANET[] = [
     href: 'https://thegraph.com/',
   },
   {
-    name: 'viper',
-    imgSrc: '/img/home-page/planet-viper.svg',
+    name: 'vyper',
+    imgSrc: '/img/home-page/planet-vyper.svg',
     href: 'https://docs.vyperlang.org/',
   },
 ]
+
+const protocols: Protocol[] = [
+  {
+    name: 'q',
+    logoSrc: '/img/home-page/q-logo.svg#q-logo',
+    href: 'https://q.org/',
+  },
+  {
+    name: 'dexe',
+    logoSrc: '/img/home-page/dexe-logo.svg#dexe-logo',
+    href: 'https://dexe.network/',
+  },
+  {
+    name: 'rarimo',
+    logoSrc: '/img/home-page/rarimo-logo.svg#rarimo-logo',
+    href: 'https://rarimo.com/',
+  },
+  {
+    name: 'tokene',
+    logoSrc: '/img/home-page/tokene-logo.svg#tokene-logo',
+    href: 'https://tokene.io/',
+  },
+]
+
+const protocolsSwiperParams = {
+  modules: [SwiperAutoplay],
+  loop: true,
+  spaceBetween: 8,
+  slidesPerView: 'auto',
+  speed: 4000,
+  autoplay: {
+    delay: 0,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+  breakpoints: {
+    [WINDOW_BREAKPOINTS.medium]: {
+      spaceBetween: 24,
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
-$z-custom: 1;
+$z-index: 1;
 
 .home-page {
   position: relative;
@@ -71,16 +137,16 @@ $z-custom: 1;
 }
 
 .home-page__background {
-  aspect-ratio: 1512 / 1830;
+  aspect-ratio: 1512 / 2728;
   position: absolute;
   inset: 0;
   background-image: url('/img/home-page/bg.png');
   background-size: 100% auto;
   background-repeat: no-repeat;
-  z-index: $z-custom;
+  z-index: $z-index;
 
   @include respond-to(small) {
-    aspect-ratio: 375 / 964;
+    aspect-ratio: 375 / 2200;
     background-image: url('/img/home-page/bg-small.png');
   }
 }
@@ -96,18 +162,18 @@ $z-custom: 1;
 
   /*
     sizes and positions for background image
-    with aspect-ratio 1512/1830 (for small 375/964)
+    with aspect-ratio 1512/2728 (for small 375/2200)
   */
 
   // planet-solidity
   &:nth-child(1) {
     width: 39.0873%; // 591px on 1512px width
-    top: 29.7267%; // 544px on 1830px height
+    top: 19.9413%; // 544px on 2728px height
     left: 63.8888%; // 966px on 1512px width
 
     @include respond-to(small) {
       width: 72.2666%; // 271px on 375px width
-      top: 43.5684%; // 420px on 964px height
+      top: 19.0909%; // 420px on 2200px height
       left: 53.3333%; // 200px on 375px width
     }
   }
@@ -115,12 +181,12 @@ $z-custom: 1;
   // planet-zk
   &:nth-child(2) {
     width: 8.8624%; // 134px on 1512px width
-    top: 55.5191%; // 1016px on 1830px height
+    top: 37.2434%; // 1016px on 2728px height
     left: 54.1666%; // 819px on 512px width
 
     @include respond-to(small) {
       width: 15.2%; // 57px on 375px width
-      top: 64.419%; // 621px on 964px height
+      top: 28.2272%; // 621px on 2200px height
       left: 39.7333%; // 149px on 964px height
     }
   }
@@ -128,12 +194,12 @@ $z-custom: 1;
   // planet-hardhat
   &:nth-child(3) {
     width: 15.2777%; // 231px on 1512px width
-    top: 35.4644%; // 649px on 1830px height
+    top: 23.7903%; // 649px on 2728px height
     left: 20.701%; // 313px on 1512px width
 
     @include respond-to(small) {
       width: 30.9333%; // 116px on 1512px width
-      top: 42.5311%; // 410px on 964px height
+      top: 18.6363%; // 410px on 2200px height
       left: -2.4%; // -9px pn 375px width
     }
   }
@@ -141,12 +207,12 @@ $z-custom: 1;
   // planet-graph
   &:nth-child(4) {
     width: 10.3174%; // 156px on 1512px width
-    top: 25.9016%; // 474px on 1830px height
+    top: 17.3753%; // 474px on 2728px height
     left: 41.9973%; // 635px on 1512px width
 
     @include respond-to(small) {
       width: 20.2666%; // 76px on 375px width
-      top: 35.0622%; // 338px on 964px height
+      top: 15.3636%; // 338px on 2200px height
       left: 37.3333%; // 140px on 375px width
     }
   }
@@ -154,12 +220,12 @@ $z-custom: 1;
   // planet-viper
   &:nth-child(5) {
     width: 6.2169%; // 94px on 1512px width
-    top: 20.601%; // 377px on 1830px height
+    top: 13.8196%; // 377px on 2728px height
     left: 88.7566%; // 1342px on 1512px width
 
     @include respond-to(small) {
       width: 14.6666%; // 55px on 375px width
-      top: 35.0622%; // 338px on 964px height
+      top: 15.3636%; // 338px on 2200px height
       left: 78.9333%; // 296px on 375px width
     }
   }
@@ -172,5 +238,72 @@ $z-custom: 1;
 .home-page__planet-img {
   display: block;
   width: 100%;
+}
+
+.home-page .home-page__protocols-swiper {
+  --swiper-wrapper-transition-timing-function: linear;
+
+  position: relative;
+  z-index: $z-index;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000000 20%,
+    #000000 80%,
+    transparent
+  );
+
+  :deep(.app-swiper__slide) {
+    max-width: max-content;
+  }
+}
+
+.home-page__protocol {
+  flex: 1;
+  font-family: var(--app-font-family-main);
+  font-size: toRem(24);
+  font-weight: 500;
+  line-height: toRem(32);
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: toRem(8);
+  color: var(--text-primary-light);
+  padding: toRem(24) toRem(36);
+  border-radius: var(--border-radius-main);
+  transition: var(--transition-duration-fast) var(--transition-timing-default);
+  width: toRem(400);
+
+  &:not([disabled]):hover {
+    color: var(--primary-light);
+    background: var(--background-primary-dark);
+  }
+
+  &:not([disabled]):focus,
+  &:not([disabled]):active {
+    color: var(--primary-main);
+    background: var(--background-primary-dark);
+  }
+
+  @include respond-to(medium) {
+    font-size: toRem(16);
+    line-height: toRem(24);
+    gap: toRem(4);
+    padding: toRem(16) toRem(24);
+    width: toRem(300);
+  }
+
+  @include respond-to(small) {
+    width: toRem(200);
+  }
+}
+
+.home-page__protocol-logo {
+  height: toRem(40);
+
+  @include respond-to(medium) {
+    height: toRem(32);
+  }
 }
 </style>

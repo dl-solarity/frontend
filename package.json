@@ -22,7 +22,6 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@intlify/nuxt3": "^0.2.4",
     "@mapbox/stylelint-processor-arbitrary-tags": "^0.4.0",
     "@pinia/nuxt": "^0.4.11",
     "@rushstack/eslint-patch": "^1.1.4",
@@ -69,6 +68,7 @@
     "flatpickr": "^4.6.13",
     "lodash-es": "^4.17.21",
     "nuxt": "^3.6.5",
+    "nuxt-swiper": "^1.2.2",
     "uuid": "^9.0.0",
     "vue-i18n": "^9.2.2",
     "vue-toastification": "^2.0.0-rc.5",
