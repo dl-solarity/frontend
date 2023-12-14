@@ -288,7 +288,9 @@ $z-index: 1;
 }
 
 .home-page__protocol-logo {
+  display: block;
   height: toRem(40);
+  width: 100%;
 
   @include respond-to(medium) {
     height: toRem(32);
