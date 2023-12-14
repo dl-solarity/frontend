@@ -2,7 +2,7 @@ configVersion: 1
 project: "web-client"
 ---
 image: builder
-from: node:16-alpine
+from: node:18-alpine
 git:
   - add: /
     to: /frontend
