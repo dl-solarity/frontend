@@ -129,6 +129,7 @@ const protocolsSwiperParams = {
 $z-index: 1;
 
 .home-page {
+  flex-grow: 1;
   position: relative;
   margin-top: 0;
   padding: var(--app-height-header) 0 0;
