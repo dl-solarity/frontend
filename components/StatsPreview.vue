@@ -130,7 +130,7 @@ $z-index: 2;
   }
 }
 
-.stats-preview__btn {
+.stats-preview .stats-preview__btn {
   position: relative;
   z-index: $z-index;
   display: grid;

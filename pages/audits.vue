@@ -44,6 +44,7 @@ const audits: Audit[] = [
 
 <style lang="scss" scoped>
 .audits-page {
+  flex-grow: 1;
   background: var(--background-secondary-main);
   padding-right: toRem(80);
   padding-left: toRem(80);
