@@ -135,6 +135,7 @@ const buttonType = computed<ButtonType>(
   () => (attrs.type as ButtonType) || 'button',
 )
 </script>
+
 <style lang="scss" scoped>
 .app-button {
   --button-transition-duration: 0.2s;
