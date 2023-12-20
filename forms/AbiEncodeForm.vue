@@ -26,14 +26,25 @@
           :key="arg.id"
           class="abi-encode-form__arg"
         >
-          <autocomplete-field
-            v-model="arg.type"
-            :label="$t('abi-encode-form.arg-type-label')"
-            :placeholder="$t('abi-encode-form.arg-type-placeholder')"
-            :options="TYPE_OPTIONS"
-            :error-message="getFieldErrorMessage(`args[${idx}].type`)"
-            @blur="touchField(`args[${idx}].type`)"
-          />
+          <div class="abi-encode-form__side-wrp">
+            <app-button
+              class="abi-encode-form__arg-add-btn"
+              scheme="none"
+              modification="none"
+              color="none"
+              :icon-left="$icons.plus"
+              @click="addArg(idx)"
+            />
+            <autocomplete-field
+              v-model="arg.type"
+              class="abi-encode-form__autocomplete-field"
+              :label="$t('abi-encode-form.arg-type-label')"
+              :placeholder="$t('abi-encode-form.arg-type-placeholder')"
+              :options="TYPE_OPTIONS"
+              :error-message="getFieldErrorMessage(`args[${idx}].type`)"
+              @blur="touchField(`args[${idx}].type`)"
+            />
+          </div>
           <div class="abi-encode-form__value-wrp">
             <input-field
               v-if="LIST_OF_TYPES_WITH_SUBTYPE.includes(arg.type)"
@@ -56,7 +67,9 @@
               <template #nodeRight>
                 <button
                   class="abi-encode-form__field-btn"
-                  :class="{ 'abi-encode-form__field-btn--filled': arg.subtype }"
+                  :class="{
+                    'abi-encode-form__field-btn--filled': arg.subtype,
+                  }"
                   @click="arg.subtype = getDefaultSubtypeOfType(arg.type)"
                 >
                   <app-icon
@@ -66,7 +79,9 @@
                 </button>
                 <button
                   class="abi-encode-form__field-btn"
-                  :class="{ 'abi-encode-form__field-btn--filled': arg.subtype }"
+                  :class="{
+                    'abi-encode-form__field-btn--filled': arg.subtype,
+                  }"
                   @click="removeArg(arg.id)"
                 >
                   <app-icon
@@ -126,7 +141,7 @@
         scheme="none"
         :text="$t('abi-encode-form.add-arg-btn')"
         :icon-left="$icons.plus"
-        @click="addArg"
+        @click="addArg(form.args.length)"
       />
     </div>
     <div class="abi-encode-form__output">
@@ -270,8 +285,10 @@ const { getFieldErrorMessage, isFormValid, touchField } = useFormValidation(
   rules,
 )
 
-const addArg = () =>
-  form.args.push({ id: uuidv4(), type: '', subtype: '', value: '' })
+const addArg = (idxTo: number) => {
+  form.args.splice(idxTo, 0, { id: uuidv4(), type: '', subtype: '', value: '' })
+}
+
 const removeArg = (id: AbiForm.FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
@@ -368,13 +385,52 @@ abiEncoding.value = encodeAbi([], [])
 
 .abi-encode-form__arg {
   display: grid;
-  grid-template-columns: minmax(toRem(150), 20%) 1fr;
+  grid-template-columns: minmax(toRem(220), 20%) 1fr;
   grid-gap: toRem(16);
 
   @include respond-to(small) {
     grid-template-columns: auto;
     grid-gap: toRem(8);
   }
+}
+
+.abi-encode-form__side-wrp {
+  display: flex;
+  gap: toRem(16);
+  width: 100%;
+
+  @include respond-to(small) {
+    gap: toRem(8);
+  }
+}
+
+.abi-encode-form .abi-encode-form__arg-add-btn {
+  margin-top: calc(
+    var(--field-label-line-height) + var(--field-label-margin-bottom)
+  );
+  height: toRem(48);
+  width: toRem(48);
+  background: var(--field-bg-primary);
+  border: toRem(1) solid var(--field-border);
+  border-radius: var(--field-border-radius);
+  color: var(--primary-main);
+
+  &:not([disabled]):hover {
+    background: var(--field-bg-primary);
+    border: toRem(1) solid var(--field-border-hover);
+    color: var(--primary-main);
+  }
+
+  &:not([disabled]):focus,
+  &:not([disabled]):active {
+    background: var(--field-bg-primary);
+    border: toRem(1) solid var(--field-border-focus);
+    color: var(--primary-main);
+  }
+}
+
+.abi-encode-form .abi-encode-form__autocomplete-field {
+  flex: 1;
 }
 
 .abi-encode-form__value-wrp {
