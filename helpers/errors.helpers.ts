@@ -14,6 +14,11 @@ export function getErrorMessage(error: Error | unknown): string {
         return t('errors.failed-to-guess-param-types')
       case errors.AbiDecodeError:
         return t('errors.failed-to-decode-abi')
+
+      case errors.linkShortenerServiceErrors.CreateLinkFetchError:
+        return t('errors.failed-to-create-link')
+      case errors.linkShortenerServiceErrors.GetDataByLinkFetchError:
+        return t('errors.failed-to-get-data-by-link')
     }
   }
 
