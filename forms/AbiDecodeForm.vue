@@ -123,6 +123,7 @@
 
 <script lang="ts" setup>
 import { AppButton, AppCopy, AppIcon, AppLoader } from '#components'
+import { fetcher } from '@/api'
 import { useFormValidation } from '@/composables'
 import { ETHEREUM_TYPES } from '@/enums'
 import { errors } from '@/errors'
@@ -146,7 +147,6 @@ import {
   required,
 } from '@/helpers'
 import { type ArrayElement, type FieldOption } from '@/types'
-import { fetcher } from '@distributedlab/fetcher'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
 import { AbiCoder, FunctionFragment, ParamType } from 'ethers'
 import { without } from 'lodash-es'
