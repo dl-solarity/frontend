@@ -118,13 +118,30 @@
       :text="$t('abi-decode-form.abi-decoding-copy-btn')"
       @click="copyDecodedValues"
     />
+    <div class="abi-decode-form__link-btn-wrp">
+      <app-button
+        modification="text"
+        :text="
+          !isUrlCopied
+            ? $t('abi-decode-form.link-btn')
+            : $t('abi-decode-form.link-btn--copied')
+        "
+        :icon-right="isUrlCopied ? $icons.checkDouble : ''"
+        @click="onLinkBtnClick"
+      />
+    </div>
+    <div v-if="isInitializing" class="abi-decode-form__loader-wrp">
+      <app-loader />
+    </div>
   </form>
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from '#app'
 import { AppButton, AppCopy, AppIcon, AppLoader } from '#components'
 import { fetcher } from '@/api'
 import { useFormValidation } from '@/composables'
+import { COPIED_DURING_MS, ROUTE_PATH } from '@/constants'
 import { ETHEREUM_TYPES } from '@/enums'
 import { errors } from '@/errors'
 import {
@@ -145,13 +162,15 @@ import {
   getErrorMessage,
   parseFuncArgToValueOfEncode,
   required,
+  sleep,
 } from '@/helpers'
+import { linkShortener } from '@/services'
 import { type ArrayElement, type FieldOption } from '@/types'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
 import { AbiCoder, FunctionFragment, ParamType } from 'ethers'
 import { without } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 type DecodedData = {
@@ -361,6 +380,32 @@ const resetOutput = () => {
   }
 }
 
+const router = useRouter()
+const isUrlCopied = ref(false)
+
+const onLinkBtnClick = async (): Promise<void> => {
+  try {
+    const { id } = await linkShortener.createLink(
+      {
+        hasFuncSelector: form.hasFuncSelector,
+        decodeMode: form.decodeMode,
+        abiEncoding: form.abiEncoding,
+        funcSignature: form.funcSignature,
+      },
+      ROUTE_PATH.abiDecoder,
+    )
+
+    history.replaceState(null, '', `${ROUTE_PATH.abiDecoder}/${id}`)
+
+    await copyToClipboard(window.location.href)
+    isUrlCopied.value = true
+    await sleep(COPIED_DURING_MS)
+    isUrlCopied.value = false
+  } catch (error) {
+    ErrorHandler.process(error)
+  }
+}
+
 let formStateJsonString = JSON.stringify(form)
 const onFormChange = async () => {
   // to avoid re-decoding,because form can change on decode
@@ -394,6 +439,40 @@ const onFormChange = async () => {
 }
 
 watch(() => form, onFormChange, { deep: true })
+
+const isInitializing = ref(true)
+const init = async (): Promise<void> => {
+  isInitializing.value = true
+
+  try {
+    const { id } = router.currentRoute.value.params
+    if (id && typeof id === 'string') {
+      const { attributes } = await linkShortener.getDataByLink(id)
+
+      Object.assign(form, {
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        hasFuncSelector: attributes.value?.hasFuncSelector,
+        // @ts-ignore
+        decodeMode: attributes.value?.decodeMode,
+        // @ts-ignore
+        abiEncoding: attributes.value?.abiEncoding,
+        // @ts-ignore
+        funcSignature: attributes.value?.funcSignature,
+        /* eslint-enable @typescript-eslint/ban-ts-comment */
+      })
+    }
+  } catch (error) {
+    ErrorHandler.process(error)
+    await router.replace({ path: ROUTE_PATH.abiDecoder })
+  } finally {
+    isInitializing.value = false
+  }
+}
+
+onMounted(() => {
+  init()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -487,5 +566,13 @@ watch(() => form, onFormChange, { deep: true })
 .abi-decode-form__tuple {
   display: grid;
   grid-gap: toRem(16);
+}
+
+.abi-decode-form__link-btn-wrp {
+  @include solidity-tools-abi-form-link-btn-wrp;
+}
+
+.abi-decode-form__loader-wrp {
+  @include solidity-tools-page-content-loader-wrp;
 }
 </style>

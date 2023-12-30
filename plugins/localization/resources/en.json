@@ -96,7 +96,9 @@
     "abi-decoding-copy-btn": "Copy decoding",
     "func-signature-label": "Function signature",
     "func-signature-placeholder": "Function signature",
-    "func-is-guessed-warning": "The function signature has been guessed"
+    "func-is-guessed-warning": "The function signature has been guessed",
+    "link-btn": "Copy link to share",
+    "link-btn--copied": "Link copied"
   },
   "abi-encode-form": {
     "input-title": "Encoder",
