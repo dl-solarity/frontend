@@ -139,6 +139,8 @@ $media-breakpoints: (
 }
 
 @mixin solidity-tools-page-content {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   padding: toRem(40);
@@ -148,6 +150,18 @@ $media-breakpoints: (
   @include respond-to(medium) {
     padding: toRem(24) toRem(16) toRem(24) toRem(16);
   }
+}
+
+@mixin solidity-tools-page-content-loader-wrp {
+  $z-index: 100;
+
+  position: absolute;
+  inset: 0;
+  z-index: $z-index;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--backdrop-modal);
 }
 
 @mixin solidity-tools-form {
@@ -171,6 +185,14 @@ $media-breakpoints: (
 @mixin solidity-tools-form-divider {
   height: toRem(1);
   background: var(--border-primary-main);
+}
+
+@mixin solidity-tools-abi-form-link-btn-wrp {
+  display: flex;
+  justify-content: center;
+  border-top: toRem(1) solid var(--border-primary-main);
+  border-radius: 0 0 var(--border-radius-main) var(--border-radius-main);
+  padding: toRem(16) toRem(40);
 }
 
 @mixin page-msg {

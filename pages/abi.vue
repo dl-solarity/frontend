@@ -50,5 +50,11 @@ const tabsList = computed<Tab[]>(() => [
 
 .abi-page__content {
   @include solidity-tools-page-content;
+
+  padding-bottom: 0;
+
+  @include respond-to(medium) {
+    padding-bottom: 0;
+  }
 }
 </style>

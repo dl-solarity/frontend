@@ -117,7 +117,9 @@
     "encoding-placeholder--standard": "Abi encoding",
     "encoding-placeholder--packed": "Packed encoding",
     "func-signature-label": "Function signature",
-    "func-signature-placeholder": "Function signature"
+    "func-signature-placeholder": "Function signature",
+    "link-btn": "Copy link to share",
+    "link-btn--copied": "Link copied"
   },
   "common-addresses-form": {
     "input-title": "Common addresses",

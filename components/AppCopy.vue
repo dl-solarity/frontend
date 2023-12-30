@@ -12,6 +12,7 @@
 
 <script lang="ts" setup>
 import { AppIcon } from '#components'
+import { COPIED_DURING_MS } from '@/constants'
 import { copyToClipboard, sleep } from '@/helpers'
 import { ref } from 'vue'
 
@@ -22,7 +23,7 @@ const isCopied = ref(false)
 const handleCopy = async () => {
   await copyToClipboard(String(props.value))
   isCopied.value = true
-  await sleep(1000)
+  await sleep(COPIED_DURING_MS)
   isCopied.value = false
 }
 </script>

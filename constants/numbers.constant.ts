@@ -1,3 +1,5 @@
+export const COPIED_DURING_MS = 1000
+
 export const UNITS = {
   wei: { title: 'Wei', decimals: 18 },
   kwei: { title: 'KWei', decimals: 15 },

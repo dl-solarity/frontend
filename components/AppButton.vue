@@ -94,8 +94,8 @@ const props = withDefaults(
     size?: 'large' | 'medium' | 'none'
     route?: string
     href?: string
-    iconLeft?: ICON_NAMES
-    iconRight?: ICON_NAMES
+    iconLeft?: ICON_NAMES | ''
+    iconRight?: ICON_NAMES | ''
   }>(),
   {
     text: '',
@@ -105,8 +105,8 @@ const props = withDefaults(
     size: 'medium',
     route: undefined,
     href: '',
-    iconLeft: undefined,
-    iconRight: undefined,
+    iconLeft: '',
+    iconRight: '',
   },
 )
 
@@ -397,7 +397,6 @@ const buttonType = computed<ButtonType>(
     --app-button-border-focused: none;
     --app-button-border-active: none;
 
-    display: inline;
     padding: 0;
 
     &:not([disabled]):hover,
