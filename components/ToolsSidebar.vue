@@ -31,8 +31,7 @@
 <script lang="ts" setup>
 import { useRoute } from '#app'
 import { AppButton, AppLogo } from '#components'
-import { ROUTE_PATH } from '@/constants'
-import { ICON_NAMES, WINDOW_BREAKPOINTS } from '@/enums'
+import { ICON_NAMES, ROUTE_NAMES, WINDOW_BREAKPOINTS } from '@/enums'
 import { useWindowSize } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
@@ -49,27 +48,27 @@ const navLinks = computed(() => [
   {
     title: t('tools-sidebar.abi-title'),
     icon: ICON_NAMES.code,
-    route: ROUTE_PATH.abi,
+    route: { name: ROUTE_NAMES.abi },
   },
   {
     title: t('tools-sidebar.hash-functions-title'),
     icon: ICON_NAMES.hashtag,
-    route: ROUTE_PATH.hashFunction,
+    route: { name: ROUTE_NAMES.hashFunction },
   },
   {
     title: t('tools-sidebar.converter-title'),
     icon: ICON_NAMES.refresh,
-    route: ROUTE_PATH.converter,
+    route: { name: ROUTE_NAMES.converter },
   },
   {
     title: t('tools-sidebar.unix-epoch-title'),
     icon: ICON_NAMES.clock,
-    route: ROUTE_PATH.unixEpoch,
+    route: { name: ROUTE_NAMES.unixEpoch },
   },
   {
     title: t('tools-sidebar.address-utils-title'),
     icon: ICON_NAMES.locationMarker,
-    route: ROUTE_PATH.addressUtils,
+    route: { name: ROUTE_NAMES.addressUtils },
   },
 ])
 

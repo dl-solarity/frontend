@@ -141,8 +141,8 @@ import { useRouter } from '#app'
 import { AppButton, AppCopy, AppIcon, AppLoader } from '#components'
 import { fetcher } from '@/api'
 import { useFormValidation } from '@/composables'
-import { COPIED_DURING_MS, ROUTE_PATH } from '@/constants'
-import { ETHEREUM_TYPES } from '@/enums'
+import { COPIED_DURING_MS } from '@/constants'
+import { ETHEREUM_TYPES, ROUTE_NAMES } from '@/enums'
 import { errors } from '@/errors'
 import {
   AutocompleteField,
@@ -384,6 +384,10 @@ const router = useRouter()
 const isUrlCopied = ref(false)
 
 const onLinkBtnClick = async (): Promise<void> => {
+  const { path: routePathOfDecoder } = router.resolve({
+    name: ROUTE_NAMES.abiDecoderId,
+  })
+
   try {
     const { id } = await linkShortener.createLink(
       {
@@ -392,10 +396,10 @@ const onLinkBtnClick = async (): Promise<void> => {
         abiEncoding: form.abiEncoding,
         funcSignature: form.funcSignature,
       },
-      ROUTE_PATH.abiDecoder,
+      routePathOfDecoder,
     )
 
-    history.replaceState(null, '', `${ROUTE_PATH.abiDecoder}/${id}`)
+    history.replaceState(null, '', `${routePathOfDecoder}/${id}`)
 
     await copyToClipboard(window.location.href)
     isUrlCopied.value = true
@@ -464,7 +468,7 @@ const init = async (): Promise<void> => {
     }
   } catch (error) {
     ErrorHandler.process(error)
-    await router.replace({ path: ROUTE_PATH.abiDecoder })
+    await router.replace({ name: ROUTE_NAMES.abiDecoderId })
   } finally {
     isInitializing.value = false
   }

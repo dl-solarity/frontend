@@ -13,14 +13,14 @@
 <script lang="ts" setup>
 import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
-import { ROUTE_PATH } from '@/constants'
+import { ROUTE_NAMES } from '@/enums'
 import { type Tab } from '@/types'
 import { computed } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
-  redirect: ROUTE_PATH.abiEncoder,
+  redirect: { name: ROUTE_NAMES.abiEncoderId },
 })
 
 enum TABS_IDS {
@@ -33,12 +33,12 @@ const tabsList = computed<Tab[]>(() => [
   {
     title: t('abi-page.encoder-tab'),
     id: TABS_IDS.encoder,
-    route: ROUTE_PATH.abiEncoder,
+    route: { name: ROUTE_NAMES.abiEncoderId },
   },
   {
     title: t('abi-page.decoder-tab'),
     id: TABS_IDS.decoder,
-    route: ROUTE_PATH.abiDecoder,
+    route: { name: ROUTE_NAMES.abiDecoderId },
   },
 ])
 </script>

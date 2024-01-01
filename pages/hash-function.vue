@@ -13,12 +13,12 @@
 <script lang="ts" setup>
 import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
-import { ROUTE_PATH } from '@/constants'
+import { ROUTE_NAMES } from '@/enums'
 import { type Tab } from '@/types'
 
 definePageMeta({
   layout: 'solidity-tools',
-  redirect: ROUTE_PATH.hashFunctionKeccak256,
+  redirect: { name: ROUTE_NAMES.hashFunctionKeccak256 },
 })
 
 enum TABS_IDS {
@@ -31,17 +31,17 @@ const TABS_LIST: Tab[] = [
   {
     title: 'Keccak256',
     id: TABS_IDS.keccak256,
-    route: ROUTE_PATH.hashFunctionKeccak256,
+    route: { name: ROUTE_NAMES.hashFunctionKeccak256 },
   },
   {
     title: 'Sha256',
     id: TABS_IDS.sha256,
-    route: ROUTE_PATH.hashFunctionSha256,
+    route: { name: ROUTE_NAMES.hashFunctionSha256 },
   },
   {
     title: 'Ripemd160',
     id: TABS_IDS.ripemd160,
-    route: ROUTE_PATH.hashFunctionRipemd160,
+    route: { name: ROUTE_NAMES.hashFunctionRipemd160 },
   },
 ]
 </script>

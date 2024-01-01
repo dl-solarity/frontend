@@ -13,14 +13,14 @@
 <script lang="ts" setup>
 import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
-import { ROUTE_PATH } from '@/constants'
+import { ROUTE_NAMES } from '@/enums'
 import { type Tab } from '@/types'
 import { computed } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
-  redirect: ROUTE_PATH.converterUnit,
+  redirect: { name: ROUTE_NAMES.converterUnit },
 })
 
 enum TABS_IDS {
@@ -33,12 +33,12 @@ const tabsList = computed<Tab[]>(() => [
   {
     title: t('converter-page.unit-converter-form-tab'),
     id: TABS_IDS.unitConverterForm,
-    route: ROUTE_PATH.converterUnit,
+    route: { name: ROUTE_NAMES.converterUnit },
   },
   {
     title: t('converter-page.number-converter-form-tab'),
     id: TABS_IDS.numberConverterForm,
-    route: ROUTE_PATH.converterNumber,
+    route: { name: ROUTE_NAMES.converterNumber },
   },
 ])
 </script>
