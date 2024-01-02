@@ -168,16 +168,16 @@
         </template>
       </textarea-field>
     </div>
-    <div class="abi-encode-form__link-btn-wrp">
+    <div class="abi-encode-form__share-btn-wrp">
       <app-button
         modification="text"
         :text="
           !isUrlCopied
-            ? $t('abi-encode-form.link-btn')
-            : $t('abi-encode-form.link-btn--copied')
+            ? $t('abi-encode-form.share-btn')
+            : $t('abi-encode-form.share-btn--copied')
         "
         :icon-right="isUrlCopied ? $icons.checkDouble : ''"
-        @click="onLinkBtnClick"
+        @click="onShareBtnClick"
       />
     </div>
     <div v-if="isInitializing" class="abi-encode-form__loader-wrp">
@@ -366,7 +366,7 @@ const onFormChange = () => {
 const router = useRouter()
 const isUrlCopied = ref(false)
 
-const onLinkBtnClick = async (): Promise<void> => {
+const onShareBtnClick = async (): Promise<void> => {
   const { path: routePathOfEncoder } = router.resolve({
     name: ROUTE_NAMES.abiEncoderId,
   })
@@ -397,7 +397,7 @@ watch(form, onFormChange)
 funcSignature.value = createFunctionSignature([], 'constructor')
 abiEncoding.value = encodeAbi([], [])
 
-const isInitializing = ref(true)
+const isInitializing = ref(Boolean(router.currentRoute.value.params.id))
 const init = async (): Promise<void> => {
   isInitializing.value = true
 
@@ -552,8 +552,8 @@ onMounted(() => {
   }
 }
 
-.abi-encode-form__link-btn-wrp {
-  @include solidity-tools-abi-form-link-btn-wrp;
+.abi-encode-form__share-btn-wrp {
+  @include solidity-tools-form-share-btn-wrp;
 }
 
 .abi-encode-form__loader-wrp {

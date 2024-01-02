@@ -187,7 +187,7 @@ $media-breakpoints: (
   background: var(--border-primary-main);
 }
 
-@mixin solidity-tools-abi-form-link-btn-wrp {
+@mixin solidity-tools-form-share-btn-wrp {
   display: flex;
   justify-content: center;
   border-top: toRem(1) solid var(--border-primary-main);
