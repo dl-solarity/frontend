@@ -13,14 +13,14 @@
 <script lang="ts" setup>
 import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
-import { ROUTE_PATH } from '@/constants'
+import { ROUTE_NAMES } from '@/enums'
 import { type Tab } from '@/types'
 import { computed } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
-  redirect: ROUTE_PATH.addressUtilsCommonAddresses,
+  redirect: { name: ROUTE_NAMES.addressUtilsCommonAddresses },
 })
 
 enum TABS_IDS {
@@ -34,17 +34,17 @@ const tabsList = computed<Tab[]>(() => [
   {
     title: t('address-utils-page.common-addresses-form-tab'),
     id: TABS_IDS.commonAddressesForm,
-    route: ROUTE_PATH.addressUtilsCommonAddresses,
+    route: { name: ROUTE_NAMES.addressUtilsCommonAddresses },
   },
   {
     title: t('address-utils-page.create-address-form-tab'),
     id: TABS_IDS.createAddressForm,
-    route: ROUTE_PATH.addressUtilsCreate,
+    route: { name: ROUTE_NAMES.addressUtilsCreate },
   },
   {
     title: t('address-utils-page.create2-address-form-tab'),
     id: TABS_IDS.create2AddressForm,
-    route: ROUTE_PATH.addressUtilsCreate2,
+    route: { name: ROUTE_NAMES.addressUtilsCreate2 },
   },
 ])
 </script>

@@ -15,3 +15,7 @@ export class ParamTypesGuessError extends RuntimeError {
 export class AbiDecodeError extends RuntimeError {
   message = 'failed to decode abi'
 }
+
+export class IncompatibleDataReceivedError extends RuntimeError {
+  message = 'incompatible data received'
+}

@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link class="app-logo" :to="$routes.app" @click="onClick">
+  <nuxt-link class="app-logo" :to="{ name: $routes.app }" @click="onClick">
     <img class="app-logo__img" src="/branding/logo.png" :alt="config.NAME" />
     <h3 class="app-logo__title">
       {{ $t('app-logo.title') }}
@@ -10,12 +10,12 @@
 <script lang="ts" setup>
 import { useRoute } from '#app'
 import { config } from '@/config'
-import { ROUTE_PATH } from '@/constants'
+import { ROUTE_NAMES } from '@/enums'
 
 const route = useRoute()
 
 const onClick = () => {
-  if (route.path === ROUTE_PATH.app) window.location.reload()
+  if (route.name === ROUTE_NAMES.app) window.location.reload()
 }
 </script>
 

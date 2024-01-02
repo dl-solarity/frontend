@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import ProjectsInfoCard from './ProjectsInfoCard.vue'
 import { config } from '@/config'
-import { ROUTE_PATH } from '@/constants'
+import { ROUTE_NAMES } from '@/enums'
 import { ProjectInfoCard } from '@/types'
 import { i18n } from '~/plugins/localization'
 
@@ -23,7 +23,7 @@ const cards: ProjectInfoCard[] = [
     title: t('projects-info.audits-title'),
     message: t('projects-info.audits-message'),
     btnText: t('projects-info.visit-btn'),
-    route: ROUTE_PATH.audits,
+    route: { name: ROUTE_NAMES.audits },
   },
   {
     title: t('projects-info.github-title'),
@@ -35,7 +35,7 @@ const cards: ProjectInfoCard[] = [
     title: t('projects-info.solidity-tools-title'),
     message: t('projects-info.solidity-tools-message'),
     btnText: t('projects-info.visit-btn'),
-    route: ROUTE_PATH.abiEncoder,
+    route: { name: ROUTE_NAMES.abi },
   },
 ]
 </script>

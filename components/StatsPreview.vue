@@ -20,7 +20,7 @@
         <app-button
           class="stats-preview__btn"
           :text="$t('stats-preview.tools-link-text')"
-          :route="ROUTE_PATH.abiEncoder"
+          :route="{ name: $routes.abiEncoderId }"
         />
         <app-button
           class="stats-preview__btn"
@@ -37,7 +37,6 @@
 import { AppButton } from '#components'
 import { useViewportSizes } from '@/composables'
 import { config } from '@/config'
-import { ROUTE_PATH } from '@/constants'
 
 const { isSmallBreakpoint } = useViewportSizes()
 </script>

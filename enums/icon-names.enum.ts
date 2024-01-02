@@ -5,6 +5,7 @@ export enum ICON_NAMES {
   burger = 'burger',
   calendar = 'calendar',
   checkCircle = 'check-circle',
+  checkDouble = 'check-double',
   clipboardCheck = 'clipboard-check',
   clock = 'clock',
   code = 'code',
