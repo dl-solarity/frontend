@@ -143,7 +143,7 @@ import { fetcher } from '@/api'
 import { useFormValidation } from '@/composables'
 import { COPIED_DURING_MS } from '@/constants'
 import { ETHEREUM_TYPES, ROUTE_NAMES } from '@/enums'
-import { errors } from '@/errors'
+import { runtimeErrors } from '@/errors'
 import {
   AutocompleteField,
   CheckboxField,
@@ -254,7 +254,7 @@ const fetchFuncSignature = async (selector: string): Promise<string> => {
 
     responseData = data
   } catch {
-    throw new errors.FunctionSignatureFetchError()
+    throw new runtimeErrors.FunctionSignatureFetchError()
   }
 
   // eslint-disable-next-line
@@ -273,7 +273,7 @@ const decodeValues = (
 
     return values
   } catch {
-    throw new errors.AbiDecodeError()
+    throw new runtimeErrors.AbiDecodeError()
   }
 }
 
@@ -299,7 +299,9 @@ const decodeAbi = async (data: string): Promise<DecodedData> => {
             funcFragment = FunctionFragment.from(funcSignature)
           } catch (error) {
             funcFragment = guessFragment(data)
-            if (!funcFragment) throw new errors.FunctionFragmentGuessError()
+
+            if (!funcFragment)
+              throw new runtimeErrors.FunctionFragmentGuessError()
 
             funcSignature = createFunctionSignature(
               funcFragment.inputs as unknown as ParamType[],
@@ -318,7 +320,7 @@ const decodeAbi = async (data: string): Promise<DecodedData> => {
         }
 
         const paramTypes = guessAbiEncodedData(data)
-        if (!paramTypes) throw new errors.ParamTypesGuessError()
+        if (!paramTypes) throw new runtimeErrors.ParamTypesGuessError()
 
         const funcSignature = createFunctionSignature(
           paramTypes as unknown as ParamType[],
@@ -459,7 +461,7 @@ const init = async (): Promise<void> => {
       const { attributes } = await linkShortener.getDataByLink(id)
 
       if (attributes.path !== routePathOfDecoder.value)
-        throw new errors.linkShortenerServiceErrors.GetDataByLinkFetchError()
+        throw new runtimeErrors.IncompatibleDataReceivedError()
 
       Object.assign(form, {
         /* eslint-disable @typescript-eslint/ban-ts-comment */

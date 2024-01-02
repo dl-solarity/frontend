@@ -55,7 +55,7 @@ import { useRouter } from '#app'
 import { AppButton, AppCopy, AppLoader } from '#components'
 import { useFormValidation } from '@/composables'
 import { COPIED_DURING_MS } from '@/constants'
-import { linkShortenerServiceErrors } from '@/errors'
+import { runtimeErrors } from '@/errors'
 import { RadioButtonField, TextareaField } from '@/fields'
 import {
   copyToClipboard,
@@ -157,7 +157,7 @@ const init = async (): Promise<void> => {
       const { attributes } = await linkShortener.getDataByLink(id)
 
       if (attributes.path !== routePathOfHashTool.value)
-        throw new linkShortenerServiceErrors.GetDataByLinkFetchError()
+        throw new runtimeErrors.IncompatibleDataReceivedError()
 
       Object.assign(form, {
         /* eslint-disable @typescript-eslint/ban-ts-comment */

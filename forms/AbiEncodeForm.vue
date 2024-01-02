@@ -192,7 +192,7 @@ import { AppButton, AppCopy, AppIcon, AppLoader } from '#components'
 import { useFormValidation } from '@/composables'
 import { COPIED_DURING_MS } from '@/constants'
 import { ETHEREUM_TYPES, ROUTE_NAMES } from '@/enums'
-import { linkShortenerServiceErrors } from '@/errors'
+import { runtimeErrors } from '@/errors'
 import {
   AutocompleteField,
   InputField,
@@ -413,7 +413,7 @@ const init = async (): Promise<void> => {
       const { attributes } = await linkShortener.getDataByLink(id)
 
       if (attributes.path !== routePathOfEncoder.value)
-        throw new linkShortenerServiceErrors.GetDataByLinkFetchError()
+        throw new runtimeErrors.IncompatibleDataReceivedError()
 
       Object.assign(form, {
         /* eslint-disable @typescript-eslint/ban-ts-comment */

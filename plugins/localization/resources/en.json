@@ -207,6 +207,7 @@
     "failed-to-guess-func-fragment": "Failed to guess function signature",
     "failed-to-guess-param-types": "Failed to guess types",
     "failed-to-decode-abi": "Failed to decode values with given types",
+    "incompatible-data-received": "Incompatible data received",
     "failed-to-create-link": "Failed to create link",
     "failed-to-get-data-by-link": "Failed to get data by link"
   },

@@ -6,4 +6,4 @@ export const errors = {
   linkShortenerServiceErrors,
 }
 
-export { linkShortenerServiceErrors }
+export { linkShortenerServiceErrors, runtimeErrors }

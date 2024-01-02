@@ -14,6 +14,8 @@ export function getErrorMessage(error: Error | unknown): string {
         return t('errors.failed-to-guess-param-types')
       case errors.AbiDecodeError:
         return t('errors.failed-to-decode-abi')
+      case errors.IncompatibleDataReceivedError:
+        return t('errors.incompatible-data-received')
 
       case errors.linkShortenerServiceErrors.CreateLinkFetchError:
         return t('errors.failed-to-create-link')
