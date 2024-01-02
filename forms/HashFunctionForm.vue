@@ -32,16 +32,41 @@
         </app-copy>
       </div>
     </div>
+    <div class="hash-function-form__share-btn-wrp">
+      <app-button
+        modification="text"
+        :text="
+          !isUrlCopied
+            ? $t('hash-function-form.share-btn')
+            : $t('hash-function-form.share-btn--copied')
+        "
+        :icon-right="isUrlCopied ? $icons.checkDouble : ''"
+        @click="onShareBtnClick"
+      />
+    </div>
+    <div v-if="isInitializing" class="hash-function-form__loader-wrp">
+      <app-loader />
+    </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { AppCopy } from '#components'
+import { useRouter } from '#app'
+import { AppButton, AppCopy, AppLoader } from '#components'
 import { useFormValidation } from '@/composables'
+import { COPIED_DURING_MS } from '@/constants'
+import { linkShortenerServiceErrors } from '@/errors'
 import { RadioButtonField, TextareaField } from '@/fields'
-import { ErrorHandler, hexadecimal, required } from '@/helpers'
+import {
+  copyToClipboard,
+  ErrorHandler,
+  hexadecimal,
+  required,
+  sleep,
+} from '@/helpers'
+import { linkShortener } from '@/services'
 import { type DecodeType, type FieldOption, type HashFunction } from '@/types'
-import { reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 const props = defineProps<{
@@ -67,12 +92,46 @@ const rules = computed(() => ({
   },
 }))
 
+const routePathOfHashTool = computed<string>(() => {
+  if (!router.currentRoute.value.name) return ''
+
+  const { path } = router.resolve({
+    name: router.currentRoute.value.name,
+  })
+
+  return path
+})
+
 const { isFormValid, getFieldErrorMessage, touchField } = useFormValidation(
   form,
   rules,
 )
 
 const decodedHash = ref(props.decode(form.text, form.type))
+
+const router = useRouter()
+const isUrlCopied = ref(false)
+
+const onShareBtnClick = async (): Promise<void> => {
+  try {
+    const { id } = await linkShortener.createLink(
+      {
+        type: form.type,
+        text: form.text,
+      },
+      routePathOfHashTool.value,
+    )
+
+    history.replaceState(null, '', `${routePathOfHashTool.value}/${id}`)
+
+    await copyToClipboard(window.location.href)
+    isUrlCopied.value = true
+    await sleep(COPIED_DURING_MS)
+    isUrlCopied.value = false
+  } catch (error) {
+    ErrorHandler.process(error)
+  }
+}
 
 watch(form, () => {
   if (!isFormValid()) {
@@ -86,6 +145,39 @@ watch(form, () => {
     decodedHash.value = ''
     ErrorHandler.process(error)
   }
+})
+
+const isInitializing = ref(Boolean(router.currentRoute.value.params.id))
+const init = async (): Promise<void> => {
+  isInitializing.value = true
+
+  try {
+    const { id } = router.currentRoute.value.params
+    if (id && typeof id === 'string') {
+      const { attributes } = await linkShortener.getDataByLink(id)
+
+      if (attributes.path !== routePathOfHashTool.value)
+        throw new linkShortenerServiceErrors.GetDataByLinkFetchError()
+
+      Object.assign(form, {
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        type: attributes.value?.type,
+        // @ts-ignore
+        text: attributes.value?.text,
+        /* eslint-enable @typescript-eslint/ban-ts-comment */
+      })
+    }
+  } catch (error) {
+    ErrorHandler.process(error)
+    await router.replace(routePathOfHashTool.value)
+  } finally {
+    isInitializing.value = false
+  }
+}
+
+onMounted(() => {
+  init()
 })
 </script>
 
@@ -127,5 +219,13 @@ watch(form, () => {
 
 .hash-function-form__output-item-value {
   @include text-ellipsis;
+}
+
+.hash-function-form__share-btn-wrp {
+  @include solidity-tools-form-share-btn-wrp;
+}
+
+.hash-function-form__loader-wrp {
+  @include solidity-tools-page-content-loader-wrp;
 }
 </style>

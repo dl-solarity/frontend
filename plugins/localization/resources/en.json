@@ -177,7 +177,9 @@
     "select-option-hex": "Hex",
     "text-title": "Input data",
     "output-title": "Output",
-    "decoded-hash-label": "Decoded Hash"
+    "decoded-hash-label": "Decoded Hash",
+    "share-btn": "Copy link to share",
+    "share-btn--copied": "Link copied"
   },
   "create-address-form": {
     "input-title": "Create",
