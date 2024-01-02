@@ -381,13 +381,18 @@ const resetOutput = () => {
 }
 
 const router = useRouter()
-const isUrlCopied = ref(false)
 
-const onShareBtnClick = async (): Promise<void> => {
-  const { path: routePathOfDecoder } = router.resolve({
+const routePathOfDecoder = computed<string>(() => {
+  const { path } = router.resolve({
     name: ROUTE_NAMES.abiDecoderId,
   })
 
+  return path
+})
+
+const isUrlCopied = ref(false)
+
+const onShareBtnClick = async (): Promise<void> => {
   try {
     const { id } = await linkShortener.createLink(
       {
@@ -396,10 +401,10 @@ const onShareBtnClick = async (): Promise<void> => {
         abiEncoding: form.abiEncoding,
         funcSignature: form.funcSignature,
       },
-      routePathOfDecoder,
+      routePathOfDecoder.value,
     )
 
-    history.replaceState(null, '', `${routePathOfDecoder}/${id}`)
+    history.replaceState(null, '', `${routePathOfDecoder.value}/${id}`)
 
     await copyToClipboard(window.location.href)
     isUrlCopied.value = true
@@ -452,6 +457,9 @@ const init = async (): Promise<void> => {
     const { id } = router.currentRoute.value.params
     if (id && typeof id === 'string') {
       const { attributes } = await linkShortener.getDataByLink(id)
+
+      if (attributes.path !== routePathOfDecoder.value)
+        throw new errors.linkShortenerServiceErrors.GetDataByLinkFetchError()
 
       Object.assign(form, {
         /* eslint-disable @typescript-eslint/ban-ts-comment */

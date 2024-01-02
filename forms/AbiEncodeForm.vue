@@ -192,6 +192,7 @@ import { AppButton, AppCopy, AppIcon, AppLoader } from '#components'
 import { useFormValidation } from '@/composables'
 import { COPIED_DURING_MS } from '@/constants'
 import { ETHEREUM_TYPES, ROUTE_NAMES } from '@/enums'
+import { linkShortenerServiceErrors } from '@/errors'
 import {
   AutocompleteField,
   InputField,
@@ -364,13 +365,18 @@ const onFormChange = () => {
 }
 
 const router = useRouter()
-const isUrlCopied = ref(false)
 
-const onShareBtnClick = async (): Promise<void> => {
-  const { path: routePathOfEncoder } = router.resolve({
+const routePathOfEncoder = computed<string>(() => {
+  const { path } = router.resolve({
     name: ROUTE_NAMES.abiEncoderId,
   })
 
+  return path
+})
+
+const isUrlCopied = ref(false)
+
+const onShareBtnClick = async (): Promise<void> => {
   try {
     const { id } = await linkShortener.createLink(
       {
@@ -378,10 +384,10 @@ const onShareBtnClick = async (): Promise<void> => {
         funcName: form.funcName,
         args: form.args,
       },
-      routePathOfEncoder,
+      routePathOfEncoder.value,
     )
 
-    history.replaceState(null, '', `${routePathOfEncoder}/${id}`)
+    history.replaceState(null, '', `${routePathOfEncoder.value}/${id}`)
 
     await copyToClipboard(window.location.href)
     isUrlCopied.value = true
@@ -405,6 +411,9 @@ const init = async (): Promise<void> => {
     const { id } = router.currentRoute.value.params
     if (id && typeof id === 'string') {
       const { attributes } = await linkShortener.getDataByLink(id)
+
+      if (attributes.path !== routePathOfEncoder.value)
+        throw new linkShortenerServiceErrors.GetDataByLinkFetchError()
 
       Object.assign(form, {
         /* eslint-disable @typescript-eslint/ban-ts-comment */
