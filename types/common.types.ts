@@ -1,4 +1,6 @@
 import { ICON_NAMES } from '@/enums'
+import { RouteLocationRaw } from 'vue-router'
+
 export type CommonNotificationTypes =
   | 'success'
   | 'error'
@@ -36,11 +38,13 @@ export type ProjectInfoCard = {
   message: string
   btnText: string
   href?: string
-  route?: string
+  route?: RouteLocationRaw
 }
 
 export type Tab = {
   title: string
   id: string
-  route?: string
+  route?: RouteLocationRaw
 }
+
+export { RouteLocationRaw }

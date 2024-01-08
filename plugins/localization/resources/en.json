@@ -96,7 +96,9 @@
     "abi-decoding-copy-btn": "Copy decoding",
     "func-signature-label": "Function signature",
     "func-signature-placeholder": "Function signature",
-    "func-is-guessed-warning": "The function signature has been guessed"
+    "func-is-guessed-warning": "The function signature has been guessed",
+    "share-btn": "Copy link to share",
+    "share-btn--copied": "Link copied"
   },
   "abi-encode-form": {
     "input-title": "Encoder",
@@ -117,7 +119,9 @@
     "encoding-placeholder--standard": "Abi encoding",
     "encoding-placeholder--packed": "Packed encoding",
     "func-signature-label": "Function signature",
-    "func-signature-placeholder": "Function signature"
+    "func-signature-placeholder": "Function signature",
+    "share-btn": "Copy link to share",
+    "share-btn--copied": "Link copied"
   },
   "common-addresses-form": {
     "input-title": "Common addresses",
@@ -173,7 +177,9 @@
     "select-option-hex": "Hex",
     "text-title": "Input data",
     "output-title": "Output",
-    "decoded-hash-label": "Decoded Hash"
+    "decoded-hash-label": "Decoded Hash",
+    "share-btn": "Copy link to share",
+    "share-btn--copied": "Link copied"
   },
   "create-address-form": {
     "input-title": "Create",
@@ -200,7 +206,10 @@
     "failed-to-fetch-func-signature": "Failed to get function signature",
     "failed-to-guess-func-fragment": "Failed to guess function signature",
     "failed-to-guess-param-types": "Failed to guess types",
-    "failed-to-decode-abi": "Failed to decode values with given types"
+    "failed-to-decode-abi": "Failed to decode values with given types",
+    "incompatible-data-received": "Incompatible data received",
+    "failed-to-create-link": "Failed to create link",
+    "failed-to-get-data-by-link": "Failed to get data by link"
   },
   "app-logo": {
     "title": "Solarity"

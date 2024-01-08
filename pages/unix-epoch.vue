@@ -13,14 +13,14 @@
 <script lang="ts" setup>
 import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
-import { ROUTE_PATH } from '@/constants'
+import { ROUTE_NAMES } from '@/enums'
 import { type Tab } from '@/types'
 import { computed } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
-  redirect: ROUTE_PATH.unixEpochDate,
+  redirect: { name: ROUTE_NAMES.unixEpochDate },
 })
 
 enum TABS_IDS {
@@ -33,12 +33,12 @@ const tabsList = computed<Tab[]>(() => [
   {
     title: t('unix-epoch-page.date-form-tab'),
     id: TABS_IDS.date,
-    route: ROUTE_PATH.unixEpochDate,
+    route: { name: ROUTE_NAMES.unixEpochDate },
   },
   {
     title: t('unix-epoch-page.timestamp-form-tab'),
     id: TABS_IDS.timestamp,
-    route: ROUTE_PATH.unixEpochTimestamp,
+    route: { name: ROUTE_NAMES.unixEpochTimestamp },
   },
 ])
 </script>

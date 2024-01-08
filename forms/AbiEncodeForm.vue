@@ -168,13 +168,31 @@
         </template>
       </textarea-field>
     </div>
+    <div class="abi-encode-form__share-btn-wrp">
+      <app-button
+        modification="text"
+        :text="
+          !isUrlCopied
+            ? $t('abi-encode-form.share-btn')
+            : $t('abi-encode-form.share-btn--copied')
+        "
+        :icon-right="isUrlCopied ? $icons.checkDouble : ''"
+        @click="onShareBtnClick"
+      />
+    </div>
+    <div v-if="isInitializing" class="abi-encode-form__loader-wrp">
+      <app-loader />
+    </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { AppButton, AppCopy, AppIcon } from '#components'
+import { useRouter } from '#app'
+import { AppButton, AppCopy, AppIcon, AppLoader } from '#components'
 import { useFormValidation } from '@/composables'
-import { ETHEREUM_TYPES } from '@/enums'
+import { COPIED_DURING_MS } from '@/constants'
+import { ETHEREUM_TYPES, ROUTE_NAMES } from '@/enums'
+import { runtimeErrors } from '@/errors'
 import {
   AutocompleteField,
   InputField,
@@ -184,6 +202,7 @@ import {
 import {
   ErrorHandler,
   contractFuncName,
+  copyToClipboard,
   createFunctionSignature,
   ethereumBaseType,
   ethereumBaseTypeValue,
@@ -194,13 +213,15 @@ import {
   json,
   parseFuncArgToValueOfEncode,
   required,
+  sleep,
   withinSizeOfEthereumType,
 } from '@/helpers'
+import { linkShortener } from '@/services'
 import { type AbiForm, type FieldOption } from '@/types'
 import { Interface, ParamType, solidityPacked } from 'ethers'
 import { without } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 enum ENCODE_MODES {
@@ -343,10 +364,79 @@ const onFormChange = () => {
   }
 }
 
+const router = useRouter()
+
+const routePathOfEncoder = computed<string>(() => {
+  const { path } = router.resolve({
+    name: ROUTE_NAMES.abiEncoderId,
+  })
+
+  return path
+})
+
+const isUrlCopied = ref(false)
+
+const onShareBtnClick = async (): Promise<void> => {
+  try {
+    const { id } = await linkShortener.createLink(
+      {
+        encodeMode: form.encodeMode,
+        funcName: form.funcName,
+        args: form.args,
+      },
+      routePathOfEncoder.value,
+    )
+
+    history.replaceState(null, '', `${routePathOfEncoder.value}/${id}`)
+
+    await copyToClipboard(window.location.href)
+    isUrlCopied.value = true
+    await sleep(COPIED_DURING_MS)
+    isUrlCopied.value = false
+  } catch (error) {
+    ErrorHandler.process(error)
+  }
+}
+
 watch(form, onFormChange)
 
 funcSignature.value = createFunctionSignature([], 'constructor')
 abiEncoding.value = encodeAbi([], [])
+
+const isInitializing = ref(Boolean(router.currentRoute.value.params.id))
+const init = async (): Promise<void> => {
+  isInitializing.value = true
+
+  try {
+    const { id } = router.currentRoute.value.params
+    if (id && typeof id === 'string') {
+      const { attributes } = await linkShortener.getDataByLink(id)
+
+      if (attributes.path !== routePathOfEncoder.value)
+        throw new runtimeErrors.IncompatibleDataReceivedError()
+
+      Object.assign(form, {
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        encodeMode: attributes.value?.encodeMode,
+        // @ts-ignore
+        funcName: attributes.value?.funcName,
+        // @ts-ignore
+        args: attributes.value?.args,
+        /* eslint-enable @typescript-eslint/ban-ts-comment */
+      })
+    }
+  } catch (error) {
+    ErrorHandler.process(error)
+    await router.replace({ name: ROUTE_NAMES.abiEncoderId })
+  } finally {
+    isInitializing.value = false
+  }
+}
+
+onMounted(() => {
+  init()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -469,5 +559,13 @@ abiEncoding.value = encodeAbi([], [])
   &--x-mark {
     margin-right: toRem(-5);
   }
+}
+
+.abi-encode-form__share-btn-wrp {
+  @include solidity-tools-form-share-btn-wrp;
+}
+
+.abi-encode-form__loader-wrp {
+  @include solidity-tools-page-content-loader-wrp;
 }
 </style>

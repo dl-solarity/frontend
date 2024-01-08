@@ -118,14 +118,32 @@
       :text="$t('abi-decode-form.abi-decoding-copy-btn')"
       @click="copyDecodedValues"
     />
+    <div class="abi-decode-form__share-btn-wrp">
+      <app-button
+        modification="text"
+        :text="
+          !isUrlCopied
+            ? $t('abi-decode-form.share-btn')
+            : $t('abi-decode-form.share-btn--copied')
+        "
+        :icon-right="isUrlCopied ? $icons.checkDouble : ''"
+        @click="onShareBtnClick"
+      />
+    </div>
+    <div v-if="isInitializing" class="abi-decode-form__loader-wrp">
+      <app-loader />
+    </div>
   </form>
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from '#app'
 import { AppButton, AppCopy, AppIcon, AppLoader } from '#components'
+import { fetcher } from '@/api'
 import { useFormValidation } from '@/composables'
-import { ETHEREUM_TYPES } from '@/enums'
-import { errors } from '@/errors'
+import { COPIED_DURING_MS } from '@/constants'
+import { ETHEREUM_TYPES, ROUTE_NAMES } from '@/enums'
+import { runtimeErrors } from '@/errors'
 import {
   AutocompleteField,
   CheckboxField,
@@ -144,14 +162,15 @@ import {
   getErrorMessage,
   parseFuncArgToValueOfEncode,
   required,
+  sleep,
 } from '@/helpers'
+import { linkShortener } from '@/services'
 import { type ArrayElement, type FieldOption } from '@/types'
-import { fetcher } from '@distributedlab/fetcher'
 import { guessAbiEncodedData, guessFragment } from '@openchainxyz/abi-guesser'
 import { AbiCoder, FunctionFragment, ParamType } from 'ethers'
 import { without } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 type DecodedData = {
@@ -235,7 +254,7 @@ const fetchFuncSignature = async (selector: string): Promise<string> => {
 
     responseData = data
   } catch {
-    throw new errors.FunctionSignatureFetchError()
+    throw new runtimeErrors.FunctionSignatureFetchError()
   }
 
   // eslint-disable-next-line
@@ -254,7 +273,7 @@ const decodeValues = (
 
     return values
   } catch {
-    throw new errors.AbiDecodeError()
+    throw new runtimeErrors.AbiDecodeError()
   }
 }
 
@@ -280,7 +299,9 @@ const decodeAbi = async (data: string): Promise<DecodedData> => {
             funcFragment = FunctionFragment.from(funcSignature)
           } catch (error) {
             funcFragment = guessFragment(data)
-            if (!funcFragment) throw new errors.FunctionFragmentGuessError()
+
+            if (!funcFragment)
+              throw new runtimeErrors.FunctionFragmentGuessError()
 
             funcSignature = createFunctionSignature(
               funcFragment.inputs as unknown as ParamType[],
@@ -299,7 +320,7 @@ const decodeAbi = async (data: string): Promise<DecodedData> => {
         }
 
         const paramTypes = guessAbiEncodedData(data)
-        if (!paramTypes) throw new errors.ParamTypesGuessError()
+        if (!paramTypes) throw new runtimeErrors.ParamTypesGuessError()
 
         const funcSignature = createFunctionSignature(
           paramTypes as unknown as ParamType[],
@@ -361,6 +382,41 @@ const resetOutput = () => {
   }
 }
 
+const router = useRouter()
+
+const routePathOfDecoder = computed<string>(() => {
+  const { path } = router.resolve({
+    name: ROUTE_NAMES.abiDecoderId,
+  })
+
+  return path
+})
+
+const isUrlCopied = ref(false)
+
+const onShareBtnClick = async (): Promise<void> => {
+  try {
+    const { id } = await linkShortener.createLink(
+      {
+        hasFuncSelector: form.hasFuncSelector,
+        decodeMode: form.decodeMode,
+        abiEncoding: form.abiEncoding,
+        funcSignature: form.funcSignature,
+      },
+      routePathOfDecoder.value,
+    )
+
+    history.replaceState(null, '', `${routePathOfDecoder.value}/${id}`)
+
+    await copyToClipboard(window.location.href)
+    isUrlCopied.value = true
+    await sleep(COPIED_DURING_MS)
+    isUrlCopied.value = false
+  } catch (error) {
+    ErrorHandler.process(error)
+  }
+}
+
 let formStateJsonString = JSON.stringify(form)
 const onFormChange = async () => {
   // to avoid re-decoding,because form can change on decode
@@ -394,6 +450,43 @@ const onFormChange = async () => {
 }
 
 watch(() => form, onFormChange, { deep: true })
+
+const isInitializing = ref(Boolean(router.currentRoute.value.params.id))
+const init = async (): Promise<void> => {
+  isInitializing.value = true
+
+  try {
+    const { id } = router.currentRoute.value.params
+    if (id && typeof id === 'string') {
+      const { attributes } = await linkShortener.getDataByLink(id)
+
+      if (attributes.path !== routePathOfDecoder.value)
+        throw new runtimeErrors.IncompatibleDataReceivedError()
+
+      Object.assign(form, {
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        hasFuncSelector: attributes.value?.hasFuncSelector,
+        // @ts-ignore
+        decodeMode: attributes.value?.decodeMode,
+        // @ts-ignore
+        abiEncoding: attributes.value?.abiEncoding,
+        // @ts-ignore
+        funcSignature: attributes.value?.funcSignature,
+        /* eslint-enable @typescript-eslint/ban-ts-comment */
+      })
+    }
+  } catch (error) {
+    ErrorHandler.process(error)
+    await router.replace({ name: ROUTE_NAMES.abiDecoderId })
+  } finally {
+    isInitializing.value = false
+  }
+}
+
+onMounted(() => {
+  init()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -487,5 +580,13 @@ watch(() => form, onFormChange, { deep: true })
 .abi-decode-form__tuple {
   display: grid;
   grid-gap: toRem(16);
+}
+
+.abi-decode-form__share-btn-wrp {
+  @include solidity-tools-form-share-btn-wrp;
+}
+
+.abi-decode-form__loader-wrp {
+  @include solidity-tools-page-content-loader-wrp;
 }
 </style>
