@@ -153,6 +153,13 @@ export default defineNuxtConfig({
     preset: 'node-server',
     prerender: {
       failOnError: false,
+      routes: [
+        '/abi/encoder/',
+        '/abi/decoder/',
+        '/hash-function/keccak256',
+        '/hash-function/sha256',
+        '/hash-function/ripemd160',
+      ],
     },
   },
 })
