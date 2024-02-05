@@ -230,7 +230,7 @@
   },
   "projects-info": {
     "documentation-title": "Documentation",
-    "documentation-message":  "Coming soon",
+    "documentation-message":  "Learn more about the project and how to utilize the library",
     "audits-title": "Audits",
     "audits-message":  "The list of our public Solidity audits",
     "github-title": "GitHub",
