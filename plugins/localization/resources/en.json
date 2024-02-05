@@ -226,11 +226,11 @@
     "main-title-part-2--short": "your open source Solidity ecosystem",
     "secondary-title": "Developed and maintained by Distributed Lab",
     "tools-link-text": "Tools",
-    "docs-link-text": "Docs (soon)"
+    "docs-link-text": "Documentation"
   },
   "projects-info": {
     "documentation-title": "Documentation",
-    "documentation-message":  "Coming soon",
+    "documentation-message":  "Learn more about the project and how to utilize the library",
     "audits-title": "Audits",
     "audits-message":  "The list of our public Solidity audits",
     "github-title": "GitHub",
