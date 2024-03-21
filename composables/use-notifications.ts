@@ -77,7 +77,7 @@ export const useNotifications = () => {
           error: TYPE.ERROR,
           warning: TYPE.WARNING,
         }[messageType],
-        timeout: 30000,
+        timeout: 10000,
         closeOnClick: false,
         closeButton: false,
       },

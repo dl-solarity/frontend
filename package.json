@@ -1,14 +1,14 @@
 {
-  "name": "solidity-landing",
-  "version": "1.0.0-rc.0",
-  "private": true,
+  "name": "@solarity/frontend",
+  "version": "1.0.0",
+  "private": false,
   "gitHooks": {
     "pre-commit": "yarn lint"
   },
   "scripts": {
     "dev": "nuxt dev -o",
     "nuxt-build": "nuxt build",
-    "start": "cross-env VITE_APP_ENVIRONMENT=development yarn nuxt-dev-server",
+    "start": "cross-env VITE_APP_ENVIRONMENT=development yarn dev",
     "build": "cross-env VITE_APP_ENVIRONMENT=production yarn nuxt-build",
     "analyze": "cross-env VITE_APP_ENVIRONMENT=analyze yarn nuxt-build",
     "test": "",
