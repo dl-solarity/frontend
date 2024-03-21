@@ -22,6 +22,7 @@ import { isAddress, isBytesLike } from 'ethers'
 const HASH_REGEX = /^0x[a-fA-F0-9]{64}$/
 const HEX_REGEX = /^0x[a-fA-F0-9]*$/
 const HEXADECIMAL_REGEX = /^0x[a-fA-F0-9]+$/
+const HEXADECIMAL_OR_EMPTY_REGEX = /^0x[a-fA-F0-9]*$/
 const BINARY_REGEX = /^0b[01]+$/
 const OCTAL_REGEX = /^0o?[0-7]+$/
 const CONTRACT_FUNC_NAME_REGEXP = /^[a-zA-Z_][a-zA-Z0-9_]*$/
@@ -48,6 +49,10 @@ export const hex = <ValidationRule>withI18nMessage(helpers.regex(HEX_REGEX))
 
 export const hexadecimal = <ValidationRule>(
   withI18nMessage(helpers.regex(HEXADECIMAL_REGEX))
+)
+
+export const hexadecimalOrEmpty = <ValidationRule>(
+  withI18nMessage(helpers.regex(HEXADECIMAL_OR_EMPTY_REGEX))
 )
 
 export const binary = <ValidationRule>(

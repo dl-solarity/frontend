@@ -60,7 +60,7 @@ import { RadioButtonField, TextareaField } from '@/fields'
 import {
   copyToClipboard,
   ErrorHandler,
-  hexadecimal,
+  hexadecimalOrEmpty,
   required,
   sleep,
 } from '@/helpers'
@@ -88,7 +88,7 @@ const form = reactive({
 const rules = computed(() => ({
   type: { required },
   text: {
-    ...(form.type === 'hex' && { required, hexadecimal }),
+    ...(form.type === 'hex' && { required, hexadecimalOrEmpty }),
   },
 }))
 

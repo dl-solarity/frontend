@@ -14,6 +14,7 @@
     "field-error_maxLength": "Field must be less than {max} symbols",
     "field-error_binary": "Field must be a binary number with prefix \"0b\"",
     "field-error_hexadecimal": "Field must be a hexadecimal with prefix \"0x\"",
+    "field-error_hexadecimalOrEmpty": "Field must be a hexadecimal with prefix \"0x\"",
     "field-error_octal": "Field must be a octal number with prefix \"0o\"",
     "field-error_contractFuncName": "Field must be a valid function name",
     "field-error_functionSignature": "Field must be a valid function signature",
