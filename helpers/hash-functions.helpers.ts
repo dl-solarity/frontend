@@ -30,7 +30,7 @@ const getHashArg = (str: string, type: 'text' | 'hex') => {
     return toUtf8Bytes(str)
   }
 
-  if (str.length % 2 == 1) {
+  if (str.length % 2) {
     str = '0x0' + str.slice(2)
   }
 
