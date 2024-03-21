@@ -1,4 +1,8 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Solarity Front End
+
+**Everything about Solarity ecosystem.**
 
 ## Setup
 
@@ -7,12 +11,6 @@ Make sure to install the dependencies:
 ```bash
 # yarn
 yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install --shamefully-hoist
 ```
 
 ## Development Server

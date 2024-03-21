@@ -53,7 +53,7 @@ export const hexadecimal = <ValidationRule>(
 
 export const hexadecimalOrEmpty = <ValidationRule>(
   withI18nMessage(helpers.regex(HEXADECIMAL_OR_EMPTY_REGEX))
-);
+)
 
 export const binary = <ValidationRule>(
   withI18nMessage(helpers.regex(BINARY_REGEX))
