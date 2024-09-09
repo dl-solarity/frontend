@@ -8,6 +8,13 @@
       {{ label }}
     </label>
     <div class="textarea-field__textarea-wrp">
+      <div
+        v-if="hasLeftNode"
+        ref="nodeLeftWrp"
+        class="textarea-field__node-left-wrp"
+      >
+        <slot v-if="$slots.nodeLeft" name="nodeLeft" />
+      </div>
       <textarea
         ref="textareaElement"
         class="textarea-field__textarea"
@@ -105,6 +112,7 @@ const slots = useSlots()
 const uid = uuidv4()
 const textareaElement = ref<HTMLTextAreaElement | null>(null)
 const nodeRightWrp = ref<HTMLDivElement | null>(null)
+const nodeLeftWrp = ref<HTMLDivElement | null>(null)
 
 const isDisabled = computed(() =>
   ['', 'disabled', true].includes(attrs.disabled as string | boolean),
@@ -122,6 +130,8 @@ const hasRightNode = computed<boolean>(() =>
   Boolean(slots.nodeRight || props.isClearable || props.errorMessage),
 )
 
+const hasLeftNode = computed<boolean>(() => Boolean(slots.nodeLeft))
+
 const listeners = computed(() => ({
   input: (event: Event) => {
     const eventTarget = event.target as HTMLTextAreaElement
@@ -132,6 +142,7 @@ const listeners = computed(() => ({
 const textareaClasses = computed(() => [
   'textarea-field',
   ...(hasRightNode.value ? ['textarea-field--node-right'] : []),
+  ...(hasLeftNode.value ? ['textarea-field--node-left'] : []),
   ...(isDisabled.value ? ['textarea-field--disabled'] : []),
   ...(isReadonly.value ? ['textarea-field--readonly'] : []),
   ...(props.errorMessage ? ['textarea-field--error'] : []),
@@ -180,6 +191,15 @@ onMounted(() => {
       'padding-right',
       `calc(${
         nodeRightWrp.value?.offsetWidth || OFFSET_WIDTH
+      }px + var(--field-padding-right) * 2)`,
+    )
+  }
+
+  if (slots?.nodeLeft && nodeLeftWrp.value) {
+    textareaElement.value?.style.setProperty(
+      'padding-left',
+      `calc(${
+        nodeLeftWrp.value?.offsetWidth || OFFSET_WIDTH
       }px + var(--field-padding-right) * 2)`,
     )
   }
@@ -250,6 +270,10 @@ $z-index-side-nodes: 1;
     padding-right: calc(var(--field-padding-right) * 3);
   }
 
+  .textarea-field--node-left & {
+    padding-left: calc(var(--field-padding-left) * 3);
+  }
+
   .textarea-field--error.textarea-field--primary & {
     border-color: var(--field-error);
   }
@@ -272,6 +296,17 @@ $z-index-side-nodes: 1;
   position: absolute;
   top: 50%;
   right: var(--field-padding-right);
+  transform: translateY(-50%);
+  color: inherit;
+  z-index: $z-index-side-nodes;
+  display: flex;
+  gap: toRem(8);
+}
+
+.textarea-field__node-left-wrp {
+  position: absolute;
+  top: 50%;
+  left: var(--field-padding-left);
   transform: translateY(-50%);
   color: inherit;
   z-index: $z-index-side-nodes;
