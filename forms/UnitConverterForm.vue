@@ -29,7 +29,6 @@ import { TextareaField } from '@/fields'
 import { fromUnits, numeric, toUnits } from '@/helpers'
 import { isEmpty, mapValues } from 'lodash-es'
 import { reactive } from 'vue'
-import { debounce } from 'lodash-es'
 
 const form = reactive({
   wei: '',
@@ -50,25 +49,22 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   mapValues(form, () => ({ numeric })),
 )
 
-const formatInputs = debounce(
-  (value: string | number, key: keyof typeof form) => {
-    form[key] = String(value)
+const formatInputs = (value: string | number, key: keyof typeof form) => {
+  form[key] = String(value)
 
-    const formKeys = Object.keys(form) as (keyof typeof form)[]
-    const filteredKeys = formKeys.filter(_key => _key !== key)
-    const formattedValue = String(value).trim()
+  const formKeys = Object.keys(form) as (keyof typeof form)[]
+  const filteredKeys = formKeys.filter(_key => _key !== key)
+  const formattedValue = String(value).trim()
 
-    if (isEmpty(formattedValue) || !isFormValid()) {
-      for (key of filteredKeys) form[key] = ''
-      return
-    }
+  if (isEmpty(formattedValue) || !isFormValid()) {
+    for (key of filteredKeys) form[key] = ''
+    return
+  }
 
-    const etherAmount = fromUnits(formattedValue, UNITS[key].decimals)
-    for (key of filteredKeys)
-      form[key] = toUnits(etherAmount, UNITS[key].decimals)
-  },
-  500,
-)
+  const etherAmount = fromUnits(formattedValue, UNITS[key].decimals)
+  for (key of filteredKeys)
+    form[key] = toUnits(etherAmount, UNITS[key].decimals)
+}
 
 formatInputs('1', 'ether')
 </script>

@@ -79,7 +79,17 @@
   "unix-epoch-page": {
     "main-title": "UNIX epoch",
     "date-form-tab": "Human date UTC",
-    "timestamp-form-tab": "Timestamp"
+    "timestamp-form-tab": "Timestamp",
+    "duration-form-tab": "Duration"
+  },
+  "duration-form": {
+    "pasted-value": "{years} year(s) {weeks} week(s) {days} day(s)\n {hours} hour(s) {minutes} minute(s)",
+    "input-title": "Enter Duration",
+    "date-label": "Duration in following format",
+    "date-placeholder": "Enter time (ex: 1y 3w 4h 5min 1300s)",
+    "you-put-label": "Entered duration",
+    "output-title": "Output",
+    "milliseconds-label": "Entered duration (seconds)"
   },
   "abi-decode-form": {
     "input-title": "Decoder",

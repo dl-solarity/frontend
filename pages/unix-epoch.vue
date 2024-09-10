@@ -26,6 +26,7 @@ definePageMeta({
 enum TABS_IDS {
   date = 'date',
   timestamp = 'timestamp',
+  duration = 'duration',
 }
 
 const { t } = i18n.global
@@ -39,6 +40,11 @@ const tabsList = computed<Tab[]>(() => [
     title: t('unix-epoch-page.timestamp-form-tab'),
     id: TABS_IDS.timestamp,
     route: { name: ROUTE_NAMES.unixEpochTimestamp },
+  },
+  {
+    title: t('unix-epoch-page.duration-form-tab'),
+    id: TABS_IDS.duration,
+    route: { name: ROUTE_NAMES.unixEpochDuration },
   },
 ])
 </script>

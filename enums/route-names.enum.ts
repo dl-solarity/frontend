@@ -7,6 +7,7 @@ export enum ROUTE_NAMES {
   unixEpoch = 'unix-epoch',
   unixEpochDate = 'unix-epoch-date',
   unixEpochTimestamp = 'unix-epoch-timestamp',
+  unixEpochDuration = 'unix-epoch-duration',
   converter = 'converter',
   converterUnit = 'converter-unit',
   converterNumber = 'converter-number',
