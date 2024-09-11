@@ -55,7 +55,8 @@
     "hash-functions-title": "Hash functions",
     "converter-title": "Converter",
     "unix-epoch-title": "Unix epoch",
-    "address-utils-title": "Address utils"
+    "address-utils-title": "Address utils",
+    "constants": "Constants"
   },
   "abi-page": {
     "main-title": "ABI Encoder/Decoder",
@@ -72,7 +73,7 @@
     "main-title": "Converter",
     "unit-converter-form-tab": "Unit converter",
     "number-converter-form-tab": "Number converter",
-    "ascii-converter-form-tab": "Hex2ASCII converter"
+    "ascii-converter-form-tab": "ASCII converter"
   },
   "hash-functions-page": {
     "main-title": "Hash functions"
@@ -175,7 +176,7 @@
     "hexadecimal-placeholder": "Hexadecimal"
   },
   "ascii-converter-form": {
-    "input-title": "Hex2ASCII converter",
+    "input-title": "ASCII converter",
     "hexadecimal-label": "Hexadecimal",
     "hexadecimal-placeholder": "0x4578616d706c6521",
     "ascii-label": "ASCII",
@@ -270,5 +271,13 @@
     "audits-card-2-file-size": "11.5 MB",
     "audits-card-3-title": "PollenDAO",
     "audits-card-3-file-size": "10.3 MB"
+  },
+  "constants": {
+    "main-title": "Constants"
+  },
+  "constants-form": {
+    "title": "Bytes",
+    "zeroBytes32-label": "Zero bytes (32)",
+    "randomBytes32-label": "Random bytes (32)"
   }
 }

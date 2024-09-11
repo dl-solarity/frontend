@@ -20,4 +20,6 @@ export enum ROUTE_NAMES {
   addressUtilsCommonAddresses = 'address-utils-common-addresses',
   addressUtilsCreate = 'address-utils-create',
   addressUtilsCreate2 = 'address-utils-create2',
+  constants = 'constants',
+  constantsBytes = 'constants-bytes',
 }
