@@ -11,6 +11,7 @@ export enum ROUTE_NAMES {
   converter = 'converter',
   converterUnit = 'converter-unit',
   converterNumber = 'converter-number',
+  converterAscii = 'converter-ascii',
   hashFunction = 'hash-function',
   hashFunctionKeccak256Id = 'hash-function-keccak256-id',
   hashFunctionSha256Id = 'hash-function-sha256-id',

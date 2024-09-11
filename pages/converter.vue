@@ -26,6 +26,7 @@ definePageMeta({
 enum TABS_IDS {
   unitConverterForm = 'unit-converter-form',
   numberConverterForm = 'number-converter-form',
+  asciiConverterForm = 'ascii-converter-form',
 }
 
 const { t } = i18n.global
@@ -39,6 +40,11 @@ const tabsList = computed<Tab[]>(() => [
     title: t('converter-page.number-converter-form-tab'),
     id: TABS_IDS.numberConverterForm,
     route: { name: ROUTE_NAMES.converterNumber },
+  },
+  {
+    title: t('converter-page.ascii-converter-form-tab'),
+    id: TABS_IDS.asciiConverterForm,
+    route: { name: ROUTE_NAMES.converterAscii },
   },
 ])
 </script>
