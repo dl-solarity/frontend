@@ -1,4 +1,4 @@
-export enum DATE_IDS {
+export enum TIME_IDS {
   seconds = 's',
   minutes = 'min',
   hours = 'h',

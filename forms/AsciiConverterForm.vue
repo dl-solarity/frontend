@@ -3,9 +3,9 @@
     <div class="ascii-converter-form__input">
       <h3>{{ $t('ascii-converter-form.input-title') }}</h3>
       <textarea-field
-        v-for="(_, key) in form"
+        v-for="(value, key) in form"
         size="small"
-        :model-value="form[key]"
+        :model-value="value"
         :key="key"
         :label="$t(`ascii-converter-form.${key}-label`)"
         :placeholder="$t(`ascii-converter-form.${key}-placeholder`)"
@@ -30,7 +30,12 @@ import { isEmpty } from 'lodash-es'
 import { reactive } from 'vue'
 import { hexToASCII, asciiToHex } from '@/helpers'
 
-const form = reactive({
+type AsciiConverterFormType = {
+  hexadecimal: string
+  ascii: string
+}
+
+const form = reactive<AsciiConverterFormType>({
   hexadecimal: '',
   ascii: '',
 })
@@ -43,9 +48,12 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   },
 )
 
-const formatInputs = (value: string | number, key: keyof typeof form) => {
+const formatInputs = (
+  value: string | number,
+  key: keyof AsciiConverterFormType,
+) => {
   form[key] = String(value)
-  const formKeys = Object.keys(form) as (keyof typeof form)[]
+  const formKeys = Object.keys(form) as Array<keyof AsciiConverterFormType>
   const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 

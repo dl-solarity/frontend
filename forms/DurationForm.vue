@@ -3,10 +3,10 @@
     <div class="duration-form__input">
       <h3>{{ $t('duration-form.input-title') }}</h3>
       <input-field
-        v-model="form.date"
-        :label="$t('duration-form.date-label')"
-        :placeholder="$t('duration-form.date-placeholder')"
-        @blur="touchField('date')"
+        v-model="form.duration"
+        :label="$t('duration-form.duration-label')"
+        :placeholder="$t('duration-form.duration-placeholder')"
+        @blur="touchField('duration')"
       />
       <p class="duration-form__text">
         <app-icon class="duration-form__text-icon" :name="ICON_NAMES.clock" />
@@ -41,18 +41,14 @@ import { useFormValidation } from '@/composables'
 import { InputField } from '@/fields'
 import { computed, reactive, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
-import {
-  getTotalDurationAsSeconds,
-  resetRawDate,
-  updateRawDate,
-} from '@/helpers'
-import { ICON_NAMES, TIME_CONSTANTS } from '@/enums'
+import { getTotalDurationAsSeconds, getUpdatedDuration } from '@/helpers'
+import { ICON_NAMES, TIME_CONSTANTS, TIME_IDS } from '@/enums'
 
-const { t } = i18n.global
+type RawDateType = {
+  [key in keyof typeof TIME_IDS]: number
+}
 
-const form = reactive({ date: '' })
-
-const rawDate = reactive({
+const INITIAL_RAW_DURATION_STATE = {
   seconds: 0,
   minutes: 0,
   hours: 0,
@@ -60,7 +56,13 @@ const rawDate = reactive({
   weeks: 0,
   months: 0,
   years: 0,
-})
+}
+
+const { t } = i18n.global
+
+const form = reactive({ duration: '' })
+
+const rawDuration = reactive<RawDateType>({ ...INITIAL_RAW_DURATION_STATE })
 
 const { touchField } = useFormValidation(form, {})
 
@@ -75,30 +77,30 @@ const outputItems = computed(() => [
   },
 ])
 
-const dateObject = computed(() => {
-  const dateObject: Partial<Record<keyof typeof rawDate, number>> = {}
-  const dateKeys = Object.keys(rawDate) as (keyof typeof rawDate)[]
+const durationObject = computed(() => {
+  const durationObject: Partial<Record<keyof RawDateType, number>> = {}
+  const durationKeys = Object.keys(rawDuration) as (keyof RawDateType)[]
 
-  dateKeys.forEach(key => {
-    dateObject[key] = rawDate[key]
+  durationKeys.forEach(key => {
+    durationObject[key] = rawDuration[key]
   })
 
-  return dateObject
+  return durationObject
 })
 
 const pastedValue = computed(() =>
-  t('duration-form.pasted-value', dateObject.value),
+  t('duration-form.pasted-value', durationObject.value),
 )
 
 const secondsDuration = computed(() => {
-  return getTotalDurationAsSeconds(rawDate)
+  return getTotalDurationAsSeconds(rawDuration)
 })
 
 watch(
-  () => form.date,
+  () => form.duration,
   () => {
-    resetRawDate(rawDate)
-    updateRawDate(form.date, rawDate)
+    Object.assign(rawDuration, INITIAL_RAW_DURATION_STATE)
+    Object.assign(rawDuration, getUpdatedDuration(form.duration, rawDuration))
   },
 )
 </script>

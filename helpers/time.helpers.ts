@@ -1,18 +1,47 @@
-import { DATE_IDS, TIME_CONSTANTS } from '@/enums'
+import { TIME_IDS, TIME_CONSTANTS } from '@/enums'
 import { duration } from 'dayjs'
 
-type RawDateType = Record<keyof typeof DATE_IDS, number>
+type TimeKeysType = keyof typeof TIME_IDS
+type TimeType = Record<TimeKeysType, number>
 
-export const normalizeTime = (rawDate: RawDateType) => {
-  const seconds = getTotalDurationAsSeconds(rawDate)
+export const getUpdatedDuration = (
+  dateString: string,
+  rawDuration: TimeType,
+): TimeType => {
+  const updatedDuration = { ...rawDuration }
+  const dateUnits = Object.values(TIME_IDS).join('|')
+  const regex = new RegExp(`(\\d+)\\s*(${dateUnits})`, 'g')
+
+  const unitMap = Object.keys(updatedDuration).reduce((acc, key) => {
+    const typedKey = key as TimeKeysType
+    acc[TIME_IDS[typedKey]] = typedKey
+    return acc
+  }, {} as Record<TIME_IDS, TimeKeysType>)
+
+  let match
+  while ((match = regex.exec(dateString))) {
+    const value = parseInt(match[1])
+    const unit = match[2] as TIME_IDS
+
+    if (unitMap[unit]) {
+      updatedDuration[unitMap[unit]] += value
+    }
+  }
+
+  return getNormalizedTime(updatedDuration)
+}
+
+export const getNormalizedTime = (rawDuration: TimeType): TimeType => {
+  const normalizedTime = { ...rawDuration }
+  const seconds = getTotalDurationAsSeconds(rawDuration)
 
   let totalDuration = duration(0)
 
   totalDuration = totalDuration.add(seconds, 'seconds')
 
-  rawDate.seconds = totalDuration.seconds()
-  rawDate.minutes = totalDuration.minutes()
-  rawDate.hours = totalDuration.hours()
+  normalizedTime.seconds = totalDuration.seconds()
+  normalizedTime.minutes = totalDuration.minutes()
+  normalizedTime.hours = totalDuration.hours()
   // Calculated because we have a year as 360 days (NOT 365)
   // so DayJs can't handle it properly
   let daysLeft = Math.floor(
@@ -20,72 +49,31 @@ export const normalizeTime = (rawDate: RawDateType) => {
       (TIME_CONSTANTS.hoursInDay * TIME_CONSTANTS.secondsInHour),
   )
 
-  rawDate.years = Math.floor(daysLeft / TIME_CONSTANTS.daysInYear)
+  normalizedTime.years = Math.floor(daysLeft / TIME_CONSTANTS.daysInYear)
   daysLeft %= TIME_CONSTANTS.daysInYear
 
-  rawDate.months = Math.floor(daysLeft / TIME_CONSTANTS.daysInMonth)
+  normalizedTime.months = Math.floor(daysLeft / TIME_CONSTANTS.daysInMonth)
   daysLeft %= TIME_CONSTANTS.daysInMonth
 
-  rawDate.weeks = Math.floor(daysLeft / TIME_CONSTANTS.daysInWeek)
+  normalizedTime.weeks = Math.floor(daysLeft / TIME_CONSTANTS.daysInWeek)
   daysLeft %= TIME_CONSTANTS.daysInWeek
 
-  rawDate.days = daysLeft
+  normalizedTime.days = daysLeft
+
+  return normalizedTime
 }
 
-export const getTotalDurationAsSeconds = (rawDate: RawDateType) => {
+export const getTotalDurationAsSeconds = (rawDuration: TimeType) => {
   let totalDuration = duration(0)
 
   totalDuration = totalDuration
-    .add(rawDate.seconds, 'seconds')
-    .add(rawDate.minutes, 'minutes')
-    .add(rawDate.hours, 'hours')
-    .add(rawDate.days, 'days')
-    .add(rawDate.weeks * TIME_CONSTANTS.daysInWeek, 'days')
-    .add(rawDate.months * TIME_CONSTANTS.daysInMonth, 'days')
-    .add(rawDate.years * TIME_CONSTANTS.daysInYear, 'days')
+    .add(rawDuration.seconds, 'seconds')
+    .add(rawDuration.minutes, 'minutes')
+    .add(rawDuration.hours, 'hours')
+    .add(rawDuration.days, 'days')
+    .add(rawDuration.weeks * TIME_CONSTANTS.daysInWeek, 'days')
+    .add(rawDuration.months * TIME_CONSTANTS.daysInMonth, 'days')
+    .add(rawDuration.years * TIME_CONSTANTS.daysInYear, 'days')
 
   return totalDuration.asSeconds()
-}
-
-export const resetRawDate = (rawDate: RawDateType) => {
-  Object.keys(rawDate).forEach(
-    key => (rawDate[key as keyof typeof rawDate] = 0),
-  )
-}
-
-export const updateRawDate = (dateString: string, rawDate: RawDateType) => {
-  const dateUnits = Object.values(DATE_IDS).join('|')
-  const regex = new RegExp(`(\\d+)\\s*(${dateUnits})`, 'g')
-
-  let match
-  while ((match = regex.exec(dateString))) {
-    const value = parseInt(match[1])
-    const unit = match[2] as DATE_IDS
-
-    switch (unit) {
-      case DATE_IDS.seconds:
-        rawDate.seconds += value
-        break
-      case DATE_IDS.minutes:
-        rawDate.minutes += value
-        break
-      case DATE_IDS.hours:
-        rawDate.hours += value
-        break
-      case DATE_IDS.days:
-        rawDate.days += value
-        break
-      case DATE_IDS.months:
-        rawDate.months += value
-        break
-      case DATE_IDS.years:
-        rawDate.years += value
-        break
-      case DATE_IDS.weeks:
-        rawDate.weeks += value
-        break
-    }
-  }
-
-  normalizeTime(rawDate)
 }

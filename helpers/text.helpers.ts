@@ -4,9 +4,7 @@ export function capitalize(str: string) {
 }
 
 export function hexToASCII(hexString: string) {
-  const hex = (
-    hexString.startsWith('0x') ? hexString.slice(2) : hexString
-  ).replaceAll(' ', '')
+  const hex = hexString.replace('0x', '')
 
   let ascii = ''
   for (let i = 0; i < hex.length; i += 2) {

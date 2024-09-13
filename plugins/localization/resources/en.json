@@ -89,8 +89,8 @@
     "info": "Please note that in the convertor 1 year = {daysInYear} days and 1 month = {daysInMonth} days",
     "pasted-value": "{years} year(s) {months} month(s) {weeks} week(s) {days} day(s)\n {hours} hour(s) {minutes} minute(s)",
     "input-title": "Enter Duration",
-    "date-label": "Duration in following format",
-    "date-placeholder": "Enter time (ex: 1y 2mon 3w 4h 5min 1300s)",
+    "duration-label": "Duration in following format",
+    "duration-placeholder": "Enter time (ex: 1y 2mon 3w 4h 5min 1300s)",
     "you-put-label": "Entered duration",
     "output-title": "Output",
     "milliseconds-label": "Entered duration (seconds)"
