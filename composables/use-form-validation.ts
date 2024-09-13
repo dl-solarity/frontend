@@ -47,21 +47,11 @@ export const useFormValidation = (
     }
   }
 
-  const resetForm = <T extends Record<string, unknown>>(form: T) => {
-    const formKeys = Object.keys(form) as Array<keyof T>
-
-    formKeys.forEach(key => {
-      form[key] = '' as T[keyof T]
-      const field = get(validationController.value, key)
-      field.$reset()
-    })
-  }
-
   return {
     isFieldsValid,
     getFieldErrorMessage,
     touchField,
     isFormValid,
-    resetForm,
+    validationController,
   }
 }

@@ -32,7 +32,7 @@
           <app-button
             scheme="flat"
             :text="$t('verify-signature-form.reset-btn')"
-            @click="resetForm(form)"
+            @click="resetForm()"
           />
         </div>
       </div>
@@ -51,13 +51,23 @@ import { reactive } from 'vue'
 const { showToast } = useNotifications()
 const { t } = i18n.global
 
-const form = reactive({
+const INITIAL_FORM_STATE = {
+  accountAddress: '',
+  signature: '',
+  message: '',
+}
+
+type VerifySignatureFormType = {
+  [key in keyof typeof INITIAL_FORM_STATE]: ''
+}
+
+const form = reactive<VerifySignatureFormType>({
   accountAddress: '',
   signature: '',
   message: '',
 })
 
-const { isFormValid, getFieldErrorMessage, touchField, resetForm } =
+const { isFormValid, getFieldErrorMessage, touchField, validationController } =
   useFormValidation(form, {
     accountAddress: { required, address },
     signature: { required, hexadecimal },
@@ -76,6 +86,11 @@ const verifySignature = async () => {
   } catch (error) {
     ErrorHandler.process(error)
   }
+}
+
+const resetForm = () => {
+  Object.assign(form, INITIAL_FORM_STATE)
+  validationController.value.$reset()
 }
 </script>
 
