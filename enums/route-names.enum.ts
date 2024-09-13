@@ -22,4 +22,6 @@ export enum ROUTE_NAMES {
   addressUtilsCreate2 = 'address-utils-create2',
   constants = 'constants',
   constantsBytes = 'constants-bytes',
+  ecrecover = 'ecrecover',
+  ecrecoverVerify = 'ecrecover-verify',
 }

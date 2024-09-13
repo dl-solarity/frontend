@@ -56,7 +56,8 @@
     "converter-title": "Converter",
     "unix-epoch-title": "Unix epoch",
     "address-utils-title": "Address utils",
-    "constants": "Constants"
+    "constants": "Constants",
+    "ecrecover": "Ecrecover"
   },
   "abi-page": {
     "main-title": "ABI Encoder/Decoder",
@@ -85,10 +86,11 @@
     "duration-form-tab": "Duration"
   },
   "duration-form": {
-    "pasted-value": "{years} year(s) {weeks} week(s) {days} day(s)\n {hours} hour(s) {minutes} minute(s)",
+    "info": "Please note that in the convertor 1 year = {daysInYear} days and 1 month = {daysInMonth} days",
+    "pasted-value": "{years} year(s) {months} month(s) {weeks} week(s) {days} day(s)\n {hours} hour(s) {minutes} minute(s)",
     "input-title": "Enter Duration",
     "date-label": "Duration in following format",
-    "date-placeholder": "Enter time (ex: 1y 3w 4h 5min 1300s)",
+    "date-placeholder": "Enter time (ex: 1y 2mon 3w 4h 5min 1300s)",
     "you-put-label": "Entered duration",
     "output-title": "Output",
     "milliseconds-label": "Entered duration (seconds)"
@@ -273,11 +275,29 @@
     "audits-card-3-file-size": "10.3 MB"
   },
   "constants": {
-    "main-title": "Constants"
+    "main-title": "Constants",
+    "constants-bytes-tab": "Bytes constants"
   },
   "constants-form": {
     "title": "Bytes",
     "zeroBytes32-label": "Zero bytes (32)",
     "randomBytes32-label": "Random bytes (32)"
+  },
+  "ecrecover": {
+    "main-title": "Ecrecover utils",
+    "ecrecover-secp256k1-tab": "Secp256k1 Recovery Tool"
+  },
+  "verify-signature-form": {
+    "input-title": "Verify signature",
+    "verified": "Message signature verified",
+    "not-verified": "The Message Signature Verification Failed!",
+    "account-address-label": "Address",
+    "account-address-placeholder": "Enter the signer address",
+    "message-label": "Message",
+    "message-placeholder": "Enter the original message",
+    "signature-label": "Hash",
+    "signature-placeholder": "Enter the hash of signed message",
+    "submit-btn": "Check signature",
+    "reset-btn": "Reset form"
   }
 }

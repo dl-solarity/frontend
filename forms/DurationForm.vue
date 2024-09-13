@@ -8,6 +8,15 @@
         :placeholder="$t('duration-form.date-placeholder')"
         @blur="touchField('date')"
       />
+      <p class="duration-form__text">
+        <app-icon class="duration-form__text-icon" :name="ICON_NAMES.clock" />
+        {{
+          $t('duration-form.info', {
+            daysInYear: TIME_CONSTANTS.daysInYear,
+            daysInMonth: TIME_CONSTANTS.daysInMonth,
+          })
+        }}
+      </p>
     </div>
     <div class="duration-form__divider" />
     <div class="duration-form__output">
@@ -32,8 +41,12 @@ import { useFormValidation } from '@/composables'
 import { InputField } from '@/fields'
 import { computed, reactive, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
-import { duration } from 'dayjs'
-import { resetRawDate, updateRawDate } from '@/helpers'
+import {
+  getTotalDurationAsSeconds,
+  resetRawDate,
+  updateRawDate,
+} from '@/helpers'
+import { ICON_NAMES, TIME_CONSTANTS } from '@/enums'
 
 const { t } = i18n.global
 
@@ -45,6 +58,7 @@ const rawDate = reactive({
   hours: 0,
   days: 0,
   weeks: 0,
+  months: 0,
   years: 0,
 })
 
@@ -77,7 +91,7 @@ const pastedValue = computed(() =>
 )
 
 const secondsDuration = computed(() => {
-  return duration(dateObject.value).asSeconds()
+  return getTotalDurationAsSeconds(rawDate)
 })
 
 watch(
@@ -109,5 +123,18 @@ watch(
 
 .duration-form__output-item-value {
   @include text-ellipsis;
+}
+
+.duration-form__text {
+  font-size: toRem(14);
+  display: flex;
+  align-items: center;
+  gap: toRem(5);
+}
+
+.duration-form__text-icon {
+  width: toRem(16);
+  height: toRem(16);
+  color: var(--primary-main);
 }
 </style>

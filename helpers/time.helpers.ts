@@ -4,6 +4,35 @@ import { duration } from 'dayjs'
 type RawDateType = Record<keyof typeof DATE_IDS, number>
 
 export const normalizeTime = (rawDate: RawDateType) => {
+  const seconds = getTotalDurationAsSeconds(rawDate)
+
+  let totalDuration = duration(0)
+
+  totalDuration = totalDuration.add(seconds, 'seconds')
+
+  rawDate.seconds = totalDuration.seconds()
+  rawDate.minutes = totalDuration.minutes()
+  rawDate.hours = totalDuration.hours()
+  // Calculated because we have a year as 360 days (NOT 365)
+  // so DayJs can't handle it properly
+  let daysLeft = Math.floor(
+    totalDuration.asSeconds() /
+      (TIME_CONSTANTS.hoursInDay * TIME_CONSTANTS.secondsInHour),
+  )
+
+  rawDate.years = Math.floor(daysLeft / TIME_CONSTANTS.daysInYear)
+  daysLeft %= TIME_CONSTANTS.daysInYear
+
+  rawDate.months = Math.floor(daysLeft / TIME_CONSTANTS.daysInMonth)
+  daysLeft %= TIME_CONSTANTS.daysInMonth
+
+  rawDate.weeks = Math.floor(daysLeft / TIME_CONSTANTS.daysInWeek)
+  daysLeft %= TIME_CONSTANTS.daysInWeek
+
+  rawDate.days = daysLeft
+}
+
+export const getTotalDurationAsSeconds = (rawDate: RawDateType) => {
   let totalDuration = duration(0)
 
   totalDuration = totalDuration
@@ -11,27 +40,11 @@ export const normalizeTime = (rawDate: RawDateType) => {
     .add(rawDate.minutes, 'minutes')
     .add(rawDate.hours, 'hours')
     .add(rawDate.days, 'days')
-    .add(rawDate.weeks, 'weeks')
-    .add(rawDate.years, 'years')
+    .add(rawDate.weeks * TIME_CONSTANTS.daysInWeek, 'days')
+    .add(rawDate.months * TIME_CONSTANTS.daysInMonth, 'days')
+    .add(rawDate.years * TIME_CONSTANTS.daysInYear, 'days')
 
-  rawDate.seconds = totalDuration.seconds()
-  rawDate.minutes = totalDuration.minutes()
-  rawDate.hours = totalDuration.hours()
-  // HACK! DayJS doesn't handle this kind of parsing (weeks => years)
-  // with integer, so the solution is the expressions below
-  // https://day.js.org/docs/en/durations/weeks
-  rawDate.days =
-    (Math.floor(totalDuration.asDays()) -
-      Math.floor(totalDuration.asYears()) * TIME_CONSTANTS.daysInYear) %
-    TIME_CONSTANTS.daysInWeek
-  rawDate.weeks = Math.floor(
-    (Math.floor(totalDuration.asDays()) -
-      Math.floor(totalDuration.asYears()) * TIME_CONSTANTS.daysInYear) /
-      TIME_CONSTANTS.daysInWeek,
-  )
-  rawDate.years = totalDuration.years()
-
-  return rawDate
+  return totalDuration.asSeconds()
 }
 
 export const resetRawDate = (rawDate: RawDateType) => {
@@ -61,6 +74,9 @@ export const updateRawDate = (dateString: string, rawDate: RawDateType) => {
         break
       case DATE_IDS.days:
         rawDate.days += value
+        break
+      case DATE_IDS.months:
+        rawDate.months += value
         break
       case DATE_IDS.years:
         rawDate.years += value

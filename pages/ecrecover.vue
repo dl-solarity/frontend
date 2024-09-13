@@ -1,9 +1,9 @@
 <template>
-  <div class="constants">
-    <h2>{{ $t('constants.main-title') }}</h2>
+  <div class="ecrecover">
+    <h2>{{ $t('ecrecover.main-title') }}</h2>
     <div>
       <app-tabs :tabs="tabsList" />
-      <div class="constants__content">
+      <div class="ecrecover__content">
         <nuxt-page keepalive />
       </div>
     </div>
@@ -19,29 +19,29 @@ import { computed } from 'vue'
 
 definePageMeta({
   layout: 'solidity-tools',
-  redirect: { name: ROUTE_NAMES.constantsBytes },
+  redirect: { name: ROUTE_NAMES.ecrecoverVerify },
 })
 
 enum TABS_IDS {
-  constantsBytes = 'constants-bytes',
+  ecrecoverVerify = 'ecrecover-verify',
 }
 
 const { t } = i18n.global
 const tabsList = computed<Tab[]>(() => [
   {
-    title: t('constants.constants-bytes-tab'),
-    id: TABS_IDS.constantsBytes,
-    route: { name: ROUTE_NAMES.constantsBytes },
+    title: t('ecrecover.ecrecover-secp256k1-tab'),
+    id: TABS_IDS.ecrecoverVerify,
+    route: { name: ROUTE_NAMES.ecrecoverVerify },
   },
 ])
 </script>
 
 <style lang="scss" scoped>
-.constants {
+.ecrecover {
   @include solidity-tools-page-base;
 }
 
-.constants__content {
+.ecrecover__content {
   @include solidity-tools-page-content;
 }
 </style>

@@ -72,8 +72,13 @@ const navLinks = computed(() => [
   },
   {
     title: t('tools-sidebar.constants'),
-    icon: ICON_NAMES.clipboardCheck,
+    icon: ICON_NAMES.constant,
     route: { name: ROUTE_NAMES.constants },
+  },
+  {
+    title: t('tools-sidebar.ecrecover'),
+    icon: ICON_NAMES.checkCircle,
+    route: { name: ROUTE_NAMES.ecrecover },
   },
 ])
 

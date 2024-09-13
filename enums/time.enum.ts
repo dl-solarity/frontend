@@ -4,14 +4,14 @@ export enum DATE_IDS {
   hours = 'h',
   days = 'd',
   weeks = 'w',
+  months = 'mon',
   years = 'y',
 }
 
 export enum TIME_CONSTANTS {
-  secondsInMinute = 60,
-  minutesInHour = 60,
+  secondsInHour = 3600,
   hoursInDay = 24,
   daysInWeek = 7,
-  weeksInYear = 52,
-  daysInYear = 365,
+  daysInMonth = 30,
+  daysInYear = 360,
 }
