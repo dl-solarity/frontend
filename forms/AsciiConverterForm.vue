@@ -14,7 +14,7 @@
         @blur="touchField(key)"
       >
         <template #nodeLeft>
-          <app-copy :value="form[key] || 0" />
+          <app-copy :value="value || 0" />
         </template>
       </textarea-field>
     </div>
@@ -58,6 +58,7 @@ const formatInputs = (
   const formattedValue = String(value).trim()
 
   if (isEmpty(formattedValue) || !isFormValid()) {
+    // Reset all fields simultaneously
     for (key of filteredKeys) form[key] = ''
     return
   }

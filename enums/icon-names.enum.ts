@@ -21,5 +21,5 @@ export enum ICON_NAMES {
   refresh = 'refresh',
   xCircle = 'x-circle',
   x = 'x',
-  constant = 'constant',
+  squareRoot = 'square-root',
 }

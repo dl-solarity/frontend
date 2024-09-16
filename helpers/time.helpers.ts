@@ -1,30 +1,56 @@
 import { TIME_IDS, TIME_CONSTANTS } from '@/enums'
 import { duration } from 'dayjs'
+import { TimeType } from 'types/time.types'
 
-type TimeKeysType = keyof typeof TIME_IDS
-type TimeType = Record<TimeKeysType, number>
-
-export const getUpdatedDuration = (
-  dateString: string,
-  rawDuration: TimeType,
-): TimeType => {
-  const updatedDuration = { ...rawDuration }
+export const getUpdatedDuration = (dateString: string): TimeType => {
+  const updatedDuration: TimeType = {
+    seconds: 0,
+    minutes: 0,
+    hours: 0,
+    days: 0,
+    weeks: 0,
+    months: 0,
+    years: 0,
+  }
   const dateUnits = Object.values(TIME_IDS).join('|')
-  const regex = new RegExp(`(\\d+)\\s*(${dateUnits})`, 'g')
-
-  const unitMap = Object.keys(updatedDuration).reduce((acc, key) => {
-    const typedKey = key as TimeKeysType
-    acc[TIME_IDS[typedKey]] = typedKey
-    return acc
-  }, {} as Record<TIME_IDS, TimeKeysType>)
+  const regex = new RegExp(`(?<value>\\d+)\\s*(?<key>${dateUnits})`, 'g')
 
   let match
   while ((match = regex.exec(dateString))) {
-    const value = parseInt(match[1])
-    const unit = match[2] as TIME_IDS
+    const groups = match.groups as {
+      key: TIME_IDS
+      value: string
+    }
+    const value = Number(groups.value)
+    const key = groups.key
 
-    if (unitMap[unit]) {
-      updatedDuration[unitMap[unit]] += value
+    // TODO:  Discuss solutions such as:
+    // 1: switch/case
+    // 2. timeKeyMap
+    // 3. Full timeIds such as 'days', 'year' and so on...
+    // 4. Any another approach?
+    switch (key) {
+      case TIME_IDS.seconds:
+        updatedDuration.seconds += value
+        break
+      case TIME_IDS.minutes:
+        updatedDuration.minutes += value
+        break
+      case TIME_IDS.hours:
+        updatedDuration.hours += value
+        break
+      case TIME_IDS.days:
+        updatedDuration.days += value
+        break
+      case TIME_IDS.weeks:
+        updatedDuration.weeks += value
+        break
+      case TIME_IDS.months:
+        updatedDuration.months += value
+        break
+      case TIME_IDS.years:
+        updatedDuration.years += value
+        break
     }
   }
 

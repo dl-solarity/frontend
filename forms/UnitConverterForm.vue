@@ -3,9 +3,9 @@
     <div class="unit-converter-form__input">
       <h3>{{ $t('unit-converter-form.input-title') }}</h3>
       <textarea-field
-        v-for="(_, key) in form"
+        v-for="(value, key) in form"
         size="small"
-        :model-value="form[key]"
+        :model-value="value"
         :key="key"
         :label="UNITS[key].title"
         :placeholder="UNITS[key].title"
@@ -14,7 +14,7 @@
         @update:model-value="formatInputs($event, key)"
       >
         <template #nodeLeft>
-          <app-copy :value="form[key] || 0" />
+          <app-copy :value="value || 0" />
         </template>
       </textarea-field>
     </div>
@@ -29,6 +29,8 @@ import { TextareaField } from '@/fields'
 import { fromUnits, numeric, toUnits } from '@/helpers'
 import { isEmpty, mapValues } from 'lodash-es'
 import { reactive } from 'vue'
+
+type UnitConverterFormKeysType = keyof typeof form
 
 const form = reactive({
   wei: '',
@@ -49,10 +51,13 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   mapValues(form, () => ({ numeric })),
 )
 
-const formatInputs = (value: string | number, key: keyof typeof form) => {
+const formatInputs = (
+  value: string | number,
+  key: UnitConverterFormKeysType,
+) => {
   form[key] = String(value)
 
-  const formKeys = Object.keys(form) as (keyof typeof form)[]
+  const formKeys = Object.keys(form) as UnitConverterFormKeysType[]
   const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 

@@ -72,7 +72,7 @@ const navLinks = computed(() => [
   },
   {
     title: t('tools-sidebar.constants'),
-    icon: ICON_NAMES.constant,
+    icon: ICON_NAMES.squareRoot,
     route: { name: ROUTE_NAMES.constants },
   },
   {

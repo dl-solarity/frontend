@@ -2,13 +2,10 @@
   <form class="constants-form" @submit.prevent>
     <div class="constants-form__input">
       <h3>{{ $t('constants-form.title') }}</h3>
-      <template v-for="(_, key) in form" :key="key">
+      <template v-for="(value, key) in form" :key="key">
         <div v-if="key === 'randomBytes32'">
           <div class="constants-form__label-wrp">
-            <label
-              class="constants-form__label"
-              :for="randomBytes32InputFieldUid"
-            >
+            <label class="constants-form__label">
               {{ $t(`constants-form.${key}-label`) }}
             </label>
             <button
@@ -21,13 +18,9 @@
               />
             </button>
           </div>
-          <input-field
-            readonly
-            :model-value="form[key]"
-            :uid="randomBytes32InputFieldUid"
-          >
+          <input-field readonly :model-value="value">
             <template #nodeLeft>
-              <app-copy :value="form[key]" />
+              <app-copy :value="value" />
             </template>
           </input-field>
         </div>
@@ -35,10 +28,10 @@
           v-else
           readonly
           :label="$t(`constants-form.${key}-label`)"
-          :model-value="form[key]"
+          :model-value="value"
         >
           <template #nodeLeft>
-            <app-copy :value="form[key]" />
+            <app-copy :value="value" />
           </template>
         </input-field>
       </template>
@@ -49,21 +42,15 @@
 <script lang="ts" setup>
 import { AppCopy, AppIcon } from '#components'
 import { InputField } from '@/fields'
-import { v4 as uuidv4 } from 'uuid'
-import { onMounted, reactive } from 'vue'
+import { reactive } from 'vue'
 import { randomBytes, hexlify } from 'ethers'
-import { BYTES_CONSTANTS } from '@/enums'
+import { ZERO_BYTES_32 } from '@/constants'
 
-const randomBytes32InputFieldUid = `input-field--${uuidv4()}`
 const generateRandomBytes = (): string => hexlify(randomBytes(32))
 
 const form = reactive({
-  zeroBytes32: BYTES_CONSTANTS.zeroBytes,
+  zeroBytes32: ZERO_BYTES_32,
   randomBytes32: generateRandomBytes(),
-})
-
-onMounted(() => {
-  form.randomBytes32 = generateRandomBytes()
 })
 </script>
 

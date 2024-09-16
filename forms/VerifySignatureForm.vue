@@ -32,7 +32,7 @@
           <app-button
             scheme="flat"
             :text="$t('verify-signature-form.reset-btn')"
-            @click="resetForm()"
+            @click="resetForm"
           />
         </div>
       </div>
@@ -57,15 +57,7 @@ const INITIAL_FORM_STATE = {
   message: '',
 }
 
-type VerifySignatureFormType = {
-  [key in keyof typeof INITIAL_FORM_STATE]: ''
-}
-
-const form = reactive<VerifySignatureFormType>({
-  accountAddress: '',
-  signature: '',
-  message: '',
-})
+const form = reactive({ ...INITIAL_FORM_STATE })
 
 const { isFormValid, getFieldErrorMessage, touchField, validationController } =
   useFormValidation(form, {

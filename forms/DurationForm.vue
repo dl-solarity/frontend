@@ -42,13 +42,10 @@ import { InputField } from '@/fields'
 import { computed, reactive, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 import { getTotalDurationAsSeconds, getUpdatedDuration } from '@/helpers'
-import { ICON_NAMES, TIME_CONSTANTS, TIME_IDS } from '@/enums'
+import { ICON_NAMES, TIME_CONSTANTS } from '@/enums'
+import { TimeType } from 'types/time.types'
 
-type RawDateType = {
-  [key in keyof typeof TIME_IDS]: number
-}
-
-const INITIAL_RAW_DURATION_STATE = {
+const INITIAL_RAW_DURATION_STATE: TimeType = {
   seconds: 0,
   minutes: 0,
   hours: 0,
@@ -62,7 +59,7 @@ const { t } = i18n.global
 
 const form = reactive({ duration: '' })
 
-const rawDuration = reactive<RawDateType>({ ...INITIAL_RAW_DURATION_STATE })
+const rawDuration = reactive<TimeType>({ ...INITIAL_RAW_DURATION_STATE })
 
 const { touchField } = useFormValidation(form, {})
 
@@ -77,20 +74,7 @@ const outputItems = computed(() => [
   },
 ])
 
-const durationObject = computed(() => {
-  const durationObject: Partial<Record<keyof RawDateType, number>> = {}
-  const durationKeys = Object.keys(rawDuration) as (keyof RawDateType)[]
-
-  durationKeys.forEach(key => {
-    durationObject[key] = rawDuration[key]
-  })
-
-  return durationObject
-})
-
-const pastedValue = computed(() =>
-  t('duration-form.pasted-value', durationObject.value),
-)
+const pastedValue = computed(() => t('duration-form.pasted-value', rawDuration))
 
 const secondsDuration = computed(() => {
   return getTotalDurationAsSeconds(rawDuration)
@@ -99,8 +83,7 @@ const secondsDuration = computed(() => {
 watch(
   () => form.duration,
   () => {
-    Object.assign(rawDuration, INITIAL_RAW_DURATION_STATE)
-    Object.assign(rawDuration, getUpdatedDuration(form.duration, rawDuration))
+    Object.assign(rawDuration, getUpdatedDuration(form.duration))
   },
 )
 </script>
