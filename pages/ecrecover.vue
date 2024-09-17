@@ -2,7 +2,7 @@
   <div class="ecrecover">
     <h2>{{ $t('ecrecover.main-title') }}</h2>
     <div>
-      <app-tabs :tabs="tabsList" />
+      <app-tabs :tabs="tabItems" />
       <div class="ecrecover__content">
         <nuxt-page keepalive />
       </div>
@@ -22,15 +22,15 @@ definePageMeta({
   redirect: { name: ROUTE_NAMES.ecrecoverVerify },
 })
 
-enum TABS_IDS {
+enum TAB_IDS {
   ecrecoverVerify = 'ecrecover-verify',
 }
 
 const { t } = i18n.global
-const tabsList = computed<Tab[]>(() => [
+const tabItems = computed<Tab[]>(() => [
   {
     title: t('ecrecover.ecrecover-secp256k1-tab'),
-    id: TABS_IDS.ecrecoverVerify,
+    id: TAB_IDS.ecrecoverVerify,
     route: { name: ROUTE_NAMES.ecrecoverVerify },
   },
 ])

@@ -77,7 +77,10 @@
     "ascii-converter-form-tab": "ASCII converter"
   },
   "hash-functions-page": {
-    "main-title": "Hash functions"
+    "main-title": "Hash functions",
+    "keccak256": "Keccak256",
+    "sha256": "Sha256",
+    "ripemd160": "Ripemd160"
   },
   "unix-epoch-page": {
     "main-title": "UNIX epoch",

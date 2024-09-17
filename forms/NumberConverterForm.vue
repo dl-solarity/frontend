@@ -31,7 +31,7 @@ import { BigNumber } from 'bignumber.js'
 import { isEmpty } from 'lodash-es'
 import { reactive } from 'vue'
 
-type NumberConverterFormKeysType = keyof typeof form
+type NumberConverterFormKeys = keyof typeof form
 
 const form = reactive({
   binary: '',
@@ -50,13 +50,10 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   },
 )
 
-const formatInputs = (
-  value: string | number,
-  key: NumberConverterFormKeysType,
-) => {
+const formatInputs = (value: string | number, key: NumberConverterFormKeys) => {
   form[key] = String(value)
 
-  const formKeys = Object.keys(form) as NumberConverterFormKeysType[]
+  const formKeys = Object.keys(form) as NumberConverterFormKeys[]
   const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 

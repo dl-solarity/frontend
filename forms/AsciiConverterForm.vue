@@ -30,12 +30,14 @@ import { isEmpty } from 'lodash-es'
 import { reactive } from 'vue'
 import { hexToASCII, asciiToHex } from '@/helpers'
 
-type AsciiConverterFormType = {
+type AsciiConverterForm = {
   hexadecimal: string
   ascii: string
 }
 
-const form = reactive<AsciiConverterFormType>({
+type AsciiConverterFormKeys = keyof AsciiConverterForm
+
+const form = reactive<AsciiConverterForm>({
   hexadecimal: '',
   ascii: '',
 })
@@ -48,17 +50,13 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   },
 )
 
-const formatInputs = (
-  value: string | number,
-  key: keyof AsciiConverterFormType,
-) => {
+const formatInputs = (value: string | number, key: AsciiConverterFormKeys) => {
   form[key] = String(value)
-  const formKeys = Object.keys(form) as Array<keyof AsciiConverterFormType>
+  const formKeys = Object.keys(form) as Array<AsciiConverterFormKeys>
   const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 
   if (isEmpty(formattedValue) || !isFormValid()) {
-    // Reset all fields simultaneously
     for (key of filteredKeys) form[key] = ''
     return
   }

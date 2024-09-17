@@ -30,7 +30,7 @@ import { fromUnits, numeric, toUnits } from '@/helpers'
 import { isEmpty, mapValues } from 'lodash-es'
 import { reactive } from 'vue'
 
-type UnitConverterFormKeysType = keyof typeof form
+type UnitConverterFormKeys = keyof typeof form
 
 const form = reactive({
   wei: '',
@@ -51,13 +51,10 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   mapValues(form, () => ({ numeric })),
 )
 
-const formatInputs = (
-  value: string | number,
-  key: UnitConverterFormKeysType,
-) => {
+const formatInputs = (value: string | number, key: UnitConverterFormKeys) => {
   form[key] = String(value)
 
-  const formKeys = Object.keys(form) as UnitConverterFormKeysType[]
+  const formKeys = Object.keys(form) as UnitConverterFormKeys[]
   const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 

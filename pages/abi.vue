@@ -2,7 +2,7 @@
   <div class="abi-page">
     <h2>{{ $t('abi-page.main-title') }}</h2>
     <div>
-      <app-tabs :tabs="tabsList" />
+      <app-tabs :tabs="tabItems" />
       <div class="abi-page__content">
         <nuxt-page keepalive />
       </div>
@@ -23,21 +23,21 @@ definePageMeta({
   redirect: { name: ROUTE_NAMES.abiEncoderId },
 })
 
-enum TABS_IDS {
+enum TAB_IDS {
   encoder = 'encoder',
   decoder = 'decoder',
 }
 
 const { t } = i18n.global
-const tabsList = computed<Tab[]>(() => [
+const tabItems = computed<Tab[]>(() => [
   {
     title: t('abi-page.encoder-tab'),
-    id: TABS_IDS.encoder,
+    id: TAB_IDS.encoder,
     route: { name: ROUTE_NAMES.abiEncoderId },
   },
   {
     title: t('abi-page.decoder-tab'),
-    id: TABS_IDS.decoder,
+    id: TAB_IDS.decoder,
     route: { name: ROUTE_NAMES.abiDecoderId },
   },
 ])

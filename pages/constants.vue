@@ -2,7 +2,7 @@
   <div class="constants">
     <h2>{{ $t('constants.main-title') }}</h2>
     <div>
-      <app-tabs :tabs="tabsList" />
+      <app-tabs :tabs="tabItems" />
       <div class="constants__content">
         <nuxt-page keepalive />
       </div>
@@ -22,15 +22,15 @@ definePageMeta({
   redirect: { name: ROUTE_NAMES.constantsBytes },
 })
 
-enum TABS_IDS {
+enum TAB_IDS {
   constantsBytes = 'constants-bytes',
 }
 
 const { t } = i18n.global
-const tabsList = computed<Tab[]>(() => [
+const tabItems = computed<Tab[]>(() => [
   {
     title: t('constants.constants-bytes-tab'),
-    id: TABS_IDS.constantsBytes,
+    id: TAB_IDS.constantsBytes,
     route: { name: ROUTE_NAMES.constantsBytes },
   },
 ])

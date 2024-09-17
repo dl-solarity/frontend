@@ -1,66 +1,31 @@
 import { TIME_IDS, TIME_CONSTANTS } from '@/enums'
 import { duration } from 'dayjs'
-import { TimeType } from 'types/time.types'
+import { Time, TimeKeys } from 'types/time.types'
 
-export const getUpdatedDuration = (dateString: string): TimeType => {
-  const updatedDuration: TimeType = {
-    seconds: 0,
-    minutes: 0,
-    hours: 0,
-    days: 0,
-    weeks: 0,
-    months: 0,
-    years: 0,
-  }
-  const dateUnits = Object.values(TIME_IDS).join('|')
-  const regex = new RegExp(`(?<value>\\d+)\\s*(?<key>${dateUnits})`, 'g')
+export const getTransformedTime = (dateString: string) => {
+  const dateUnits = Object.entries(TIME_IDS)
 
-  let match
-  while ((match = regex.exec(dateString))) {
-    const groups = match.groups as {
-      key: TIME_IDS
-      value: string
-    }
-    const value = Number(groups.value)
-    const key = groups.key
+  const duration = dateUnits.reduce((accumulator, [timeKey, timeId]) => {
+    const regex = new RegExp(`(?<value>\\d+\\.?\\d*)\\s*(${timeId})`, 'g')
+    const matches = dateString.matchAll(regex)
+    const parsedValue = [...matches].reduce((_accumulator, _prevValue) => {
+      if (_prevValue.groups) {
+        const { value } = _prevValue.groups
+        _accumulator += Number(value)
+      }
+      return _accumulator
+    }, 0)
 
-    // TODO:  Discuss solutions such as:
-    // 1: switch/case
-    // 2. timeKeyMap
-    // 3. Full timeIds such as 'days', 'year' and so on...
-    // 4. Any another approach?
-    switch (key) {
-      case TIME_IDS.seconds:
-        updatedDuration.seconds += value
-        break
-      case TIME_IDS.minutes:
-        updatedDuration.minutes += value
-        break
-      case TIME_IDS.hours:
-        updatedDuration.hours += value
-        break
-      case TIME_IDS.days:
-        updatedDuration.days += value
-        break
-      case TIME_IDS.weeks:
-        updatedDuration.weeks += value
-        break
-      case TIME_IDS.months:
-        updatedDuration.months += value
-        break
-      case TIME_IDS.years:
-        updatedDuration.years += value
-        break
-    }
-  }
+    accumulator[timeKey as TimeKeys] = parsedValue
+    return accumulator
+  }, {} as Time)
 
-  return getNormalizedTime(updatedDuration)
+  return getNormalizedTime(duration)
 }
 
-export const getNormalizedTime = (rawDuration: TimeType): TimeType => {
+export const getNormalizedTime = (rawDuration: Time): Time => {
   const normalizedTime = { ...rawDuration }
   const seconds = getTotalDurationAsSeconds(rawDuration)
-
   let totalDuration = duration(0)
 
   totalDuration = totalDuration.add(seconds, 'seconds')
@@ -89,7 +54,7 @@ export const getNormalizedTime = (rawDuration: TimeType): TimeType => {
   return normalizedTime
 }
 
-export const getTotalDurationAsSeconds = (rawDuration: TimeType) => {
+export const getTotalDurationAsSeconds = (rawDuration: Time) => {
   let totalDuration = duration(0)
 
   totalDuration = totalDuration

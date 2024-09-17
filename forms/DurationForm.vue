@@ -41,11 +41,11 @@ import { useFormValidation } from '@/composables'
 import { InputField } from '@/fields'
 import { computed, reactive, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
-import { getTotalDurationAsSeconds, getUpdatedDuration } from '@/helpers'
+import { getTotalDurationAsSeconds, getTransformedTime } from '@/helpers'
 import { ICON_NAMES, TIME_CONSTANTS } from '@/enums'
-import { TimeType } from 'types/time.types'
+import { Time } from 'types/time.types'
 
-const INITIAL_RAW_DURATION_STATE: TimeType = {
+const INITIAL_RAW_DURATION_STATE: Time = {
   seconds: 0,
   minutes: 0,
   hours: 0,
@@ -59,7 +59,7 @@ const { t } = i18n.global
 
 const form = reactive({ duration: '' })
 
-const rawDuration = reactive<TimeType>({ ...INITIAL_RAW_DURATION_STATE })
+const rawDuration = reactive<Time>({ ...INITIAL_RAW_DURATION_STATE })
 
 const { touchField } = useFormValidation(form, {})
 
@@ -83,7 +83,7 @@ const secondsDuration = computed(() => {
 watch(
   () => form.duration,
   () => {
-    Object.assign(rawDuration, getUpdatedDuration(form.duration))
+    Object.assign(rawDuration, getTransformedTime(form.duration))
   },
 )
 </script>
