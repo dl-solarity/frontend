@@ -1,3 +1,4 @@
+\
 <template>
   <form class="duration-form">
     <div class="duration-form__input">
@@ -12,8 +13,8 @@
         <app-icon class="duration-form__text-icon" :name="ICON_NAMES.clock" />
         {{
           $t('duration-form.info', {
-            daysInYear: TIME_CONSTANTS.daysInYear,
-            daysInMonth: TIME_CONSTANTS.daysInMonth,
+            daysInYear: PERIOD_CONSTANTS.daysInYear,
+            daysInMonth: PERIOD_CONSTANTS.daysInMonth,
           })
         }}
       </p>
@@ -42,10 +43,14 @@ import { InputField } from '@/fields'
 import { computed, reactive, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
 import { getTotalDurationAsSeconds, getTransformedTime } from '@/helpers'
-import { ICON_NAMES, TIME_CONSTANTS } from '@/enums'
-import { Time } from 'types/time.types'
+import { ICON_NAMES, PERIOD_CONSTANTS } from '@/enums'
+import { Periods } from 'types/time.types'
 
-const INITIAL_RAW_DURATION_STATE: Time = {
+const { t } = i18n.global
+
+const form = reactive({ duration: '' })
+
+const rawDuration = reactive<Periods>({
   seconds: 0,
   minutes: 0,
   hours: 0,
@@ -53,13 +58,7 @@ const INITIAL_RAW_DURATION_STATE: Time = {
   weeks: 0,
   months: 0,
   years: 0,
-}
-
-const { t } = i18n.global
-
-const form = reactive({ duration: '' })
-
-const rawDuration = reactive<Time>({ ...INITIAL_RAW_DURATION_STATE })
+})
 
 const { touchField } = useFormValidation(form, {})
 

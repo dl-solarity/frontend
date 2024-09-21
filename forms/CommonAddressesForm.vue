@@ -8,10 +8,7 @@
             <label class="common-addresses-form__label">
               {{ $t(`common-addresses-form.${key}-label`) }}
             </label>
-            <button
-              v-if="key === 'randomAddress'"
-              @click="form.randomAddress = generateRandomAddress()"
-            >
+            <button v-if="key === 'randomAddress'" @click="updateRandomAddress">
               <app-icon
                 class="common-addresses-form__btn-icon"
                 :name="$icons.refresh"
@@ -46,6 +43,7 @@ import { Wallet } from 'ethers'
 import { reactive } from 'vue'
 
 const generateRandomAddress = (): string => Wallet.createRandom().address
+const updateRandomAddress = () => (form.randomAddress = generateRandomAddress())
 
 const form = reactive({
   zeroAddress: '0x0000000000000000000000000000000000000000',

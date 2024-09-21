@@ -1,9 +1,9 @@
-import { TIME_IDS, TIME_CONSTANTS } from '@/enums'
+import { PERIOD_IDS, PERIOD_CONSTANTS } from '@/enums'
 import { duration } from 'dayjs'
-import { Time, TimeKeys } from 'types/time.types'
+import { Periods, PeriodKeys } from 'types/time.types'
 
 export const getTransformedTime = (dateString: string) => {
-  const dateUnits = Object.entries(TIME_IDS)
+  const dateUnits = Object.entries(PERIOD_IDS)
 
   const duration = dateUnits.reduce((accumulator, [timeKey, timeId]) => {
     const regex = new RegExp(`(?<value>\\d+\\.?\\d*)\\s*(${timeId})`, 'g')
@@ -16,14 +16,14 @@ export const getTransformedTime = (dateString: string) => {
       return _accumulator
     }, 0)
 
-    accumulator[timeKey as TimeKeys] = parsedValue
+    accumulator[timeKey as PeriodKeys] = parsedValue
     return accumulator
-  }, {} as Time)
+  }, {} as Periods)
 
   return getNormalizedTime(duration)
 }
 
-export const getNormalizedTime = (rawDuration: Time): Time => {
+export const getNormalizedTime = (rawDuration: Periods): Periods => {
   const normalizedTime = { ...rawDuration }
   const seconds = getTotalDurationAsSeconds(rawDuration)
   let totalDuration = duration(0)
@@ -37,24 +37,24 @@ export const getNormalizedTime = (rawDuration: Time): Time => {
   // so DayJs can't handle it properly
   let daysLeft = Math.floor(
     totalDuration.asSeconds() /
-      (TIME_CONSTANTS.hoursInDay * TIME_CONSTANTS.secondsInHour),
+      (PERIOD_CONSTANTS.hoursInDay * PERIOD_CONSTANTS.secondsInHour),
   )
 
-  normalizedTime.years = Math.floor(daysLeft / TIME_CONSTANTS.daysInYear)
-  daysLeft %= TIME_CONSTANTS.daysInYear
+  normalizedTime.years = Math.floor(daysLeft / PERIOD_CONSTANTS.daysInYear)
+  daysLeft %= PERIOD_CONSTANTS.daysInYear
 
-  normalizedTime.months = Math.floor(daysLeft / TIME_CONSTANTS.daysInMonth)
-  daysLeft %= TIME_CONSTANTS.daysInMonth
+  normalizedTime.months = Math.floor(daysLeft / PERIOD_CONSTANTS.daysInMonth)
+  daysLeft %= PERIOD_CONSTANTS.daysInMonth
 
-  normalizedTime.weeks = Math.floor(daysLeft / TIME_CONSTANTS.daysInWeek)
-  daysLeft %= TIME_CONSTANTS.daysInWeek
+  normalizedTime.weeks = Math.floor(daysLeft / PERIOD_CONSTANTS.daysInWeek)
+  daysLeft %= PERIOD_CONSTANTS.daysInWeek
 
   normalizedTime.days = daysLeft
 
   return normalizedTime
 }
 
-export const getTotalDurationAsSeconds = (rawDuration: Time) => {
+export const getTotalDurationAsSeconds = (rawDuration: Periods) => {
   let totalDuration = duration(0)
 
   totalDuration = totalDuration
@@ -62,9 +62,9 @@ export const getTotalDurationAsSeconds = (rawDuration: Time) => {
     .add(rawDuration.minutes, 'minutes')
     .add(rawDuration.hours, 'hours')
     .add(rawDuration.days, 'days')
-    .add(rawDuration.weeks * TIME_CONSTANTS.daysInWeek, 'days')
-    .add(rawDuration.months * TIME_CONSTANTS.daysInMonth, 'days')
-    .add(rawDuration.years * TIME_CONSTANTS.daysInYear, 'days')
+    .add(rawDuration.weeks * PERIOD_CONSTANTS.daysInWeek, 'days')
+    .add(rawDuration.months * PERIOD_CONSTANTS.daysInMonth, 'days')
+    .add(rawDuration.years * PERIOD_CONSTANTS.daysInYear, 'days')
 
   return totalDuration.asSeconds()
 }

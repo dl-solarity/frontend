@@ -2,7 +2,7 @@
   <div class="hash-functions-page">
     <h2>{{ $t('hash-functions-page.main-title') }}</h2>
     <div>
-      <app-tabs :tabs="tabItems" />
+      <app-tabs :tabs="TAB_ITEMS" />
       <div class="hash-functions-page__content">
         <nuxt-page keepalive />
       </div>
@@ -14,9 +14,7 @@
 import { AppTabs } from '#components'
 import { definePageMeta } from '#imports'
 import { ROUTE_NAMES } from '@/enums'
-import { computed } from 'vue'
 import { type Tab } from '@/types'
-import { i18n } from '~/plugins/localization'
 
 definePageMeta({
   layout: 'solidity-tools',
@@ -29,24 +27,23 @@ enum TAB_IDS {
   ripemd160 = 'ripemd160',
 }
 
-const { t } = i18n.global
-const tabItems = computed<Tab[]>(() => [
+const TAB_ITEMS: Tab[] = [
   {
-    title: t('hash-functions-page.keccak256'),
+    title: 'Keccak256',
     id: TAB_IDS.keccak256,
     route: { name: ROUTE_NAMES.hashFunctionKeccak256Id },
   },
   {
-    title: t('hash-functions-page.sha256'),
+    title: 'Sha256',
     id: TAB_IDS.sha256,
     route: { name: ROUTE_NAMES.hashFunctionSha256Id },
   },
   {
-    title: t('hash-functions-page.ripemd160'),
+    title: 'Ripemd160',
     id: TAB_IDS.ripemd160,
     route: { name: ROUTE_NAMES.hashFunctionRipemd160Id },
   },
-])
+]
 </script>
 
 <style lang="scss" scoped>

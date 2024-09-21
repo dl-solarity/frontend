@@ -77,10 +77,7 @@
     "ascii-converter-form-tab": "ASCII converter"
   },
   "hash-functions-page": {
-    "main-title": "Hash functions",
-    "keccak256": "Keccak256",
-    "sha256": "Sha256",
-    "ripemd160": "Ripemd160"
+    "main-title": "Hash functions"
   },
   "unix-epoch-page": {
     "main-title": "UNIX epoch",
@@ -283,8 +280,8 @@
   },
   "constants-form": {
     "title": "Bytes",
-    "zeroBytes32-label": "Zero bytes (32)",
-    "randomBytes32-label": "Random bytes (32)"
+    "zero-bytes32-label": "Zero bytes (32)",
+    "random-bytes32-label": "Random bytes (32)"
   },
   "ecrecover": {
     "main-title": "Ecrecover utils",

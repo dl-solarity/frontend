@@ -2,40 +2,32 @@
   <form class="constants-form" @submit.prevent>
     <div class="constants-form__input">
       <h3>{{ $t('constants-form.title') }}</h3>
-      <template v-for="(value, key) in form" :key="key">
-        <div v-if="key === 'randomBytes32'">
-          <div class="constants-form__label-wrp">
-            <label class="constants-form__label">
-              {{ $t(`constants-form.${key}-label`) }}
-            </label>
-            <button
-              v-if="key === 'randomBytes32'"
-              @click="form.randomBytes32 = generateRandomBytes()"
-            >
-              <app-icon
-                class="constants-form__btn-icon"
-                :name="$icons.refresh"
-              />
-            </button>
-          </div>
-          <input-field readonly :model-value="value">
-            <template #nodeLeft>
-              <app-copy :value="value" />
-            </template>
-          </input-field>
+      <div>
+        <div class="constants-form__label-wrp">
+          <label class="constants-form__label">
+            {{ $t(`constants-form.random-bytes32-label`) }}
+          </label>
+          <button @click="updateRandomBytes">
+            <app-icon class="constants-form__btn-icon" :name="$icons.refresh" />
+          </button>
         </div>
-        <input-field
-          v-else
-          readonly
-          :label="$t(`constants-form.${key}-label`)"
-          :model-value="value"
-        >
+        <input-field v-model="form.randomBytes32" readonly>
           <template #nodeLeft>
-            <app-copy :value="value" />
+            <app-copy :value="form.randomBytes32" />
           </template>
         </input-field>
-      </template>
+      </div>
     </div>
+
+    <input-field
+      v-model="form.zeroBytes32"
+      readonly
+      :label="$t(`constants-form.zero-bytes32-label`)"
+    >
+      <template #nodeLeft>
+        <app-copy :value="form.zeroBytes32" />
+      </template>
+    </input-field>
   </form>
 </template>
 
@@ -46,6 +38,7 @@ import { reactive } from 'vue'
 import { randomBytes, hexlify } from 'ethers'
 import { ZERO_BYTES_32 } from '@/constants'
 
+const updateRandomBytes = () => (form.randomBytes32 = generateRandomBytes())
 const generateRandomBytes = (): string => hexlify(randomBytes(32))
 
 const form = reactive({

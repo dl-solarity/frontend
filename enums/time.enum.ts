@@ -1,4 +1,4 @@
-export enum TIME_IDS {
+export enum PERIOD_IDS {
   seconds = 's',
   minutes = 'min',
   hours = 'h',
@@ -8,7 +8,7 @@ export enum TIME_IDS {
   years = 'y',
 }
 
-export enum TIME_CONSTANTS {
+export enum PERIOD_CONSTANTS {
   secondsInHour = 3600,
   hoursInDay = 24,
   daysInWeek = 7,

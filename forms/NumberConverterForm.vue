@@ -14,7 +14,7 @@
         @blur="touchField(key)"
       >
         <template #nodeLeft>
-          <app-copy :value="value || 0" />
+          <app-copy :value="value" />
         </template>
       </textarea-field>
     </div>
