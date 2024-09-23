@@ -43,7 +43,9 @@ import { Wallet } from 'ethers'
 import { reactive } from 'vue'
 
 const generateRandomAddress = (): string => Wallet.createRandom().address
-const updateRandomAddress = () => (form.randomAddress = generateRandomAddress())
+const updateRandomAddress = () => {
+  form.randomAddress = generateRandomAddress()
+}
 
 const form = reactive({
   zeroAddress: '0x0000000000000000000000000000000000000000',

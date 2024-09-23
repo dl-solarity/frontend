@@ -38,7 +38,9 @@ import { reactive } from 'vue'
 import { randomBytes, hexlify } from 'ethers'
 import { ZERO_BYTES_32 } from '@/constants'
 
-const updateRandomBytes = () => (form.randomBytes32 = generateRandomBytes())
+const updateRandomBytes = () => {
+  form.randomBytes32 = generateRandomBytes()
+}
 const generateRandomBytes = (): string => hexlify(randomBytes(32))
 
 const form = reactive({
