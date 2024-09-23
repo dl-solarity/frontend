@@ -2,7 +2,7 @@
   <div class="unix-epoch-page">
     <h2>{{ $t('unix-epoch-page.main-title') }}</h2>
     <div>
-      <app-tabs :tabs="tabsList" />
+      <app-tabs :tabs="tabItems" />
       <div class="unix-epoch-page__content">
         <nuxt-page keepalive />
       </div>
@@ -23,22 +23,28 @@ definePageMeta({
   redirect: { name: ROUTE_NAMES.unixEpochDate },
 })
 
-enum TABS_IDS {
+enum TAB_IDS {
   date = 'date',
   timestamp = 'timestamp',
+  duration = 'duration',
 }
 
 const { t } = i18n.global
-const tabsList = computed<Tab[]>(() => [
+const tabItems = computed<Tab[]>(() => [
   {
     title: t('unix-epoch-page.date-form-tab'),
-    id: TABS_IDS.date,
+    id: TAB_IDS.date,
     route: { name: ROUTE_NAMES.unixEpochDate },
   },
   {
     title: t('unix-epoch-page.timestamp-form-tab'),
-    id: TABS_IDS.timestamp,
+    id: TAB_IDS.timestamp,
     route: { name: ROUTE_NAMES.unixEpochTimestamp },
+  },
+  {
+    title: t('unix-epoch-page.duration-form-tab'),
+    id: TAB_IDS.duration,
+    route: { name: ROUTE_NAMES.unixEpochDuration },
   },
 ])
 </script>

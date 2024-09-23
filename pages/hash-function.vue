@@ -2,7 +2,7 @@
   <div class="hash-functions-page">
     <h2>{{ $t('hash-functions-page.main-title') }}</h2>
     <div>
-      <app-tabs :tabs="TABS_LIST" />
+      <app-tabs :tabs="TAB_ITEMS" />
       <div class="hash-functions-page__content">
         <nuxt-page keepalive />
       </div>
@@ -21,26 +21,26 @@ definePageMeta({
   redirect: { name: ROUTE_NAMES.hashFunctionKeccak256Id },
 })
 
-enum TABS_IDS {
+enum TAB_IDS {
   keccak256 = 'keccak256',
   sha256 = 'sha256',
   ripemd160 = 'ripemd160',
 }
 
-const TABS_LIST: Tab[] = [
+const TAB_ITEMS: Tab[] = [
   {
     title: 'Keccak256',
-    id: TABS_IDS.keccak256,
+    id: TAB_IDS.keccak256,
     route: { name: ROUTE_NAMES.hashFunctionKeccak256Id },
   },
   {
     title: 'Sha256',
-    id: TABS_IDS.sha256,
+    id: TAB_IDS.sha256,
     route: { name: ROUTE_NAMES.hashFunctionSha256Id },
   },
   {
     title: 'Ripemd160',
-    id: TABS_IDS.ripemd160,
+    id: TAB_IDS.ripemd160,
     route: { name: ROUTE_NAMES.hashFunctionRipemd160Id },
   },
 ]

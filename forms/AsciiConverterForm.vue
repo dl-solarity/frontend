@@ -1,17 +1,17 @@
 <template>
-  <form class="unit-converter-form">
-    <div class="unit-converter-form__input">
-      <h3>{{ $t('unit-converter-form.input-title') }}</h3>
+  <form class="ascii-converter-form">
+    <div class="ascii-converter-form__input">
+      <h3>{{ $t('ascii-converter-form.input-title') }}</h3>
       <textarea-field
         v-for="(value, key) in form"
         size="small"
         :model-value="value"
         :key="key"
-        :label="UNITS[key].title"
-        :placeholder="UNITS[key].title"
+        :label="$t(`ascii-converter-form.${key}-label`)"
+        :placeholder="$t(`ascii-converter-form.${key}-placeholder`)"
         :error-message="getFieldErrorMessage(key)"
-        @blur="touchField(key)"
         @update:model-value="formatInputs($event, key)"
+        @blur="touchField(key)"
       >
         <template #nodeLeft>
           <!-- value || ' ' to keep the copy-button visible in input -->
@@ -25,37 +25,35 @@
 <script lang="ts" setup>
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
-import { UNITS } from '@/constants'
 import { TextareaField } from '@/fields'
-import { fromUnits, numeric, toUnits } from '@/helpers'
-import { isEmpty, mapValues } from 'lodash-es'
+import { hexadecimal } from '@/helpers'
+import { isEmpty } from 'lodash-es'
 import { reactive } from 'vue'
+import { hexToASCII, asciiToHex } from '@/helpers'
 
-type UnitConverterFormKeys = keyof typeof form
+type AsciiConverterForm = {
+  hexadecimal: string
+  ascii: string
+}
 
-const form = reactive({
-  wei: '',
-  kwei: '',
-  mwei: '',
-  gwei: '',
-  finney: '',
-  szabo: '',
-  ether: '',
-  kether: '',
-  mether: '',
-  gether: '',
-  tether: '',
+type AsciiConverterFormKeys = keyof AsciiConverterForm
+
+const form = reactive<AsciiConverterForm>({
+  hexadecimal: '',
+  ascii: '',
 })
 
 const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   form,
-  mapValues(form, () => ({ numeric })),
+  {
+    hexadecimal: { hexadecimal },
+    ascii: {},
+  },
 )
 
-const formatInputs = (value: string | number, key: UnitConverterFormKeys) => {
+const formatInputs = (value: string | number, key: AsciiConverterFormKeys) => {
   form[key] = String(value)
-
-  const formKeys = Object.keys(form) as UnitConverterFormKeys[]
+  const formKeys = Object.keys(form) as Array<AsciiConverterFormKeys>
   const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 
@@ -64,20 +62,23 @@ const formatInputs = (value: string | number, key: UnitConverterFormKeys) => {
     return
   }
 
-  const etherAmount = fromUnits(formattedValue, UNITS[key].decimals)
-  for (key of filteredKeys)
-    form[key] = toUnits(etherAmount, UNITS[key].decimals)
+  switch (key) {
+    case 'hexadecimal':
+      form.ascii = hexToASCII(form.hexadecimal)
+      break
+    case 'ascii':
+      form.hexadecimal = asciiToHex(form.ascii)
+      break
+  }
 }
-
-formatInputs('1', 'ether')
 </script>
 
 <style lang="scss" scoped>
-.unit-converter-form {
+.ascii-converter-form {
   @include solidity-tools-form;
 }
 
-.unit-converter-form__input {
+.ascii-converter-form__input {
   @include solidity-tools-form-part;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="app-copy">
     <slot />
+    <!-- TODO: Refactor condition to avoid "value || ' '" in components  -->
     <button v-if="String(props.value)" type="button" @click="handleCopy">
       <app-icon
         class="app-copy__icon"

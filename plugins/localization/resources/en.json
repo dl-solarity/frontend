@@ -55,7 +55,9 @@
     "hash-functions-title": "Hash functions",
     "converter-title": "Converter",
     "unix-epoch-title": "Unix epoch",
-    "address-utils-title": "Address utils"
+    "address-utils-title": "Address utils",
+    "constants": "Constants",
+    "ecrecover": "Ecrecover"
   },
   "abi-page": {
     "main-title": "ABI Encoder/Decoder",
@@ -71,7 +73,8 @@
   "converter-page": {
     "main-title": "Converter",
     "unit-converter-form-tab": "Unit converter",
-    "number-converter-form-tab": "Number converter"
+    "number-converter-form-tab": "Number converter",
+    "ascii-converter-form-tab": "ASCII converter"
   },
   "hash-functions-page": {
     "main-title": "Hash functions"
@@ -79,7 +82,18 @@
   "unix-epoch-page": {
     "main-title": "UNIX epoch",
     "date-form-tab": "Human date UTC",
-    "timestamp-form-tab": "Timestamp"
+    "timestamp-form-tab": "Timestamp",
+    "duration-form-tab": "Duration"
+  },
+  "duration-form": {
+    "info": "Please note that in the convertor 1 year = {daysInYear} days and 1 month = {daysInMonth} days",
+    "pasted-value": "{years} year(s) {months} month(s) {weeks} week(s) {days} day(s)\n {hours} hour(s) {minutes} minute(s)",
+    "input-title": "Enter Duration",
+    "duration-label": "Duration in following format",
+    "duration-placeholder": "Enter time (ex: 1y 2mon 3w 4h 5min 1300s)",
+    "you-put-label": "Entered duration",
+    "output-title": "Output",
+    "milliseconds-label": "Entered duration (seconds)"
   },
   "abi-decode-form": {
     "input-title": "Decoder",
@@ -162,6 +176,13 @@
     "octal-placeholder": "Octal",
     "decimal-placeholder": "Decimal",
     "hexadecimal-placeholder": "Hexadecimal"
+  },
+  "ascii-converter-form": {
+    "input-title": "ASCII converter",
+    "hexadecimal-label": "Hexadecimal",
+    "hexadecimal-placeholder": "0x4578616d706c6521",
+    "ascii-label": "ASCII",
+    "ascii-placeholder": "Example!"
   },
   "timestamp-form": {
     "input-title": "Enter Timestamp",
@@ -252,5 +273,31 @@
     "audits-card-2-file-size": "11.5 MB",
     "audits-card-3-title": "PollenDAO",
     "audits-card-3-file-size": "10.3 MB"
+  },
+  "constants": {
+    "main-title": "Constants",
+    "constants-bytes-tab": "Bytes constants"
+  },
+  "constants-form": {
+    "title": "Bytes",
+    "zero-bytes32-label": "Zero bytes (32)",
+    "random-bytes32-label": "Random bytes (32)"
+  },
+  "ecrecover": {
+    "main-title": "Ecrecover utils",
+    "ecrecover-secp256k1-tab": "Secp256k1 Recovery Tool"
+  },
+  "verify-signature-form": {
+    "input-title": "Verify signature",
+    "verified": "Message signature verified",
+    "not-verified": "The Message Signature Verification Failed!",
+    "account-address-label": "Address",
+    "account-address-placeholder": "Enter the signer address",
+    "message-label": "Message",
+    "message-placeholder": "Enter the original message",
+    "signature-label": "Hash",
+    "signature-placeholder": "Enter the hash of signed message",
+    "submit-btn": "Check signature",
+    "reset-btn": "Reset form"
   }
 }

@@ -2,7 +2,7 @@
   <div class="converter-page">
     <h2>{{ $t('converter-page.main-title') }}</h2>
     <div>
-      <app-tabs :tabs="tabsList" />
+      <app-tabs :tabs="tabItems" />
       <div class="converter-page__content">
         <nuxt-page keepalive />
       </div>
@@ -23,22 +23,28 @@ definePageMeta({
   redirect: { name: ROUTE_NAMES.converterUnit },
 })
 
-enum TABS_IDS {
+enum TAB_IDS {
   unitConverterForm = 'unit-converter-form',
   numberConverterForm = 'number-converter-form',
+  asciiConverterForm = 'ascii-converter-form',
 }
 
 const { t } = i18n.global
-const tabsList = computed<Tab[]>(() => [
+const tabItems = computed<Tab[]>(() => [
   {
     title: t('converter-page.unit-converter-form-tab'),
-    id: TABS_IDS.unitConverterForm,
+    id: TAB_IDS.unitConverterForm,
     route: { name: ROUTE_NAMES.converterUnit },
   },
   {
     title: t('converter-page.number-converter-form-tab'),
-    id: TABS_IDS.numberConverterForm,
+    id: TAB_IDS.numberConverterForm,
     route: { name: ROUTE_NAMES.converterNumber },
+  },
+  {
+    title: t('converter-page.ascii-converter-form-tab'),
+    id: TAB_IDS.asciiConverterForm,
+    route: { name: ROUTE_NAMES.converterAscii },
   },
 ])
 </script>

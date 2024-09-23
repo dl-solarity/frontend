@@ -2,20 +2,22 @@
   <form class="number-converter-form">
     <div class="number-converter-form__input">
       <h3>{{ $t('number-converter-form.input-title') }}</h3>
-      <input-field
-        v-for="(_, key) in form"
-        :model-value="form[key]"
+      <textarea-field
+        v-for="(value, key) in form"
+        size="small"
+        :model-value="value"
         :key="key"
         :label="$t(`number-converter-form.${key}-label`)"
         :placeholder="$t(`number-converter-form.${key}-placeholder`)"
         :error-message="getFieldErrorMessage(key)"
-        @blur="touchField(key)"
         @update:model-value="formatInputs($event, key)"
+        @blur="touchField(key)"
       >
         <template #nodeLeft>
-          <app-copy :value="form[key] || 0" />
+          <!-- value || ' ' to keep the copy-button visible in input -->
+          <app-copy :value="value || ' '" />
         </template>
-      </input-field>
+      </textarea-field>
     </div>
   </form>
 </template>
@@ -24,11 +26,13 @@
 import { AppCopy } from '#components'
 import { useFormValidation } from '@/composables'
 import { NUMBER_SYSTEMS } from '@/constants'
-import { InputField } from '@/fields'
+import { TextareaField } from '@/fields'
 import { binary, hexadecimal, integer, octal } from '@/helpers'
 import { BigNumber } from 'bignumber.js'
 import { isEmpty } from 'lodash-es'
 import { reactive } from 'vue'
+
+type NumberConverterFormKeys = keyof typeof form
 
 const form = reactive({
   binary: '',
@@ -47,10 +51,10 @@ const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(
   },
 )
 
-const formatInputs = (value: string | number, key: keyof typeof form) => {
+const formatInputs = (value: string | number, key: NumberConverterFormKeys) => {
   form[key] = String(value)
 
-  const formKeys = Object.keys(form) as (keyof typeof form)[]
+  const formKeys = Object.keys(form) as NumberConverterFormKeys[]
   const filteredKeys = formKeys.filter(_key => _key !== key)
   const formattedValue = String(value).trim()
 

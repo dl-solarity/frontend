@@ -70,6 +70,16 @@ const navLinks = computed(() => [
     icon: ICON_NAMES.locationMarker,
     route: { name: ROUTE_NAMES.addressUtils },
   },
+  {
+    title: t('tools-sidebar.constants'),
+    icon: ICON_NAMES.squareRoot,
+    route: { name: ROUTE_NAMES.constants },
+  },
+  {
+    title: t('tools-sidebar.ecrecover'),
+    icon: ICON_NAMES.checkCircle,
+    route: { name: ROUTE_NAMES.ecrecover },
+  },
 ])
 
 const { width: windowWidth } = useWindowSize()

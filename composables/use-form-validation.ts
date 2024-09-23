@@ -52,5 +52,6 @@ export const useFormValidation = (
     getFieldErrorMessage,
     touchField,
     isFormValid,
+    validationController,
   }
 }
