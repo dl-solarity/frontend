@@ -14,7 +14,8 @@
         @blur="touchField(key)"
       >
         <template #nodeLeft>
-          <app-copy :value="value" />
+          <!-- value || ' ' to keep the copy-button visible in input -->
+          <app-copy :value="value || ' '" />
         </template>
       </textarea-field>
     </div>
