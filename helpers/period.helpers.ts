@@ -1,8 +1,8 @@
 import { PERIOD_IDS, PERIOD_CONSTANTS } from '@/enums'
 import { duration } from 'dayjs'
-import { Periods, PeriodKeys } from 'types/time.types'
+import { Periods, PeriodKeys } from 'types/period.types'
 
-export const getTransformedTime = (dateString: string) => {
+export const getTransformedPeriod = (dateString: string) => {
   const dateUnits = Object.entries(PERIOD_IDS)
 
   const duration = dateUnits.reduce((accumulator, [timeKey, timeId]) => {
@@ -20,10 +20,10 @@ export const getTransformedTime = (dateString: string) => {
     return accumulator
   }, {} as Periods)
 
-  return getNormalizedTime(duration)
+  return getNormalizedPeriod(duration)
 }
 
-export const getNormalizedTime = (rawDuration: Periods): Periods => {
+export const getNormalizedPeriod = (rawDuration: Periods): Periods => {
   const normalizedTime = { ...rawDuration }
   const seconds = getTotalDurationAsSeconds(rawDuration)
   let totalDuration = duration(0)

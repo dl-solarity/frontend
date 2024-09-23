@@ -42,9 +42,9 @@ import { useFormValidation } from '@/composables'
 import { InputField } from '@/fields'
 import { computed, reactive, watch } from 'vue'
 import { i18n } from '~/plugins/localization'
-import { getTotalDurationAsSeconds, getTransformedTime } from '@/helpers'
+import { getTotalDurationAsSeconds, getTransformedPeriod } from '@/helpers'
 import { ICON_NAMES, PERIOD_CONSTANTS } from '@/enums'
-import { Periods } from 'types/time.types'
+import { Periods } from 'types/period.types'
 
 const { t } = i18n.global
 
@@ -82,7 +82,7 @@ const secondsDuration = computed(() => {
 watch(
   () => form.duration,
   () => {
-    Object.assign(rawDuration, getTransformedTime(form.duration))
+    Object.assign(rawDuration, getTransformedPeriod(form.duration))
   },
 )
 </script>
