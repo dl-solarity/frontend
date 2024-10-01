@@ -519,8 +519,8 @@ const buttonType = computed<ButtonType>(
 
 .app-button__icon-left,
 .app-button__icon-right {
-  height: toRem(25);
-  width: toRem(25);
+  height: toRem(20);
+  width: toRem(20);
 
   .app-button--loading & {
     animation: spin 2s linear infinite;

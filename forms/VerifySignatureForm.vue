@@ -36,11 +36,13 @@
         <div class="verify-signature-form__buttons">
           <app-button
             v-if="verifyingState === 'idle'"
+            class="verify-signature-form__button"
             type="submit"
             :text="$t('verify-signature-form.submit-btn')"
           />
           <app-button
             v-if="verifyingState === 'verified'"
+            class="verify-signature-form__button"
             color="success"
             scheme="flat"
             :icon-left="$icons.checkCircle"
@@ -49,6 +51,7 @@
           />
           <app-button
             v-if="verifyingState === 'unverified'"
+            class="verify-signature-form__button"
             color="error"
             scheme="flat"
             :icon-left="$icons.xCircle"
@@ -56,6 +59,7 @@
             @mouseenter="resetVerifyingButton"
           />
           <app-button
+            class="verify-signature-form__button"
             scheme="flat"
             :text="$t('verify-signature-form.reset-btn')"
             @click="resetForm"
@@ -90,10 +94,9 @@ const decodeOptions = computed<FieldOption[]>(() => [
 ])
 
 const INITIAL_FORM_STATE = {
-  accountAddress: '0xe9bd666655654cda6cb364893dc12b5f953b46c7',
-  signature:
-    '0x995ddcbac6f642628d99ff6fc20436bfe102002f3cf95fe69edb17406b0027ab23b458dac471570d8faa660a2d1a5dce5475fca73f163db4dc033dce2bd0de171c',
-  message: 'Penis',
+  accountAddress: '',
+  signature: '',
+  message: '',
   messageMode: decodeOptions.value[0].value as DecodeType,
 }
 
@@ -210,5 +213,9 @@ watch(form, () => {
   margin-top: toRem(4);
   display: flex;
   gap: toRem(16);
+}
+
+.verify-signature-form__button {
+  width: toRem(150);
 }
 </style>

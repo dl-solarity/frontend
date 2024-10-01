@@ -298,8 +298,8 @@
     "signature-label": "Hash",
     "signature-placeholder": "Enter the hash of signed message",
     "submit-btn": "Check signature",
-    "verified-btn": "Verification succeeded",
-    "unverified-btn": "Verification failed",
+    "verified-btn": "Success",
+    "unverified-btn": "Failure",
     "reset-btn": "Reset form"
   }
 }
