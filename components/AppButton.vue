@@ -7,9 +7,9 @@
       :to="route"
     >
       <app-icon
-        v-if="iconLeft"
+        v-if="buttonIconLeft"
         class="app-button__icon-left"
-        :name="iconLeft"
+        :name="buttonIconLeft"
       />
       <template v-if="$slots.default">
         <slot />
@@ -20,18 +20,18 @@
         </span>
       </template>
       <app-icon
-        v-if="iconRight"
+        v-if="buttonIconRight"
         class="app-button__icon-right"
-        :name="iconRight"
+        :name="buttonIconRight"
       />
     </nuxt-link>
   </template>
   <template v-else-if="href">
     <a class="app-button" :class="buttonClasses" v-bind="$attrs" :href="href">
       <app-icon
-        v-if="iconLeft"
+        v-if="buttonIconLeft"
         class="app-button__icon-left"
-        :name="iconLeft"
+        :name="buttonIconLeft"
       />
       <template v-if="$slots.default">
         <slot />
@@ -42,9 +42,9 @@
         </span>
       </template>
       <app-icon
-        v-if="iconRight"
+        v-if="buttonIconRight"
         class="app-button__icon-right"
-        :name="iconRight"
+        :name="buttonIconRight"
       />
     </a>
   </template>
@@ -57,9 +57,9 @@
       :type="buttonType"
     >
       <app-icon
-        v-if="iconLeft"
+        v-if="buttonIconLeft"
         class="app-button__icon-left"
-        :name="iconLeft"
+        :name="buttonIconLeft"
       />
       <template v-if="$slots.default">
         <slot />
@@ -70,9 +70,9 @@
         </span>
       </template>
       <app-icon
-        v-if="iconRight"
+        v-if="buttonIconRight"
         class="app-button__icon-right"
-        :name="iconRight"
+        :name="buttonIconRight"
       />
     </button>
   </template>
@@ -91,12 +91,13 @@ const props = withDefaults(
     text?: string
     scheme?: 'filled' | 'flat' | 'none'
     modification?: 'border-circle' | 'border-rounded' | 'text' | 'none'
-    color?: 'primary' | 'secondary' | 'none'
+    color?: 'primary' | 'secondary' | 'success' | 'error' | 'none'
     size?: 'large' | 'medium' | 'none'
     route?: RouteLocationRaw
     href?: string
     iconLeft?: ICON_NAMES | ''
     iconRight?: ICON_NAMES | ''
+    isLoading?: boolean
   }>(),
   {
     text: '',
@@ -108,14 +109,17 @@ const props = withDefaults(
     href: '',
     iconLeft: '',
     iconRight: '',
+    isLoading: false,
   },
 )
 
 const attrs = useAttrs()
 const slots = useSlots()
 
-const isDisabled = computed((): boolean =>
-  ['', 'disabled', true].includes(attrs.disabled as string | boolean),
+const isDisabled = computed(
+  (): boolean =>
+    ['', 'disabled', true].includes(attrs.disabled as string | boolean) ||
+    props.isLoading,
 )
 
 const buttonClasses = computed(() => [
@@ -130,7 +134,20 @@ const buttonClasses = computed(() => [
   ...((props.iconLeft || props.iconRight) && !props.text && !slots.default
     ? ['app-button--icon-only']
     : []),
+  ...(props.isLoading ? ['app-button--loading'] : []),
 ])
+
+const buttonIconLeft = computed(() =>
+  props.isLoading && ((!props.iconLeft && !props.iconRight) || props.iconLeft)
+    ? ICON_NAMES.spinner
+    : props.iconLeft,
+)
+
+const buttonIconRight = computed(() =>
+  props.isLoading && !props.iconLeft && props.iconRight
+    ? ICON_NAMES.spinner
+    : props.iconRight,
+)
 
 const buttonType = computed<ButtonType>(
   () => (attrs.type as ButtonType) || 'button',
@@ -152,13 +169,21 @@ const buttonType = computed<ButtonType>(
   background-color: var(--app-button-bg);
   color: var(--app-button-text);
 
-  &:disabled,
-  &--disabled {
+  &:disabled:not(.app-button--loading),
+  &--disabled:not(.app-button--loading) {
     cursor: not-allowed;
     pointer-events: none;
     --app-button-bg: var(--app-button-disabled-bg);
     --app-button-text: var(--app-button-disabled-text);
     --app-button-border: var(--app-button-disabled-border);
+  }
+
+  &.app-button--disabled,
+  .app-button--loading {
+    background-color: var(--app-button-bg);
+    color: var(--app-button-text);
+    border: var(--app-button-border);
+    opacity: 0.5;
   }
 
   &:not([disabled]):hover {
@@ -331,6 +356,90 @@ const buttonType = computed<ButtonType>(
     }
   }
 
+  &--success {
+    --app-button-filled-bg: var(--success-main);
+    --app-button-filled-bg-hover: var(--success-dark);
+    --app-button-filled-bg-focused: var(--success-dark);
+    --app-button-filled-bg-active: var(--success-dark);
+
+    --app-button-filled-text: var(--text-primary-invert-main);
+    --app-button-filled-text-hover: var(--text-primary-invert-main);
+    --app-button-filled-text-focused: var(--text-primary-invert-light);
+    --app-button-filled-text-active: var(--text-primary-invert-main);
+
+    --app-button-flat-bg-hover: var(--background-success-light);
+    --app-button-flat-bg-focused: var(--background-success-light);
+    --app-button-flat-bg-active: var(--background-success-light);
+
+    --app-button-flat-text: var(--success-main);
+    --app-button-flat-text-hover: var(--success-main);
+    --app-button-flat-text-focused: var(--success-light);
+    --app-button-flat-text-active: var(--success-light);
+
+    --app-button-flat-border: #{toRem(1)} solid var(--success-main);
+    --app-button-flat-border-hover: #{toRem(1)} solid var(--success-main);
+    --app-button-flat-border-focused: #{toRem(1)} solid var(--success-light);
+    --app-button-flat-border-active: #{toRem(1)} solid var(--success-light);
+
+    --app-button-none-bg-hover: var(--background-success-light);
+    --app-button-none-bg-focused: var(--background-success-light);
+    --app-button-none-bg-active: var(--background-success-light);
+
+    --app-button-none-text: var(--success-main);
+    --app-button-none-text-hover: var(--success-main);
+    --app-button-none-text-focused: var(--success-light);
+    --app-button-none-text-active: var(--success-light);
+
+    &.app-button--text {
+      --app-button-text: var(--text-primary-invert-main);
+      --app-button-text-hover: var(--primary-light);
+      --app-button-text-focused: var(--primary-dark);
+      --app-button-text-active: var(--primary-dark);
+    }
+  }
+
+  &--error {
+    --app-button-filled-bg: var(--error-main);
+    --app-button-filled-bg-hover: var(--error-dark);
+    --app-button-filled-bg-focused: var(--error-dark);
+    --app-button-filled-bg-active: var(--error-dark);
+
+    --app-button-filled-text: var(--text-primary-invert-main);
+    --app-button-filled-text-hover: var(--text-primary-invert-main);
+    --app-button-filled-text-focused: var(--text-primary-invert-light);
+    --app-button-filled-text-active: var(--text-primary-invert-main);
+
+    --app-button-flat-bg-hover: var(--background-error-light);
+    --app-button-flat-bg-focused: var(--background-error-light);
+    --app-button-flat-bg-active: var(--background-error-light);
+
+    --app-button-flat-text: var(--error-main);
+    --app-button-flat-text-hover: var(--error-main);
+    --app-button-flat-text-focused: var(--error-light);
+    --app-button-flat-text-active: var(--error-light);
+
+    --app-button-flat-border: #{toRem(1)} solid var(--error-main);
+    --app-button-flat-border-hover: #{toRem(1)} solid var(--error-main);
+    --app-button-flat-border-focused: #{toRem(1)} solid var(--error-light);
+    --app-button-flat-border-active: #{toRem(1)} solid var(--error-light);
+
+    --app-button-none-bg-hover: var(--background-error-light);
+    --app-button-none-bg-focused: var(--background-error-light);
+    --app-button-none-bg-active: var(--background-error-light);
+
+    --app-button-none-text: var(--error-main);
+    --app-button-none-text-hover: var(--error-main);
+    --app-button-none-text-focused: var(--error-light);
+    --app-button-none-text-active: var(--error-light);
+
+    &.app-button--text {
+      --app-button-text: var(--text-primary-invert-main);
+      --app-button-text-hover: var(--primary-light);
+      --app-button-text-focused: var(--primary-dark);
+      --app-button-text-active: var(--primary-dark);
+    }
+  }
+
   &--none {
     $flat-border-hover: #{toRem(1)} solid var(--primary-light);
 
@@ -406,11 +515,15 @@ const buttonType = computed<ButtonType>(
       text-decoration: underline;
     }
   }
+}
 
-  .app-button__icon-left,
-  .app-button__icon-right {
-    height: 1.6em;
-    width: 1.6em;
+.app-button__icon-left,
+.app-button__icon-right {
+  height: toRem(25);
+  width: toRem(25);
+
+  .app-button--loading & {
+    animation: spin 2s linear infinite;
   }
 }
 
@@ -422,5 +535,11 @@ const buttonType = computed<ButtonType>(
   min-width: 0;
 
   @include text-ellipsis;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

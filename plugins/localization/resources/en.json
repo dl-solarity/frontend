@@ -86,7 +86,7 @@
     "duration-form-tab": "Duration"
   },
   "duration-form": {
-    "info": "Please note that in the convertor 1 year = {daysInYear} days and 1 month = {daysInMonth} days",
+    "info": "1 year = {daysInYear} days and 1 month = {daysInMonth} days",
     "pasted-value": "{years} year(s) {months} month(s) {weeks} week(s) {days} day(s)\n {hours} hour(s) {minutes} minute(s)",
     "input-title": "Enter Duration",
     "duration-label": "Duration in following format",
@@ -298,6 +298,8 @@
     "signature-label": "Hash",
     "signature-placeholder": "Enter the hash of signed message",
     "submit-btn": "Check signature",
+    "verified-btn": "Verification succeeded",
+    "unverified-btn": "Verification failed",
     "reset-btn": "Reset form"
   }
 }

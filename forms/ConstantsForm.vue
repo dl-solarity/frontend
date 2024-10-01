@@ -1,33 +1,40 @@
 <template>
   <form class="constants-form" @submit.prevent>
-    <div class="constants-form__input">
+    <div class="constants-form__input-fields">
       <h3>{{ $t('constants-form.title') }}</h3>
-      <div>
-        <div class="constants-form__label-wrp">
-          <label class="constants-form__label">
-            {{ $t(`constants-form.random-bytes32-label`) }}
-          </label>
-          <button @click="updateRandomBytes">
-            <app-icon class="constants-form__btn-icon" :name="$icons.refresh" />
-          </button>
-        </div>
-        <input-field v-model="form.randomBytes32" readonly>
+      <div class="constants-form__input">
+        <input-field
+          v-model="form.zeroBytes32"
+          readonly
+          :label="$t(`constants-form.zero-bytes32-label`)"
+        >
           <template #nodeLeft>
-            <app-copy :value="form.randomBytes32" />
+            <app-copy :value="form.zeroBytes32" />
           </template>
         </input-field>
       </div>
-    </div>
 
-    <input-field
-      v-model="form.zeroBytes32"
-      readonly
-      :label="$t(`constants-form.zero-bytes32-label`)"
-    >
-      <template #nodeLeft>
-        <app-copy :value="form.zeroBytes32" />
-      </template>
-    </input-field>
+      <div class="constants-form__input">
+        <div>
+          <div class="constants-form__label-wrp">
+            <label class="constants-form__label">
+              {{ $t(`constants-form.random-bytes32-label`) }}
+            </label>
+            <button @click="updateRandomBytes">
+              <app-icon
+                class="constants-form__btn-icon"
+                :name="$icons.refresh"
+              />
+            </button>
+          </div>
+          <input-field v-model="form.randomBytes32" readonly>
+            <template #nodeLeft>
+              <app-copy :value="form.randomBytes32" />
+            </template>
+          </input-field>
+        </div>
+      </div>
+    </div>
   </form>
 </template>
 
@@ -56,6 +63,12 @@ const form = reactive({
 
 .constants-form__input {
   @include solidity-tools-form-part;
+}
+
+.constants-form__input-fields {
+  display: flex;
+  flex-direction: column;
+  gap: toRem(20);
 }
 
 .constants-form__label-wrp {

@@ -1,7 +1,16 @@
 <template>
   <form class="verify-signature-form" @submit.prevent="verifySignature">
     <div class="verify-signature-form__input">
-      <h3>{{ $t('verify-signature-form.input-title') }}</h3>
+      <div class="verify-signature-form__title-wrp">
+        <h3 class="verify-signature-form__title">
+          {{ $t('verify-signature-form.input-title') }}
+        </h3>
+        <radio-button-field
+          v-model="form.messageMode"
+          class="verify-signature-form__radio-button-field"
+          :options="decodeOptions"
+        />
+      </div>
       <div class="verify-signature-form__input-fields">
         <input-field
           v-model="form.accountAddress"
@@ -10,6 +19,13 @@
           :error-message="getFieldErrorMessage('accountAddress')"
           @blur="touchField('accountAddress')"
         />
+        <input-field
+          v-model="form.signature"
+          :label="$t('verify-signature-form.signature-label')"
+          :placeholder="$t('verify-signature-form.signature-placeholder')"
+          :error-message="getFieldErrorMessage('signature')"
+          @blur="touchField('signature')"
+        />
         <textarea-field
           v-model="form.message"
           :label="$t('verify-signature-form.message-label')"
@@ -17,17 +33,27 @@
           :error-message="getFieldErrorMessage('message')"
           @blur="touchField('message')"
         />
-        <textarea-field
-          v-model="form.signature"
-          :label="$t('verify-signature-form.signature-label')"
-          :placeholder="$t('verify-signature-form.signature-placeholder')"
-          :error-message="getFieldErrorMessage('signature')"
-          @blur="touchField('signature')"
-        />
         <div class="verify-signature-form__buttons">
           <app-button
+            v-if="verifyingState === 'idle'"
             type="submit"
             :text="$t('verify-signature-form.submit-btn')"
+          />
+          <app-button
+            v-if="verifyingState === 'verified'"
+            color="success"
+            scheme="flat"
+            :icon-left="$icons.checkCircle"
+            :text="$t('verify-signature-form.verified-btn')"
+            @mouseenter="resetVerifyingButton"
+          />
+          <app-button
+            v-if="verifyingState === 'unverified'"
+            color="error"
+            scheme="flat"
+            :icon-left="$icons.xCircle"
+            :text="$t('verify-signature-form.unverified-btn')"
+            @mouseenter="resetVerifyingButton"
           />
           <app-button
             scheme="flat"
@@ -42,48 +68,102 @@
 
 <script lang="ts" setup>
 import { useFormValidation } from '@/composables'
-import { InputField, TextareaField } from '@/fields'
-import { ErrorHandler, address, hexadecimal, required } from '@/helpers'
+import { InputField, TextareaField, RadioButtonField } from '@/fields'
+import {
+  address,
+  hexToASCII,
+  required,
+  hexadecimal,
+  ErrorHandler,
+} from '@/helpers'
+import { type FieldOption, type DecodeType } from '@/types'
 import { verifyMessage, getAddress } from 'ethers'
 import { i18n } from '~/plugins/localization'
-import { reactive } from 'vue'
 
-const { showToast } = useNotifications()
+type VerifyingState = 'idle' | 'verified' | 'unverified'
+
 const { t } = i18n.global
 
+const decodeOptions = computed<FieldOption[]>(() => [
+  { title: t('hash-function-form.select-option-text'), value: 'text' },
+  { title: t('hash-function-form.select-option-hex'), value: 'hex' },
+])
+
 const INITIAL_FORM_STATE = {
-  accountAddress: '',
-  signature: '',
-  message: '',
+  accountAddress: '0xe9bd666655654cda6cb364893dc12b5f953b46c7',
+  signature:
+    '0x995ddcbac6f642628d99ff6fc20436bfe102002f3cf95fe69edb17406b0027ab23b458dac471570d8faa660a2d1a5dce5475fca73f163db4dc033dce2bd0de171c',
+  message: 'Penis',
+  messageMode: decodeOptions.value[0].value as DecodeType,
 }
+
+const verifyingState = ref<VerifyingState>('idle')
 
 const form = reactive({ ...INITIAL_FORM_STATE })
 
-const { isFormValid, getFieldErrorMessage, touchField, validationController } =
-  useFormValidation(form, {
-    accountAddress: { required, address },
-    signature: { required, hexadecimal },
-    message: { required },
-  })
+const rules = computed(() => ({
+  accountAddress: { required, address },
+  signature: { required, hexadecimal },
+  message: {
+    required,
+    ...(form.messageMode === 'hex' && { hexadecimal, required }),
+  },
+}))
 
-const verifySignature = async () => {
+const { isFormValid, getFieldErrorMessage, touchField, validationController } =
+  useFormValidation(form, rules)
+
+const verifySignature = () => {
+  if (!isFormValid()) return
   try {
-    if (!isFormValid()) return
-    const signerAddr = verifyMessage(form.message, form.signature)
+    const messageToCheck =
+      form.messageMode === 'hex' ? hexToASCII(form.message) : form.message
+    const signerAddr = verifyMessage(messageToCheck, form.signature)
     if (signerAddr !== getAddress(form.accountAddress)) {
-      showToast('error', t('verify-signature-form.not-verified'))
+      verifyingState.value = 'unverified'
       return
     }
-    showToast('success', t('verify-signature-form.verified'))
+    verifyingState.value = 'verified'
   } catch (error) {
-    ErrorHandler.process(error)
+    verifyingState.value = 'unverified'
+    ErrorHandler.processWithoutFeedback(error)
   }
+}
+
+// hoverCounter and resetVerifyingButton() helps to implement
+// reset verifying message only on second hover
+// it needs 'cause first hover immediately hide state button
+enum HOVER_ENUMS {
+  noHovers,
+  hoveredOnce,
+}
+const hoverCounter = ref(HOVER_ENUMS.noHovers)
+
+const resetVerifyingButton = () => {
+  switch (hoverCounter.value) {
+    case HOVER_ENUMS.noHovers:
+      hoverCounter.value = HOVER_ENUMS.hoveredOnce
+      break
+    case HOVER_ENUMS.hoveredOnce:
+      resetVerifyingState()
+      break
+  }
+}
+
+const resetVerifyingState = () => {
+  verifyingState.value = 'idle'
+  hoverCounter.value = HOVER_ENUMS.noHovers
 }
 
 const resetForm = () => {
   Object.assign(form, INITIAL_FORM_STATE)
   validationController.value.$reset()
+  resetVerifyingState()
 }
+
+watch(form, () => {
+  resetVerifyingState()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -106,6 +186,18 @@ const resetForm = () => {
   gap: toRem(16);
 }
 
+.verify-signature-form__title-wrp {
+  display: flex;
+  align-items: baseline;
+  gap: inherit;
+  flex-wrap: wrap;
+}
+
+.verify-signature-form__title {
+  margin-right: auto;
+  min-width: max-content;
+}
+
 .verify-signature-form__output-item-label {
   @include field-label;
 }
@@ -115,6 +207,7 @@ const resetForm = () => {
 }
 
 .verify-signature-form__buttons {
+  margin-top: toRem(4);
   display: flex;
   gap: toRem(16);
 }

@@ -22,4 +22,5 @@ export enum ICON_NAMES {
   xCircle = 'x-circle',
   x = 'x',
   squareRoot = 'square-root',
+  spinner = 'spinner',
 }
