@@ -11,6 +11,18 @@
           :options="decodeOptions"
         />
       </div>
+      <template v-if="verifyingState === 'verified'">
+        <app-alert
+          type="success"
+          :message="$t('verify-signature-form.alert-success')"
+        />
+      </template>
+      <template v-if="verifyingState === 'unverified'">
+        <app-alert
+          type="error"
+          :message="$t('verify-signature-form.alert-error')"
+        />
+      </template>
       <div class="verify-signature-form__input-fields">
         <input-field
           v-model="form.accountAddress"
@@ -35,28 +47,9 @@
         />
         <div class="verify-signature-form__buttons">
           <app-button
-            v-if="verifyingState === 'idle'"
             class="verify-signature-form__button"
             type="submit"
             :text="$t('verify-signature-form.submit-btn')"
-          />
-          <app-button
-            v-if="verifyingState === 'verified'"
-            class="verify-signature-form__button"
-            color="success"
-            scheme="flat"
-            :icon-left="$icons.checkCircle"
-            :text="$t('verify-signature-form.verified-btn')"
-            @mouseenter="resetVerifyingButton"
-          />
-          <app-button
-            v-if="verifyingState === 'unverified'"
-            class="verify-signature-form__button"
-            color="error"
-            scheme="flat"
-            :icon-left="$icons.xCircle"
-            :text="$t('verify-signature-form.unverified-btn')"
-            @mouseenter="resetVerifyingButton"
           />
           <app-button
             class="verify-signature-form__button"
@@ -73,15 +66,9 @@
 <script lang="ts" setup>
 import { useFormValidation } from '@/composables'
 import { InputField, TextareaField, RadioButtonField } from '@/fields'
-import {
-  address,
-  hexToASCII,
-  required,
-  hexadecimal,
-  ErrorHandler,
-} from '@/helpers'
+import { address, required, hexadecimal, ErrorHandler } from '@/helpers'
 import { type FieldOption, type DecodeType } from '@/types'
-import { verifyMessage, getAddress } from 'ethers'
+import { getAddress, recoverAddress, toUtf8Bytes } from 'ethers'
 import { i18n } from '~/plugins/localization'
 
 type VerifyingState = 'idle' | 'verified' | 'unverified'
@@ -119,9 +106,9 @@ const { isFormValid, getFieldErrorMessage, touchField, validationController } =
 const verifySignature = () => {
   if (!isFormValid()) return
   try {
-    const messageToCheck =
-      form.messageMode === 'hex' ? hexToASCII(form.message) : form.message
-    const signerAddr = verifyMessage(messageToCheck, form.signature)
+    const messageToVerify =
+      form.messageMode === 'hex' ? form.message : toUtf8Bytes(form.message)
+    const signerAddr = recoverAddress(messageToVerify, form.signature)
     if (signerAddr !== getAddress(form.accountAddress)) {
       verifyingState.value = 'unverified'
       return
@@ -133,29 +120,8 @@ const verifySignature = () => {
   }
 }
 
-// hoverCounter and resetVerifyingButton() helps to implement
-// reset verifying message only on second hover
-// it needs 'cause first hover immediately hide state button
-enum HOVER_ENUMS {
-  noHovers,
-  hoveredOnce,
-}
-const hoverCounter = ref(HOVER_ENUMS.noHovers)
-
-const resetVerifyingButton = () => {
-  switch (hoverCounter.value) {
-    case HOVER_ENUMS.noHovers:
-      hoverCounter.value = HOVER_ENUMS.hoveredOnce
-      break
-    case HOVER_ENUMS.hoveredOnce:
-      resetVerifyingState()
-      break
-  }
-}
-
 const resetVerifyingState = () => {
   verifyingState.value = 'idle'
-  hoverCounter.value = HOVER_ENUMS.noHovers
 }
 
 const resetForm = () => {

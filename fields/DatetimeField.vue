@@ -192,6 +192,7 @@ $z-index-btn: 1;
   right: 0;
   padding-bottom: var(--app-padding-bottom);
   width: min-content;
+  z-index: $z-index-btn;
 
   @include respond-to(small) {
     position: static;

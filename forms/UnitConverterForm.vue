@@ -35,16 +35,10 @@ type UnitConverterFormKeys = keyof typeof form
 
 const form = reactive({
   wei: '',
-  kwei: '',
-  mwei: '',
   gwei: '',
   finney: '',
   szabo: '',
   ether: '',
-  kether: '',
-  mether: '',
-  gether: '',
-  tether: '',
 })
 
 const { getFieldErrorMessage, touchField, isFormValid } = useFormValidation(

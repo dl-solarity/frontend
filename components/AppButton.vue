@@ -20,9 +20,9 @@
         </span>
       </template>
       <app-icon
-        v-if="buttonIconRight"
+        v-if="iconRight"
         class="app-button__icon-right"
-        :name="buttonIconRight"
+        :name="iconRight"
       />
     </nuxt-link>
   </template>
@@ -42,9 +42,9 @@
         </span>
       </template>
       <app-icon
-        v-if="buttonIconRight"
+        v-if="iconRight"
         class="app-button__icon-right"
-        :name="buttonIconRight"
+        :name="iconRight"
       />
     </a>
   </template>
@@ -70,9 +70,9 @@
         </span>
       </template>
       <app-icon
-        v-if="buttonIconRight"
+        v-if="iconRight"
         class="app-button__icon-right"
-        :name="buttonIconRight"
+        :name="iconRight"
       />
     </button>
   </template>
@@ -138,15 +138,7 @@ const buttonClasses = computed(() => [
 ])
 
 const buttonIconLeft = computed(() =>
-  props.isLoading && ((!props.iconLeft && !props.iconRight) || props.iconLeft)
-    ? ICON_NAMES.spinner
-    : props.iconLeft,
-)
-
-const buttonIconRight = computed(() =>
-  props.isLoading && !props.iconLeft && props.iconRight
-    ? ICON_NAMES.spinner
-    : props.iconRight,
+  props.isLoading ? ICON_NAMES.spinner : props.iconLeft,
 )
 
 const buttonType = computed<ButtonType>(
@@ -517,14 +509,18 @@ const buttonType = computed<ButtonType>(
   }
 }
 
-.app-button__icon-left,
-.app-button__icon-right {
+.app-button__icon-left {
   height: toRem(20);
   width: toRem(20);
 
   .app-button--loading & {
     animation: spin 2s linear infinite;
   }
+}
+
+.app-button__icon-right {
+  height: toRem(20);
+  width: toRem(20);
 }
 
 .app-button__text {
