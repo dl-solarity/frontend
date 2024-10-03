@@ -1,7 +1,13 @@
 <template>
   <form class="date-form" @submit.prevent>
     <div class="date-form__input">
-      <h3>{{ $t('date-form.input-title') }}</h3>
+      <div class="date-form__input-title-wrp">
+        <h3>{{ $t('date-form.input-title') }}</h3>
+        <datetime-field
+          :model-value="datetimeFieldTimestamp"
+          @update:model-value="onUpdateDatetimeFieldTimestamp"
+        />
+      </div>
       <div class="date-form__input-fields">
         <input-field
           v-for="(_, key) in form"
@@ -14,10 +20,6 @@
           @blur="touchField(key)"
         />
       </div>
-      <datetime-field
-        :model-value="datetimeFieldTimestamp"
-        @update:model-value="onUpdateDatetimeFieldTimestamp"
-      />
     </div>
     <div class="date-form__divider" />
     <div class="date-form__output">
@@ -160,6 +162,11 @@ const outputItems = computed(() => [
 .date-form__output,
 .date-form__input {
   @include solidity-tools-form-part;
+}
+
+.date-form__input-title-wrp {
+  display: flex;
+  justify-content: space-between;
 }
 
 .date-form__divider {
