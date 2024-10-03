@@ -294,7 +294,7 @@
     "message-label": "Signing message",
     "message-placeholder": "Enter the original message",
     "signature-label": "Signature hash",
-    "signature-placeholder": "Enter the hash of signed message",
+    "signature-placeholder": "Enter the signature hash (65 bytes)",
     "submit-btn": "Check signature",
     "alert-success": "The message verified successfully!",
     "alert-error": "The message verification failed!",
