@@ -288,9 +288,7 @@
     "ecrecover-secp256k1-tab": "Secp256k1 Recovery Tool"
   },
   "verify-signature-form": {
-    "input-title": "Verify signature",
-    "verified": "Message signature verified",
-    "not-verified": "The Message Signature Verification Failed!",
+    "input-title": "Verify ECDSA signature",
     "account-address-label": "Signer address",
     "account-address-placeholder": "Enter the signer address",
     "message-label": "Signing message",
@@ -298,8 +296,8 @@
     "signature-label": "Signature hash",
     "signature-placeholder": "Enter the hash of signed message",
     "submit-btn": "Check signature",
-    "alert-success": "The message is succesfully verified!",
-    "alert-error": "The message is not verified!",
+    "alert-success": "The message verified successfully!",
+    "alert-error": "The message verification failed!",
     "reset-btn": "Reset form"
   }
 }
