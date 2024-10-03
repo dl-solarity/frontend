@@ -2,8 +2,11 @@
   <form class="date-form" @submit.prevent>
     <div class="date-form__input">
       <div class="date-form__input-title-wrp">
-        <h3>{{ $t('date-form.input-title') }}</h3>
+        <h3 class="date-form__input-title">
+          {{ $t('date-form.input-title') }}
+        </h3>
         <datetime-field
+          class="date-form__input-date-field"
           :model-value="datetimeFieldTimestamp"
           @update:model-value="onUpdateDatetimeFieldTimestamp"
         />
@@ -165,8 +168,29 @@ const outputItems = computed(() => [
 }
 
 .date-form__input-title-wrp {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(toRem(60), 1fr));
+  gap: toRem(8);
+
+  @include respond-to(small) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.date-form__input-title {
+  grid-column: span 4;
+
+  @include respond-to(small) {
+    grid-column: span 1;
+  }
+}
+
+.date-form__input-date-field {
+  grid-column: 6;
+
+  @include respond-to(small) {
+    grid-column: span 1;
+  }
 }
 
 .date-form__divider {
