@@ -299,5 +299,14 @@
     "alert-success": "The message verified successfully!",
     "alert-error": "The message verification failed!",
     "reset-btn": "Reset form"
+  },
+  "poseidon-form": {
+    "input-title": "Poseidon16 function",
+    "arg-label": "Argument #{idx}",
+    "arg-placeholder": "Enter argument",
+    "cannot-hash-more": "Cannot hash more than {max} elements",
+    "add-arg-btn": "Add argument",
+    "decoded-hash-label": "Decoded Hash",
+    "output-title": "Output"
   }
 }
