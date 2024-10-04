@@ -5,12 +5,6 @@
         <h3 class="poseidon-form__title">
           {{ $t('poseidon-form.input-title') }}
         </h3>
-        <!-- <textarea-field
-        v-model="form.text"
-        :label="$t('poseidon-form.text-title')"
-        :error-message="getFieldErrorMessage('text')"
-        @blur="touchField('text')"
-      /> -->
       </div>
       <div v-for="(arg, idx) in form.args" :key="arg.id">
         <input-field
@@ -51,7 +45,7 @@
       <h3>{{ $t('poseidon-form.output-title') }}</h3>
       <div>
         <p class="poseidon-form__output-item-label">
-          {{ $t('poseidon-form.decoded-hash-label') }}
+          {{ $t('poseidon-form.hash-label') }}
         </p>
         <app-copy :value="result">
           <p class="poseidon-form__output-item-value">
@@ -60,7 +54,7 @@
         </app-copy>
       </div>
     </div>
-    <!-- <div class="poseidon-form__share-btn-wrp">
+    <div class="poseidon-form__share-btn-wrp">
       <app-button
         modification="text"
         :text="
@@ -71,10 +65,10 @@
         :icon-right="isUrlCopied ? $icons.checkDouble : ''"
         @click="onShareBtnClick"
       />
-    </div> -->
-    <!-- <div v-if="isInitializing" class="poseidon-form__loader-wrp">
+    </div>
+    <div v-if="isInitializing" class="poseidon-form__loader-wrp">
       <app-loader />
-    </div> -->
+    </div>
   </form>
 </template>
 
@@ -83,12 +77,20 @@ import { v4 as uuidv4 } from 'uuid'
 import { InputField } from '@/fields'
 import { useNotifications } from '@/composables'
 import { i18n } from '~/plugins/localization'
-import { buildPoseidonOpt } from 'circomlibjs'
-// import { hexlify } from 'ethers'
 import { useFormValidation } from '@/composables'
-import { required, numeric } from '@/helpers'
-
-const poseidonHash = await buildPoseidonOpt()
+import {
+  required,
+  numeric,
+  ErrorHandler,
+  copyToClipboard,
+  sleep,
+} from '@/helpers'
+import { hexlify } from 'ethers'
+import { ROUTE_NAMES } from '@/enums'
+import { linkShortener } from '@/services'
+import { COPIED_DURING_MS } from '@/constants'
+import { runtimeErrors } from '@/errors'
+import { Poseidon } from 'circomlibjs'
 
 const { showToast } = useNotifications()
 const { t } = i18n.global
@@ -98,6 +100,14 @@ type FuncArg = {
   value: string
   label: string
 }
+
+const poseidonHash = ref<Poseidon>()
+const isInitializing = ref(false)
+const isUrlCopied = ref(false)
+
+onBeforeMount(() => {
+  init()
+})
 
 const MAX_FIELDS_QUANTITY = 16
 
@@ -122,6 +132,36 @@ const { getFieldErrorMessage, isFormValid, touchField } = useFormValidation(
   rules,
 )
 
+const router = useRouter()
+
+const routePathOfEncoder = computed<string>(() => {
+  const { path } = router.resolve({
+    name: ROUTE_NAMES.hashFunctionPoseidon16Id,
+  })
+
+  return path
+})
+
+const onShareBtnClick = async (): Promise<void> => {
+  try {
+    const { id } = await linkShortener.createLink(
+      {
+        args: form.args,
+      },
+      routePathOfEncoder.value,
+    )
+
+    history.replaceState(null, '', `${routePathOfEncoder.value}/${id}`)
+
+    await copyToClipboard(window.location.href)
+    isUrlCopied.value = true
+    await sleep(COPIED_DURING_MS)
+    isUrlCopied.value = false
+  } catch (error) {
+    ErrorHandler.process(error)
+  }
+}
+
 const addArg = (idxTo: number) => {
   if (idxTo > MAX_FIELDS_QUANTITY - 1) {
     showToast(
@@ -138,8 +178,38 @@ const removeArg = (id: FuncArg['id']) => {
   form.args = form.args.filter(arg => arg.id !== id)
 }
 
+const init = async (): Promise<void> => {
+  isInitializing.value = true
+
+  if (!poseidonHash.value) {
+    const { buildPoseidon } = await import('circomlibjs')
+    poseidonHash.value = await buildPoseidon()
+  }
+
+  try {
+    const { id } = router.currentRoute.value.params
+    if (id && typeof id === 'string') {
+      const { attributes } = await linkShortener.getDataByLink(id)
+
+      if (attributes.path !== routePathOfEncoder.value)
+        throw new runtimeErrors.IncompatibleDataReceivedError()
+
+      Object.assign(form, {
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        args: attributes.value?.args,
+      })
+    }
+  } catch (error) {
+    ErrorHandler.process(error)
+    await router.replace({ name: ROUTE_NAMES.hashFunctionPoseidon16Id })
+  } finally {
+    isInitializing.value = false
+  }
+}
+
 watch(form, async () => {
-  if (!isFormValid()) {
+  if (!isFormValid() || !poseidonHash.value) {
     result.value = ''
     return
   }
@@ -148,12 +218,10 @@ watch(form, async () => {
     return [...accumulator, Number(currentValue.value)]
   }, [] as number[])
 
-  // console.log(poseidonHash(inputs))
-  result.value = Buffer.from(poseidonHash(inputs)).toString('hex')
+  result.value = hexlify(poseidonHash.value(inputs))
 })
 </script>
 
-<!-- TODO: recheck styles -->
 <style lang="scss" scoped>
 .poseidon-form {
   @include solidity-tools-form;

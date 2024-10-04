@@ -306,7 +306,9 @@
     "arg-placeholder": "Enter argument",
     "cannot-hash-more": "Cannot hash more than {max} elements",
     "add-arg-btn": "Add argument",
-    "decoded-hash-label": "Decoded Hash",
-    "output-title": "Output"
+    "hash-label": "Hash",
+    "output-title": "Output",
+    "share-btn": "Copy link to share",
+    "share-btn--copied": "Link copied"
   }
 }

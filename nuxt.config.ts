@@ -1,7 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
-import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 
 const lifecycle = process.env.npm_lifecycle_event
@@ -121,22 +120,10 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            circomlibjs: ['circomlibjs'],
-          },
-        },
-      },
-    },
     plugins: [
       createSvgIconsPlugin({
         iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
         symbolId: '[name]',
-      }),
-      visualizer({
-        open: true,
       }),
       nodePolyfills({
         include: ['buffer'],
@@ -154,6 +141,8 @@ export default defineNuxtConfig({
     },
     resolve: {
       alias: {
+        // To exclude unused poseidon_constants.js from bundle
+        circomlibjs: '/node_modules/circomlibjs/src/poseidon_wasm.js',
         '@distributedlab/fetcher':
           '/node_modules/@distributedlab/fetcher/dist/esm/index.js',
       },
