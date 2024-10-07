@@ -47,7 +47,6 @@
     "loglevel": "^1.8.0",
     "postcss": "^8.4.16",
     "prettier": "^2.7.1",
-    "rollup-plugin-visualizer": "^5.12.0",
     "sass": "^1.54.8",
     "stylelint": "^14.11.0",
     "stylelint-config-standard-scss": "^5.0.0",
