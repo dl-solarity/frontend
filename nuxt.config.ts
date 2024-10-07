@@ -1,6 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import path from 'path'
 
 const lifecycle = process.env.npm_lifecycle_event
@@ -125,9 +124,6 @@ export default defineNuxtConfig({
         iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
         symbolId: '[name]',
       }),
-      nodePolyfills({
-        include: ['buffer'],
-      }),
     ],
     css: {
       preprocessorOptions: {
@@ -153,7 +149,7 @@ export default defineNuxtConfig({
 
   // vueuse
   vueuse: {
-    ssrHandlers: true,
+    // ssrHandlers: true,
   },
 
   nitro: {

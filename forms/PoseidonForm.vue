@@ -13,7 +13,7 @@
             scheme="none"
             modification="none"
             color="none"
-            :disabled="form.args.length === MAX_FIELDS_QUANTITY"
+            :disabled="isAddButtonDisabled"
             :icon-left="$icons.plus"
             @click="addArg(idx)"
           />
@@ -44,9 +44,13 @@
       </div>
 
       <app-button
-        v-if="form.args.length < MAX_FIELDS_QUANTITY"
         scheme="none"
-        :text="$t('poseidon-form.add-arg-btn')"
+        :disabled="isAddButtonDisabled"
+        :text="
+          isAddButtonDisabled
+            ? $t('poseidon-form.add-arg-btn--max')
+            : $t('poseidon-form.add-arg-btn')
+        "
         :icon-left="$icons.plus"
         @click="addArg(form.args.length)"
       />
@@ -94,6 +98,7 @@ import {
   ErrorHandler,
   isNumericOrHexadecimal,
   copyToClipboard,
+  maxBn128Value,
   sleep,
 } from '@/helpers'
 import { hexlify } from 'ethers'
@@ -136,7 +141,7 @@ const result = ref('')
 
 const rules = computed(() => ({
   args: Array(form.args.length).fill({
-    value: { required, isNumericOrHexadecimal },
+    value: { required, isNumericOrHexadecimal, maxBn128Value },
   }),
 }))
 
@@ -154,6 +159,10 @@ const routePathOfEncoder = computed<string>(() => {
 
   return path
 })
+
+const isAddButtonDisabled = computed(
+  () => form.args.length === MAX_FIELDS_QUANTITY,
+)
 
 const onShareBtnClick = async (): Promise<void> => {
   try {
