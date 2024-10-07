@@ -15,6 +15,7 @@
     "field-error_binary": "Field must be a binary number with prefix \"0b\"",
     "field-error_hexadecimal": "Field must be a hexadecimal with prefix \"0x\"",
     "field-error_hexadecimalOrEmpty": "Field must be a hexadecimal with prefix \"0x\"",
+    "field-error_isNumericOrHexadecimal": "Field must be a hexadecimal with prefix \"0x\" or a number",
     "field-error_octal": "Field must be a octal number with prefix \"0o\"",
     "field-error_contractFuncName": "Field must be a valid function name",
     "field-error_functionSignature": "Field must be a valid function signature",
@@ -301,7 +302,7 @@
     "reset-btn": "Reset form"
   },
   "poseidon-form": {
-    "input-title": "Poseidon16 function",
+    "input-title": "Poseidon function",
     "arg-label": "Argument #{idx}",
     "arg-placeholder": "Enter argument",
     "cannot-hash-more": "Cannot hash more than {max} elements",

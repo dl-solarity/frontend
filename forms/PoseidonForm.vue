@@ -7,33 +7,44 @@
         </h3>
       </div>
       <div v-for="(arg, idx) in form.args" :key="arg.id">
-        <input-field
-          v-model="arg.value"
-          type="number"
-          :label="$t('poseidon-form.arg-label', { idx: idx + 1 })"
-          :placeholder="$t('poseidon-form.arg-placeholder')"
-          :error-message="getFieldErrorMessage(`args[${idx}].value`)"
-          @blur="touchField(`args[${idx}].value`)"
-        >
-          <template #nodeRight>
-            <button
-              v-if="form.args.length > 1"
-              class="poseidon-form__field-btn"
-              @click="removeArg(arg.id)"
-            >
-              <app-icon
-                :class="[
-                  'poseidon-form__field-btn-icon',
-                  'poseidon-form__field-btn-icon--x-mark',
-                ]"
-                :name="$icons.x"
-              />
-            </button>
-          </template>
-        </input-field>
+        <div class="poseidon-form__input-wrp">
+          <app-button
+            class="poseidon-form__arg-add-btn"
+            scheme="none"
+            modification="none"
+            color="none"
+            :disabled="form.args.length === MAX_FIELDS_QUANTITY"
+            :icon-left="$icons.plus"
+            @click="addArg(idx)"
+          />
+          <input-field
+            v-model="arg.value"
+            :label="$t('poseidon-form.arg-label', { idx: idx + 1 })"
+            :placeholder="$t('poseidon-form.arg-placeholder')"
+            :error-message="getFieldErrorMessage(`args[${idx}].value`)"
+            @blur="touchField(`args[${idx}].value`)"
+          >
+            <template #nodeRight>
+              <button
+                v-if="form.args.length > 1"
+                class="poseidon-form__field-btn"
+                @click="removeArg(arg.id)"
+              >
+                <app-icon
+                  :class="[
+                    'poseidon-form__field-btn-icon',
+                    'poseidon-form__field-btn-icon--x-mark',
+                  ]"
+                  :name="$icons.x"
+                />
+              </button>
+            </template>
+          </input-field>
+        </div>
       </div>
 
       <app-button
+        v-if="form.args.length < MAX_FIELDS_QUANTITY"
         scheme="none"
         :text="$t('poseidon-form.add-arg-btn')"
         :icon-left="$icons.plus"
@@ -80,8 +91,8 @@ import { i18n } from '~/plugins/localization'
 import { useFormValidation } from '@/composables'
 import {
   required,
-  numeric,
   ErrorHandler,
+  isNumericOrHexadecimal,
   copyToClipboard,
   sleep,
 } from '@/helpers'
@@ -91,10 +102,10 @@ import { linkShortener } from '@/services'
 import { COPIED_DURING_MS } from '@/constants'
 import { runtimeErrors } from '@/errors'
 import { Poseidon } from 'circomlibjs'
+import { usePoseidon } from '@/composables'
 
 const { showToast } = useNotifications()
 const { t } = i18n.global
-
 type FuncArg = {
   id: string
   value: string
@@ -102,14 +113,14 @@ type FuncArg = {
 }
 
 const poseidonHash = ref<Poseidon>()
-const isInitializing = ref(false)
+const isInitializing = ref(true)
 const isUrlCopied = ref(false)
 
 onBeforeMount(() => {
   init()
 })
 
-const MAX_FIELDS_QUANTITY = 16
+const MAX_FIELDS_QUANTITY = 6
 
 const form = reactive({
   args: [
@@ -124,7 +135,9 @@ const form = reactive({
 const result = ref('')
 
 const rules = computed(() => ({
-  args: Array(form.args.length).fill({ value: { required, numeric } }),
+  args: Array(form.args.length).fill({
+    value: { required, isNumericOrHexadecimal },
+  }),
 }))
 
 const { getFieldErrorMessage, isFormValid, touchField } = useFormValidation(
@@ -136,7 +149,7 @@ const router = useRouter()
 
 const routePathOfEncoder = computed<string>(() => {
   const { path } = router.resolve({
-    name: ROUTE_NAMES.hashFunctionPoseidon16Id,
+    name: ROUTE_NAMES.hashFunctionPoseidon6Id,
   })
 
   return path
@@ -182,8 +195,7 @@ const init = async (): Promise<void> => {
   isInitializing.value = true
 
   if (!poseidonHash.value) {
-    const { buildPoseidon } = await import('circomlibjs')
-    poseidonHash.value = await buildPoseidon()
+    poseidonHash.value = await usePoseidon()
   }
 
   try {
@@ -202,11 +214,17 @@ const init = async (): Promise<void> => {
     }
   } catch (error) {
     ErrorHandler.process(error)
-    await router.replace({ name: ROUTE_NAMES.hashFunctionPoseidon16Id })
+    await router.replace({ name: ROUTE_NAMES.hashFunctionPoseidon6Id })
   } finally {
     isInitializing.value = false
   }
 }
+
+const inputs = computed(() =>
+  form.args.reduce((accumulator, currentValue) => {
+    return [...accumulator, BigInt(currentValue.value)]
+  }, [] as bigint[]),
+)
 
 watch(form, async () => {
   if (!isFormValid() || !poseidonHash.value) {
@@ -214,11 +232,7 @@ watch(form, async () => {
     return
   }
 
-  const inputs = form.args.reduce((accumulator, currentValue) => {
-    return [...accumulator, Number(currentValue.value)]
-  }, [] as number[])
-
-  result.value = hexlify(poseidonHash.value(inputs))
+  result.value = hexlify(poseidonHash.value(inputs.value))
 })
 </script>
 
@@ -230,6 +244,41 @@ watch(form, async () => {
 .poseidon-form__output,
 .poseidon-form__input {
   @include solidity-tools-form-part;
+}
+
+.poseidon-form__input-wrp {
+  display: flex;
+  gap: toRem(16);
+  width: 100%;
+
+  @include respond-to(small) {
+    gap: toRem(8);
+  }
+}
+
+.poseidon-form .poseidon-form__arg-add-btn {
+  margin-top: calc(
+    var(--field-label-line-height) + var(--field-label-margin-bottom)
+  );
+  height: toRem(48);
+  width: toRem(48);
+  background: var(--field-bg-primary);
+  border: toRem(1) solid var(--field-border);
+  border-radius: var(--field-border-radius);
+  color: var(--primary-main);
+
+  &:not([disabled]):hover {
+    background: var(--field-bg-primary);
+    border: toRem(1) solid var(--field-border-hover);
+    color: var(--primary-main);
+  }
+
+  &:not([disabled]):focus,
+  &:not([disabled]):active {
+    background: var(--field-bg-primary);
+    border: toRem(1) solid var(--field-border-focus);
+    color: var(--primary-main);
+  }
 }
 
 .poseidon-form__field-btn {

@@ -13,7 +13,7 @@ import {
 import { ValidationRule } from '@vuelidate/core'
 import { createI18nMessage, MessageProps } from '@vuelidate/validators'
 import { ConstructorFragment, FunctionFragment } from 'ethers'
-import { get } from 'lodash-es'
+import { get, isFinite } from 'lodash-es'
 import { Ref } from 'vue'
 import { i18n } from '~/plugins/localization'
 
@@ -50,6 +50,10 @@ export const hex = <ValidationRule>withI18nMessage(helpers.regex(HEX_REGEX))
 export const hexadecimal = <ValidationRule>(
   withI18nMessage(helpers.regex(HEXADECIMAL_REGEX))
 )
+
+export const isNumericOrHexadecimal = <ValidationRule>withI18nMessage(value => {
+  return HEXADECIMAL_REGEX.test(value) || isFinite(Number(value))
+})
 
 export const hexadecimalOrEmpty = <ValidationRule>(
   withI18nMessage(helpers.regex(HEXADECIMAL_OR_EMPTY_REGEX))
