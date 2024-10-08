@@ -111,6 +111,7 @@ import { usePoseidon } from '@/composables'
 
 const { showToast } = useNotifications()
 const { t } = i18n.global
+
 type FuncArg = {
   id: string
   value: string
