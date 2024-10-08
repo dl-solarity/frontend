@@ -1,4 +1,3 @@
-\
 <template>
   <form class="duration-form">
     <div class="duration-form__input">
