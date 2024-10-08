@@ -229,19 +229,17 @@ const init = async (): Promise<void> => {
   }
 }
 
-const inputs = computed(() =>
-  form.args.reduce((accumulator, currentValue) => {
-    return [...accumulator, BigInt(currentValue.value)]
-  }, [] as bigint[]),
-)
-
 watch(form, async () => {
   if (!isFormValid() || !poseidonHash.value) {
     result.value = ''
     return
   }
 
-  result.value = hexlify(poseidonHash.value(inputs.value))
+  const inputs = form.args.reduce((accumulator, currentValue) => {
+    return [...accumulator, BigInt(currentValue.value)]
+  }, [] as bigint[])
+
+  result.value = hexlify(poseidonHash.value(inputs))
 })
 </script>
 
