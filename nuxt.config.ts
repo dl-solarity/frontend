@@ -165,6 +165,7 @@ export default defineNuxtConfig({
         '/hash-function/keccak256',
         '/hash-function/sha256',
         '/hash-function/ripemd160',
+        '/hash-function/poseidon6',
       ],
     },
   },
