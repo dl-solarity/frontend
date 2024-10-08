@@ -1,6 +1,9 @@
 import { PERIOD_IDS, PERIOD_CONSTANTS } from '@/enums'
-import { duration } from 'dayjs'
+import dayjs from 'dayjs'
+import DurationPlugin from 'dayjs/plugin/duration'
 import { Periods, PeriodKeys } from 'types/period.types'
+
+dayjs.extend(DurationPlugin)
 
 export const getTransformedPeriod = (dateString: string) => {
   const dateUnits = Object.entries(PERIOD_IDS)
@@ -26,7 +29,7 @@ export const getTransformedPeriod = (dateString: string) => {
 export const getNormalizedPeriod = (rawDuration: Periods): Periods => {
   const normalizedTime = { ...rawDuration }
   const seconds = getTotalDurationAsSeconds(rawDuration)
-  let totalDuration = duration(0)
+  let totalDuration = dayjs.duration(0)
 
   totalDuration = totalDuration.add(seconds, 'seconds')
 
@@ -55,7 +58,7 @@ export const getNormalizedPeriod = (rawDuration: Periods): Periods => {
 }
 
 export const getTotalDurationAsSeconds = (rawDuration: Periods) => {
-  let totalDuration = duration(0)
+  let totalDuration = dayjs.duration(0)
 
   totalDuration = totalDuration
     .add(rawDuration.seconds, 'seconds')
