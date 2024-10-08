@@ -1,12 +1,19 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// ffjavascript has no types in npm registry!
-// @ts-nocheck
+// Source: https://github.com/iden3/circomlibjs/blob/main/src/poseidon_wasm.js
+// DO NOT MODIFY!
 
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { getCurveFromName } from 'ffjavascript'
 
 import poseidonConstants from '@/constants/poseidon_constants_opt'
 import assert from 'assert'
-import { Poseidon, BigNumberish } from 'circomlibjs'
+
+export type BigNumberish = string | bigint | number | Uint8Array
+
+export interface Poseidon {
+  (arr: BigNumberish[], state?: BigNumberish, nOut?: number): Uint8Array
+  F: unknown
+}
 
 function unsringifyConstants(Fr, o) {
   if (typeof o == 'string' && /^[0-9]+$/.test(o)) {

@@ -61,15 +61,7 @@ export const hexadecimalOrEmpty = <ValidationRule>(
 )
 
 export const maxBn128Value = <ValidationRule>withI18nMessage(value => {
-  if (HEXADECIMAL_REGEX.test(value)) {
-    getBigInt(value) <= MAX_BN128_SAFE_VALUE
-  }
-
-  if (isFinite(Number(value))) {
-    return BigInt(value) <= MAX_BN128_SAFE_VALUE
-  }
-
-  return false
+  return getBigInt(value) <= MAX_BN128_SAFE_VALUE
 })
 
 export const binary = <ValidationRule>(

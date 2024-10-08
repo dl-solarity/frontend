@@ -139,10 +139,10 @@ export default defineNuxtConfig({
     },
     resolve: {
       alias: {
-        // HACK! As ffjavascript uses web-worker by default
-        //  which can't me invoked in browser,
-        //  we need to specify for Nuxt which bundle
-        //  of ffjavascript must be used
+        // HACK: ffjavascript runs in Node.js env by default
+        // and uses a web-worker package.
+        // As we use it only in client components
+        // we tell Vite always to use a browser version
         ffjavascript: '/node_modules/ffjavascript/build/browser.esm.js',
         '@distributedlab/fetcher':
           '/node_modules/@distributedlab/fetcher/dist/esm/index.js',

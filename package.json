@@ -34,7 +34,6 @@
     "@vue/eslint-config-typescript": "^11.0.0",
     "@vueuse/nuxt": "^10.2.1",
     "chalk": "^5.0.1",
-    "circomlibjs": "^0.1.7",
     "cross-env": "^7.0.3",
     "eslint": "8.22.0",
     "eslint-config-prettier": "^8.5.0",

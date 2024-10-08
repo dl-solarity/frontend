@@ -6,7 +6,7 @@
           {{ $t('poseidon-form.input-title') }}
         </h3>
       </div>
-      <div v-for="(arg, idx) in form.args" :key="arg.id">
+      <div v-for="(arg, idx) in form.fields" :key="arg.id">
         <div class="poseidon-form__input-wrp">
           <app-button
             class="poseidon-form__arg-add-btn"
@@ -21,12 +21,12 @@
             v-model="arg.value"
             :label="$t('poseidon-form.arg-label', { idx: idx + 1 })"
             :placeholder="$t('poseidon-form.arg-placeholder')"
-            :error-message="getFieldErrorMessage(`args[${idx}].value`)"
-            @blur="touchField(`args[${idx}].value`)"
+            :error-message="getFieldErrorMessage(`fields[${idx}].value`)"
+            @blur="touchField(`fields[${idx}].value`)"
           >
             <template #nodeRight>
               <button
-                v-if="form.args.length > 1"
+                v-if="form.fields.length > 1"
                 class="poseidon-form__field-btn"
                 @click="removeArg(arg.id)"
               >
@@ -52,7 +52,7 @@
             : $t('poseidon-form.add-arg-btn')
         "
         :icon-left="$icons.plus"
-        @click="addArg(form.args.length)"
+        @click="addArg(form.fields.length)"
       />
     </div>
     <div class="poseidon-form__divider" />
@@ -73,9 +73,9 @@
       <app-button
         modification="text"
         :text="
-          !isUrlCopied
-            ? $t('poseidon-form.share-btn')
-            : $t('poseidon-form.share-btn--copied')
+          isUrlCopied
+            ? $t('poseidon-form.share-btn--copied')
+            : $t('poseidon-form.share-btn')
         "
         :icon-right="isUrlCopied ? $icons.checkDouble : ''"
         @click="onShareBtnClick"
@@ -112,7 +112,7 @@ import { usePoseidon } from '@/composables'
 const { showToast } = useNotifications()
 const { t } = i18n.global
 
-type FuncArg = {
+type FormField = {
   id: string
   value: string
   label: string
@@ -129,19 +129,19 @@ onBeforeMount(() => {
 const MAX_FIELDS_QUANTITY = 6
 
 const form = reactive({
-  args: [
+  fields: [
     {
       label: '',
       value: '',
       id: uuidv4(),
     },
-  ] as FuncArg[],
+  ] as FormField[],
 })
 
 const result = ref('')
 
 const rules = computed(() => ({
-  args: Array(form.args.length).fill({
+  fields: Array(form.fields.length).fill({
     value: { required, isNumericOrHexadecimal, maxBn128Value },
   }),
 }))
@@ -162,14 +162,14 @@ const routePathOfEncoder = computed<string>(() => {
 })
 
 const isAddButtonDisabled = computed(
-  () => form.args.length === MAX_FIELDS_QUANTITY,
+  () => form.fields.length === MAX_FIELDS_QUANTITY,
 )
 
 const onShareBtnClick = async (): Promise<void> => {
   try {
     const { id } = await linkShortener.createLink(
       {
-        args: form.args,
+        args: form.fields,
       },
       routePathOfEncoder.value,
     )
@@ -193,12 +193,12 @@ const addArg = (idxTo: number) => {
     )
     return
   }
-  form.args.splice(idxTo, 0, { id: uuidv4(), value: '', label: '' })
-  touchField(`args[${idxTo}].value`)
+  form.fields.splice(idxTo, 0, { id: uuidv4(), value: '', label: '' })
+  touchField(`fields[${idxTo}].value`)
 }
 
-const removeArg = (id: FuncArg['id']) => {
-  form.args = form.args.filter(arg => arg.id !== id)
+const removeArg = (id: FormField['id']) => {
+  form.fields = form.fields.filter(field => field.id !== id)
 }
 
 const init = async (): Promise<void> => {
@@ -219,7 +219,7 @@ const init = async (): Promise<void> => {
       Object.assign(form, {
         /* eslint-disable @typescript-eslint/ban-ts-comment */
         // @ts-ignore
-        args: attributes.value?.args,
+        fields: attributes.value?.fields,
       })
     }
   } catch (error) {
@@ -236,8 +236,9 @@ watch(form, async () => {
     return
   }
 
-  const inputs = form.args.reduce((accumulator, currentValue) => {
-    return [...accumulator, BigInt(currentValue.value)]
+  const inputs = form.fields.reduce((accumulator, currentValue) => {
+    accumulator.push(BigInt(currentValue.value))
+    return accumulator
   }, [] as bigint[])
 
   result.value = hexlify(poseidonHash.value(inputs))
