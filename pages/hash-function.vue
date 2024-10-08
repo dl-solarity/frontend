@@ -25,7 +25,7 @@ enum TAB_IDS {
   keccak256 = 'keccak256',
   sha256 = 'sha256',
   ripemd160 = 'ripemd160',
-  poseidon6 = 'poseidon6',
+  poseidon16 = 'poseidon16',
 }
 
 const TAB_ITEMS: Tab[] = [
@@ -46,8 +46,8 @@ const TAB_ITEMS: Tab[] = [
   },
   {
     title: 'Poseidon (iden3)',
-    id: TAB_IDS.poseidon6,
-    route: { name: ROUTE_NAMES.hashFunctionPoseidon6Id },
+    id: TAB_IDS.poseidon16,
+    route: { name: ROUTE_NAMES.hashFunctionPoseidon16Id },
   },
 ]
 </script>

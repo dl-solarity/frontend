@@ -308,7 +308,7 @@
     "arg-placeholder": "Enter argument",
     "cannot-hash-more": "Cannot hash more than {max} elements",
     "add-arg-btn": "Add argument",
-    "add-arg-btn--max": "Maximum 6 arguments",
+    "add-arg-btn--max": "Maximum {max} arguments",
     "hash-label": "Hash",
     "output-title": "Output",
     "share-btn": "Copy link to share",

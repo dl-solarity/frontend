@@ -48,7 +48,7 @@
         :disabled="isAddButtonDisabled"
         :text="
           isAddButtonDisabled
-            ? $t('poseidon-form.add-arg-btn--max')
+            ? $t('poseidon-form.add-arg-btn--max', { max: MAX_FIELDS_QUANTITY })
             : $t('poseidon-form.add-arg-btn')
         "
         :icon-left="$icons.plus"
@@ -90,7 +90,7 @@
 <script lang="ts" setup>
 import { v4 as uuidv4 } from 'uuid'
 import { InputField } from '@/fields'
-import { Poseidon, useNotifications } from '@/composables'
+import { useNotifications } from '@/composables'
 import { i18n } from '~/plugins/localization'
 import { useFormValidation } from '@/composables'
 import {
@@ -101,15 +101,21 @@ import {
   maxBn128Value,
   sleep,
 } from '@/helpers'
-import { hexlify } from 'ethers'
+import { toQuantity } from 'ethers'
 import { ROUTE_NAMES } from '@/enums'
 import { linkShortener } from '@/services'
 import { COPIED_DURING_MS } from '@/constants'
 import { runtimeErrors } from '@/errors'
-import { usePoseidon } from '@/composables'
-
+import * as poseidon from 'poseidon-lite'
 const { showToast } = useNotifications()
 const { t } = i18n.global
+
+type PoseidonFunctions = {
+  [K in `poseidon${number}`]: (
+    input: (bigint | number | string)[],
+    nOuts?: number,
+  ) => bigint
+}
 
 type FormField = {
   id: string
@@ -117,7 +123,6 @@ type FormField = {
   label: string
 }
 
-const poseidonHash = ref<Poseidon>()
 const isInitializing = ref(true)
 const isUrlCopied = ref(false)
 
@@ -125,7 +130,7 @@ onBeforeMount(() => {
   init()
 })
 
-const MAX_FIELDS_QUANTITY = 6
+const MAX_FIELDS_QUANTITY = 16
 
 const form = reactive({
   fields: [
@@ -154,7 +159,7 @@ const router = useRouter()
 
 const routePathOfEncoder = computed<string>(() => {
   const { path } = router.resolve({
-    name: ROUTE_NAMES.hashFunctionPoseidon6Id,
+    name: ROUTE_NAMES.hashFunctionPoseidon16Id,
   })
 
   return path
@@ -203,10 +208,6 @@ const removeArg = (id: FormField['id']) => {
 const init = async (): Promise<void> => {
   isInitializing.value = true
 
-  if (!poseidonHash.value) {
-    poseidonHash.value = await usePoseidon()
-  }
-
   try {
     const id = router.currentRoute.value.params.id
     if (id && typeof id === 'string') {
@@ -223,14 +224,14 @@ const init = async (): Promise<void> => {
     }
   } catch (error) {
     ErrorHandler.process(error)
-    await router.replace({ name: ROUTE_NAMES.hashFunctionPoseidon6Id })
+    await router.replace({ name: ROUTE_NAMES.hashFunctionPoseidon16Id })
   } finally {
     isInitializing.value = false
   }
 }
 
 watch(form, async () => {
-  if (!isFormValid() || !poseidonHash.value) {
+  if (!isFormValid()) {
     result.value = ''
     return
   }
@@ -240,7 +241,9 @@ watch(form, async () => {
     return accumulator
   }, [] as bigint[])
 
-  result.value = hexlify(poseidonHash.value(inputs))
+  result.value = toQuantity(
+    (poseidon as PoseidonFunctions)[`poseidon${form.fields.length}`](inputs),
+  )
 })
 </script>
 
