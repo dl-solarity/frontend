@@ -90,7 +90,7 @@
 <script lang="ts" setup>
 import { v4 as uuidv4 } from 'uuid'
 import { InputField } from '@/fields'
-import { useNotifications } from '@/composables'
+import { Poseidon, useNotifications } from '@/composables'
 import { i18n } from '~/plugins/localization'
 import { useFormValidation } from '@/composables'
 import {
@@ -106,7 +106,6 @@ import { ROUTE_NAMES } from '@/enums'
 import { linkShortener } from '@/services'
 import { COPIED_DURING_MS } from '@/constants'
 import { runtimeErrors } from '@/errors'
-import { Poseidon } from 'circomlibjs'
 import { usePoseidon } from '@/composables'
 
 const { showToast } = useNotifications()
