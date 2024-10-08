@@ -408,7 +408,7 @@ const init = async (): Promise<void> => {
   isInitializing.value = true
 
   try {
-    const { id } = router.currentRoute.value.params
+    const id = router.currentRoute.value.params.id
     if (id && typeof id === 'string') {
       const { attributes } = await linkShortener.getDataByLink(id)
 

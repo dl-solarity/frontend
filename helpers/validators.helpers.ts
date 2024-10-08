@@ -12,12 +12,13 @@ import {
 } from '@vuelidate/validators'
 import { ValidationRule } from '@vuelidate/core'
 import { createI18nMessage, MessageProps } from '@vuelidate/validators'
-import { ConstructorFragment, FunctionFragment } from 'ethers'
-import { get } from 'lodash-es'
+import { ConstructorFragment, FunctionFragment, getBigInt } from 'ethers'
+import { get, isFinite } from 'lodash-es'
 import { Ref } from 'vue'
 import { i18n } from '~/plugins/localization'
 
 import { isAddress, isBytesLike } from 'ethers'
+import { MAX_BN128_SAFE_VALUE } from '@/constants/bn128.constants'
 
 const HASH_REGEX = /^0x[a-fA-F0-9]{64}$/
 const HEX_REGEX = /^0x[a-fA-F0-9]*$/
@@ -51,9 +52,17 @@ export const hexadecimal = <ValidationRule>(
   withI18nMessage(helpers.regex(HEXADECIMAL_REGEX))
 )
 
+export const isNumericOrHexadecimal = <ValidationRule>withI18nMessage(value => {
+  return HEXADECIMAL_REGEX.test(value) || isFinite(Number(value))
+})
+
 export const hexadecimalOrEmpty = <ValidationRule>(
   withI18nMessage(helpers.regex(HEXADECIMAL_OR_EMPTY_REGEX))
 )
+
+export const maxBn128Value = <ValidationRule>withI18nMessage(value => {
+  return getBigInt(value) <= MAX_BN128_SAFE_VALUE
+})
 
 export const binary = <ValidationRule>(
   withI18nMessage(helpers.regex(BINARY_REGEX))

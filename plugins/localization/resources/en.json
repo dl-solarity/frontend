@@ -15,6 +15,8 @@
     "field-error_binary": "Field must be a binary number with prefix \"0b\"",
     "field-error_hexadecimal": "Field must be a hexadecimal with prefix \"0x\"",
     "field-error_hexadecimalOrEmpty": "Field must be a hexadecimal with prefix \"0x\"",
+    "field-error_isNumericOrHexadecimal": "Field must be a hexadecimal with prefix \"0x\" or a decimal number",
+    "field-error_maxBn128Value": "The number cannot be greater than the prime field order of the BN128 elliptic curve",
     "field-error_octal": "Field must be a octal number with prefix \"0o\"",
     "field-error_contractFuncName": "Field must be a valid function name",
     "field-error_functionSignature": "Field must be a valid function signature",
@@ -252,11 +254,11 @@
   },
   "projects-info": {
     "documentation-title": "Documentation",
-    "documentation-message":  "Learn more about the project and how to utilize the library",
+    "documentation-message": "Learn more about the project and how to utilize the library",
     "audits-title": "Audits",
-    "audits-message":  "The list of our public Solidity audits",
+    "audits-message": "The list of our public Solidity audits",
     "github-title": "GitHub",
-    "github-message":  "Check out the repos and contribute. We would love that!",
+    "github-message": "Check out the repos and contribute. We would love that!",
     "solidity-tools-title": "Solidity tools",
     "solidity-tools-message": "Everything you need for daily Solidity research and development",
     "visit-btn": "Visit"
@@ -299,5 +301,17 @@
     "alert-success": "The message verified successfully!",
     "alert-error": "The message verification failed!",
     "reset-btn": "Reset form"
+  },
+  "poseidon-form": {
+    "input-title": "Poseidon (iden3) function",
+    "arg-label": "Argument #{idx}",
+    "arg-placeholder": "Enter argument",
+    "cannot-hash-more": "Cannot hash more than {max} elements",
+    "add-arg-btn": "Add argument",
+    "add-arg-btn--max": "Maximum 6 arguments",
+    "hash-label": "Hash",
+    "output-title": "Output",
+    "share-btn": "Copy link to share",
+    "share-btn--copied": "Link copied"
   }
 }
