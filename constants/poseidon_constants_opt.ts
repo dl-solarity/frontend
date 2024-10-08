@@ -1,5 +1,6 @@
 // Generated optimized constants for 6 inputs with:
 // https://github.com/iden3/circomlibjs/blob/main/tools/poseidon_optimize_constants.js
+// DON'T  MODIFY!
 
 export default {
   C: [
