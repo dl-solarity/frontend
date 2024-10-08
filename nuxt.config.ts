@@ -139,7 +139,8 @@ export default defineNuxtConfig({
     },
     resolve: {
       alias: {
-        // HACK! As ffjavascript uses web-worker which can't me invoked in SSR,
+        // HACK! As ffjavascript uses web-worker by default
+        //  which can't me invoked in browser,
         //  we need to specify for Nuxt which bundle
         //  of ffjavascript must be used
         ffjavascript: '/node_modules/ffjavascript/build/browser.esm.js',

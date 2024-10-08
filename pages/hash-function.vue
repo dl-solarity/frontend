@@ -45,7 +45,7 @@ const TAB_ITEMS: Tab[] = [
     route: { name: ROUTE_NAMES.hashFunctionRipemd160Id },
   },
   {
-    title: 'Poseidon',
+    title: 'Poseidon (iden3)',
     id: TAB_IDS.poseidon6,
     route: { name: ROUTE_NAMES.hashFunctionPoseidon6Id },
   },

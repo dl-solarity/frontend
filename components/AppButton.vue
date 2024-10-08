@@ -269,7 +269,7 @@ const buttonType = computed<ButtonType>(
     --app-button-text-focused: var(--app-button-none-text-focused);
     --app-button-text-active: var(--app-button-none-text-active);
 
-    --app-button-disabled-text: var(--disable-primary-main);
+    --app-button-disabled-text: var(--primary-main);
   }
 
   &--primary {
