@@ -209,7 +209,7 @@ const init = async (): Promise<void> => {
   }
 
   try {
-    const { id } = router.currentRoute.value.params
+    const id = router.currentRoute.value.params.id
     if (id && typeof id === 'string') {
       const { attributes } = await linkShortener.getDataByLink(id)
 
@@ -219,7 +219,7 @@ const init = async (): Promise<void> => {
       Object.assign(form, {
         /* eslint-disable @typescript-eslint/ban-ts-comment */
         // @ts-ignore
-        fields: attributes.value?.fields,
+        fields: attributes.value?.args,
       })
     }
   } catch (error) {
