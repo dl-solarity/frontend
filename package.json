@@ -41,7 +41,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^9.8.0",
     "eslint-plugin-vue-i18n": "^0.3.0",
-    "ffjavascript": "^0.3.0",
     "loglevel": "^1.8.0",
     "poseidon-lite": "^0.3.0",
     "postcss": "^8.4.16",

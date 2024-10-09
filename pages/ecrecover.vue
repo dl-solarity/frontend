@@ -15,7 +15,6 @@ import { definePageMeta } from '#imports'
 import { ROUTE_NAMES } from '@/enums'
 import { i18n } from '~/plugins/localization'
 import { type Tab } from '@/types'
-import { computed } from 'vue'
 
 definePageMeta({
   layout: 'solidity-tools',
