@@ -2,50 +2,42 @@
 
 # Solarity Front End
 
-**Everything about Solarity ecosystem.**
+**Everything about Solarity ecosystem and more.**
 
-## Environment Variables
+## What
 
-Create a `.env` file in the root of the project and add the following environment variables:
-- **`VITE_ENVIRONMENT`** — Specifies the environment (`development` or `production`).
-- **`VITE_PORT`** — The available port number for the app.
-- **`VITE_APP_API_URL`** — API base URL (e.g., `'https://api.stage.solarity.dev'`).
-- **`VITE_APP_NAME`** — Application name (e.g., `'Solarity'`).
-- **`VITE_APP_COMPANY_URL`** — Company website URL (e.g., `'https://distributedlab.com'`).
-- **`VITE_APP_DOCUMENTATION_URL`** — Documentation URL (e.g., `'https://docs.stage.solarity.dev'`).
-- **`VITE_APP_GITHUB_URL`** — GitHub repository URL (e.g., `'https://github.com/dl-solarity'`).
+This repository hosts the Solarity front end website that is available [here](https://solarity.dev/). One of the amazing features of the site is Solidity tools:
 
-The example of `.env` file can be found in the [`.env.example`](.env.example) file.
+- **ABI utilities**: `ABI` / `packed` encoder and decoder.
+- **Hash functions**: `keccak256`, `sha256`, `ripemd160`, `poseidon16`.
+- **Coverters**: `ether` units converter, number converter, hex to ascii converter.
+- **UNIX epoch tools**: date to timestamp and timestamp to human data, duration converter.
+- **Address utils**: set of common addesses, `create` and `create2` address predictors.
+- **Constants page**: set of common `bytes32` constants.
+- **Ecrecover tool**: check ECDSA signatures.
 
-## Setup
+## Development guide
 
-Make sure to install the dependencies:
+1. Create the `.env` file in the root of the repository following the example [`.env.example`](.env.example) file.
+
+2. Make sure to install the necessary dependencies:
 
 ```bash
-# yarn
 yarn install
 ```
 
-## Development Server
-
-Start the development server on http://localhost:3000
+3. Serve the application:
 
 ```bash
-npm run dev
+yarn start # development server
+
+yarn build # production build
+
+yarn preview # preview the production build
 ```
 
-## Production
+4. Check out the [nuxtjs documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
 
-Build the application for production:
+## Disclaimer
 
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+GLHF!
