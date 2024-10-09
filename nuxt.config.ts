@@ -1,6 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import path from 'path'
 
 const lifecycle = process.env.npm_lifecycle_event
@@ -125,7 +124,6 @@ export default defineNuxtConfig({
         iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
         symbolId: '[name]',
       }),
-      nodePolyfills({ include: ['buffer'] }),
     ],
     css: {
       preprocessorOptions: {
@@ -139,11 +137,6 @@ export default defineNuxtConfig({
     },
     resolve: {
       alias: {
-        // HACK: ffjavascript runs in Node.js env by default
-        // and uses a web-worker package.
-        // As we use it only in client components
-        // we tell Vite always to use a browser version
-        ffjavascript: '/node_modules/ffjavascript/build/browser.esm.js',
         '@distributedlab/fetcher':
           '/node_modules/@distributedlab/fetcher/dist/esm/index.js',
       },
@@ -165,7 +158,7 @@ export default defineNuxtConfig({
         '/hash-function/keccak256',
         '/hash-function/sha256',
         '/hash-function/ripemd160',
-        '/hash-function/poseidon6',
+        '/hash-function/poseidon16',
       ],
     },
   },

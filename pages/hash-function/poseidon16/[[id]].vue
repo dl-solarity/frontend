@@ -1,7 +1,5 @@
 <template>
-  <client-only>
-    <poseidon-form />
-  </client-only>
+  <poseidon-form />
 </template>
 
 <script lang="ts" setup>

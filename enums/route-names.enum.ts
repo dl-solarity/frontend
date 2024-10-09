@@ -16,7 +16,7 @@ export enum ROUTE_NAMES {
   hashFunctionKeccak256Id = 'hash-function-keccak256-id',
   hashFunctionSha256Id = 'hash-function-sha256-id',
   hashFunctionRipemd160Id = 'hash-function-ripemd160-id',
-  hashFunctionPoseidon6Id = 'hash-function-poseidon6-id',
+  hashFunctionPoseidon16Id = 'hash-function-poseidon16-id',
   addressUtils = 'address-utils',
   addressUtilsCommonAddresses = 'address-utils-common-addresses',
   addressUtilsCreate = 'address-utils-create',
