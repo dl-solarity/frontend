@@ -1,5 +1,5 @@
 <template>
-  <form class="poseidon-form">
+  <form class="poseidon-form" @submit.prevent>
     <div class="poseidon-form__input">
       <div class="poseidon-form__title-wrp">
         <h3 class="poseidon-form__title">
