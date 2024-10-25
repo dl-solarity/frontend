@@ -33,6 +33,12 @@ export default defineNuxtConfig({
         { property: 'og:locale', content: 'en_GB' },
         { property: 'og:type', content: 'website' },
         { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:image', content: '/branding/og-image.png' },
+        { name: 'twitter:title', content: 'Solarity' },
+        {
+          name: 'twitter:description',
+          content: 'Solarity - your open source Solidity ecosystem',
+        },
       ],
 
       link: [
