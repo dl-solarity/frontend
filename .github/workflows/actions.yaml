@@ -29,7 +29,7 @@ jobs:
           echo $GITHUB_SHA
       - name: Run Build
         run: |
-          . $(werf ci-env github --as-file) 
+          . $(werf ci-env github --as-file)
           echo "${{ secrets.STAGE_ENV }}" > .env.deploy
           werf export web --tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA --dev
   stage-deploy:
@@ -43,5 +43,4 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" > config
           mv config ~/.kube/
           ls ~/.kube/
-          kubectl set image deployment/solarity-stage-webclient  webclient=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA -n stage	
-    
+          kubectl set image deployment/solarity-stage-webclient  webclient=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA -n stage
