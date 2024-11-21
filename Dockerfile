@@ -1,22 +1,19 @@
-FROM node:14-alpine3.11 as builder
-RUN apk --no-cache --update --virtual build-dependencies add \
-    python \
-    make \
-    g++
+FROM node:18-alpine AS builder
 
-ARG BUILD_VERSION
-WORKDIR /dist
-COPY package*.json ./
-COPY yarn*.lock ./
-RUN true \
- && yarn autoclean --init \
- && yarn autoclean --force \
- && yarn install \
- && true
+RUN apk --no-cache --update --virtual build-dependencies add python3 make g++
+
+WORKDIR /frontend
+
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
 COPY . .
-RUN yarn lint | tee 1.log | sed -e 's/^/[yarn lint] /' & yarn test | tee 2.log | sed -e 's/^/[yarn test] /' & yarn build --set-build-version "$BUILD_VERSION" | tee 3.log | sed -e 's/^/[yarn build] /'
 
-FROM nginx:1.20.2-alpine
+RUN yarn generate --dotenv .env.deploy
+
+FROM nginx:alpine
+
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /build/dist /usr/share/nginx/html
-CMD ["nginx", "-g", "daemon off;"]
+
+COPY --from=builder /frontend/.output/public /usr/share/nginx/html
