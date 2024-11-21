@@ -14,9 +14,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install werf
-        uses: werf/actions/install@v1.2
-
       - name: Log in to registry
         # This is where you will update the personal access token to GITHUB_TOKEN
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
@@ -34,7 +31,7 @@ jobs:
           echo "${{ secrets.PROD_ENV }}" > .env.deploy
 
       - name: Run Skaffold pipeline as command
-        uses: hiberbee/github-action-skaffold@latest
+        uses: hiberbee/github-action-skaffold@1.27.0
         id: build
         with:
           command: build --tag ${{ github.ref_name }}
