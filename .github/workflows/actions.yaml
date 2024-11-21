@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'feature/migrate-ci-to-skaffold'
 
 jobs:
   converge:
