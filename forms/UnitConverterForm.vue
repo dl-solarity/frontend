@@ -36,8 +36,8 @@ type UnitConverterFormKeys = keyof typeof form
 const form = reactive({
   wei: '',
   gwei: '',
-  finney: '',
   szabo: '',
+  finney: '',
   ether: '',
 })
 
