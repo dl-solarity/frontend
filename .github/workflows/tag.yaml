@@ -1,7 +1,7 @@
+# Manual-only: tag pushes now deploy to GitHub Pages (see gh-pages.yaml).
+# Run this from the Actions tab, selecting the tag to deploy in the ref picker.
 on:
-  push:
-    tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
 
 jobs:
   converge:
