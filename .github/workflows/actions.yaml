@@ -1,7 +1,6 @@
+# Manual-only. Run this from the Actions tab, selecting the ref to deploy.
 on:
-  push:
-    branches:
-      - 'master'
+  workflow_dispatch:
 
 jobs:
   converge:

@@ -158,7 +158,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'node-server',
+    preset: process.env.NITRO_PRESET || 'node-server',
     prerender: {
       failOnError: false,
       routes: [
